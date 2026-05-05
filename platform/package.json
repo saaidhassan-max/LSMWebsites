@@ -1,0 +1,18 @@
+{
+  "name": "lsm-platform",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:ssm": "npm run dev --workspace=apps/ssm",
+    "build:ssm": "npm run build --workspace=apps/ssm",
+    "storybook": "npm run storybook --workspace=packages/ui",
+    "build-storybook": "npm run build-storybook --workspace=packages/ui"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  }
+}

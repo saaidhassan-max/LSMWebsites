@@ -1,0 +1,191 @@
+/* ============================================================
+   LSM Design Tokens — generated from Figma LSM-foundation
+   To update: change values in Figma, then re-export here.
+   DO NOT hardcode colors anywhere else — always use var(--color-*)
+   ============================================================ */
+
+/* ── Ontario ──────────────────────────────────────────────── */
+[data-theme="ontario"] {
+  --color-primary:                  #000000;
+  --color-primary-hover:            #292929;
+  --color-primary-focused:          #434343;
+  --color-on-primary:               #FFFFFF;
+
+  --color-secondary:                #3971DB;
+  --color-secondary-hover:          #4B8BE6;
+  --color-secondary-focused:        #6DABED;
+
+  --color-tertiary:                 #FFC332;
+  --color-tertiary-hover:           #FFCF5B;
+  --color-tertiary-focused:         #FFD570;
+
+  --color-surface:                  #373737;
+  --color-surface-inverse:          #FFFFFF;
+  --color-surface-container-lowest: #FAFAFA;
+  --color-surface-container-low:    #F5F5F5;
+  --color-surface-container:        #EFEFEF;
+  --color-surface-container-high:   #E8E8E8;
+  --color-surface-container-highest:#E0E0E0;
+
+  --color-on-surface-light:         #F8F8F8;
+  --color-on-surface-dark:          #262626;
+
+  --color-outline:                  #535353;
+  --color-outline-variant:          #BDBFC0;
+
+  --color-error:                    #B3261E;
+
+  --color-disabled-content:         #A3A3A3;
+  --color-disabled-container:       #E5E5E5;
+}
+
+/* ── SSM (superspillemaskiner.dk) ─────────────────────────── */
+[data-theme="ssm"] {
+  --color-primary:                  #52DD00;
+  --color-primary-hover:            #5AD113;
+  --color-primary-focused:          #49C103;
+  --color-on-primary:               #121212;
+
+  --color-secondary:                #3971DB;
+  --color-secondary-hover:          #4B8BE6;
+  --color-secondary-focused:        #6DABED;
+
+  --color-tertiary:                 #EB4038;
+  --color-tertiary-hover:           #D93B34;
+  --color-tertiary-focused:         #CE3831;
+
+  --color-surface:                  #373737;
+  --color-surface-inverse:          #FFFFFF;
+  --color-surface-container-lowest: #FAFAFA;
+  --color-surface-container-low:    #F5F5F5;
+  --color-surface-container:        #EFEFEF;
+  --color-surface-container-high:   #E8E8E8;
+  --color-surface-container-highest:#E0E0E0;
+
+  --color-on-surface-light:         #FAFAFA;
+  --color-on-surface-dark:          #040A00;
+
+  --color-outline:                  #535353;
+  --color-outline-variant:          #BDBFC0;
+
+  --color-error:                    #B3261E;
+
+  --color-disabled-content:         #A3A3A3;
+  --color-disabled-container:       #E5E5E5;
+}
+
+/* ── Slots (superfreeslotgames) ───────────────────────────── */
+/* Placeholder */
+[data-theme="slots"] {
+  --color-primary:                  #000000;
+  --color-primary-hover:            #292929;
+  --color-primary-focused:          #434343;
+  --color-on-primary:               #FFFFFF;
+  --color-secondary:                #3971DB;
+  --color-secondary-hover:          #4B8BE6;
+  --color-secondary-focused:        #6DABED;
+  --color-tertiary:                 #FFC332;
+  --color-tertiary-hover:           #FFCF5B;
+  --color-tertiary-focused:         #FFD570;
+  --color-surface:                  #373737;
+  --color-surface-inverse:          #FFFFFF;
+  --color-surface-container-lowest: #FAFAFA;
+  --color-surface-container-low:    #F5F5F5;
+  --color-surface-container:        #EFEFEF;
+  --color-surface-container-high:   #E8E8E8;
+  --color-surface-container-highest:#E0E0E0;
+  --color-on-surface-light:         #F8F8F8;
+  --color-on-surface-dark:          #262626;
+  --color-outline:                  #535353;
+  --color-outline-variant:          #BDBFC0;
+  --color-error:                    #B3261E;
+  --color-disabled-content:         #A3A3A3;
+  --color-disabled-container:       #E5E5E5;
+}
+
+/* ── Bingo (superfreebingo) ───────────────────────────────── */
+/* Placeholder */
+[data-theme="bingo"] {
+  --color-primary:                  #000000;
+  --color-primary-hover:            #292929;
+  --color-primary-focused:          #434343;
+  --color-on-primary:               #FFFFFF;
+  --color-secondary:                #3971DB;
+  --color-secondary-hover:          #4B8BE6;
+  --color-secondary-focused:        #6DABED;
+  --color-tertiary:                 #FFC332;
+  --color-tertiary-hover:           #FFCF5B;
+  --color-tertiary-focused:         #FFD570;
+  --color-surface:                  #373737;
+  --color-surface-inverse:          #FFFFFF;
+  --color-surface-container-lowest: #FAFAFA;
+  --color-surface-container-low:    #F5F5F5;
+  --color-surface-container:        #EFEFEF;
+  --color-surface-container-high:   #E8E8E8;
+  --color-surface-container-highest:#E0E0E0;
+  --color-on-surface-light:         #F8F8F8;
+  --color-on-surface-dark:          #262626;
+  --color-outline:                  #535353;
+  --color-outline-variant:          #BDBFC0;
+  --color-error:                    #B3261E;
+  --color-disabled-content:         #A3A3A3;
+  --color-disabled-container:       #E5E5E5;
+}
+
+/* ── Bets (superfreebets) ─────────────────────────────────── */
+/* Placeholder */
+[data-theme="bets"] {
+  --color-primary:                  #000000;
+  --color-primary-hover:            #292929;
+  --color-primary-focused:          #434343;
+  --color-on-primary:               #FFFFFF;
+  --color-secondary:                #3971DB;
+  --color-secondary-hover:          #4B8BE6;
+  --color-secondary-focused:        #6DABED;
+  --color-tertiary:                 #FFC332;
+  --color-tertiary-hover:           #FFCF5B;
+  --color-tertiary-focused:         #FFD570;
+  --color-surface:                  #373737;
+  --color-surface-inverse:          #FFFFFF;
+  --color-surface-container-lowest: #FAFAFA;
+  --color-surface-container-low:    #F5F5F5;
+  --color-surface-container:        #EFEFEF;
+  --color-surface-container-high:   #E8E8E8;
+  --color-surface-container-highest:#E0E0E0;
+  --color-on-surface-light:         #F8F8F8;
+  --color-on-surface-dark:          #262626;
+  --color-outline:                  #535353;
+  --color-outline-variant:          #BDBFC0;
+  --color-error:                    #B3261E;
+  --color-disabled-content:         #A3A3A3;
+  --color-disabled-container:       #E5E5E5;
+}
+
+/* ── Sports (goodchoicesports) ────────────────────────────── */
+/* Placeholder */
+[data-theme="sports"] {
+  --color-primary:                  #000000;
+  --color-primary-hover:            #292929;
+  --color-primary-focused:          #434343;
+  --color-on-primary:               #FFFFFF;
+  --color-secondary:                #3971DB;
+  --color-secondary-hover:          #4B8BE6;
+  --color-secondary-focused:        #6DABED;
+  --color-tertiary:                 #FFC332;
+  --color-tertiary-hover:           #FFCF5B;
+  --color-tertiary-focused:         #FFD570;
+  --color-surface:                  #373737;
+  --color-surface-inverse:          #FFFFFF;
+  --color-surface-container-lowest: #FAFAFA;
+  --color-surface-container-low:    #F5F5F5;
+  --color-surface-container:        #EFEFEF;
+  --color-surface-container-high:   #E8E8E8;
+  --color-surface-container-highest:#E0E0E0;
+  --color-on-surface-light:         #F8F8F8;
+  --color-on-surface-dark:          #262626;
+  --color-outline:                  #535353;
+  --color-outline-variant:          #BDBFC0;
+  --color-error:                    #B3261E;
+  --color-disabled-content:         #A3A3A3;
+  --color-disabled-container:       #E5E5E5;
+}

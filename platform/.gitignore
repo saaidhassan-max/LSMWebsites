@@ -1,0 +1,8 @@
+node_modules
+.next
+.turbo
+storybook-static
+dist
+.env
+.env.local
+.env*.local
