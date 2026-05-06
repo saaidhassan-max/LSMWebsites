@@ -1,5 +1,4 @@
 import {
-  LogoSection,
   USP,
   WelcomeBanner,
   OfferCard,
@@ -7,6 +6,7 @@ import {
   WebsiteDirectory,
   SsmFooter,
 } from '@lsm/ui';
+import { SsmNav } from '../components/SsmNav';
 
 const TERMS =
   '18+. New customers only. Opt in required. 7 day free spin expiry. All free spins will be loaded on the first eligible game loaded. Eligibility restrictions apply. Further T&Cs apply. GambleAware.org.';
@@ -73,11 +73,8 @@ export default function Home() {
   return (
     <main className="flex flex-col w-full bg-surface">
 
-      {/* 1 — Header */}
-      <LogoSection
-        logoSrc="/ssm/LogoSection/SSMLogo.svg"
-        backgroundSrc="/ssm/LogoSection/Lego_Deco.png"
-      />
+      {/* 1 — Header + navigation drawer */}
+      <SsmNav />
 
       {/* 2 — USP banner */}
       <USP text="OVER 5,000,000 SUBSCRIBERS" />

@@ -1,0 +1,44 @@
+'use client';
+
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { LogoSection, NavDrawer } from '@lsm/ui';
+import type { NavItem } from '@lsm/ui';
+
+const BASE_ITEMS: NavItem[] = [
+  { emoji: '🏠', label: 'Hjem', href: '/' },
+  { emoji: '🎁', label: 'Tilbud Uden Indbetaling', href: '/' },
+  { emoji: '🔥', label: 'Tilbud Med Indbetaling', href: '/' },
+  { emoji: '✊', label: 'Eksklusiv Aftale', href: '/' },
+  { emoji: '💎', label: 'Uden Satsningskrav', href: '/' },
+  { emoji: '👋', label: 'Om Os', href: '/om-os' },
+  { emoji: '✉️', label: 'Kontakt Os', href: '/kontakt' },
+];
+
+export function SsmNav() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Mark only the first item that matches the current path as active
+  const seenPaths = new Set<string>();
+  const items = BASE_ITEMS.map((item) => {
+    const isFirst = !seenPaths.has(item.href);
+    seenPaths.add(item.href);
+    return { ...item, isActive: item.href === pathname && isFirst };
+  });
+
+  return (
+    <>
+      <LogoSection
+        logoSrc="/ssm/LogoSection/SSMLogo.svg"
+        backgroundSrc="/ssm/LogoSection/Lego_Deco.png"
+        onMenuClick={() => setDrawerOpen(true)}
+      />
+      <NavDrawer
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        items={items}
+      />
+    </>
+  );
+}

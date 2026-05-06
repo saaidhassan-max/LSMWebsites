@@ -25,10 +25,12 @@ Update it immediately after completing any screen, component, or feature.
 | OfferCard | ✅ | node 549:11989 | packages/ui/src/components/OfferCard/OfferCard.tsx | 2 responsive variants (mobile/desktop); uses Label + Button. Mobile: offer text LEFT (1fr), logo RIGHT (144px). Desktop: logo LEFT (224px), title+checkmarks MIDDLE (flex-1), button RIGHT (253px); py-6 px-5 padding. Logo at /ssm/brands/888logo.png. |
 | WebsiteDirectory | ✅ | node 576:5727 | packages/ui/src/components/WebsiteDirectory/WebsiteDirectory.tsx | title prop + sites array (name + optional href); wrapping 4-col grid; tertiary title color; links activate on href, plain text without; Storybook story included |
 | SsmFooter | ✅ | node 576:5828 | packages/ui/src/components/SsmFooter/SsmFooter.tsx | desktop + mobile responsive; nav links (optional hrefs), 4 responsible gambling logos from assets/ssm/footer, legal text; Storybook story included. Figma frames also renamed (Frame 1000004522→nav-bar, Frame 1000004604→nav-inner, Frame 52→legal-text) |
-| LogoSection | ✅ | node 578:6976 | packages/ui/src/components/LogoSection/LogoSection.tsx | mobile header bar; SSMLogo.svg centred, Lego_Deco.png background, tertiary-coloured hamburger menu button right, invisible spacer left for centering; onMenuClick + src props; Storybook story included |
+| LogoSection | ✅ | node 583:12161 | packages/ui/src/components/LogoSection/LogoSection.tsx | Responsive header bar. Mobile (40px): invisible spacer left, SSMLogo 45×45 center, tertiary Menu icon right. Desktop (72px): Menu icon + "Menu" label left, SSMLogo 84×84 center, invisible spacer right. Layout swap via Tailwind order classes. Lego_Deco.png decorative background. onMenuClick + src props; Storybook story included |
 | USP | ✅ | node 579:10031 | packages/ui/src/components/USP/USP.tsx | responsive: mobile 14px Bold py-1, desktop 24px Heavy py-2; bg-tertiary; tracking -0.019em; Futura PT; updated from Figma 2026-05-05 |
 | WelcomeBanner | ✅ | node 579:10218 | packages/ui/src/components/WelcomeBanner/WelcomeBanner.tsx | mobile: h-16 flex justify-between, 24px Heavy, coin images 83×64; desktop: 57px Heavy title + features row (3 items 24px), coin images 204×157 absolutely positioned; features prop added; updated from Figma 2026-05-05 |
 | TopTCs | ✅ | node 579:9738 | packages/ui/src/components/TopTCs/TopTCs.tsx | surface bg, 11px/13px centred white text, tracking 0.4px, py-1 px-4; text prop; Storybook story included |
+| NavCapsule | ✅ | node 583:12009 | packages/ui/src/components/NavCapsule/NavCapsule.tsx | Pill-shaped nav item; emoji icon left + label right; 3 states: default (no bg, on-surface-light text), hover (surface-container-highest bg, on-surface-dark text), active (tertiary bg, on-surface-dark text); 2 sizes: mobile 272px/16px text, desktop 336px/22px text; emoji + label + href + isActive + fluid props; fluid=true makes capsule fill parent width on desktop (used in NavDrawer); Storybook story included |
+| NavDrawer | ✅ | node 583:12034 | packages/ui/src/components/NavDrawer/NavDrawer.tsx | Slide-in navigation drawer from right; mobile=full screen, desktop=422px wide with semi-transparent backdrop; surface bg, 24px padding, 47px bottom; header row with X close button (outline hover); 7 NavCapsule items with gap-2; active state auto-determined from passed isActive per item; isOpen + onClose + items props; Storybook story included |
 
 ---
 
@@ -38,7 +40,7 @@ Update it immediately after completing any screen, component, or feature.
 |---|---|---|---|---|
 | App scaffold | ✅ | — | apps/ssm — runs on localhost:3001 | Next.js 15, Tailwind, data-theme="ssm" wired |
 | SSM color tokens | ✅ | LSM-foundation SSM mode — 24 tokens | packages/tokens/index.css (data-theme="ssm") | All 24 tokens verified in sync with Figma |
-| SSM mobile page | ✅ | node 581:11385 | apps/ssm/src/app/page.tsx | 6-section layout: LogoSection → USP → WelcomeBanner → 4 offer cards + SignupForm → WebsiteDirectory → SsmFooter. Offer cards use 888logo.png placeholder. Casino directory names are placeholder — update when SSM content is ready. |
+| SSM mobile page | ✅ | node 581:11385 | apps/ssm/src/app/page.tsx | 6-section layout: SsmNav (LogoSection + NavDrawer) → USP → WelcomeBanner → 4 offer cards + SignupForm → WebsiteDirectory → SsmFooter. Offer cards use 888logo.png placeholder. Casino directory names are placeholder — update when SSM content is ready. |
 
 ---
 

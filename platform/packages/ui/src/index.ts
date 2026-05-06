@@ -30,3 +30,9 @@ export type { WelcomeBannerProps } from './components/WelcomeBanner/WelcomeBanne
 
 export { TopTCs } from './components/TopTCs/TopTCs';
 export type { TopTCsProps } from './components/TopTCs/TopTCs';
+
+export { NavCapsule } from './components/NavCapsule/NavCapsule';
+export type { NavCapsuleProps } from './components/NavCapsule/NavCapsule';
+
+export { NavDrawer } from './components/NavDrawer/NavDrawer';
+export type { NavDrawerProps, NavItem } from './components/NavDrawer/NavDrawer';

@@ -16,7 +16,7 @@ export function LogoSection({
 }: LogoSectionProps) {
   return (
     <header
-      className="relative flex items-center justify-between bg-surface overflow-hidden h-10 w-full"
+      className="relative flex items-center justify-between bg-surface overflow-hidden h-10 md:h-[72px] w-full"
       style={
         backgroundSrc
           ? {
@@ -28,31 +28,37 @@ export function LogoSection({
           : undefined
       }
     >
-
-      {/* Left spacer — invisible clone of menu button keeps logo centred */}
-      <div className="p-2 invisible" aria-hidden="true">
-        <Menu size={24} />
+      {/* Invisible spacer — mirrors the menu button to keep logo centred.
+          Mobile: sits LEFT. Desktop: sits RIGHT (order swaps). */}
+      <div
+        className="order-1 md:order-3 flex items-center gap-2 p-2 invisible"
+        aria-hidden="true"
+      >
+        <Menu className="w-6 h-6 md:w-8 md:h-8" />
+        <span className="hidden md:block text-base font-medium leading-6 tracking-[0.15px]">
+          Menu
+        </span>
       </div>
 
-      {/* Logo — 45×45 intentionally overflows the 40px bar (clips at top/bottom) */}
+      {/* Logo — overflows the bar intentionally (clips via overflow-hidden) */}
       <img
         src={logoSrc}
         alt={logoAlt}
-        width={45}
-        height={45}
-        className="relative z-10 shrink-0"
+        className="order-2 relative z-10 shrink-0 w-[45px] h-[45px] md:w-[84px] md:h-[84px]"
       />
 
-      {/* Hamburger menu button */}
+      {/* Menu button — Mobile: RIGHT. Desktop: LEFT with "Menu" label. */}
       <button
         type="button"
         onClick={onMenuClick}
         aria-label="Åbn menu"
-        className="relative z-10 p-2 text-tertiary"
+        className="order-3 md:order-1 relative z-10 flex items-center gap-2 p-2 text-tertiary"
       >
-        <Menu size={24} />
+        <Menu className="w-6 h-6 md:w-8 md:h-8" />
+        <span className="hidden md:block text-on-surface-light text-base font-medium leading-6 tracking-[0.15px]">
+          Menu
+        </span>
       </button>
-
     </header>
   );
 }
