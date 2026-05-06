@@ -28,18 +28,18 @@ export function NavDrawer({ isOpen, onClose, items }: NavDrawerProps) {
         aria-hidden="true"
       />
 
-      {/* Drawer panel — slides in from the right */}
+      {/* Drawer panel — slides in from the left */}
       <div
         role="dialog"
         aria-modal="true"
         className={[
-          'fixed top-0 right-0 z-50 flex flex-col',
+          'fixed top-0 left-0 z-50 flex flex-col',
           'w-full md:w-[422px] h-screen',
           'bg-surface',
           'pt-6 px-6 pb-[47px]',
           'justify-between md:justify-start',
           'transition-transform duration-300',
-          isOpen ? 'translate-x-0' : 'translate-x-full',
+          isOpen ? 'translate-x-0' : '-translate-x-full',
         ].join(' ')}
       >
         {/* Header — close button pushed to the right edge */}
