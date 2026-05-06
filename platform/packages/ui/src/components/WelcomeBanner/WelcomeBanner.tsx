@@ -17,22 +17,29 @@ export function WelcomeBanner({
     <div className="w-full bg-surface overflow-hidden">
 
       {/* ── MOBILE (hidden at md+) ── */}
-      <div className="md:hidden flex items-center justify-between h-16">
-        <img
-          src={imageLeftSrc}
-          alt=""
-          aria-hidden="true"
-          className="w-[83px] h-16 object-cover object-left shrink-0 select-none pointer-events-none"
-        />
-        <p className="flex-1 font-['Futura_PT'] font-[900] text-[24px] leading-[28px] tracking-[-0.019em] text-on-surface-light text-center whitespace-pre-line">
-          {text}
-        </p>
-        <img
-          src={imageRightSrc}
-          alt=""
-          aria-hidden="true"
-          className="w-[83px] h-16 object-cover object-right shrink-0 select-none pointer-events-none"
-        />
+      <div className="md:hidden relative">
+        {/* Left image — absolute, pinned top-left, clips to its own bounds */}
+        <div className="absolute top-0 left-0 w-[83px] h-16 overflow-hidden pointer-events-none select-none" aria-hidden="true">
+          <img
+            src={imageLeftSrc}
+            alt=""
+            className="w-full h-full object-cover object-left"
+          />
+        </div>
+        {/* Right image — absolute, pinned top-right, clips to its own bounds */}
+        <div className="absolute top-0 right-0 w-[83px] h-16 overflow-hidden pointer-events-none select-none" aria-hidden="true">
+          <img
+            src={imageRightSrc}
+            alt=""
+            className="w-full h-full object-cover object-right"
+          />
+        </div>
+        {/* Text frame — sits on top of both images, determines banner height */}
+        <div className="relative z-10 flex items-center justify-center py-1">
+          <p className="w-full font-['Futura_PT'] font-[900] text-[24px] leading-7 tracking-[-0.019em] text-on-surface-light text-center whitespace-pre-line">
+            {text}
+          </p>
+        </div>
       </div>
 
       {/* ── DESKTOP (hidden below md) ── */}
