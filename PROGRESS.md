@@ -41,6 +41,7 @@ Update it immediately after completing any screen, component, or feature.
 | App scaffold | ✅ | — | apps/ssm — runs on localhost:3001 | Next.js 15, Tailwind, data-theme="ssm" wired |
 | SSM color tokens | ✅ | LSM-foundation SSM mode — 24 tokens | packages/tokens/index.css (data-theme="ssm") | All 24 tokens verified in sync with Figma |
 | SSM mobile page | ✅ | node 581:11385 | apps/ssm/src/app/page.tsx | 6-section layout: SsmNav (LogoSection + NavDrawer) → USP → WelcomeBanner → 4 offer cards + SignupForm → WebsiteDirectory → SsmFooter. Offer cards use 888logo.png placeholder. Casino directory names are placeholder — update when SSM content is ready. |
+| SSM desktop layout | ✅ | node 583:12511 | apps/ssm/src/app/page.tsx | Two-tier width system applied: full-bleed (USP, WelcomeBanner, TopTCs, SsmFooter) vs constrained max-w-[1440px] mx-auto (SsmNav, offer cards with px-16 py-4). Desktop: directory + signup form side-by-side 50/50 within 1440px. Mobile: signup form between cards, directory standalone. SsmFooter internal rows already at max-w-[1280px]. |
 
 ---
 
