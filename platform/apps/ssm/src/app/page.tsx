@@ -1,6 +1,7 @@
 import {
   USP,
   WelcomeBanner,
+  TopTCs,
   OfferCard,
   SignupForm,
   WebsiteDirectory,
@@ -89,7 +90,10 @@ export default function Home() {
         ]}
       />
 
-      {/* 4 — Offer cards + signup form */}
+      {/* 4 — Top T&Cs */}
+      <TopTCs text='Særlige vilkår er gældende – herunder identificering med MitID. Klikke på "Læs mere" for detaljer.' />
+
+      {/* 5 — Offer cards + signup form */}
       <div className="flex flex-col gap-2 p-4">
         <OfferCard {...OFFERS[0]} />
         <OfferCard {...OFFERS[1]} />
@@ -98,13 +102,13 @@ export default function Home() {
         <OfferCard {...OFFERS[3]} />
       </div>
 
-      {/* 5 — Casino directory */}
+      {/* 6 — Casino directory */}
       <WebsiteDirectory
         title="SSM Casino Directory"
         sites={DIRECTORY_SITES}
       />
 
-      {/* 6 — Footer */}
+      {/* 7 — Footer */}
       <SsmFooter legalText={LEGAL_TEXT} />
 
     </main>
