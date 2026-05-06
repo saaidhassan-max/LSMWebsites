@@ -25,6 +25,7 @@ const colors = {
   surface: {
     DEFAULT:           'var(--color-surface)',
     inverse:           'var(--color-surface-inverse)',
+    'inverse-new':     'var(--color-surface-inverse-new)',
     'container-lowest':'var(--color-surface-container-lowest)',
     'container-low':   'var(--color-surface-container-low)',
     container:         'var(--color-surface-container)',
