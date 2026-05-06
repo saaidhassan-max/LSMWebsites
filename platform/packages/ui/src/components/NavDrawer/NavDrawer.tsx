@@ -28,22 +28,25 @@ export function NavDrawer({ isOpen, onClose, items }: NavDrawerProps) {
         aria-hidden="true"
       />
 
-      {/* Drawer panel — slides in from the left */}
+      {/* Drawer panel
+          Mobile: full screen, slides in from the RIGHT
+          Desktop: 422px wide, slides in from the LEFT */}
       <div
         role="dialog"
         aria-modal="true"
         className={[
-          'fixed top-0 left-0 z-50 flex flex-col',
-          'w-full md:w-[422px] h-screen',
+          'fixed top-0 z-50 flex flex-col',
+          'right-0 md:right-auto md:left-0',
+          'w-full md:w-[422px] h-dvh',
           'bg-surface',
-          'pt-6 px-6 pb-[47px]',
+          'pt-6 px-6 pb-12',
           'justify-between md:justify-start',
           'transition-transform duration-300',
-          isOpen ? 'translate-x-0' : '-translate-x-full',
+          isOpen ? 'translate-x-0' : 'translate-x-full md:-translate-x-full',
         ].join(' ')}
       >
-        {/* Header — close button pushed to the right edge */}
-        <div className="flex justify-end py-1">
+        {/* Header row — close button right-aligned, bottom border in outline colour */}
+        <div className="flex justify-end py-1 border border-outline">
           <button
             type="button"
             onClick={onClose}
@@ -58,8 +61,8 @@ export function NavDrawer({ isOpen, onClose, items }: NavDrawerProps) {
           </button>
         </div>
 
-        {/* Nav list — bottom of screen on mobile, 32px below header on desktop */}
-        <nav className="flex flex-col gap-2 md:mt-8">
+        {/* Nav list — right-aligned on mobile, 32px below header on desktop */}
+        <nav className="flex flex-col gap-2 items-end md:items-start md:mt-8">
           {items.map((item) => (
             <NavCapsule
               key={item.label}

@@ -10,6 +10,10 @@ Before writing any code or making any change to an existing component:
 3. Never assume or guess; always ask
 4. Only start building once all ambiguities are resolved
 
+## Git / GitHub (MANDATORY)
+- Never run `git push` unless the user explicitly says to push
+- Committing locally is fine; pushing to GitHub requires direct user instruction every time
+
 ## Project
 - **Company:** Little Star Media
 - **Platform:** Web — 6 affiliate casino websites sharing a common structure and design system
