@@ -21,6 +21,8 @@ const OFFERS = [
     details: ['No Deposit', 'No Wagering'],
     ctaText: 'PLAY NOW',
     ctaHref: '#',
+    secondaryCtaText: 'How To Claim',
+    secondaryCtaHref: '/how-to-claim/888poker',
     termsText: TERMS,
   },
   {
@@ -31,6 +33,8 @@ const OFFERS = [
     details: ['No Deposit', 'No Wagering'],
     ctaText: 'PLAY NOW',
     ctaHref: '#',
+    secondaryCtaText: 'How To Claim',
+    secondaryCtaHref: '/how-to-claim/888poker',
     termsText: TERMS,
   },
   {
@@ -41,6 +45,8 @@ const OFFERS = [
     details: ['No Deposit', 'No Wagering'],
     ctaText: 'PLAY NOW',
     ctaHref: '#',
+    secondaryCtaText: 'How To Claim',
+    secondaryCtaHref: '/how-to-claim/888poker',
     termsText: TERMS,
   },
   {
@@ -51,6 +57,8 @@ const OFFERS = [
     details: ['No Deposit', 'No Wagering'],
     ctaText: 'PLAY NOW',
     ctaHref: '#',
+    secondaryCtaText: 'How To Claim',
+    secondaryCtaHref: '/how-to-claim/888poker',
     termsText: TERMS,
   },
 ];

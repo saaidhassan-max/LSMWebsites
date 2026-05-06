@@ -24,6 +24,8 @@ export const Mobile: Story = {
     details: ['No Deposit', 'No Wagering'],
     ctaText: 'PLAY NOW',
     ctaHref: '#',
+    secondaryCtaText: 'How To Claim',
+    secondaryCtaHref: '#',
     termsText: TERMS,
   },
   decorators: [

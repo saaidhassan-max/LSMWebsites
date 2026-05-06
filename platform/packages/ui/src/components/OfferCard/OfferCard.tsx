@@ -28,8 +28,8 @@ export function OfferCard({
   secondaryCtaHref,
   termsText,
 }: OfferCardProps) {
-  const logoImg = logoSrc
-    ? <img src={logoSrc} alt={logoAlt} className="max-h-full max-w-full object-contain" />
+  const logoImg = (className: string) => logoSrc
+    ? <img src={logoSrc} alt={logoAlt} className={className} />
     : <div className="w-full h-full bg-disabled-container rounded" />;
 
   const ctaButton = (
@@ -43,9 +43,13 @@ export function OfferCard({
   const secondaryCta = secondaryCtaText && secondaryCtaHref ? (
     <a
       href={secondaryCtaHref}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block w-full text-center text-base font-bold text-primary underline py-2 leading-6 tracking-[0.15px]"
+      className={[
+        'inline-flex w-full items-center justify-center gap-2',
+        'rounded-lg px-6 py-2',
+        'text-base font-bold leading-6 text-primary-text underline',
+        'transition-colors duration-150',
+        'hover:text-primary-text focus:text-primary-text focus:outline-none',
+      ].join(' ')}
     >
       {secondaryCtaText}
     </a>
@@ -58,11 +62,16 @@ export function OfferCard({
       <div className="md:hidden">
         <Label variant="mobile" className="w-full">{label}</Label>
 
-        {/* Offer LEFT (fills remaining) | Logo RIGHT (fixed 144px) */}
-        <div className="grid grid-cols-[1fr_144px] gap-4 p-2 items-center">
+        {/* Logo LEFT (fixed 144px) | Offer RIGHT (fills remaining) */}
+        <div className="grid grid-cols-[144px_1fr] gap-4 p-2 items-center">
 
-          {/* Offer — left column */}
-          <div className="flex flex-col gap-1">
+          {/* Logo — left column, 144x72, content centered */}
+          <div className="col-start-1 row-start-1 flex h-[72px] items-center justify-center">
+            {logoImg('h-full w-auto max-w-full object-contain')}
+          </div>
+
+          {/* Offer — right column */}
+          <div className="col-start-2 row-start-1 flex flex-col gap-1">
             <div className="py-2">
               <p className="text-[28px] font-bold leading-[36px] tracking-[0] text-on-surface-dark">
                 {offerMain}
@@ -76,11 +85,6 @@ export function OfferCard({
                 </span>
               </div>
             ))}
-          </div>
-
-          {/* Logo — right column, 144×72, content centered */}
-          <div className="flex items-center justify-center h-[72px]">
-            {logoImg}
           </div>
         </div>
 
@@ -104,8 +108,13 @@ export function OfferCard({
       <div className="hidden md:block">
         <Label variant="desktop" className="w-[280px]">{label}</Label>
 
-        {/* Offer LEFT | Logo MIDDLE | Buttons RIGHT — px-5 py-6 gap-4 */}
+        {/* Logo LEFT | Offer MIDDLE | Buttons RIGHT — px-5 py-6 gap-4 */}
         <div className="flex items-center px-5 py-6 gap-4">
+
+          {/* Logo — fixed 224x112, content centered */}
+          <div className="w-[224px] h-[112px] flex items-center justify-center shrink-0">
+            {logoImg('h-full w-auto max-w-full object-contain')}
+          </div>
 
           {/* Offer section — fills remaining space, split into two equal halves */}
           <div className="flex-1 flex items-center px-3 gap-1">
@@ -130,13 +139,8 @@ export function OfferCard({
             </div>
           </div>
 
-          {/* Logo — fixed 224×112, content centered */}
-          <div className="w-[224px] h-[112px] flex items-center justify-center shrink-0">
-            {logoImg}
-          </div>
-
           {/* Button group — fixed width, stacked */}
-          <div className="w-[253px] shrink-0 flex flex-col gap-2">
+          <div className="w-64 shrink-0 flex flex-col gap-2">
             {ctaButton}
             {secondaryCta}
           </div>

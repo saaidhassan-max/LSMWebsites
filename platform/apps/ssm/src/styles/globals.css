@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .text-primary-text {
+    color: var(--color-primary-text);
+  }
+
+  .hover\:text-primary-text:hover {
+    color: var(--color-primary-text);
+  }
+
+  .focus\:text-primary-text:focus {
+    color: var(--color-primary-text);
+  }
+}

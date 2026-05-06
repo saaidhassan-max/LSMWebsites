@@ -46,7 +46,7 @@ export function NavDrawer({ isOpen, onClose, items }: NavDrawerProps) {
         ].join(' ')}
       >
         {/* Header row — close button right-aligned, bottom border in outline colour */}
-        <div className="flex justify-end py-1 border border-outline">
+        <div className="flex justify-end py-1 border-b border-outline">
           <button
             type="button"
             onClick={onClose}

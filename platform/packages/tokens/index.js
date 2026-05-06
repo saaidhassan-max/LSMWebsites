@@ -8,6 +8,7 @@ const colors = {
     hover:   'var(--color-primary-hover)',
     focused: 'var(--color-primary-focused)',
   },
+  'primary-text': 'var(--color-primary-text)',
   'on-primary': 'var(--color-on-primary)',
 
   secondary: {

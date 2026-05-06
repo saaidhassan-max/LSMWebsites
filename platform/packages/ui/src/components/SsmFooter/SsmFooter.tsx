@@ -62,14 +62,14 @@ export function SsmFooter({
               <a
                 key={link.label}
                 href={link.href}
-                className="flex items-center justify-center h-12 flex-1 text-sm leading-5 tracking-[0.25px] text-on-surface-light hover:underline"
+                className="flex min-h-12 flex-1 items-center justify-center py-2 text-sm leading-5 tracking-[0.25px] text-on-surface-light hover:underline"
               >
                 {link.label}
               </a>
             ) : (
               <span
                 key={link.label}
-                className="flex items-center justify-center h-12 flex-1 text-sm leading-5 tracking-[0.25px] text-on-surface-light"
+                className="flex min-h-12 flex-1 items-center justify-center py-2 text-sm leading-5 tracking-[0.25px] text-on-surface-light"
               >
                 {link.label}
               </span>
