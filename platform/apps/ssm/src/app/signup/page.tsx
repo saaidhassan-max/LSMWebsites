@@ -33,11 +33,11 @@ export default function SignupPage() {
   return (
     <main data-theme="ssm" className="flex flex-col w-full bg-surface pb-12 gap-[10px]">
 
-      {/* 1 — Nav */}
-      <SsmNav />
-
-      {/* 2 — USP banner */}
-      <USP text="OVER 5,000,000 SUBSCRIBERS" />
+      {/* 1 — Nav + USP stacked with no gap */}
+      <div className="flex flex-col">
+        <SsmNav />
+        <USP text="OVER 5,000,000 SUBSCRIBERS" />
+      </div>
 
       {/* 3 — Hero image placeholder */}
       <div className="w-full h-48 bg-[#5d5d5d]" />
