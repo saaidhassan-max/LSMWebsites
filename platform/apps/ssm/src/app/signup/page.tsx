@@ -31,7 +31,7 @@ export default function SignupPage() {
   }
 
   return (
-    <main data-theme="ssm" className="flex flex-col w-full bg-surface pt-12 pb-12 gap-[10px]">
+    <main data-theme="ssm" className="flex flex-col w-full bg-surface pb-12 gap-[10px]">
 
       {/* 1 — Nav */}
       <SsmNav />
