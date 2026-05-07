@@ -36,3 +36,9 @@ export type { NavCapsuleProps } from './components/NavCapsule/NavCapsule';
 
 export { NavDrawer } from './components/NavDrawer/NavDrawer';
 export type { NavDrawerProps, NavItem } from './components/NavDrawer/NavDrawer';
+
+export { Checkbox } from './components/Checkbox/Checkbox';
+export type { CheckboxProps } from './components/Checkbox/Checkbox';
+
+export { ConsentForm } from './components/ConsentForm/ConsentForm';
+export type { ConsentFormProps, ConsentFormData } from './components/ConsentForm/ConsentForm';
