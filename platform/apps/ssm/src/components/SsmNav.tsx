@@ -13,6 +13,7 @@ const BASE_ITEMS: NavItem[] = [
   { emoji: '💎', label: 'Uden Satsningskrav', href: '/' },
   { emoji: '👋', label: 'Om Os', href: '/om-os' },
   { emoji: '✉️', label: 'Kontakt Os', href: '/kontakt' },
+  { emoji: '📋', label: 'Landing Page', href: '/signup' },
 ];
 
 export function SsmNav() {
