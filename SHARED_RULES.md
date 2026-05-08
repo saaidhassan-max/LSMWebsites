@@ -67,12 +67,47 @@ Do not start any task until these steps are complete, unless the user explicitly
 2. Keep Figma and code in sync
 3. Never let one drift from the other without flagging it
 
+### Reviewing Figma changes against existing code (MANDATORY ORDER)
+When a user asks you to review an updated Figma component and sync it to code, always check in this order — do not skip ahead:
+
+1. **Structure first** — does the node hierarchy match? New wrapper frames, removed wrappers, added children, changed nesting. This is the most commonly missed class of change.
+2. **Layout** — dimensions, sizing mode (fixed/hug/fill), max-width, min-width, padding, gap, alignment, direction.
+3. **Tokens** — fill, stroke, text color, radius, spacing — all bound variable names.
+4. **Typography** — font size, weight, line height, letter spacing.
+5. **Visibility / opacity** — any node with `opacity: 0` or `visible: false` is an intentional invisible spacer; do not remove it.
+
+Never report the sync as done after finding the first difference — work through all five layers.
+
 ### Never
 - Hardcode a color, spacing, or font value — always use a design token
 - Push to GitHub unless the user explicitly says to
 - Add, rename, or delete a design token without user confirmation
 - Mark a task done without updating `PROGRESS.md`
 - Build a new component that contains a Button, TextField, or other existing shared component without importing and using it from `@lsm/ui`
+
+## CSS Layout — Constrained Sections (MANDATORY)
+
+### The `w-full` rule
+Whenever a section uses `max-w-[...] mx-auto` to centre itself inside a `flex` parent, it **must** also carry `w-full`. Without it the auto-margins collapse the element to its minimum content width, making `1fr` grid columns or `flex-1` children resolve to zero — images and content disappear.
+
+```
+✅  w-full max-w-[1440px] mx-auto px-16
+❌  max-w-[1440px] mx-auto px-16   ← collapses in flex context
+```
+
+### Why this happens
+In a `flex-col` container, `mx-auto` absorbs available horizontal space instead of letting the item stretch. The element shrinks to min-content. Any child grid column sized with `1fr` then gets `(collapsed_width − fixed_columns − gap) = 0px`.
+
+### Project-wide pattern for constrained sections
+```tsx
+{/* Full-bleed wrapper (USP, WelcomeBanner, Footer, etc.) — no constraint needed */}
+<div className="w-full">…</div>
+
+{/* Constrained section (nav, offer cards, hero+form, etc.) */}
+<div className="w-full max-w-[1440px] mx-auto px-16">…</div>
+```
+
+Apply this to every section that uses `max-w-[...]` — no exceptions.
 
 ## Design System — Token Collections
 The same token must be used in both Figma and code. No hardcoded values anywhere.

@@ -35,6 +35,7 @@ export interface ConsentFormData {
 export interface ConsentFormProps {
   onChange?: (data: ConsentFormData) => void;
   defaultExpanded?: boolean;
+  forceShowErrors?: boolean;
   className?: string;
 }
 
@@ -51,7 +52,7 @@ const DEFAULT_CONTACTS: ContactState = {
   social: false,
 };
 
-export function ConsentForm({ onChange, defaultExpanded = true, className = '' }: ConsentFormProps) {
+export function ConsentForm({ onChange, defaultExpanded = true, forceShowErrors = false, className = '' }: ConsentFormProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [interests, setInterests] = useState<InterestState>(DEFAULT_INTERESTS);
@@ -65,9 +66,10 @@ export function ConsentForm({ onChange, defaultExpanded = true, className = '' }
   const mainChecked = allInterests && allContacts;
   const mainIndeterminate = !mainChecked && (anyInterest || anyContact);
 
-  const showMainError = hasInteracted && !anyInterest && !anyContact;
-  const showInterestError = hasInteracted && anyContact && !anyInterest;
-  const showContactError = hasInteracted && anyInterest && !anyContact;
+  const shouldShowErrors = hasInteracted || forceShowErrors;
+  const showMainError = shouldShowErrors && !anyInterest && !anyContact;
+  const showInterestError = shouldShowErrors && anyContact && !anyInterest;
+  const showContactError = shouldShowErrors && anyInterest && !anyContact;
 
   function notify(newInterests: InterestState, newContacts: ContactState) {
     const newAnyInterest = Object.values(newInterests).some(Boolean);
@@ -131,9 +133,11 @@ export function ConsentForm({ onChange, defaultExpanded = true, className = '' }
 
       {/* Main error */}
       {showMainError && (
-        <p className="text-sm font-normal leading-5 text-error -mt-1 ml-10">
-          Please accept our terms
-        </p>
+        <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
+          <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
+            Please accept our terms
+          </p>
+        </div>
       )}
 
       {/* Legal text */}
@@ -163,9 +167,11 @@ export function ConsentForm({ onChange, defaultExpanded = true, className = '' }
               />
             ))}
             {showInterestError && (
-              <p className="text-sm font-normal leading-5 text-error ml-10">
-                Please select what you're interested in
-              </p>
+              <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
+                <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
+                  Please select what you're interested in
+                </p>
+              </div>
             )}
           </div>
 
@@ -184,9 +190,11 @@ export function ConsentForm({ onChange, defaultExpanded = true, className = '' }
               />
             ))}
             {showContactError && (
-              <p className="text-sm font-normal leading-5 text-error ml-10">
-                Please select how you wish to be contacted
-              </p>
+              <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
+                <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
+                  Please select how you wish to be contacted
+                </p>
+              </div>
             )}
           </div>
         </div>
