@@ -103,8 +103,13 @@ Update it immediately after completing any screen, component, or feature.
 | SSM color column in Figma | ✅ | SSM mode exists in LSM-foundation — all 24 colors set and verified |
 | Codebase scaffold | ✅ | platform/ — monorepo with npm workspaces + Turborepo |
 | Storybook setup | ✅ | packages/ui — runs with `npm run storybook` from root |
-| Vercel deployments | ⏳ | Pending GitHub repo |
-| GitHub repo | ⏳ | Not created yet — code lives in platform/ locally |
+| Storybook on Vercel | ✅ | Deployed at lsmstorybook.vercel.app — auto-rebuilds on every push to main. Theme switcher in toolbar lets dev team preview all 6 site themes live. |
+| Storybook addon-storysource | ✅ | "Code" tab on every story shows the raw .stories.tsx source so dev team can copy import paths and usage without leaving Storybook. |
+| Storybook Foundations — Colors | ✅ | packages/ui/src/foundations/colors.stories.tsx — all 24 color tokens grouped by category (Primary, Secondary, Tertiary, Surface, On Surface, Outline, State). CSS variable name + Tailwind class shown per swatch. Updates live with theme switcher. |
+| Storybook Foundations — Typography | ✅ | packages/ui/src/foundations/typography.stories.tsx — full type scale (11px–57px) + 4 font weights. Notes where each style is used in the codebase. |
+| Storybook Foundations — Spacing | ⏳ | Not started. Spacing is not yet tokenised — values are Tailwind utilities used directly in components. Needs spacing token definition (with dev manager) before a token page can be built. |
+| GitHub repo | ✅ | saaidhassan-max/LSMWebsites — code lives in platform/ |
+| Vercel deployments | ✅ | lsmstorybook.vercel.app (Storybook) + lsm-websites.vercel.app (SSM live site) |
 | Production coding standards | ✅ | Applied 2026-05-08 per dev manager's rules (PUP-Phoenix-staging). Kebab-case folders/files, types in .types.ts files, deep imports (no barrel), explicit return types, import type React, 4-space indentation via Prettier, vitest + smoke tests, ESLint config, site-content.ts centralised data file. Multilayer token rule excluded by user instruction. |
 
 ---
@@ -115,5 +120,7 @@ Update it immediately after completing any screen, component, or feature.
 |---|---|---|
 | 2026-04-30 | Single-layer color tokens (no semantic layer yet) | Agreed with dev team — upgrade in future version |
 | 2026-04-30 | Vercel for both Storybook and live site previews | Simpler than adding Chromatic; can add visual regression later |
+| 2026-05-08 | Spacing tokens not defined yet | Values are Tailwind utilities in components — needs agreement with dev manager on spacing scale before tokenising |
+| 2026-05-08 | Foundations pages use custom story files, not storybook-design-token addon | Addon requires special comments on every CSS line; custom pages are simpler and keep token file clean |
 | 2026-04-30 | SSM is the first site to build | Existing Figma page: "SSM design - dev" |
 | 2026-04-30 | 6 sites total | Added SSM (superspillemaskiner.dk) — was missing from original brief |
