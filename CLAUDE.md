@@ -31,3 +31,44 @@ Follow `SHARED_RULES.md` for project rules, workflow, escalation rules, tech sta
 4. Confirm with the user in plain English: what exists, what is still to do, and what you are ready to work on today
 
 Do not start any task until these steps are complete.
+
+---
+
+## Production Coding Standards (MANDATORY — from dev manager)
+
+These rules were applied on 2026-05-08 and must be followed for all future code. The full rule source is in `PUP-Phoenix-staging/docs/consolidated-code-rules.md`.
+
+### File and folder naming
+- Kebab-case for all component directories and filenames — `button/button.tsx`, not `Button/Button.tsx`
+- Each component lives in its own folder and has: `<name>.tsx`, `<name>.types.ts`, `<name>.spec.tsx`, `<name>.stories.tsx`
+- No generic filenames like `helpers.ts`, `utils.ts`, `common.ts`
+
+### TypeScript
+- Strict mode — no `any`, no `unknown` in production code
+- Explicit return types on every function: `): React.ReactElement`, `): void`, `): string`, etc.
+- `interface` for all data shapes (not `type` aliases)
+- Export shared interfaces from dedicated `.types.ts` files, not from component `.tsx` files
+- Use `import type` for type-only imports
+
+### Imports
+- No barrel files — never import from `@lsm/ui` directly
+- Always use deep path imports: `import { Button } from '@lsm/ui/components/button/button'`
+- Import types from the `.types.ts` file: `import type { ButtonProps } from '@lsm/ui/components/button/button.types'`
+- Always add `import type React from 'react'` at the top of every component file
+
+### Code style
+- No code comments of any kind — no `//`, `/* */`, `{/* */}`, JSDoc, TODO, FIXME
+- Use names, types, and small functions as documentation instead
+- Single-expression arrow functions use implicit return (no braces, no `return`)
+- Use `function` only when the body needs multiple statements or side effects
+- 4-space indentation, single quotes, semicolons, no trailing commas, 100-char line width (Prettier config)
+
+### Components and architecture
+- Server Components by default — only add `'use client'` when interactivity or browser APIs are required
+- Keep `page.tsx` and `layout.tsx` thin — no business logic in route files
+- Use `generateMetadata` for page metadata (not hardcoded `<title>` tags)
+- Shared static data lives in `apps/ssm/src/data/site-content.ts` — do not duplicate it in pages
+- Use `next/image` (not `<img>`) for all images
+
+### What NOT to apply
+- **Multilayer token rule excluded** — the project uses a single-layer color token system by design. Do not add primitive/semantic/component token tiers.

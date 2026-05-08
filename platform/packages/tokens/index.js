@@ -1,7 +1,3 @@
-/** Tailwind color config — maps token names to CSS variables.
- *  Import this in any tailwind.config.ts:
- *    import { colors } from '@lsm/tokens'
- */
 const colors = {
   primary: {
     DEFAULT: 'var(--color-primary)',

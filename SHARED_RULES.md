@@ -155,3 +155,43 @@ Stop and ask the user when:
 - **Differs per site:** brand colors, logo, potentially offer types
 - Brand colors use one column per site in LSM Foundation
 - SSM is Danish-language. Superspillemaskiner means "super slot machines" in Danish.
+
+---
+
+## Production Coding Standards (MANDATORY — from dev manager, applied 2026-05-08)
+
+Full rule source: `PUP-Phoenix-staging/docs/consolidated-code-rules.md`
+
+### File and folder naming
+- Kebab-case for all component directories and filenames — `button/button.tsx`, not `Button/Button.tsx`
+- Each component folder must contain: `<name>.tsx`, `<name>.types.ts`, `<name>.spec.tsx`, `<name>.stories.tsx`
+- No generic filenames (`helpers.ts`, `utils.ts`, `common.ts`)
+
+### TypeScript
+- Strict mode — no `any`, no `unknown` in production code
+- Explicit return types on every function: `): React.ReactElement`, `): void`, `): string`, etc.
+- `interface` for all data shapes (not `type` aliases for objects)
+- Export shared interfaces from `.types.ts` files, not from component `.tsx` files
+- Use `import type` for type-only imports
+
+### Imports
+- No barrel files — never `import { X } from '@lsm/ui'`
+- Always use deep path imports: `import { Button } from '@lsm/ui/components/button/button'`
+- Import types from the `.types.ts` file: `import type { ButtonProps } from '@lsm/ui/components/button/button.types'`
+- Always add `import type React from 'react'` at the top of every component file
+
+### Code style
+- No comments of any kind — no `//`, `/* */`, `{/* */}`, JSDoc, TODO, FIXME
+- Use names, types, and small functions as documentation
+- Single-expression arrow functions use implicit return
+- 4-space indentation, single quotes, semicolons, no trailing commas, 100-char line width
+
+### Components and architecture
+- Server Components by default — `'use client'` only when interactivity or browser APIs are required
+- Keep `page.tsx` and `layout.tsx` thin — no business logic in route files
+- Use `generateMetadata` for page metadata
+- Shared static data lives in `apps/ssm/src/data/site-content.ts` — do not duplicate in pages
+- Use `next/image` (not `<img>`) for all images
+
+### What NOT to apply
+- **Multilayer token rule excluded** — single-layer color tokens by design. Do not add primitive/semantic/component token tiers.

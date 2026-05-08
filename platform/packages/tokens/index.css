@@ -1,10 +1,4 @@
-/* ============================================================
-   LSM Design Tokens — generated from Figma LSM-foundation
-   To update: change values in Figma, then re-export here.
-   DO NOT hardcode colors anywhere else — always use var(--color-*)
-   ============================================================ */
 
-/* ── Ontario ──────────────────────────────────────────────── */
 [data-theme="ontario"] {
   --color-primary:                  #000000;
   --color-primary-hover:            #292929;
@@ -41,7 +35,6 @@
   --color-disabled-container:       #E5E5E5;
 }
 
-/* ── SSM (superspillemaskiner.dk) ─────────────────────────── */
 [data-theme="ssm"] {
   --color-primary:                  #52DD00;
   --color-primary-hover:            #5AD113;
@@ -78,8 +71,6 @@
   --color-disabled-container:       #E5E5E5;
 }
 
-/* ── Slots (superfreeslotgames) ───────────────────────────── */
-/* Placeholder */
 [data-theme="slots"] {
   --color-primary:                  #000000;
   --color-primary-hover:            #292929;
@@ -109,8 +100,6 @@
   --color-disabled-container:       #E5E5E5;
 }
 
-/* ── Bingo (superfreebingo) ───────────────────────────────── */
-/* Placeholder */
 [data-theme="bingo"] {
   --color-primary:                  #000000;
   --color-primary-hover:            #292929;
@@ -140,8 +129,6 @@
   --color-disabled-container:       #E5E5E5;
 }
 
-/* ── Bets (superfreebets) ─────────────────────────────────── */
-/* Placeholder */
 [data-theme="bets"] {
   --color-primary:                  #000000;
   --color-primary-hover:            #292929;
@@ -171,8 +158,6 @@
   --color-disabled-container:       #E5E5E5;
 }
 
-/* ── Sports (goodchoicesports) ────────────────────────────── */
-/* Placeholder */
 [data-theme="sports"] {
   --color-primary:                  #000000;
   --color-primary-hover:            #292929;
