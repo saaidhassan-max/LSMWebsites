@@ -36,7 +36,7 @@ export default function OmOsPage(): React.ReactElement {
                             About Us 📑
                         </h1>
                     </div>
-                    <p className="w-full whitespace-pre-line text-base leading-6 tracking-[0.5px] text-on-surface-light">
+                    <p className="w-full md:max-w-[948px] whitespace-pre-line text-base leading-6 tracking-[0.5px] text-on-surface-light">
                         {ABOUT_TEXT}
                     </p>
                 </div>

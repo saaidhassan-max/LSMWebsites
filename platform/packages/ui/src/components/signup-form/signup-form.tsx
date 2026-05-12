@@ -1,10 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { Mail, Phone, ArrowRight } from 'lucide-react';
 import { Button } from '../button/button';
 import { TextField } from '../text-field/text-field';
 import type { SignupFormProps } from './signup-form.types';
+
+function validateEmail(value: string): string {
+    if (value.trim() === '') return 'Email is required';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email';
+    return '';
+}
+
+function validatePhone(value: string): string {
+    if (value.trim() === '') return 'Phone number is required';
+    return '';
+}
 
 export function SignupForm({
     brandName = 'Good.Choice.',
@@ -15,10 +27,49 @@ export function SignupForm({
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [consent, setConsent] = useState(false);
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [consentError, setConsentError] = useState('');
 
     function handleSubmit(e: React.FormEvent): void {
         e.preventDefault();
-        onSubmit?.({ email, phone, consent });
+        const eErr = validateEmail(email);
+        const pErr = validatePhone(phone);
+        const cErr = consent === false ? 'Please accept our terms to continue' : '';
+
+        setEmailError(eErr);
+        setPhoneError(pErr);
+        setConsentError(cErr);
+
+        if (eErr === '' && pErr === '' && cErr === '') {
+            onSubmit?.({ email, phone, consent });
+        }
+    }
+
+    function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        setEmail(e.target.value);
+        if (emailError !== '') setEmailError(validateEmail(e.target.value));
+    }
+
+    function handleEmailClear(): void {
+        setEmail('');
+        if (emailError !== '') setEmailError('Email is required');
+    }
+
+    function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        setPhone(e.target.value);
+        if (phoneError !== '') setPhoneError(validatePhone(e.target.value));
+    }
+
+    function handlePhoneClear(): void {
+        setPhone('');
+        if (phoneError !== '') setPhoneError('Phone number is required');
+    }
+
+    function handleConsentChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        const checked = e.target.checked;
+        setConsent(checked);
+        if (consentError !== '') setConsentError(checked === true ? '' : 'Please accept our terms to continue');
     }
 
     return (
@@ -43,8 +94,9 @@ export function SignupForm({
                         type="email"
                         placeholder="Insert your email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onClear={() => setEmail('')}
+                        error={emailError}
+                        onChange={handleEmailChange}
+                        onClear={handleEmailClear}
                     />
                     <TextField
                         icon={Phone}
@@ -52,8 +104,9 @@ export function SignupForm({
                         type="tel"
                         placeholder="Your phone number"
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        onClear={() => setPhone('')}
+                        error={phoneError}
+                        onChange={handlePhoneChange}
+                        onClear={handlePhoneClear}
                     />
                 </div>
 
@@ -73,7 +126,7 @@ export function SignupForm({
                                 type="checkbox"
                                 id="signup-consent"
                                 checked={consent}
-                                onChange={(e) => setConsent(e.target.checked)}
+                                onChange={handleConsentChange}
                                 className="w-5 h-5 rounded-sm cursor-pointer accent-primary"
                             />
                         </div>
@@ -84,6 +137,14 @@ export function SignupForm({
                             I consent to receive emails from {brandName}
                         </label>
                     </div>
+
+                    {consentError !== '' && (
+                        <div className="bg-error rounded-lg px-4 py-2 mt-1 mb-2">
+                            <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
+                                {consentError}
+                            </p>
+                        </div>
+                    )}
 
                     <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
                         These emails will include information, news, and updates about online

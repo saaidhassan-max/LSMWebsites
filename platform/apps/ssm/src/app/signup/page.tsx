@@ -130,7 +130,7 @@ export default function SignupPage(): React.ReactElement {
                     >
                         Sign Me Up
                     </Button>
-                    <Button variant="text" className="w-full" onClick={() => router.push('/')}>
+                    <Button variant="text" color="dark" className="w-full" onClick={() => router.push('/')}>
                         Skip For Now
                     </Button>
                 </div>

@@ -1,7 +1,8 @@
 import type React from 'react';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Button } from '@lsm/ui/components/button/button';
+import { HowToClaimSteps } from '@lsm/ui/components/how-to-claim-steps/how-to-claim-steps';
+import { HtcUsp } from '@lsm/ui/components/htc-usp/htc-usp';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SsmFooter } from '@lsm/ui/components/ssm-footer/ssm-footer';
 import { USP } from '@lsm/ui/components/usp/usp';
@@ -21,18 +22,6 @@ export default async function HowToClaimPage({
         notFound();
     }
 
-    const logoImg = casino.logoSrc ? (
-        <Image
-            src={casino.logoSrc}
-            alt={casino.logoAlt}
-            width={224}
-            height={120}
-            className="max-h-full max-w-full object-contain"
-        />
-    ) : (
-        <div className="w-full h-full bg-disabled-container rounded" />
-    );
-
     const midpoint = Math.ceil((casino.reviewSections?.length ?? 0) / 2);
     const leftSections = casino.reviewSections?.slice(0, midpoint) ?? [];
     const rightSections = casino.reviewSections?.slice(midpoint) ?? [];
@@ -43,84 +32,20 @@ export default async function HowToClaimPage({
                 <SsmNav />
             </div>
             <USP text="OVER 5,000,000 SUBSCRIBERS" />
-            <div className="w-full bg-surface-inverse-new">
-                <div className="w-full max-w-[1440px] mx-auto">
-                    <div className="md:hidden flex flex-col items-center gap-4 p-4">
-                        <div className="w-[144px] h-[77px] flex items-center justify-center shrink-0">
-                            {logoImg}
-                        </div>
-
-                        <h1 className="text-[36px] font-bold leading-[44px] text-on-surface-dark text-center">
-                            {casino.offerHeadline}
-                        </h1>
-
-                        <div className="flex flex-row flex-wrap gap-2 justify-center">
-                            {casino.trustBadges.map((badge, i) => (
-                                <span
-                                    key={i}
-                                    className="rounded-full bg-surface-container-low px-6 py-4 text-[14px] font-medium text-on-surface-dark"
-                                >
-                                    {badge}
-                                </span>
-                            ))}
-                        </div>
-
-                        <div className="w-full flex flex-col gap-2">
-                            {casino.howToSteps.map((step, i) => (
-                                <p key={i} className="text-[14px] font-medium text-on-surface-dark">
-                                    {step}
-                                </p>
-                            ))}
-                        </div>
-
-                        <a
-                            href={casino.ctaHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full"
-                        >
-                            <Button variant="primary" className="w-full">
-                                {casino.ctaText}
-                            </Button>
-                        </a>
-                    </div>
-                    <div className="hidden md:flex items-start gap-8 p-16">
-                        <div className="flex-1 flex flex-col gap-6">
-                            <div className="w-[224px] h-[120px] flex items-center justify-center shrink-0">
-                                {logoImg}
-                            </div>
-                            <h1 className="text-[45px] font-bold leading-[52px] text-on-surface-dark">
-                                {casino.offerHeadline}
-                            </h1>
-                            <div className="flex flex-row flex-wrap gap-2">
-                                {casino.trustBadges.map((badge, i) => (
-                                    <span
-                                        key={i}
-                                        className="rounded-full bg-surface-container-low px-6 py-4 text-[14px] font-medium text-on-surface-dark"
-                                    >
-                                        {badge}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="flex-1 flex flex-col gap-6">
-                            {casino.howToSteps.map((step, i) => (
-                                <p key={i} className="text-[16px] font-medium text-on-surface-dark">
-                                    {step}
-                                </p>
-                            ))}
-                        </div>
-                        <a
-                            href={casino.ctaHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="shrink-0 self-start"
-                        >
-                            <Button variant="primary">{casino.ctaText}</Button>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <HtcUsp
+                logoSrc={casino.logoSrc}
+                logoAlt={casino.logoAlt}
+                headline={casino.offerHeadline}
+                badges={casino.trustBadges}
+            />
+            <HowToClaimSteps
+                steps={casino.howToSteps}
+                termsText={casino.howToTermsText}
+                imageSrc={casino.howToImageSrc}
+                imageAlt={casino.howToImageAlt}
+                ctaText={casino.ctaText}
+                ctaHref={casino.ctaHref}
+            />
             <div className="w-full pt-8">
                 <div className="md:hidden flex flex-col gap-6 px-4">
                     <p className="text-[14px] text-on-surface-light whitespace-pre-wrap">

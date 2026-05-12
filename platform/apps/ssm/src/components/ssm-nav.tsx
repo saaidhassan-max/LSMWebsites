@@ -15,7 +15,8 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '💎', label: 'Uden Satsningskrav', href: '/' },
     { emoji: '👋', label: 'Om Os', href: '/om-os' },
     { emoji: '✉️', label: 'Kontakt Os', href: '/kontakt' },
-    { emoji: '📋', label: 'Landing Page', href: '/signup' }
+    { emoji: '📋', label: 'Landing Page', href: '/signup' },
+    { emoji: '📋', label: 'Landing Page V2', href: '/signup-v2' }
 ];
 
 export function SsmNav(): React.ReactElement {
@@ -33,7 +34,7 @@ export function SsmNav(): React.ReactElement {
         <>
             <LogoSection
                 logoSrc="/ssm/LogoSection/SSMLogo.svg"
-                backgroundSrc="/ssm/LogoSection/Lego_Deco.png"
+                backgroundSrc="/ssm/LogoSection/Lego_Deco2.png"
                 onMenuClick={() => setDrawerOpen(true)}
             />
             <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />

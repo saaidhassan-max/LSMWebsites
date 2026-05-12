@@ -1,4 +1,5 @@
-import React from 'react';
+import type React from 'react';
+import Image from 'next/image';
 import type { FooterNavLink, ResponsibleGamblingLogo, SsmFooterProps } from './ssm-footer.types';
 
 const DEFAULT_NAV_LINKS: FooterNavLink[] = [
@@ -44,7 +45,7 @@ export function SsmFooter({
 }: SsmFooterProps): React.ReactElement {
     return (
         <footer className="bg-surface pb-8">
-            <div className="border-b border-outline">
+            <div className="border-y border-outline">
                 <div className="flex flex-col md:flex-row md:justify-center md:max-w-[1280px] md:mx-auto">
                     {navLinks.map((link) =>
                         link.href ? (
@@ -70,7 +71,7 @@ export function SsmFooter({
             <div className="flex flex-col md:flex-row gap-8 py-8 px-4 max-w-[1280px] mx-auto">
                 {RESPONSIBLE_GAMBLING_LOGOS.map((logo) => (
                     <div key={logo.alt} className="flex flex-col items-center gap-2 flex-1">
-                        <img
+                        <Image
                             src={logo.src}
                             alt={logo.alt}
                             width={240}

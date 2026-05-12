@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { X } from 'lucide-react';
 import { NavCapsule } from '../nav-capsule/nav-capsule';
 import type { NavDrawerProps } from './nav-drawer.types';
@@ -20,13 +20,13 @@ export function NavDrawer({ isOpen, onClose, items }: NavDrawerProps): React.Rea
                 aria-modal="true"
                 className={[
                     'fixed top-0 z-50 flex flex-col',
-                    'right-0 md:right-auto md:left-0',
+                    'right-0',
                     'w-full md:w-[422px] h-dvh',
                     'bg-surface',
                     'pt-6 px-6 pb-12',
                     'justify-between md:justify-start',
                     'transition-transform duration-300',
-                    isOpen ? 'translate-x-0' : 'translate-x-full md:-translate-x-full'
+                    isOpen ? 'translate-x-0' : 'translate-x-full'
                 ].join(' ')}
             >
                 <div className="flex justify-end py-1 border-b border-outline">

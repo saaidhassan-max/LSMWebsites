@@ -1,7 +1,7 @@
-import React from 'react';
-import type { ButtonProps, ButtonVariant } from './button.types';
+import type React from 'react';
+import type { ButtonColor, ButtonProps, ButtonVariant } from './button.types';
 
-const variantClasses: Record<ButtonVariant, string> = {
+const solidVariantClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
     primary: [
         'bg-primary text-on-primary',
         'hover:bg-primary-hover',
@@ -10,24 +10,32 @@ const variantClasses: Record<ButtonVariant, string> = {
     ].join(' '),
 
     secondary: [
-        'bg-secondary text-on-surface-light',
+        'bg-secondary text-on-primary',
         'hover:bg-secondary-hover',
         'focus:bg-secondary-focused focus:outline-none',
         'disabled:bg-disabled-container disabled:text-disabled-content'
     ].join(' '),
 
     tertiary: [
-        'bg-tertiary text-on-surface-light',
+        'bg-tertiary text-on-primary',
         'hover:bg-tertiary-hover',
         'focus:bg-tertiary-focused focus:outline-none',
         'disabled:bg-disabled-container disabled:text-disabled-content'
-    ].join(' '),
+    ].join(' ')
+};
 
-    text: [
-        'bg-transparent text-primary',
-        'hover:text-primary-hover',
-        'focus:text-primary-focused focus:outline-none',
-        'disabled:text-disabled-content'
+const textVariantClasses: Record<ButtonColor, string> = {
+    light: [
+        'bg-transparent text-on-surface-dark border border-transparent',
+        'hover:border-on-surface-dark',
+        'focus:bg-surface-container-low focus:border-on-surface-dark focus:outline-none',
+        'disabled:text-disabled-content disabled:border-transparent'
+    ].join(' '),
+    dark: [
+        'bg-transparent text-on-surface-light border border-transparent',
+        'hover:border-on-surface-light',
+        'focus:bg-outline-variant focus:border-on-surface-light focus:outline-none',
+        'disabled:text-disabled-content disabled:border-transparent'
     ].join(' ')
 };
 
@@ -40,6 +48,7 @@ const paddingClasses: Record<ButtonVariant, string> = {
 
 export function Button({
     variant = 'primary',
+    color = 'light',
     leadingIcon,
     trailingIcon,
     children,
@@ -47,18 +56,23 @@ export function Button({
     className = '',
     ...props
 }: ButtonProps): React.ReactElement {
+    const variantClass = variant === 'text'
+        ? textVariantClasses[color]
+        : solidVariantClasses[variant];
+
     return (
         <button
             type="button"
             disabled={disabled}
             className={[
                 'inline-flex items-center justify-center gap-2',
+                'min-w-[198px]',
                 'rounded-lg',
-                'text-base font-bold',
+                'text-base font-bold tracking-[0.15px]',
                 'transition-colors duration-150',
                 'disabled:cursor-not-allowed',
                 paddingClasses[variant],
-                variantClasses[variant],
+                variantClass,
                 className
             ].join(' ')}
             {...props}

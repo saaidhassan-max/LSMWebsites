@@ -1,4 +1,5 @@
-import React from 'react';
+import type React from 'react';
+import Image from 'next/image';
 import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '../button/button';
 import { Label } from '../label/label';
@@ -16,9 +17,9 @@ export function OfferCard({
     secondaryCtaHref,
     termsText
 }: OfferCardProps): React.ReactElement {
-    const logoImg = (className: string) =>
-        logoSrc ? (
-            <img src={logoSrc} alt={logoAlt} className={className} />
+    const logoImg = (className: string): React.ReactElement =>
+        logoSrc !== undefined ? (
+            <Image src={logoSrc} alt={logoAlt} fill className={className} />
         ) : (
             <div className="w-full h-full bg-disabled-container rounded" />
         );
@@ -32,18 +33,11 @@ export function OfferCard({
     );
 
     const secondaryCta =
-        secondaryCtaText && secondaryCtaHref ? (
-            <a
-                href={secondaryCtaHref}
-                className={[
-                    'inline-flex w-full items-center justify-center gap-2',
-                    'rounded-lg px-6 py-2',
-                    'text-base font-bold leading-6 text-primary-text underline',
-                    'transition-colors duration-150',
-                    'hover:text-primary-text focus:text-primary-text focus:outline-none'
-                ].join(' ')}
-            >
-                {secondaryCtaText}
+        secondaryCtaText !== undefined && secondaryCtaHref !== undefined ? (
+            <a href={secondaryCtaHref} target="_blank" rel="noopener noreferrer" className="block">
+                <Button variant="text" color="light" className="w-full underline">
+                    {secondaryCtaText}
+                </Button>
             </a>
         ) : null;
 
@@ -55,12 +49,12 @@ export function OfferCard({
                 </Label>
 
                 <div className="grid grid-cols-[144px_1fr] gap-4 p-2 items-center">
-                    <div className="col-start-1 row-start-1 flex h-[72px] items-center justify-center">
-                        {logoImg('h-full w-auto max-w-full object-contain')}
+                    <div className="col-start-1 row-start-1 relative flex h-[72px] items-center justify-center">
+                        {logoImg('object-contain')}
                     </div>
 
                     <div className="col-start-2 row-start-1 flex flex-col gap-1">
-                        <div className="py-2">
+                        <div className="py-2 border-b border-outline-variant">
                             <p className="text-[28px] font-bold leading-[36px] tracking-[0] text-on-surface-dark">
                                 {offerMain}
                             </p>
@@ -96,8 +90,8 @@ export function OfferCard({
                 </Label>
 
                 <div className="flex items-center px-5 py-6 gap-4">
-                    <div className="w-[224px] h-[112px] flex items-center justify-center shrink-0">
-                        {logoImg('h-full w-auto max-w-full object-contain')}
+                    <div className="relative w-[224px] h-[112px] flex items-center justify-center shrink-0">
+                        {logoImg('object-contain')}
                     </div>
 
                     <div className="flex-1 flex items-center px-3 gap-1">
@@ -127,7 +121,7 @@ export function OfferCard({
                 </div>
 
                 {termsText && (
-                    <div className="p-2 border-t border-outline-variant">
+                    <div className="p-2 border border-outline-variant">
                         <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-dark">
                             {termsText}
                         </p>
