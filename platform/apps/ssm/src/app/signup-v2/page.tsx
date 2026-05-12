@@ -49,7 +49,7 @@ export default function SignupV2Page(): React.ReactElement {
         }
         const observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
         observer.observe(el);
-        return () => observer.disconnect();
+        return (): void => observer.disconnect();
     }, []);
 
     function handleSubmit(): void {
