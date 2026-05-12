@@ -23,7 +23,7 @@ export function LogoSection({
                     : undefined
             }
         >
-            <div className="w-full max-w-[1440px] mx-auto h-full flex items-center justify-between">
+            <div className="w-full max-w-[1440px] mx-auto h-full flex items-center justify-between md:px-16">
                 <div
                     className="order-1 flex items-center gap-2 p-2 invisible"
                     aria-hidden="true"
