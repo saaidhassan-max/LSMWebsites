@@ -16,12 +16,12 @@ Update it immediately after completing any screen, component, or feature.
 
 | Component | Status | Figma | Code | Notes |
 |---|---|---|---|---|
-| Token system | ✅ | LSM-foundation (ontario + SSM modes) | packages/tokens/index.css | Color vars per site, spacing + radius shared. primary-text added for text CTA colour; SSM value #1D8E1D. SSM tertiary updated 2026-05-11: #FF002A / hover #EB0027 / focused #DB0024. |
-| Tailwind config | ✅ | — | packages/ui/tailwind.config.ts | All colors mapped to CSS variables |
+| Token system | ✅ | LSM-foundation (ontario + SSM + sfb modes) | packages/tokens/index.css | Color vars per site, spacing + radius shared. primary-text added for text CTA colour; SSM value #1D8E1D. SSM tertiary updated 2026-05-11: #FF002A / hover #EB0027 / focused #DB0024. SFB (bingo) tokens updated 2026-05-13 from Figma sfb mode: primary #52DD00, tertiary #FF33FF / hover #E52EE5 / focused #DB2CDB, on-primary #121212, on-surface-dark #040A00. accent-red (#FF0000) + accent-orange (#FF9000) added 2026-05-14 — shared across all 6 sites. |
+| Tailwind config | ✅ | — | packages/ui/src/globals.css (CSS-first @theme inline) | Migrated to Tailwind 4. tailwind.config.ts deleted. All tokens declared in @theme inline blocks in globals.css per package/app. @tailwindcss/postcss replaces autoprefixer. cn() utility added at packages/ui/src/lib/generic/cn.ts. Updated 2026-05-20. |
 | Button | ✅ | node 544:5660 | packages/ui/src/components/Button/Button.tsx | 4 variants × 4 states, all token-bound, Storybook story included |
 | TextField | ✅ | node 544:5725 | packages/ui/src/components/TextField/TextField.tsx | 4 states, swappable Lucide icon prop, error banner, clear button |
 | SignupForm | ✅ | node 545:11649 | packages/ui/src/components/signup-form/signup-form.tsx | Uses Button + TextField; header/headline/form-body sections; checkbox consent; brandName + URL props; Storybook story included. Updated 2026-05-12: full client-side validation (email, phone, consent); consent error shown in bg-error container with text-on-surface-light text, mt-1 mb-2 spacing. |
-| Label | ✅ | node 549:11983 (component set) | packages/ui/src/components/Label/Label.tsx | 2 variants: mobile (rounded-t-lg, full width) and desktop (rounded-br-lg tab shape, fixed width); bg-secondary; bold on-surface-light text |
+| Label | ✅ | node 708:20606 (component set) | packages/ui/src/components/Label/Label.tsx | 2 variants × 3 colors (blue/red/orange). mobile: rounded-t-lg; desktop: rounded-br-lg. Colors: blue=bg-secondary, red=bg-accent-red, orange=bg-accent-orange. Text always on-surface-light bold. color prop defaults to blue. Updated 2026-05-14. |
 | OfferCard | ✅ | node 549:11989 | packages/ui/src/components/offer-card/offer-card.tsx | 2 responsive variants (mobile/desktop); uses Label + Button. Mobile: logo LEFT (144×72 container) and offer text RIGHT; desktop: logo LEFT (224×112 actual-logo container), offer+checkmarks MIDDLE, button group RIGHT (256px). Real logo fills available container height with proportional width. Both variants: PLAY NOW (primary) + optional underlined "How To Claim" text CTA uses Button variant="text" color="light". Props: secondaryCtaText + secondaryCtaHref. Updated 2026-05-12: mobile offer headline border changed to bottom-only (border-b outline-variant). Desktop T&Cs full border (outline-variant). |
 | WebsiteDirectory | ✅ | node 576:5727 | packages/ui/src/components/WebsiteDirectory/WebsiteDirectory.tsx | title prop + sites array (name + optional href); wrapping 4-col grid; tertiary title color; links activate on href, plain text without; Storybook story included |
 | SsmFooter | ✅ | node 576:5828 | packages/ui/src/components/SsmFooter/SsmFooter.tsx | desktop + mobile responsive; nav links (optional hrefs) use 48px mobile rows with 8px top/bottom padding, 4 responsible gambling logos from assets/ssm/footer, legal text; Storybook story included. Figma frames also renamed (Frame 1000004522→nav-bar, Frame 1000004604→nav-inner, Frame 52→legal-text) |
@@ -53,11 +53,13 @@ Update it immediately after completing any screen, component, or feature.
 
 ---
 
-## Site 2 — [Name TBD]
+## Site 2 — SFB (Super Free Bingo)
 
 | Screen / Feature | Status | Figma | Code | Notes |
 |---|---|---|---|---|
-| — | ⏳ | — | — | — |
+| SFB color tokens | ✅ | LSM-foundation sfb mode | packages/tokens/index.css (data-theme="bingo") | All 25 tokens set from Figma. Unique to SFB: primary #52DD00, tertiary #FF33FF / hover #E52EE5 / focused #DB2CDB. accent-red + accent-orange added 2026-05-14 (shared across all sites). |
+| App scaffold | ✅ | — | apps/sfb — runs on localhost:3002 | Next.js 15, Tailwind, data-theme="bingo" wired. Placeholder home page. |
+| SfbFooter | ✅ | node 708:20706 | packages/ui/src/components/sfb-footer/sfb-footer.tsx | 5 nav links (Privacy Policy /privacy-policy, Terms /terms, About Us /about, Disclaimer /disclaimer, Contact Us /contact). 6 responsible gambling logos in 2×3 grid desktop / single-col mobile (keepitfun, 18plus, gamcare, gamstop, gambleaware, gamblingtherapy SVGs from /sfb/footer/). Legal text from Figma. bg-surface, outline border, on-surface-light text. Storybook story included. SVGs to be placed in platform/apps/sfb/public/sfb/footer/ — updated 2026-05-18. |
 
 ---
 
