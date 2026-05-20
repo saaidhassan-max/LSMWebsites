@@ -1,4 +1,5 @@
 import type React from 'react';
+import Image from 'next/image';
 import type { WelcomeBannerProps } from './welcome-banner.types';
 
 export function WelcomeBanner({
@@ -14,20 +15,22 @@ export function WelcomeBanner({
                     className="absolute top-0 left-0 w-[83px] h-16 overflow-hidden pointer-events-none select-none"
                     aria-hidden="true"
                 >
-                    <img
+                    <Image
                         src={imageLeftSrc}
                         alt=""
-                        className="w-full h-full object-cover object-left"
+                        fill
+                        className="object-cover object-left"
                     />
                 </div>
                 <div
                     className="absolute top-0 right-0 w-[83px] h-16 overflow-hidden pointer-events-none select-none"
                     aria-hidden="true"
                 >
-                    <img
+                    <Image
                         src={imageRightSrc}
                         alt=""
-                        className="w-full h-full object-cover object-right"
+                        fill
+                        className="object-cover object-right"
                     />
                 </div>
                 <div className="relative z-10 flex items-center justify-center py-1">
@@ -38,18 +41,22 @@ export function WelcomeBanner({
             </div>
 
             <div className="hidden md:block relative">
-                <img
-                    src={imageLeftSrc}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute left-0 top-0 w-[204px] h-full object-cover object-left select-none pointer-events-none z-0"
-                />
-                <img
-                    src={imageRightSrc}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute right-0 top-0 w-[204px] h-full object-cover object-right select-none pointer-events-none z-0"
-                />
+                <div className="absolute left-0 top-0 w-[204px] h-full pointer-events-none select-none z-0">
+                    <Image
+                        src={imageLeftSrc}
+                        alt=""
+                        fill
+                        className="object-cover object-left"
+                    />
+                </div>
+                <div className="absolute right-0 top-0 w-[204px] h-full pointer-events-none select-none z-0">
+                    <Image
+                        src={imageRightSrc}
+                        alt=""
+                        fill
+                        className="object-cover object-right"
+                    />
+                </div>
                 <div className="relative z-10 flex flex-col items-center py-6 gap-6">
                     <p className="w-full font-['Futura_PT'] font-[900] text-[57px] leading-[57px] tracking-[-0.019em] text-on-surface-light text-center">
                         {text}

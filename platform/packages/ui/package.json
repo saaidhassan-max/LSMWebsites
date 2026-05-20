@@ -44,7 +44,9 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "type-check": "tsc --noEmit",
+    "quality": "npm run type-check && npm run test"
   },
   "dependencies": {
     "@lsm/tokens": "*",
