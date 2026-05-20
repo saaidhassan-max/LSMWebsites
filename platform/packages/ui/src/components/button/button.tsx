@@ -1,4 +1,5 @@
 import type React from 'react';
+import { cn } from '../../lib/generic/cn';
 import type { ButtonColor, ButtonProps, ButtonVariant } from './button.types';
 
 const solidVariantClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
@@ -64,7 +65,7 @@ export function Button({
         <button
             type="button"
             disabled={disabled}
-            className={[
+            className={cn(
                 'inline-flex items-center justify-center gap-2',
                 'min-w-[198px]',
                 'rounded-lg',
@@ -74,16 +75,16 @@ export function Button({
                 paddingClasses[variant],
                 variantClass,
                 className
-            ].join(' ')}
+            )}
             {...props}
         >
-            {leadingIcon && (
+            {leadingIcon !== undefined && (
                 <span className="size-6 flex items-center justify-center shrink-0">
                     {leadingIcon}
                 </span>
             )}
             {children}
-            {trailingIcon && (
+            {trailingIcon !== undefined && (
                 <span className="size-6 flex items-center justify-center shrink-0">
                     {trailingIcon}
                 </span>

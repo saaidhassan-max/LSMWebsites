@@ -127,7 +127,7 @@ export function SignupForm({
                                 id="signup-consent"
                                 checked={consent}
                                 onChange={handleConsentChange}
-                                className="w-5 h-5 rounded-sm cursor-pointer accent-primary"
+                                className="w-5 h-5 rounded-xs cursor-pointer accent-primary"
                             />
                         </div>
                         <label

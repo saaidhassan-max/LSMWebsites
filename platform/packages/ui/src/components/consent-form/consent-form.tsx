@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Checkbox } from '../checkbox/checkbox';
 import type {
@@ -124,7 +125,7 @@ export function ConsentForm({
                 </button>
             </div>
 
-            {showMainError && (
+            {showMainError === true && (
                 <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
                     <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
                         Please accept our terms
@@ -134,7 +135,7 @@ export function ConsentForm({
 
             <p className="text-sm font-normal leading-5 text-on-surface-light">{LEGAL_TEXT}</p>
 
-            {isExpanded && (
+            {isExpanded === true && (
                 <div className="flex flex-col gap-2 mt-1">
                     <p className="text-sm font-normal leading-5 text-on-surface-light">
                         Simply tick the boxes to choose which types of offer you'd like to receive
@@ -154,7 +155,7 @@ export function ConsentForm({
                                 label={label}
                             />
                         ))}
-                        {showInterestError && (
+                        {showInterestError === true && (
                             <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
                                 <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
                                     Please select what you're interested in
@@ -176,7 +177,7 @@ export function ConsentForm({
                                 label={label}
                             />
                         ))}
-                        {showContactError && (
+                        {showContactError === true && (
                             <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
                                 <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
                                     Please select how you wish to be contacted

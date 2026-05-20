@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import type { WelcomeBannerProps } from './welcome-banner.types';
 
 export function WelcomeBanner({
@@ -54,7 +54,7 @@ export function WelcomeBanner({
                     <p className="w-full font-['Futura_PT'] font-[900] text-[57px] leading-[57px] tracking-[-0.019em] text-on-surface-light text-center">
                         {text}
                     </p>
-                    {features && features.length > 0 && (
+                    {features !== undefined && features.length > 0 && (
                         <div className="flex items-center justify-center gap-10">
                             {features.map((feature, i) => (
                                 <span

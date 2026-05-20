@@ -75,7 +75,7 @@ export function OfferCard({
                     {secondaryCta}
                 </div>
 
-                {termsText && (
+                {termsText !== undefined && (
                     <div className="p-2">
                         <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-dark">
                             {termsText}
@@ -120,7 +120,7 @@ export function OfferCard({
                     </div>
                 </div>
 
-                {termsText && (
+                {termsText !== undefined && (
                     <div className="p-2 border border-outline-variant">
                         <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-dark">
                             {termsText}

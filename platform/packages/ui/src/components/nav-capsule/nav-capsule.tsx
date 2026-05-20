@@ -1,4 +1,5 @@
-import React from 'react';
+import type React from 'react';
+import { cn } from '../../lib/generic/cn';
 import type { NavCapsuleProps } from './nav-capsule.types';
 
 export function NavCapsule({
@@ -12,13 +13,13 @@ export function NavCapsule({
     return (
         <a
             href={href}
-            className={[
+            className={cn(
                 'group flex items-center rounded-full transition-colors',
-                fluid ? 'w-[272px] md:w-full' : 'w-[272px] md:w-[336px]',
+                fluid === true ? 'w-[272px] md:w-full' : 'w-[272px] md:w-[336px]',
                 'pl-4 pr-6 py-2 md:gap-3',
-                isActive ? 'bg-tertiary' : 'hover:bg-surface-container-highest',
+                isActive === true ? 'bg-tertiary' : 'hover:bg-surface-container-highest',
                 className
-            ].join(' ')}
+            )}
         >
             <div className="flex items-center justify-center shrink-0 p-2 w-[38px] h-[44px] md:w-[50px] md:h-[52px]">
                 <span className="block text-[22px] leading-7 md:text-[30px] md:leading-9 text-center select-none">
@@ -26,13 +27,13 @@ export function NavCapsule({
                 </span>
             </div>
             <span
-                className={[
+                className={cn(
                     'text-[16px] leading-6 tracking-[0.15px]',
                     'md:text-[22px] md:leading-7 md:tracking-normal',
-                    isActive
+                    isActive === true
                         ? 'text-on-surface-dark font-bold md:font-medium'
                         : 'text-on-surface-light font-medium md:font-normal group-hover:text-on-surface-dark'
-                ].join(' ')}
+                )}
             >
                 {label}
             </span>

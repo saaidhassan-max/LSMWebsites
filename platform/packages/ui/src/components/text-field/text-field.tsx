@@ -1,4 +1,6 @@
-import React, { useId } from 'react';
+import type React from 'react';
+import { useId } from 'react';
+import { cn } from '../../lib/generic/cn';
 import { X, Info } from 'lucide-react';
 import type { TextFieldProps } from './text-field.types';
 
@@ -24,12 +26,12 @@ export function TextField({
     return (
         <div className={`w-full ${className}`}>
             <div
-                className={[
+                className={cn(
                     'relative z-10 flex items-center gap-4 px-4 rounded-lg border',
                     'h-14 transition-colors duration-150',
                     bgClass,
                     borderClass
-                ].join(' ')}
+                )}
             >
                 <Icon size={24} className="text-on-surface-dark shrink-0" />
 
@@ -43,18 +45,18 @@ export function TextField({
                     <input
                         id={id}
                         value={value}
-                        className={[
+                        className={cn(
                             'bg-transparent outline-none text-on-surface-dark',
                             'text-base font-normal leading-6 tracking-[0.5px]',
                             'placeholder:text-on-surface-dark/40',
                             'w-full'
-                        ].join(' ')}
+                        )}
                         {...props}
                     />
                 </div>
 
-                {hasError && <Info size={24} className="text-error shrink-0" />}
-                {!hasError && hasValue && onClear && (
+                {hasError === true && <Info size={24} className="text-error shrink-0" />}
+                {hasError === false && hasValue === true && onClear !== undefined && (
                     <button
                         type="button"
                         onClick={onClear}
@@ -66,7 +68,7 @@ export function TextField({
                 )}
             </div>
 
-            {hasError && (
+            {hasError === true && (
                 <div className="bg-error rounded-b-lg px-4 pt-3 pb-0.5 -mt-[10px]">
                     <p className="text-on-surface-light text-[11px] font-normal leading-[13px] tracking-[0.4px]">
                         {error}
