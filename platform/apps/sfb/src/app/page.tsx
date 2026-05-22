@@ -39,11 +39,15 @@ export default function HomePage(): React.ReactElement {
                         alt="Operator promotion"
                         href="https://example.com"
                     />
+                    <OfferCard {...offers[2]} />
+                    <OfferCard {...offers[3]} />
                     <div className="md:hidden">
                         <SignupForm brandName="Super Free Bingo" />
                     </div>
-                    <OfferCard {...offers[2]} />
-                    <OfferCard {...offers[3]} />
+                    <OfferCard {...offers[4]} />
+                    <OfferCard {...offers[5]} />
+                    <OfferCard {...offers[6]} />
+                    <OfferCard {...offers[7]} />
                 </div>
             </div>
 

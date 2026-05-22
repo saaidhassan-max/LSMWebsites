@@ -10,7 +10,23 @@ export const metadata: Metadata = {
     description: 'Disclaimer for Super Free Bingo.'
 };
 
-const CONTENT = `Content coming soon.`;
+const CONTENT = `The information provided on this website is for general information purposes only. Super Free Bingo makes no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of any information, products, services, or related graphics contained on this website.
+
+Any reliance you place on information from this website is strictly at your own risk. We expressly exclude all liability for any loss or damage — direct or indirect — arising from the use of, or inability to use, this website or any content found on it.
+
+Third-Party Links
+
+This website contains links to third-party bingo and casino operator websites. We have no control over the content, nature, or availability of those sites. The inclusion of any link does not imply endorsement of the operator or their services. It is your responsibility to make yourself familiar with the terms and conditions and play rules operated by those third parties before registering or depositing.
+
+Free Play Schemes
+
+Free bingo and free spin offers featured on this website are provided by third-party operators. These schemes may carry restrictions on usage and withdrawals, and may be limited to new customers only. Terms vary by operator — please review the full terms on the relevant operator's website and contact their customer support team if anything is unclear.
+
+Availability
+
+While we make every effort to keep this website running smoothly, we accept no responsibility for any technical unavailability caused by circumstances beyond our control. We reserve the right to take the website offline for maintenance at any time without prior notice.
+
+This disclaimer is subject to the laws of England and Wales.`;
 
 export default function DisclaimerPage(): React.ReactElement {
     return (

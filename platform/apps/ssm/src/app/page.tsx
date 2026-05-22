@@ -1,5 +1,6 @@
 import type React from 'react';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
+import { OperatorBanner } from '@lsm/ui/components/operator-banner/operator-banner';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SsmFooter } from '@lsm/ui/components/ssm-footer/ssm-footer';
 import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
@@ -19,9 +20,8 @@ export default function Home(): React.ReactElement {
             <USP text="OVER 5,000,000 SUBSCRIBERS" variant="ssm" />
 
             <WelcomeBanner
-                textHighlight="TOP"
-                text=" BINGO DEALS 2026"
-                features={['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']}
+                text="🎰 Velkommen til Super Spillemaskiner!"
+                features={['✅ Danske licenserede casinoer', '✅ Klare betingelser', '✅ Sikker og Pålidelig']}
             />
 
             <TopTCs text='Særlige vilkår er gældende – herunder identificering med MitID. Klikke på "Læs mere" for detaljer.' />
@@ -30,6 +30,12 @@ export default function Home(): React.ReactElement {
                 <div className="flex flex-col gap-2 p-4 md:px-16 md:py-4">
                     <OfferCard {...offers[0]} />
                     <OfferCard {...offers[1]} />
+                    <OperatorBanner
+                        mobileSrc="/ssm/banners/operator-banner-mobile.jpg"
+                        desktopSrc="/ssm/banners/operator-banner-desktop.jpg"
+                        alt="Operator promotion"
+                        href="https://example.com"
+                    />
                     <div className="md:hidden">
                         <SignupForm brandName="Super Spillemaskiner" />
                     </div>

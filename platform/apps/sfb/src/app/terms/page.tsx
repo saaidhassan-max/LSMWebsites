@@ -10,7 +10,43 @@ export const metadata: Metadata = {
     description: 'Terms and Conditions for Super Free Bingo.'
 };
 
-const CONTENT = `Content coming soon.`;
+const CONTENT = `This website is operated by Little Star Media Ltd, Exchange House, 450 Midsummer Boulevard, Milton Keynes, MK9 2EA.
+
+Age and Location Restrictions
+
+This site is strictly for users aged 18 or over who reside in the United Kingdom. Access by anyone under 18, or anyone located outside the UK, is prohibited.
+
+Agreement to These Terms
+
+By browsing this website you agree to be bound by these Terms and Conditions, our Disclaimer, our Copyright Notice, and our Privacy Policy. If you do not agree with any part of these terms, please do not use this website.
+
+Marketing Communications
+
+By signing up through this website you agree to receive marketing messages by email and SMS from Super Free Bingo and our associated websites. You may unsubscribe at any time using the link in any of our communications.
+
+Content and Liability
+
+The information on this website is provided for general information and use only. We make no representations or warranties — express or implied — regarding the accuracy, completeness, or suitability of any content. To the maximum extent permitted by law, we exclude liability for any inaccuracies or errors on this site.
+
+Intellectual Property
+
+The design, layout, graphics, and all materials on this website are protected by copyright. Reproduction of any part of this site is prohibited except as set out in our Copyright Notice.
+
+Third-Party Links
+
+This website contains links to third-party bingo and casino operators. We accept no responsibility for the content of any linked site and strongly advise you to review the terms and conditions of any site you visit.
+
+Free Play Schemes
+
+Free bingo and free spin offers featured on this site are provided by third-party operators. These schemes may carry restrictions on play and withdrawal, and may be limited to new customers only. Terms vary by operator — always read the full terms before claiming any offer.
+
+Governing Law
+
+Your use of this website and any dispute arising from such use is subject to the laws of England and Wales.
+
+Data Protection
+
+Little Star Media Ltd complies with the Data Protection Act 2018 (Registration Z1426156) and all applicable UK GDPR requirements. Please see our Privacy Policy for full details of how we collect and use your data.`;
 
 export default function TermsPage(): React.ReactElement {
     return (

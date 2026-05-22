@@ -3,10 +3,10 @@ import Image from 'next/image';
 import type { FooterNavLink, ResponsibleGamblingLogo, SsmFooterProps } from './ssm-footer.types';
 
 const DEFAULT_NAV_LINKS: FooterNavLink[] = [
-    { label: 'Privatlivspolitik' },
-    { label: 'Regler og vilkår' },
-    { label: 'Om Os' },
-    { label: 'Kontakt Os' }
+    { label: 'Privatlivspolitik', href: '/privacy-policy' },
+    { label: 'Regler og vilkår', href: '/terms-and-conditions' },
+    { label: 'Om Os', href: '/om-os' },
+    { label: 'Kontakt Os', href: '/kontakt' }
 ];
 
 const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [

@@ -6,22 +6,39 @@ import { SsmNav } from '../../components/ssm-nav';
 import { legalText } from '../../data/site-content';
 
 export const metadata: Metadata = {
-    title: 'Om Os | Superspillemaskiner',
-    description: 'Læs mere om Super Spillemaskiner.'
+    title: 'Om Os | Super Spillemaskiner',
+    description: 'Læs mere om Super Spillemaskiner — Danmarks uafhængige sammenligningssite for casino og spilleautomater.'
 };
 
-const ABOUT_TEXT = `Super Spillemaskiner er et slotssammenligningsside, der samler de bedste tilbud fra de bedste slot og casino mærker på et fantastisk sted, så du kan stoppe med at søge rundt omkring og istedet begynde at spinne for din chance for at være heldig og vinde stort!
-Med en lang række Casinoer og spilleautomater at vælge imellem forstår vi, at det kan være svært at vide, hvilke der er værd at besøge, så på Super Spillemaskineranmelder vi kun de mest sikre hjemmesider som alle har et godt omdømme, således at du kan være sikker på, at du kun spiller hos de bedste.
-Vi er her for at sikre, at din spiloplevelse ikke indebærer noget hårdt arbejde, så vi finder alle de seneste gratis tilbud og tilbud uden krav om indbetaling, så du ikke behøver at bruge tid på dette. Vi giver også nemme trinvise vejledninger, der hjælper dig med at få dine gratis penge og bonuskontanter hurtigt og nemt. Giv os et prøve-spin i dag!
+const CONTENT = `Super Spillemaskiner er et uafhængigt sammenligningssite for online casino og spilleautomater, der samler de bedste tilbud fra Danmarks mest betroede casinoer på ét sted. Siden drives af Little Star Media, som også driver Super Free Bingo som søstersite.
 
+Vi arbejder udelukkende med casinoer og spilleautomatssider, der er licenseret af Spillemyndigheden, så du kan være sikker på, at alle tilbud på vores side lever op til de højeste krav til sikkerhed og fair play.
 
-Anden nyttig information
-Gratis spilleautomater uden indbetaling
-Vi ved, at du sikkert er ivrig efter at begynde at spille med det samme, så du vil måske prøve spillene før du "køber". Hvis du er ny i verdene af online slots, spil uden indbetaling eller gratis spin-tilbud en fantastisk måde at komme i gang med spillene. Sider med spilleautomater uden krav om indskud udgør et ideelt udgangspunkt, da du får fordelene ved at spille gratis uden at skulle indbetale nogen penge. Der er endda hjemmesider der giver dig mulighed for at spille gratis og vinde rigtigt, hvilket betyder at du kan få udbetalt uden at skulle indbetale. Så hvorfor ikke komme i gang? Tjek vores gratis tilbud uden krav om indbetaling og begynd at nyde dine gratis spil allerede i dag!
+Hvad vi gør
 
-Indbetalingsbonusser til spilleautomater
+Vores mission er enkel: at gøre det nemt for danske spillere at finde de bedste casinobonusser og gratis spins på ét sted. Vi opdaterer løbende vores oversigt med tilbud fra både etablerede operatører og nye spændende casinoer — og mange af de deals, du finder her, er eksklusive forbedrede tilbud, der giver dig mere, end du ville få ved at gå direkte til casinoet.
 
-At indbetale penge på en slots site er en fantastisk måde at få mest muligt ud af dine penge, da en indbetaling normalt vil kvalificere dig til en større gratis slots bonus, der kan fordoble din kontante indbetaling. Du bliver ofte tilbudt en procentdel af, hvad du indskyder, så hvis du indbetaler 10kr. og modtager en 200% bonus, så får du ekstra 20kr. at spille for. Når du har lavet din første indbetaling, vil du opdage, at nogle hjemmesider sågar også giver efterfølgende indbetalingsbonusser på fremtidige indbetalinger.`;
+For at hjælpe dig med at træffe det rigtige valg tilbyder vi detaljerede anmeldelser af casinoer og trin-for-trin vejledninger, så du kan hente din bonus hurtigt og uden besvær.
+
+Hold dig opdateret
+
+Tilmeld dig vores nyhedsbrev og modtag de nyeste eksklusive casino- og spilleautomattilbud direkte i din indbakke. Vores abonnenter er altid de første til at høre om nye tilbud uden indbetaling, gratis spins og tidsbegrænsede kampagner.
+
+Hvorfor vælge Super Spillemaskiner
+
+Licenserede casinoer — vi viser kun operatører med fuld licens fra Spillemyndigheden.
+
+Eksklusiv bonus — mange af vores tilbud er kun tilgængelige via Super Spillemaskiner.
+
+Klare betingelser — vi gennemgår alle vilkår, så du ved præcist, hvad du takker ja til.
+
+Mobilvenlig — alle fremhævede sider er fuldt optimerede til mobil og tablet.
+
+Ansvarligt spil — vi støtter ansvarligt spil og linker til Ludomani og StopSpillet.dk på alle sider.
+
+Ansvarligt spil
+
+Spil ansvarligt. Hvis du eller nogen, du kender, er berørt af ludomani, kan du kontakte det danske Center for Ludomani for fortrolig telefonisk støtte og rådgivning. Telefon: +45 70 11 18 10 — hjemmeside: ludomani.dk`;
 
 export default function OmOsPage(): React.ReactElement {
     return (
@@ -33,11 +50,11 @@ export default function OmOsPage(): React.ReactElement {
                 <div className="flex flex-col gap-8">
                     <div className="px-4 py-3">
                         <h1 className="text-[32px] font-bold leading-tight text-tertiary md:text-[45px] md:leading-[52px]">
-                            About Us 📑
+                            Om Os
                         </h1>
                     </div>
                     <p className="w-full md:max-w-[948px] whitespace-pre-line text-base leading-6 tracking-[0.5px] text-on-surface-light">
-                        {ABOUT_TEXT}
+                        {CONTENT}
                     </p>
                 </div>
             </section>

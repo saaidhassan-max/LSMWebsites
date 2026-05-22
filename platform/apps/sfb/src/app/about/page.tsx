@@ -7,21 +7,34 @@ import { legalText } from '../../data/site-content';
 
 export const metadata: Metadata = {
     title: 'About Us | Super Free Bingo',
-    description: 'Read more about Super Free Bingo.'
+    description: 'Learn more about Super Free Bingo — the UK\'s independent bingo comparison platform.'
 };
 
-const ABOUT_TEXT = `Super Spillemaskiner er et slotssammenligningsside, der samler de bedste tilbud fra de bedste slot og casino mærker på et fantastisk sted, så du kan stoppe med at søge rundt omkring og istedet begynde at spinne for din chance for at være heldig og vinde stort!
-Med en lang række Casinoer og spilleautomater at vælge imellem forstår vi, at det kan være svært at vide, hvilke der er værd at besøge, så på Super Spillemaskineranmelder vi kun de mest sikre hjemmesider som alle har et godt omdømme, således at du kan være sikker på, at du kun spiller hos de bedste.
-Vi er her for at sikre, at din spiloplevelse ikke indebærer noget hårdt arbejde, så vi finder alle de seneste gratis tilbud og tilbud uden krav om indbetaling, så du ikke behøver at bruge tid på dette. Vi giver også nemme trinvise vejledninger, der hjælper dig med at få dine gratis penge og bonuskontanter hurtigt og nemt. Giv os et prøve-spin i dag!
+const CONTENT = `Super Free Bingo is an independent bingo comparison platform that has been helping UK players find the best bingo bonuses since 2006. The site is managed by Little Star Media, which also operates Super Free Slot Games as a sister venture.
 
+We work exclusively with UK-licensed bingo and casino brands to ensure every offer featured on our site meets the highest standards of safety and fairness. Our platform has received multiple nominations for the EGR Bingo Affiliate of the Year award — a recognition of the trust and quality we've built over nearly two decades.
 
-Anden nyttig information
-Gratis spilleautomater uden indbetaling
-Vi ved, at du sikkert er ivrig efter at begynde at spille med det samme, så du vil måske prøve spillene før du "køber". Hvis du er ny i verdene af online slots, spil uden indbetaling eller gratis spin-tilbud en fantastisk måde at komme i gang med spillene. Sider med spilleautomater uden krav om indskud udgør et ideelt udgangspunkt, da du får fordelene ved at spille gratis uden at skulle indbetale nogen penge. Der er endda hjemmesider der giver dig mulighed for at spille gratis og vinde rigtigt, hvilket betyder at du kan få udbetalt uden at skulle indbetale. Så hvorfor ikke komme i gang? Tjek vores gratis tilbud uden krav om indbetaling og begynd at nyde dine gratis spil allerede i dag!
+What We Do
 
-Indbetalingsbonusser til spilleautomater
+Our core mission is simple: make it easy for UK players to find the best bingo bonus deals in one place. We continuously update our listings with offers from both established operators and exciting new sites, and many of the deals featured here are enhanced exclusives — giving you more than the standard welcome offer you'd find going direct.
 
-At indbetale penge på en slots site er en fantastisk måde at få mest muligt ud af dine penge, da en indbetaling normalt vil kvalificere dig til en større gratis slots bonus, der kan fordoble din kontante indbetaling. Du bliver ofte tilbudt en procentdel af, hvad du indskyder, så hvis du indbetaler 10kr. og modtager en 200% bonus, så får du ekstra 20kr. at spille for. Når du har lavet din første indbetaling, vil du opdage, at nogle hjemmesider sågar også giver efterfølgende indbetalingsbonusser på fremtidige indbetalinger.`;
+To help you make an informed choice, we provide detailed bingo site reviews and step-by-step how-to-claim guides so you can get your bonus quickly and without hassle.
+
+Stay Up to Date
+
+Subscribe to receive the latest exclusive bingo and slot offers delivered directly to your inbox. Our subscribers are always first to hear about new no-deposit deals, free spin drops, and limited-time promotions.
+
+Why Choose Super Free Bingo
+
+Licensed Brands — we only list operators holding a full UK Gambling Commission licence.
+
+Vendor Approved — our listings are verified directly with the operators we work with.
+
+Exclusive Offers — many deals on our site are only available through Super Free Bingo.
+
+Mobile Friendly — all featured sites are fully optimised for mobile and tablet play.
+
+Industry Experts — our team has over 15 years of experience in the UK bingo and casino sector.`;
 
 export default function AboutPage(): React.ReactElement {
     return (
@@ -33,11 +46,11 @@ export default function AboutPage(): React.ReactElement {
                 <div className="flex flex-col gap-8">
                     <div className="px-4 py-3">
                         <h1 className="text-[32px] font-bold leading-tight text-tertiary md:text-[45px] md:leading-[52px]">
-                            About Us 📑
+                            About Super Free Bingo
                         </h1>
                     </div>
                     <p className="w-full md:max-w-[948px] whitespace-pre-line text-base leading-6 tracking-[0.5px] text-on-surface-light">
-                        {ABOUT_TEXT}
+                        {CONTENT}
                     </p>
                 </div>
             </section>
