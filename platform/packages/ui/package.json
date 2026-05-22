@@ -23,6 +23,8 @@
     "./components/nav-drawer/nav-drawer.types": "./src/components/nav-drawer/nav-drawer.types.ts",
     "./components/offer-card/offer-card": "./src/components/offer-card/offer-card.tsx",
     "./components/offer-card/offer-card.types": "./src/components/offer-card/offer-card.types.ts",
+    "./components/operator-banner/operator-banner": "./src/components/operator-banner/operator-banner.tsx",
+    "./components/operator-banner/operator-banner.types": "./src/components/operator-banner/operator-banner.types.ts",
     "./components/signup-form/signup-form": "./src/components/signup-form/signup-form.tsx",
     "./components/signup-form/signup-form.types": "./src/components/signup-form/signup-form.types.ts",
     "./components/sfb-footer/sfb-footer": "./src/components/sfb-footer/sfb-footer.tsx",

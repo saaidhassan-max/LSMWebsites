@@ -18,8 +18,16 @@ const meta: Meta<typeof Label> = {
 export default meta;
 type Story = StoryObj<typeof Label>;
 
-export const HotDeal: Story = {
-    args: { children: 'HOT DEAL' }
+export const HotDealBlue: Story = {
+    args: { children: 'HOT DEAL', color: 'blue' }
+};
+
+export const HotDealRed: Story = {
+    args: { children: 'HOT DEAL', color: 'red' }
+};
+
+export const HotDealOrange: Story = {
+    args: { children: 'HOT DEAL', color: 'orange' }
 };
 
 export const Exclusive: Story = {

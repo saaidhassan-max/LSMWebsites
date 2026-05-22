@@ -16,15 +16,12 @@ export default function Home(): React.ReactElement {
                 <SsmNav />
             </div>
 
-            <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <USP text="OVER 5,000,000 SUBSCRIBERS" variant="ssm" />
 
             <WelcomeBanner
-                text="🎰 Velkommen til Super Spillemaskiner!"
-                features={[
-                    '✅ Danske licenserede casinoer',
-                    '✅ Klare betingelser',
-                    '✅ Sikker og Pålidelig'
-                ]}
+                textHighlight="TOP"
+                text=" BINGO DEALS 2026"
+                features={['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']}
             />
 
             <TopTCs text='Særlige vilkår er gældende – herunder identificering med MitID. Klikke på "Læs mere" for detaljer.' />

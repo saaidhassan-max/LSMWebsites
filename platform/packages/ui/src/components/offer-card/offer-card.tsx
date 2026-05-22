@@ -7,6 +7,7 @@ import type { OfferCardProps } from './offer-card.types';
 
 export function OfferCard({
     label = 'HOT DEAL',
+    labelColor,
     logoSrc,
     logoAlt = 'Casino logo',
     offerMain,
@@ -44,7 +45,7 @@ export function OfferCard({
     return (
         <div className="w-full rounded-lg overflow-hidden bg-white">
             <div className="md:hidden">
-                <Label variant="mobile" className="w-full">
+                <Label variant="mobile" color={labelColor} className="w-full">
                     {label}
                 </Label>
 
@@ -85,7 +86,7 @@ export function OfferCard({
             </div>
 
             <div className="hidden md:block">
-                <Label variant="desktop" className="w-[280px]">
+                <Label variant="desktop" color={labelColor} className="w-[280px]">
                     {label}
                 </Label>
 

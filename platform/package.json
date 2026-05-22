@@ -9,6 +9,8 @@
   "scripts": {
     "dev:ssm": "npm run dev --workspace=apps/ssm",
     "build:ssm": "npm run build --workspace=apps/ssm",
+    "dev:sfb": "npm run dev --workspace=apps/sfb",
+    "build:sfb": "npm run build --workspace=apps/sfb",
     "storybook": "npm run storybook --workspace=packages/ui",
     "build-storybook": "npm run build-storybook --workspace=packages/ui"
   },

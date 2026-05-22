@@ -53,7 +53,7 @@ export default function SignupPage(): React.ReactElement {
         <main data-theme="ssm" className="flex flex-col w-full bg-surface pb-12 gap-[10px]">
             <div className="flex flex-col">
                 <SsmNav />
-                <USP text="OVER 5,000,000 SUBSCRIBERS" />
+                <USP text="OVER 5,000,000 SUBSCRIBERS" variant="ssm" />
             </div>
             <div className="relative w-full h-48 overflow-hidden md:hidden">
                 <Image

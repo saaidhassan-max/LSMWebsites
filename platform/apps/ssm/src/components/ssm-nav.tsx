@@ -34,6 +34,7 @@ export function SsmNav(): React.ReactElement {
             <LogoSection
                 logoSrc="/ssm/LogoSection/SSMLogo.svg"
                 backgroundSrc="/ssm/LogoSection/Lego_Deco2.png"
+                logoHref="/"
                 onMenuClick={() => setDrawerOpen(true)}
             />
             <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />

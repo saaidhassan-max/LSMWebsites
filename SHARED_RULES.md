@@ -54,6 +54,51 @@ At the start of every session:
 
 Do not start any task until these steps are complete, unless the user explicitly asks a narrow question that can be answered without project context.
 
+## Deep Dive Mode (MANDATORY)
+
+**Trigger:** When the user starts a message with "deep dive", run the full process below.
+Do not ask clarifying questions first. Run all three rounds, then present the output.
+
+### The three rounds
+
+**Round 1 — Analysis**
+Read all relevant files, screens, or context.
+Examine the topic from every angle that applies:
+security, architecture, UX, performance, scalability, growth, feasibility, risk.
+Produce a raw list of everything you find — problems, opportunities, risks, gaps.
+
+**Round 2 — Challenge**
+Argue against your own Round 1 findings.
+- What did you overstate?
+- What is a false alarm or low risk in practice?
+- What did you miss entirely?
+- What assumes too much about the user, the data, or the system?
+Be direct. Cut anything that does not hold up under scrutiny.
+
+**Round 3 — Synthesis**
+Produce a final position that survives the challenge.
+Only include findings that are real, material, and actionable.
+Order by impact — highest first.
+
+### Output format
+
+Title: **Here is what we should do**
+
+Present a numbered list, maximum 7 items.
+Each item:
+- One clear action (what to do)
+- One sentence reason (why it matters)
+- Confidence: High / Medium / Low
+
+End every deep dive with:
+> "Review this plan. Reply with **approve** to start, tell me what to change, or ask me to go deeper on any item."
+
+### Deep dive rules
+- Never ask questions before running the three rounds
+- Never produce more than 7 items — cut ruthlessly
+- If something is genuinely uncertain, say so in one sentence, then give your best recommendation anyway
+- No hedging, no padding — every sentence must earn its place
+
 ## Workflow
 
 ### For new screens or features starting from Figma

@@ -6,8 +6,10 @@ import type { LogoSectionProps } from './logo-section.types';
 export function LogoSection({
     onMenuClick,
     logoSrc = '/ssm/LogoSection/SSMLogo.svg',
+    logoDesktopSrc,
     backgroundSrc = '/ssm/LogoSection/Lego_Deco2.png',
-    logoAlt = 'Super Spillemaskiner'
+    logoAlt = 'Super Spillemaskiner',
+    logoHref
 }: LogoSectionProps): React.ReactElement {
     return (
         <header
@@ -34,13 +36,45 @@ export function LogoSection({
                     </span>
                 </div>
 
-                <Image
-                    src={logoSrc}
-                    alt={logoAlt}
-                    width={84}
-                    height={84}
-                    className="order-2 relative z-10 shrink-0 w-[45px] h-[45px] md:w-[84px] md:h-[84px]"
-                />
+                {logoHref ? (
+                    <a href={logoHref} className="order-2 relative z-10 shrink-0">
+                        <Image
+                            src={logoSrc}
+                            alt={logoAlt}
+                            width={84}
+                            height={84}
+                            className={logoDesktopSrc ? 'w-[44px] h-[44px] md:hidden' : 'w-[45px] h-[45px] md:w-[84px] md:h-[84px]'}
+                        />
+                        {logoDesktopSrc && (
+                            <Image
+                                src={logoDesktopSrc}
+                                alt={logoAlt}
+                                width={204}
+                                height={84}
+                                className="hidden md:block w-[204px] h-[84px]"
+                            />
+                        )}
+                    </a>
+                ) : (
+                    <div className="order-2 relative z-10 shrink-0">
+                        <Image
+                            src={logoSrc}
+                            alt={logoAlt}
+                            width={84}
+                            height={84}
+                            className={logoDesktopSrc ? 'w-[44px] h-[44px] md:hidden' : 'w-[45px] h-[45px] md:w-[84px] md:h-[84px]'}
+                        />
+                        {logoDesktopSrc && (
+                            <Image
+                                src={logoDesktopSrc}
+                                alt={logoAlt}
+                                width={204}
+                                height={84}
+                                className="hidden md:block w-[204px] h-[84px]"
+                            />
+                        )}
+                    </div>
+                )}
 
                 <button
                     type="button"

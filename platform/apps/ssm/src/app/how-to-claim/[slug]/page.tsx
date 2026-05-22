@@ -31,7 +31,7 @@ export default async function HowToClaimPage({
             <div className="w-full max-w-[1440px] mx-auto">
                 <SsmNav />
             </div>
-            <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <USP text="OVER 5,000,000 SUBSCRIBERS" variant="ssm" />
             <HtcUsp
                 logoSrc={casino.logoSrc}
                 logoAlt={casino.logoAlt}

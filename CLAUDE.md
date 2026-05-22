@@ -2,10 +2,13 @@
 
 This is Claude Code's entrypoint file for the Little Star Media multi-site project.
 
+Read `SHARED_RULES.md` before every session and follow it for all work.
+
 Before doing any project work, Claude Code must read:
 
 1. `SHARED_RULES.md` — shared rules for all agents
 2. `PROGRESS.md` — current build status and decisions
+3. Memory index and all linked memory files at `/Users/Saied.Hassan/.claude/projects/-Users-Saied-Hassan-Desktop-LSM-multiagent/memory/MEMORY.md`
 
 Follow `SHARED_RULES.md` for project rules, workflow, escalation rules, tech stack, design system rules, website list, and `PROGRESS.md` update requirements.
 
@@ -28,7 +31,8 @@ Follow `SHARED_RULES.md` for project rules, workflow, escalation rules, tech sta
 1. Read this file (CLAUDE.md)
 2. Read `SHARED_RULES.md`
 3. Read `PROGRESS.md` — understand what has already been built
-4. Confirm with the user in plain English: what exists, what is still to do, and what you are ready to work on today
+4. Read the memory index at `/Users/Saied.Hassan/.claude/projects/-Users-Saied-Hassan-Desktop-LSM-multiagent/memory/MEMORY.md` and read each linked memory file in it
+5. Confirm with the user in plain English: what exists, what is still to do, and what you are ready to work on today
 
 Do not start any task until these steps are complete.
 

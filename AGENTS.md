@@ -2,6 +2,8 @@
 
 This is Codex's entrypoint file for the Little Star Media multi-site project.
 
+Read `SHARED_RULES.md` before every session and follow it for all work.
+
 Before doing any project work, Codex must read:
 
 1. `AGENTS.md` — Codex-specific session rules

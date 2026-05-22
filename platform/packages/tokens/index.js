@@ -42,6 +42,11 @@ const colors = {
 
   error: 'var(--color-error)',
 
+  accent: {
+    red:    'var(--color-accent-red)',
+    orange: 'var(--color-accent-orange)',
+  },
+
   disabled: {
     content:   'var(--color-disabled-content)',
     container: 'var(--color-disabled-container)',

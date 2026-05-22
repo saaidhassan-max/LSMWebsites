@@ -100,7 +100,7 @@ export default function SignupV2Page(): React.ReactElement {
         <main className="flex flex-col w-full bg-surface min-h-screen gap-[10px] pb-[80px] md:pb-0">
             <div className="flex flex-col">
                 <SsmNav />
-                <USP text="OVER 5,000,000 SUBSCRIBERS" />
+                <USP text="OVER 5,000,000 SUBSCRIBERS" variant="ssm" />
             </div>
 
             <div className="relative overflow-hidden">
