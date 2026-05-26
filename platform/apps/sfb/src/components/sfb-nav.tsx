@@ -13,6 +13,7 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '🔥', label: 'Free Bingo Bonuses', href: '/' },
     { emoji: '✊', label: 'Exclusive Deals', href: '/' },
     { emoji: '💎', label: 'No Wagering Bingo', href: '/' },
+    { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
     { emoji: '📋', label: 'Sign Up', href: '/signup' }
