@@ -28,6 +28,7 @@ export const offers: OfferCardProps[] = [
         details: ['No Deposit', 'No Wagering'],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
+        ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '/how-to-claim/betfair-casino',
         termsText: '18+. New customers only. Free spins valued at £0.10. Winnings paid in cash. T&Cs apply. BeGambleAware.org.'
@@ -41,6 +42,7 @@ export const offers: OfferCardProps[] = [
         details: ['No Deposit', 'No Wagering'],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
+        ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '/how-to-claim/ladbrokes',
         termsText: '18+. New Casino players only. 50 Free Spins (£0.10 each, selected games, valid 7 days) awarded upon registration. T&Cs apply. BeGambleAware.org.'
@@ -54,6 +56,7 @@ export const offers: OfferCardProps[] = [
         details: ['No Deposit', 'No Wagering'],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
+        ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '/how-to-claim/sky-vegas',
         termsText: '18+. New customers only. Opt-in required. 7-day free spin expiry. T&Cs apply. BeGambleAware.org.'
@@ -67,6 +70,7 @@ export const offers: OfferCardProps[] = [
         details: ['Spend: £10', '110 Free Spins'],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
+        ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '/how-to-claim/sun-vegas',
         termsText: '18+. New customers only. Register today and deposit £10 to receive 110 free spins on selected games. T&Cs apply. BeGambleAware.org.'
@@ -80,6 +84,7 @@ export const offers: OfferCardProps[] = [
         details: ['No Deposit', 'No Wagering'],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
+        ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '/how-to-claim/mrq',
         termsText: '18+. New Customers Only. First 10 spins, no deposit required, no wagering requirements. T&Cs apply. BeGambleAware.org.'
@@ -93,6 +98,7 @@ export const offers: OfferCardProps[] = [
         details: ['No Deposit', 'No Wagering'],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
+        ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '/how-to-claim/paddy-power',
         termsText: '18+. New customers only. Free spins on selected slots. T&Cs apply. BeGambleAware.org.'
@@ -106,6 +112,7 @@ export const offers: OfferCardProps[] = [
         details: ['Deposit: £10', '50 Free Spins'],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
+        ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '/how-to-claim/william-hill',
         termsText: '18+. New customers only. Deposit £10 to receive 50 free spins. T&Cs apply. BeGambleAware.org.'
@@ -119,6 +126,7 @@ export const offers: OfferCardProps[] = [
         details: ['No Deposit', 'No Wagering'],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
+        ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '/how-to-claim/coral',
         termsText: '18+. New customers only. Free spins on selected games. T&Cs apply. BeGambleAware.org.'

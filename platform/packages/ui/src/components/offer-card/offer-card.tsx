@@ -14,6 +14,7 @@ export function OfferCard({
     details = ['No Deposit', 'No Wagering'],
     ctaText = 'PLAY NOW',
     ctaHref,
+    ctaVariant = 'primary',
     secondaryCtaText,
     secondaryCtaHref,
     termsText
@@ -27,7 +28,7 @@ export function OfferCard({
 
     const ctaButton = (
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" className="block">
-            <Button variant="primary" trailingIcon={<ArrowRight size={24} />} className="w-full">
+            <Button variant={ctaVariant} trailingIcon={<ArrowRight size={24} />} className="w-full">
                 {ctaText}
             </Button>
         </a>
