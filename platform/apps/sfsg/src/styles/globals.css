@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@source "../../../../packages/ui/src";
+
+@theme inline {
+    --color-primary: var(--color-primary);
+    --color-primary-hover: var(--color-primary-hover);
+    --color-primary-focused: var(--color-primary-focused);
+    --color-primary-text: var(--color-primary-text);
+    --color-on-primary: var(--color-on-primary);
+
+    --color-secondary: var(--color-secondary);
+    --color-secondary-hover: var(--color-secondary-hover);
+    --color-secondary-focused: var(--color-secondary-focused);
+
+    --color-tertiary: var(--color-tertiary);
+    --color-tertiary-hover: var(--color-tertiary-hover);
+    --color-tertiary-focused: var(--color-tertiary-focused);
+
+    --color-surface: var(--color-surface);
+    --color-surface-inverse: var(--color-surface-inverse);
+    --color-surface-inverse-new: var(--color-surface-inverse-new);
+    --color-surface-container-lowest: var(--color-surface-container-lowest);
+    --color-surface-container-low: var(--color-surface-container-low);
+    --color-surface-container: var(--color-surface-container);
+    --color-surface-container-high: var(--color-surface-container-high);
+    --color-surface-container-highest: var(--color-surface-container-highest);
+
+    --color-on-surface-light: var(--color-on-surface-light);
+    --color-on-surface-dark: var(--color-on-surface-dark);
+
+    --color-outline: var(--color-outline);
+    --color-outline-variant: var(--color-outline-variant);
+
+    --color-error: var(--color-error);
+
+    --color-accent-red: var(--color-accent-red);
+    --color-accent-orange: var(--color-accent-orange);
+
+    --color-disabled-content: var(--color-disabled-content);
+    --color-disabled-container: var(--color-disabled-container);
+}

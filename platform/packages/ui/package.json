@@ -29,6 +29,8 @@
     "./components/signup-form/signup-form.types": "./src/components/signup-form/signup-form.types.ts",
     "./components/sfb-footer/sfb-footer": "./src/components/sfb-footer/sfb-footer.tsx",
     "./components/sfb-footer/sfb-footer.types": "./src/components/sfb-footer/sfb-footer.types.ts",
+    "./components/sfsg-footer/sfsg-footer": "./src/components/sfsg-footer/sfsg-footer.tsx",
+    "./components/sfsg-footer/sfsg-footer.types": "./src/components/sfsg-footer/sfsg-footer.types.ts",
     "./components/ssm-footer/ssm-footer": "./src/components/ssm-footer/ssm-footer.tsx",
     "./components/ssm-footer/ssm-footer.types": "./src/components/ssm-footer/ssm-footer.types.ts",
     "./components/text-field/text-field": "./src/components/text-field/text-field.tsx",

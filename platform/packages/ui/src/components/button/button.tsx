@@ -11,7 +11,7 @@ const solidVariantClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
     ].join(' '),
 
     secondary: [
-        'bg-secondary text-on-primary',
+        'bg-secondary text-on-surface-light',
         'hover:bg-secondary-hover',
         'focus:bg-secondary-focused focus:outline-none',
         'disabled:bg-disabled-container disabled:text-disabled-content'

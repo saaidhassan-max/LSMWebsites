@@ -74,14 +74,14 @@ export function SignupForm({
 
     return (
         <div className="w-full rounded-lg overflow-hidden">
-            <div className="bg-surface px-4 py-1 flex items-center justify-center">
+            <div className="bg-on-surface-dark px-4 py-1 flex items-center justify-center">
                 <span className="text-on-surface-light text-sm font-bold leading-5 tracking-[0.1px]">
                     💌 Subscribe
                 </span>
             </div>
 
             <div className="bg-tertiary px-8 py-2 flex items-center justify-center">
-                <p className="text-on-surface-light text-base font-bold leading-6 tracking-[0.15px] text-center">
+                <p className="text-on-surface-dark text-base font-bold leading-6 tracking-[0.15px] text-center">
                     Receive free casino offers straight to your inbox
                 </p>
             </div>

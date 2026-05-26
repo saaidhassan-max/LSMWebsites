@@ -51,7 +51,7 @@ export function LogoSection({
                                 alt={logoAlt}
                                 width={204}
                                 height={84}
-                                className="hidden md:block w-[204px] h-[84px]"
+                                className="hidden md:block h-[84px] w-auto"
                             />
                         )}
                     </a>
@@ -70,7 +70,7 @@ export function LogoSection({
                                 alt={logoAlt}
                                 width={204}
                                 height={84}
-                                className="hidden md:block w-[204px] h-[84px]"
+                                className="hidden md:block h-[84px] w-auto"
                             />
                         )}
                     </div>
