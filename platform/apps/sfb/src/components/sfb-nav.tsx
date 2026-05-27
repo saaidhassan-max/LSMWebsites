@@ -37,6 +37,7 @@ export function SfbNav(): React.ReactElement {
                 logoDesktopSrc="/sfb/logo-desktop.svg"
                 logoAlt="Super Free Bingo"
                 logoHref="/"
+                backgroundSrc="/sfb/LogoSection/Lego_Deco2.png"
                 onMenuClick={() => setDrawerOpen(true)}
             />
             <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />

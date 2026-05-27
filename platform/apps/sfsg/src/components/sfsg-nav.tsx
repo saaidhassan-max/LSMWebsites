@@ -37,6 +37,7 @@ export function SfsgNav(): React.ReactElement {
                 logoDesktopSrc="/sfsg/logo-desktop.svg"
                 logoAlt="Super Free Slot Games"
                 logoHref="/"
+                backgroundSrc="/sfsg/LogoSection/Lego_Deco2.png"
                 onMenuClick={() => setDrawerOpen(true)}
             />
             <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />
