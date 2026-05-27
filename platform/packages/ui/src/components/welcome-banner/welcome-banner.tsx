@@ -22,7 +22,7 @@ export function WelcomeBanner({
                     />
                 </div>
                 <div className="flex-1 flex items-center justify-center py-1">
-                    <p className="font-['Futura_PT'] font-[900] text-[24px] leading-7 tracking-[-0.019em] text-center whitespace-pre-line">
+                    <p className="font-futura font-[900] text-[24px] leading-7 tracking-[-0.019em] text-center whitespace-pre-line">
                         {textHighlight !== undefined && (
                             <span className="text-tertiary">{textHighlight}</span>
                         )}
@@ -51,7 +51,7 @@ export function WelcomeBanner({
                     />
                 </div>
                 <div className="flex-1 flex flex-col items-center py-6 gap-6">
-                    <p className="w-full font-['Futura_PT'] font-[900] text-[57px] leading-[57px] tracking-[-0.019em] text-center">
+                    <p className="w-full font-futura font-[900] text-[57px] leading-[57px] tracking-[-0.019em] text-center">
                         {textHighlight !== undefined && (
                             <span className="text-tertiary">{textHighlight}</span>
                         )}
@@ -62,7 +62,7 @@ export function WelcomeBanner({
                             {features.map((feature, i) => (
                                 <span
                                     key={i}
-                                    className="font-['Futura_PT'] font-[900] text-[24px] leading-[28px] tracking-[-0.019em] text-on-surface-light"
+                                    className="font-futura font-[900] text-[24px] leading-[28px] tracking-[-0.019em] text-on-surface-light"
                                 >
                                     {feature}
                                 </span>

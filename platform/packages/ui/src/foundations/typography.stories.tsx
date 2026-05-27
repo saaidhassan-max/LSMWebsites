@@ -14,21 +14,21 @@ const SCALE: TypeSampleProps[] = [
         label: 'Display',
         size: '57px',
         weight: 'Heavy 900',
-        className: "font-['Futura_PT'] font-[900] text-[57px] leading-[57px] tracking-[-0.019em]",
+        className: "font-futura font-[900] text-[57px] leading-[57px] tracking-[-0.019em]",
         usedIn: 'WelcomeBanner desktop title',
     },
     {
         label: 'Headline L',
         size: '45px',
         weight: 'Bold 700',
-        className: "font-['Futura_PT'] font-bold text-[45px] leading-[52px]",
+        className: "font-futura font-bold text-[45px] leading-[52px]",
         usedIn: 'About Us desktop title, How To Claim desktop headline',
     },
     {
         label: 'Headline M',
         size: '36px',
         weight: 'Bold 700',
-        className: "font-['Futura_PT'] font-bold text-[36px] leading-tight",
+        className: "font-futura font-bold text-[36px] leading-tight",
         usedIn: 'How To Claim mobile headline',
     },
     {
@@ -42,7 +42,7 @@ const SCALE: TypeSampleProps[] = [
         label: 'Title L',
         size: '24px',
         weight: 'Heavy 900',
-        className: "font-['Futura_PT'] font-[900] text-[24px] leading-7 tracking-[-0.019em]",
+        className: "font-futura font-[900] text-[24px] leading-7 tracking-[-0.019em]",
         usedIn: 'WelcomeBanner features desktop, USP desktop',
     },
     {
@@ -83,7 +83,7 @@ const SCALE: TypeSampleProps[] = [
 ];
 
 const WEIGHTS = [
-    { label: 'Heavy', className: "font-['Futura_PT'] font-[900]", value: '900' },
+    { label: 'Heavy', className: "font-futura font-[900]", value: '900' },
     { label: 'Bold', className: 'font-bold', value: '700' },
     { label: 'Medium', className: 'font-medium', value: '500' },
     { label: 'Regular', className: 'font-normal', value: '400' },
