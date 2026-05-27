@@ -36,7 +36,7 @@ export function AgeModal({
                     </Button>
                     <a
                         href={leaveSiteHref}
-                        className="w-full text-center text-base font-bold leading-6 tracking-[0.15px] text-primary underline py-2"
+                        className="w-full text-center text-base font-bold leading-6 tracking-[0.15px] text-on-surface-light underline py-2"
                     >
                         Leave Site
                     </a>
