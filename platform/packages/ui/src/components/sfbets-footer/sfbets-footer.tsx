@@ -69,16 +69,16 @@ export function SfbetsFooter({
             </div>
 
             <div className="w-full max-w-[1280px] mx-auto px-4 py-8">
-                <div className="flex flex-col md:flex-row gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {RESPONSIBLE_GAMBLING_LOGOS.map((logo) => (
-                        <div key={logo.alt} className="flex flex-col items-center gap-2 flex-1">
-                            <div className="flex h-16 w-full items-center justify-center px-8 py-1.5">
+                        <div key={logo.alt} className="flex flex-col items-center gap-2">
+                            <div className="flex h-16 items-center justify-center px-8 py-1.5">
                                 <Image
                                     src={logo.src}
                                     alt={logo.alt}
                                     width={logo.width}
                                     height={logo.height}
-                                    className="object-contain max-h-full w-auto"
+                                    className="object-contain"
                                 />
                             </div>
                             <p className="text-[12px] leading-4 tracking-[0.4px] text-on-surface-light text-center">

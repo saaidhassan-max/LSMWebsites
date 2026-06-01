@@ -16,7 +16,7 @@ export default function RootLayout({
 }): React.ReactElement {
     return (
         <html lang="en">
-            <body data-theme="bets">
+            <body data-theme="bets" className="bg-surface">
                 {children}
                 <AgeModal storageKey="sfbets-age-verified" />
             </body>

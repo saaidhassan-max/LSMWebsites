@@ -28,9 +28,7 @@ export default async function HowToClaimPage({
 
     return (
         <main className="flex flex-col w-full bg-surface">
-            <div className="w-full max-w-[1440px] mx-auto">
-                <SfbetsNav />
-            </div>
+            <SfbetsNav />
             <USP text="OVER 1,000,000 BETS PLACED" />
             <HtcUsp
                 logoSrc={casino.logoSrc}

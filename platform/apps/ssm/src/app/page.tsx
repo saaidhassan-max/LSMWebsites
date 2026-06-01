@@ -13,9 +13,7 @@ import { directorySites, legalText, offers } from '../data/site-content';
 export default function Home(): React.ReactElement {
     return (
         <main className="flex flex-col w-full bg-surface">
-            <div className="w-full max-w-[1440px] mx-auto">
-                <SsmNav />
-            </div>
+            <SsmNav />
 
             <USP text="OVER 5,000,000 SUBSCRIBERS" variant="ssm" />
 

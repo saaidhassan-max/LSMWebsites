@@ -9,14 +9,10 @@ import type { NavItem } from '@lsm/ui/components/nav-drawer/nav-drawer.types';
 
 const BASE_ITEMS: NavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '⚽', label: 'Free Bets', href: '/' },
-    { emoji: '🔥', label: 'No Deposit Bets', href: '/' },
-    { emoji: '✊', label: 'Exclusive Deals', href: '/' },
-    { emoji: '💎', label: 'Best Odds Offers', href: '/' },
-    { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
-    { emoji: '👋', label: 'About Us', href: '/about' },
+    { emoji: '🎰', label: 'Free Casino Bonuses', href: '/' },
+    { emoji: '💰', label: 'Deposit Offer', href: '/' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
-    { emoji: '📋', label: 'Sign Up', href: '/signup' }
+    { emoji: '👋', label: 'About Us', href: '/about' }
 ];
 
 export function SfbetsNav(): React.ReactElement {
