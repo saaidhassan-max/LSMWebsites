@@ -13,6 +13,8 @@
     "build:sfb": "npm run build --workspace=apps/sfb",
     "dev:sfsg": "npm run dev --workspace=apps/sfsg",
     "build:sfsg": "npm run build --workspace=apps/sfsg",
+    "dev:sfbets": "npm run dev --workspace=apps/sfbets",
+    "build:sfbets": "npm run build --workspace=apps/sfbets",
     "storybook": "npm run storybook --workspace=packages/ui",
     "build-storybook": "npm run build-storybook --workspace=packages/ui"
   },

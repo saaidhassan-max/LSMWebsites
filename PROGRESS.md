@@ -94,11 +94,22 @@ Update it immediately after completing any screen, component, or feature.
 
 ---
 
-## Site 4 — [Name TBD]
+## Site 4 — SFBets (Super Free Bets)
 
 | Screen / Feature | Status | Figma | Code | Notes |
 |---|---|---|---|---|
-| — | ⏳ | — | — | — |
+| SFBets color tokens | ✅ | LSM-foundation sfbets mode (Figma mode id 1116:0) | packages/tokens/index.css (data-theme="bets") | 25 tokens. Identical to SFSG for now: primary #52DD00, tertiary #7CFF01 / hover #81EE35 / focused #6DDE0F. Mode added by user in Figma; tokens corrected from ontario placeholder values to actual sfbets values 2026-06-01. |
+| App scaffold | ✅ | — | apps/sfbets — runs on localhost:3004 | Next.js 15, Tailwind, data-theme="bets" wired. dev:sfbets + build:sfbets scripts in root package.json. |
+| SfbetsFooter | ✅ | — | packages/ui/src/components/sfbets-footer/sfbets-footer.tsx | 4 nav links (Privacy Policy, Terms, About Us, Contact Us). 6 responsible gambling logos (2×3 grid desktop / stacked mobile). bg-surface, outline border, on-surface-light text. SVGs from /sfbets/footer/. |
+| SFBets home page | ✅ | — | apps/sfbets/src/app/page.tsx | SfbetsNav → USP → WelcomeBanner → TopTCs → 8 offer cards + OperatorBanner (after card 2) + SignupForm → directory → SfbetsFooter. Welcome banner: "TOP FREE BET DEALS 2026". Offer cards: card 1 = orange, cards 2–8 = red. |
+| SFBets contact page | ✅ | — | apps/sfbets/src/app/contact/page.tsx | Route /contact. SfbetsNav → USP → 2-col desktop form → Bets Directory → SfbetsFooter. |
+| SFBets about page | ✅ | — | apps/sfbets/src/app/about/page.tsx | Route /about. SfbetsNav → USP → tertiary title → body text → SfbetsFooter. |
+| SFBets privacy policy | ✅ | — | apps/sfbets/src/app/privacy-policy/page.tsx | Route /privacy-policy. Placeholder content — user to update. |
+| SFBets terms | ✅ | — | apps/sfbets/src/app/terms/page.tsx | Route /terms. Placeholder content — user to update. |
+| SFBets disclaimer | ✅ | — | apps/sfbets/src/app/disclaimer/page.tsx | Route /disclaimer. Placeholder content — user to update. |
+| SFBets signup page | ✅ | — | apps/sfbets/src/app/signup/page.tsx | Route /signup. "Up to £50 Free Bets / No Deposit & No Wagering". Sticky CTA on mobile. SfbetsNav + SfbetsFooter. |
+| SFBets how-to-claim | ✅ | — | apps/sfbets/src/app/how-to-claim/[slug]/page.tsx | Dynamic route per bookmaker slug. HtcUsp → HowToClaimSteps → review body (mobile) / 2-col review sections (desktop) → Bets Directory + SignupForm → SfbetsFooter. One placeholder entry (betfair-sportsbook). |
+| SFBets safer gambling | ✅ | — | apps/sfbets/src/app/safer-gambling/page.tsx | Full page: SfbetsNav → USP → intro + 3-item right column → RG logos → 10 tips → self-assessment → 2×2 grid copy-blocks → external support (UK orgs) → SfbetsFooter. |
 
 ---
 
