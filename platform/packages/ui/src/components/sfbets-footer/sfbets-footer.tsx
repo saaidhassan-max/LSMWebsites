@@ -16,23 +16,7 @@ const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
         width: 52,
         height: 52,
         description:
-            'Super Free Bets and the services we provide are only for those who are at least 21 years of age.'
-    },
-    {
-        src: '/sfbets/footer/1800gambler.svg',
-        alt: '1-800-GAMBLER',
-        width: 176,
-        height: 52,
-        description:
-            'Bet with your head, not over it. If you or someone you know has a gambling problem and needs help, call 1-800-GAMBLER.'
-    },
-    {
-        src: '/sfbets/footer/rg-nj.png',
-        alt: 'Responsible Gambling New Jersey',
-        width: 52,
-        height: 52,
-        description:
-            'All online casinos featured on Super Free Bets are licensed and regulated by the New Jersey Division of Gaming Enforcement.'
+            'Super Free Bets and the services we provide are only for those who are at least 21 years of age'
     },
     {
         src: '/sfbets/footer/nj-dge.png',
@@ -40,7 +24,15 @@ const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
         width: 100,
         height: 52,
         description:
-            'The New Jersey Division of Gaming Enforcement regulates all online casino and sports betting activity in New Jersey.'
+            'All online casinos featured on Super Free Bets are licensed and regulated by the New Jersey Division of Gaming Enforcement'
+    },
+    {
+        src: '/sfbets/footer/rg-nj.png',
+        alt: 'Responsible Gambling New Jersey',
+        width: 52,
+        height: 52,
+        description:
+            'If you or someone you know has a gambling problem and wants help, call: 1-800-GAMBLER'
     }
 ];
 
@@ -77,16 +69,16 @@ export function SfbetsFooter({
             </div>
 
             <div className="w-full max-w-[1280px] mx-auto px-4 py-8">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div className="flex flex-col md:flex-row gap-8">
                     {RESPONSIBLE_GAMBLING_LOGOS.map((logo) => (
-                        <div key={logo.alt} className="flex flex-col items-center gap-2">
-                            <div className="flex h-16 items-center justify-center px-4 py-1.5">
+                        <div key={logo.alt} className="flex flex-col items-center gap-2 flex-1">
+                            <div className="flex h-16 w-full items-center justify-center px-8 py-1.5">
                                 <Image
                                     src={logo.src}
                                     alt={logo.alt}
                                     width={logo.width}
                                     height={logo.height}
-                                    className="object-contain"
+                                    className="object-contain max-h-full w-auto"
                                 />
                             </div>
                             <p className="text-[12px] leading-4 tracking-[0.4px] text-on-surface-light text-center">
