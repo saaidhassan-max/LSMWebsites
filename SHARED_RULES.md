@@ -112,6 +112,24 @@ End every deep dive with:
 2. Keep Figma and code in sync
 3. Never let one drift from the other without flagging it
 
+### Figma-to-code nesting (MANDATORY)
+
+Only collapse a Figma wrapper frame if it has **no layout properties of its own** — no gap, no padding, no sizing mode that differs from its parent. The moment a frame has its own gap or padding it must become its own element in code.
+
+**Example:** If elements 1 and 2 sit inside a frame with `gap: 4px`, and that frame sits inside a parent with `gap: 8px`, the code must preserve both levels:
+
+```tsx
+<div className="flex flex-col gap-2">   {/* 8px outer gap */}
+  <div className="flex flex-col gap-1"> {/* 4px inner gap — never flatten this */}
+    <Element1 />
+    <Element2 />
+  </div>
+  <Element3 />
+</div>
+```
+
+Flattening it to one wrapper with `gap-2` loses the spacing intent and breaks the design when content changes.
+
 ### Reviewing Figma changes against existing code (MANDATORY ORDER)
 When a user asks you to review an updated Figma component and sync it to code, always check in this order — do not skip ahead:
 
