@@ -18,7 +18,7 @@ export default function RootLayout({
         <html lang="en">
             <body data-theme="bets" className="bg-surface">
                 {children}
-                <AgeModal storageKey="sfbets-age-verified" />
+                <AgeModal storageKey="sfbets-age-verified" minAge={21} />
             </body>
         </html>
     );

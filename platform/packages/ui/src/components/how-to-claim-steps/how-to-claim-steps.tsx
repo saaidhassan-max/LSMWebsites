@@ -13,8 +13,8 @@ export function HowToClaimSteps({
     ctaHref
 }: HowToClaimStepsProps): React.ReactElement {
     return (
-        <section className="w-full bg-surface-container px-4 py-8 md:px-16 md:py-12">
-            <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 md:flex-row md:items-start md:gap-14">
+        <section className="w-full bg-surface-container py-8 md:py-12">
+            <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-4 md:flex-row md:items-start md:gap-14 md:px-16">
                 <div className="order-1 relative aspect-video w-full rounded-lg overflow-hidden md:hidden">
                     <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
                 </div>

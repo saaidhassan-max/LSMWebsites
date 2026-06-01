@@ -12,7 +12,8 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '🎰', label: 'Free Casino Bonuses', href: '/' },
     { emoji: '💰', label: 'Deposit Offer', href: '/' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
-    { emoji: '👋', label: 'About Us', href: '/about' }
+    { emoji: '👋', label: 'About Us', href: '/about' },
+    { emoji: '📋', label: 'Sign Up', href: '/signup' }
 ];
 
 export function SfbetsNav(): React.ReactElement {

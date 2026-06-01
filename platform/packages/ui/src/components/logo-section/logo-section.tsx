@@ -11,6 +11,28 @@ export function LogoSection({
     logoAlt = 'Super Spillemaskiner',
     logoHref
 }: LogoSectionProps): React.ReactElement {
+    const logoContent = (
+        <>
+            <Image
+                src={logoSrc}
+                alt={logoAlt}
+                width={84}
+                height={84}
+                className={logoDesktopSrc ? 'w-[44px] h-[44px] md:hidden' : 'w-[45px] h-[45px] md:w-[84px] md:h-[84px]'}
+            />
+            {logoDesktopSrc && (
+                <Image
+                    src={logoDesktopSrc}
+                    alt={logoAlt}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="hidden md:block h-full w-auto"
+                />
+            )}
+        </>
+    );
+
     return (
         <header
             className="relative bg-surface overflow-hidden h-10 md:h-[72px] w-full"
@@ -37,42 +59,12 @@ export function LogoSection({
                 </div>
 
                 {logoHref ? (
-                    <a href={logoHref} className="order-2 relative z-10 shrink-0">
-                        <Image
-                            src={logoSrc}
-                            alt={logoAlt}
-                            width={84}
-                            height={84}
-                            className={logoDesktopSrc ? 'w-[44px] h-[44px] md:hidden' : 'w-[45px] h-[45px] md:w-[84px] md:h-[84px]'}
-                        />
-                        {logoDesktopSrc && (
-                            <Image
-                                src={logoDesktopSrc}
-                                alt={logoAlt}
-                                width={204}
-                                height={84}
-                                className="hidden md:block h-[84px] w-auto"
-                            />
-                        )}
+                    <a href={logoHref} className="order-2 relative z-10 shrink-0 h-full flex items-center">
+                        {logoContent}
                     </a>
                 ) : (
-                    <div className="order-2 relative z-10 shrink-0">
-                        <Image
-                            src={logoSrc}
-                            alt={logoAlt}
-                            width={84}
-                            height={84}
-                            className={logoDesktopSrc ? 'w-[44px] h-[44px] md:hidden' : 'w-[45px] h-[45px] md:w-[84px] md:h-[84px]'}
-                        />
-                        {logoDesktopSrc && (
-                            <Image
-                                src={logoDesktopSrc}
-                                alt={logoAlt}
-                                width={204}
-                                height={84}
-                                className="hidden md:block h-[84px] w-auto"
-                            />
-                        )}
+                    <div className="order-2 relative z-10 shrink-0 h-full flex items-center">
+                        {logoContent}
                     </div>
                 )}
 

@@ -7,7 +7,8 @@ import type { AgeModalProps } from './age-modal.types';
 
 export function AgeModal({
     leaveSiteHref = 'https://www.google.com',
-    storageKey = 'lsm-age-verified'
+    storageKey = 'lsm-age-verified',
+    minAge = 18
 }: AgeModalProps): React.ReactElement | null {
     const [visible, setVisible] = useState(false);
 
@@ -28,11 +29,11 @@ export function AgeModal({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
             <div className="w-full max-w-[390px] bg-outline rounded-lg p-6 flex flex-col items-center gap-14">
                 <p className="text-[36px] font-bold leading-[44px] text-on-surface-light text-center">
-                    You must be over 18 to enter this site
+                    You must be over {minAge} to enter this site
                 </p>
                 <div className="flex flex-col gap-4 w-full">
                     <Button variant="tertiary" className="w-full" onClick={handleConfirm}>
-                        I am over 18
+                        I am over {minAge}
                     </Button>
                     <a
                         href={leaveSiteHref}

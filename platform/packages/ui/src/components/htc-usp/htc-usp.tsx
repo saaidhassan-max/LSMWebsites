@@ -25,8 +25,8 @@ export function HtcUsp({ logoSrc, logoAlt, headline, badges }: HtcUspProps): Rea
                 </div>
             </div>
 
-            <div className="hidden md:flex w-full px-16 py-8">
-                <div className="w-full max-w-[1440px] mx-auto flex flex-row justify-between items-center">
+            <div className="hidden md:flex w-full py-8">
+                <div className="w-full max-w-[1440px] mx-auto px-16 flex flex-row justify-between items-center">
                     <div className="flex flex-col gap-2.5">
                         <Image src={logoSrc} alt={logoAlt} width={144} height={77} className="object-contain" />
                         <p className="text-[45px] font-bold leading-[52px] text-on-surface-light">
