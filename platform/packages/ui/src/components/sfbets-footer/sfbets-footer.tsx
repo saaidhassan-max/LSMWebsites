@@ -1,6 +1,6 @@
 import type React from 'react';
 import Image from 'next/image';
-import type { FooterNavLink, ResponsibleGamblingLogo, SfbetsFooterProps } from './sfbets-footer.types';
+import type { FooterNavLink, SfbetsFooterProps } from './sfbets-footer.types';
 
 const DEFAULT_NAV_LINKS: FooterNavLink[] = [
     { label: 'Privacy Policy', href: '/privacy-policy' },
@@ -9,63 +9,18 @@ const DEFAULT_NAV_LINKS: FooterNavLink[] = [
     { label: 'Contact Us', href: '/contact' }
 ];
 
-const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
-    {
-        src: '/sfbets/footer/keepitfun.svg',
-        alt: 'Keep It Fun',
-        width: 176,
-        height: 39,
-        description:
-            'We want your online gaming experience to be an enjoyable one, and that means enabling you to stay in control of your play. For more information, help, and advice, you can visit our Safer Gambling page via our main menu at any time.'
-    },
-    {
-        src: '/sfbets/footer/18plus.svg',
-        alt: '18+',
-        width: 52,
-        height: 52,
-        description:
-            'Gambling whilst under the age of 18 is a criminal offence. We take this very seriously, so to use this site and access the gambling sites that we are promoting, you must be aged 18 or over.'
-    },
-    {
-        src: '/sfbets/footer/gamcare.svg',
-        alt: 'GamCare',
-        width: 176,
-        height: 50,
-        description:
-            'GamCare is the leading national provider of information, advice, support and free treatment for anyone affected by problem gambling. You can contact them confidentially via Netline or on Freephone: 0808 8020 133'
-    },
-    {
-        src: '/sfbets/footer/gamstop.svg',
-        alt: 'GAMSTOP',
-        width: 70,
-        height: 52,
-        description:
-            'GAMSTOP is a free service that lets you put controls in place to help restrict your online gambling activities. Sign up to be prevented from using gambling websites and apps run by companies licensed in Great Britain, for a period of your choosing.'
-    },
-    {
-        src: '/sfbets/footer/gambleaware.svg',
-        alt: 'GambleAware',
-        width: 176,
-        height: 23,
-        description:
-            'GambleAware is an independent charity, and a commissioning and grant-making body. They fund research, education and treatment services to help to reduce gambling-related harms in Great Britain.'
-    },
-    {
-        src: '/sfbets/footer/gamblingtherapy.svg',
-        alt: 'Gambling Therapy',
-        width: 137,
-        height: 52,
-        description:
-            'Gambling Therapy are a global online support service, offering advice in multiple languages for people who have been adversely affected by gambling.'
-    }
+const NJ_DISCLAIMER_LINES = [
+    'Super Free Bets and the services we provide are only for those who are at least 21 years of age',
+    'Bet with your head, not over it. If you or someone you know has a gambling problem and needs help, call 1-800-GAMBLER',
+    'All online casinos featured on Super Free Bets are licensed and regulated by the New Jersey Division of Gaming Enforcement'
 ];
 
-const DEFAULT_LEGAL_TEXT =
-    'Super Free Bets is a well established, independent betting comparison site, operated by Little Star Media. To read more about Super Free Bets, please click here to go to \'About Us\' section. Little Star Media Ltd, Exchange House, 450 Midsummer Boulevard, Milton Keynes, MK9 2EA, United Kingdom\n©2026 Super Free Bets All rights reserved. Unauthorised duplication is a violation of applicable laws.';
+const NJ_LEGAL_TEXT =
+    'Bet with your head, not over it. If you or someone you know has a gambling problem and needs help, call 1-800-GAMBLER (IL/KY/MD/NJ/MI/PA/WV), 1-800-NEXT-STEP (AZ), 1-800-522-4700 (CO), 1-800-9-WITH-IT (IN), 1-800-BETS OFF (IA), 1-800-522-4700 (KS/WY), 1-877-770-STOP (LA), 1-800-327-5050 (MA), 1-888-777-9696 (MS), 1-877-8-HOPENY (NY), 1-800-589-9966 (OH), 1-800-889-9789 (TN) or 1-888-532-3500 (VA), or visit National Council on Problem Gambling.\n\n©2026 Super Free Bets NJ All rights reserved. Unauthorized duplication is a violation of applicable laws.';
 
 export function SfbetsFooter({
     navLinks = DEFAULT_NAV_LINKS,
-    legalText = DEFAULT_LEGAL_TEXT
+    legalText = NJ_LEGAL_TEXT
 }: SfbetsFooterProps): React.ReactElement {
     return (
         <footer className="bg-surface pb-8">
@@ -93,23 +48,48 @@ export function SfbetsFooter({
             </div>
 
             <div className="w-full max-w-[1280px] mx-auto px-4 py-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {RESPONSIBLE_GAMBLING_LOGOS.map((logo) => (
-                        <div key={logo.alt} className="flex flex-col items-center gap-2">
-                            <div className="flex h-16 items-center justify-center px-8 py-1.5">
-                                <Image
-                                    src={logo.src}
-                                    alt={logo.alt}
-                                    width={logo.width}
-                                    height={logo.height}
-                                    className="object-contain"
-                                />
-                            </div>
-                            <p className="text-[12px] leading-4 tracking-[0.4px] text-on-surface-light text-center">
-                                {logo.description}
+                <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8">
+                    <div className="flex flex-row items-center gap-4 shrink-0 flex-wrap">
+                        <Image
+                            src="/sfbets/footer/21+.svg"
+                            alt="21+ only"
+                            width={52}
+                            height={52}
+                            className="object-contain"
+                        />
+                        <Image
+                            src="/sfbets/footer/1800gambler.svg"
+                            alt="1-800-GAMBLER"
+                            width={120}
+                            height={52}
+                            className="object-contain"
+                        />
+                        <Image
+                            src="/sfbets/footer/rg-nj.png"
+                            alt="Responsible Gambling New Jersey"
+                            width={52}
+                            height={52}
+                            className="object-contain"
+                        />
+                        <Image
+                            src="/sfbets/footer/nj-dge.png"
+                            alt="New Jersey Division of Gaming Enforcement"
+                            width={100}
+                            height={52}
+                            className="object-contain"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        {NJ_DISCLAIMER_LINES.map((line) => (
+                            <p
+                                key={line}
+                                className="text-[12px] leading-4 tracking-[0.4px] text-on-surface-light"
+                            >
+                                {line}
                             </p>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
 
