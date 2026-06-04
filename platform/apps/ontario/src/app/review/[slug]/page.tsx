@@ -93,8 +93,9 @@ export default async function ReviewPage({ params }: ReviewPageProps): Promise<R
                     <div className="flex flex-col md:flex-row gap-6">
                         <div className="flex-1">
                             <WebsiteDirectory
-                                title="Ontario Directory"
+                                title="Good.Choice Directory"
                                 sites={DIRECTORY_SITES}
+                                splitAtDot
                             />
                         </div>
                         <div className="flex-1">
