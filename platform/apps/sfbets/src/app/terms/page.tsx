@@ -144,7 +144,7 @@ export default function TermsPage(): React.ReactElement {
                 </div>
             </section>
 
-            <SfbetsFooter legalText={legalText} />
+            <SfbetsFooter legalText={legalText} state="mi" />
         </main>
     );
 }

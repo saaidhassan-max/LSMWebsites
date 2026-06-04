@@ -62,7 +62,7 @@ export default function HomePage(): React.ReactElement {
                 </div>
             </div>
 
-            <SfbetsFooter />
+            <SfbetsFooter state="mi" />
         </main>
     );
 }

@@ -179,7 +179,7 @@ export default function SignupPage(): React.ReactElement {
             </div>
 
             <TopTCs text={signupLegalDisclaimer} />
-            <SfbetsFooter legalText={legalText} />
+            <SfbetsFooter legalText={legalText} state="mi" />
 
             {showStickySubmit && (
                 <div className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-surface border-t border-outline-variant md:hidden">

@@ -298,7 +298,7 @@ export default function PrivacyPolicyPage(): React.ReactElement {
                 </div>
             </section>
 
-            <SfbetsFooter legalText={legalText} />
+            <SfbetsFooter legalText={legalText} state="mi" />
         </main>
     );
 }

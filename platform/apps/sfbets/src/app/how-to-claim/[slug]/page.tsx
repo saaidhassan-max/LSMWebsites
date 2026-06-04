@@ -122,7 +122,7 @@ export default async function HowToClaimPage({
                     </div>
                 </div>
             </div>
-            <SfbetsFooter legalText={legalText} />
+            <SfbetsFooter legalText={legalText} state="mi" />
         </main>
     );
 }

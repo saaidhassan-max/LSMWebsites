@@ -14,4 +14,5 @@ export interface ResponsibleGamblingLogo {
 export interface SfbetsFooterProps {
     navLinks?: FooterNavLink[];
     legalText?: string;
+    state?: 'nj' | 'mi';
 }

@@ -120,7 +120,7 @@ export default function ContactPage(): React.ReactElement {
                 <WebsiteDirectory title="Super Free Bets Directory" sites={directorySites} />
             </div>
 
-            <SfbetsFooter legalText={legalText} />
+            <SfbetsFooter legalText={legalText} state="mi" />
         </main>
     );
 }
