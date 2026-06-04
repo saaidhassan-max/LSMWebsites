@@ -20,7 +20,7 @@ export default function ContactPage(): React.ReactElement {
     return (
         <main className="flex flex-col w-full bg-surface pb-12">
             <SfbNav />
-            <USP text="OVER 5,000,000 BINGO PLAYERS" />
+            <USP text="OVER 5,000,000 SUBSCRIBERS" />
 
             <div className="w-full max-w-[1440px] mx-auto px-4 py-8 flex flex-col gap-8 md:px-16 md:py-16 md:grid md:grid-cols-2 md:gap-16">
                 <div className="flex flex-col gap-4">

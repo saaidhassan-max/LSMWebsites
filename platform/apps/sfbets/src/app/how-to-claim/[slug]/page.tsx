@@ -29,7 +29,7 @@ export default async function HowToClaimPage({
     return (
         <main className="flex flex-col w-full bg-surface">
             <SfbetsNav />
-            <USP text="OVER 1,000,000 BETS PLACED" />
+            <USP text="OVER 5,000,000 SUBSCRIBERS" />
             <HtcUsp
                 logoSrc={casino.logoSrc}
                 logoAlt={casino.logoAlt}
@@ -117,7 +117,15 @@ export default async function HowToClaimPage({
                             <WebsiteDirectory title="Super Free Bets Directory" sites={directorySites} />
                         </div>
                         <div className="flex-1">
-                            <SignupForm brandName="Super Free Bets" />
+                            <SignupForm
+                                brandName="Super Free Bets MI"
+                                requiredFieldLabel="* Required information"
+                                ageConfirmText="By checking the box below, you confirm that you are of legal gambling age in your state and have not self-excluded from any gambling operator."
+                                consentLabel="I consent to receiving emails from Super Free Bets MI, its affiliates and other websites owned or operated by its parent company."
+                                consentBodyText="Emails from Super Free Bets MI and its related entities will include gambling offers for casino and sports as well as promotional content related to eCommerce offerings. Email frequency may vary."
+                                privacyPolicyUrl="/privacy-policy"
+                                termsUrl="/terms"
+                            />
                         </div>
                     </div>
                 </div>

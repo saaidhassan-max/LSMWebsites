@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage(): React.ReactElement {
     return (
         <main className="flex w-full flex-col bg-surface">
             <SfbetsNav />
-            <USP text="OVER 1,000,000 BETS PLACED" />
+            <USP text="OVER 5,000,000 SUBSCRIBERS" />
 
             <section className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12">
                 <div className="flex flex-col gap-8 text-on-surface-light">

@@ -15,7 +15,7 @@ export default function HomePage(): React.ReactElement {
         <main className="flex flex-col w-full bg-surface">
             <SfbNav />
 
-            <USP text="OVER 5,000,000 BINGO PLAYERS" />
+            <USP text="OVER 5,000,000 SUBSCRIBERS" />
 
             <WelcomeBanner
                 textHighlight="TOP"

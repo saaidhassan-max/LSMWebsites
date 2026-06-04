@@ -22,8 +22,13 @@ export function SignupForm({
     brandName = 'Good.Choice.',
     privacyPolicyUrl = '#',
     termsUrl = '#',
-    onSubmit
+    onSubmit,
+    requiredFieldLabel = '**Indicates required field',
+    ageConfirmText = 'By checking the box below, you confirm that you are of legal gambling age in your province and have not self-excluded from any gambling operator.',
+    consentLabel,
+    consentBodyText = 'These emails will include information, news, and updates about online casinos and sportsbooks, as well as promotional content related to eCommerce offerings. Email frequency may vary. You can unsubscribe at any time by clicking the link in our emails.'
 }: SignupFormProps): React.ReactElement {
+    const resolvedConsentLabel = consentLabel ?? `I consent to receive emails from ${brandName}`;
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [consent, setConsent] = useState(false);
@@ -110,59 +115,49 @@ export function SignupForm({
                     />
                 </div>
 
-                <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] py-1">
-                    **Indicates required field
-                </p>
-
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-2">
                     <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                        By checking the box below, you confirm that you are of legal gambling age in
-                        your province and have not self-excluded from any gambling operator.
+                        {requiredFieldLabel}
                     </p>
 
-                    <div className="flex items-center gap-1">
-                        <div className="flex items-center justify-center w-[41px] h-[41px] shrink-0">
+                    <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
+                        {ageConfirmText}
+                    </p>
+
+                    <div className="flex flex-col gap-1">
+                        <div className="flex items-start gap-2">
                             <input
                                 type="checkbox"
                                 id="signup-consent"
                                 checked={consent}
                                 onChange={handleConsentChange}
-                                className="w-5 h-5 rounded-xs cursor-pointer accent-primary"
+                                className="mt-0.5 w-5 h-5 shrink-0 cursor-pointer accent-primary"
                             />
+                            <label
+                                htmlFor="signup-consent"
+                                className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer"
+                            >
+                                {resolvedConsentLabel}
+                            </label>
                         </div>
-                        <label
-                            htmlFor="signup-consent"
-                            className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer"
-                        >
-                            I consent to receive emails from {brandName}
-                        </label>
+                        {consentError !== '' && (
+                            <div className="bg-error rounded-lg px-4 py-2">
+                                <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
+                                    {consentError}
+                                </p>
+                            </div>
+                        )}
                     </div>
 
-                    {consentError !== '' && (
-                        <div className="bg-error rounded-lg px-4 py-2 mt-1 mb-2">
-                            <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                                {consentError}
-                            </p>
-                        </div>
-                    )}
-
                     <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                        These emails will include information, news, and updates about online
-                        casinos and sportsbooks, as well as promotional content related to eCommerce
-                        offerings. Email frequency may vary. You can unsubscribe at any time by
-                        clicking the link in our emails.{' '}
+                        {consentBodyText}{' '}
                         <a href={privacyPolicyUrl} className="underline">
-                            To view our Privacy Policy, click here.
+                            To see our Privacy Policy, click here.
                         </a>{' '}
-                        For full terms and conditions, click here.
+                        <a href={termsUrl} className="underline">
+                            For full terms and conditions, click here.
+                        </a>
                     </p>
-
-                    <a
-                        href={termsUrl}
-                        className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] underline"
-                    >
-                        Full terms &amp; conditions
-                    </a>
                 </div>
 
                 <Button

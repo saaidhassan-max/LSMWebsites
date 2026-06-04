@@ -9,4 +9,8 @@ export interface SignupFormProps {
     privacyPolicyUrl?: string;
     termsUrl?: string;
     onSubmit?: (data: SignupFormData) => void;
+    requiredFieldLabel?: string;
+    ageConfirmText?: string;
+    consentLabel?: string;
+    consentBodyText?: string;
 }

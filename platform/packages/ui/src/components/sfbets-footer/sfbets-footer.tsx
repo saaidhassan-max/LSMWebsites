@@ -107,13 +107,13 @@ export function SfbetsFooter({
                 <div className={`grid grid-cols-1 ${gridCols} gap-8`}>
                     {logos.map((logo) => (
                         <div key={logo.alt} className="flex flex-col items-center gap-2">
-                            <div className="flex h-16 items-center justify-center px-8 py-1.5">
+                            <div className="flex h-16 w-[240px] items-center justify-center overflow-hidden">
                                 <Image
                                     src={logo.src}
                                     alt={logo.alt}
                                     width={logo.width}
                                     height={logo.height}
-                                    className="object-contain"
+                                    className="h-[52px] w-auto object-contain"
                                 />
                             </div>
                             <p className="text-[12px] leading-4 tracking-[0.4px] text-on-surface-light text-center">
