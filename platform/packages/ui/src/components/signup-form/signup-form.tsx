@@ -2,7 +2,7 @@
 
 import type React from 'react';
 import { useState } from 'react';
-import { Mail, Phone, ArrowRight } from 'lucide-react';
+import { Mail, Phone, User, ArrowRight } from 'lucide-react';
 import { Button } from '../button/button';
 import { TextField } from '../text-field/text-field';
 import type { SignupFormProps } from './signup-form.types';
@@ -18,6 +18,11 @@ function validatePhone(value: string): string {
     return '';
 }
 
+function validateName(value: string): string {
+    if (value.trim() === '') return 'First name is required';
+    return '';
+}
+
 export function SignupForm({
     brandName = 'Good.Choice.',
     privacyPolicyUrl = '#',
@@ -26,28 +31,33 @@ export function SignupForm({
     requiredFieldLabel = '**Indicates required field',
     ageConfirmText = 'By checking the box below, you confirm that you are of legal gambling age in your province and have not self-excluded from any gambling operator.',
     consentLabel,
-    consentBodyText = 'These emails will include information, news, and updates about online casinos and sportsbooks, as well as promotional content related to eCommerce offerings. Email frequency may vary. You can unsubscribe at any time by clicking the link in our emails.'
+    consentBodyText = 'These emails will include information, news, and updates about online casinos and sportsbooks, as well as promotional content related to eCommerce offerings. Email frequency may vary. You can unsubscribe at any time by clicking the link in our emails.',
+    nameEmailMode = false
 }: SignupFormProps): React.ReactElement {
     const resolvedConsentLabel = consentLabel ?? `I consent to receive emails from ${brandName}`;
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [name, setName] = useState('');
     const [consent, setConsent] = useState(false);
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
+    const [nameError, setNameError] = useState('');
     const [consentError, setConsentError] = useState('');
 
     function handleSubmit(e: React.FormEvent): void {
         e.preventDefault();
         const eErr = validateEmail(email);
-        const pErr = validatePhone(phone);
+        const pErr = nameEmailMode ? '' : validatePhone(phone);
+        const nErr = nameEmailMode ? validateName(name) : '';
         const cErr = consent === false ? 'Please accept our terms to continue' : '';
 
         setEmailError(eErr);
         setPhoneError(pErr);
+        setNameError(nErr);
         setConsentError(cErr);
 
-        if (eErr === '' && pErr === '' && cErr === '') {
-            onSubmit?.({ email, phone, consent });
+        if (eErr === '' && pErr === '' && nErr === '' && cErr === '') {
+            onSubmit?.({ email, phone, name, consent });
         }
     }
 
@@ -69,6 +79,16 @@ export function SignupForm({
     function handlePhoneClear(): void {
         setPhone('');
         if (phoneError !== '') setPhoneError('Phone number is required');
+    }
+
+    function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        setName(e.target.value);
+        if (nameError !== '') setNameError(validateName(e.target.value));
+    }
+
+    function handleNameClear(): void {
+        setName('');
+        if (nameError !== '') setNameError('First name is required');
     }
 
     function handleConsentChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -93,26 +113,53 @@ export function SignupForm({
 
             <form onSubmit={handleSubmit} className="bg-outline p-3 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
-                    <TextField
-                        icon={Mail}
-                        label="Email"
-                        type="email"
-                        placeholder="Insert your email"
-                        value={email}
-                        error={emailError}
-                        onChange={handleEmailChange}
-                        onClear={handleEmailClear}
-                    />
-                    <TextField
-                        icon={Phone}
-                        label="Phone Number"
-                        type="tel"
-                        placeholder="Your phone number"
-                        value={phone}
-                        error={phoneError}
-                        onChange={handlePhoneChange}
-                        onClear={handlePhoneClear}
-                    />
+                    {nameEmailMode ? (
+                        <>
+                            <TextField
+                                icon={User}
+                                label="First Name*"
+                                type="text"
+                                placeholder="Your Name"
+                                value={name}
+                                error={nameError}
+                                onChange={handleNameChange}
+                                onClear={handleNameClear}
+                            />
+                            <TextField
+                                icon={Mail}
+                                label="Email Address*"
+                                type="email"
+                                placeholder="Your Email"
+                                value={email}
+                                error={emailError}
+                                onChange={handleEmailChange}
+                                onClear={handleEmailClear}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <TextField
+                                icon={Mail}
+                                label="Email"
+                                type="email"
+                                placeholder="Insert your email"
+                                value={email}
+                                error={emailError}
+                                onChange={handleEmailChange}
+                                onClear={handleEmailClear}
+                            />
+                            <TextField
+                                icon={Phone}
+                                label="Phone Number"
+                                type="tel"
+                                placeholder="Your phone number"
+                                value={phone}
+                                error={phoneError}
+                                onChange={handlePhoneChange}
+                                onClear={handlePhoneClear}
+                            />
+                        </>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -125,13 +172,13 @@ export function SignupForm({
                     </p>
 
                     <div className="flex flex-col gap-1">
-                        <div className="flex items-start gap-2">
+                        <div className="flex items-center gap-1">
                             <input
                                 type="checkbox"
                                 id="signup-consent"
                                 checked={consent}
                                 onChange={handleConsentChange}
-                                className="mt-0.5 w-5 h-5 shrink-0 cursor-pointer accent-primary"
+                                className="w-5 h-5 shrink-0 cursor-pointer accent-primary"
                             />
                             <label
                                 htmlFor="signup-consent"

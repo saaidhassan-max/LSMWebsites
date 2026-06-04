@@ -47,6 +47,18 @@
     "./components/website-directory/website-directory.types": "./src/components/website-directory/website-directory.types.ts",
     "./components/welcome-banner/welcome-banner": "./src/components/welcome-banner/welcome-banner.tsx",
     "./components/welcome-banner/welcome-banner.types": "./src/components/welcome-banner/welcome-banner.types.ts",
+    "./components/good-choice-label/good-choice-label": "./src/components/good-choice-label/good-choice-label.tsx",
+    "./components/good-choice-label/good-choice-label.types": "./src/components/good-choice-label/good-choice-label.types.ts",
+    "./components/good-choice-logo-section/good-choice-logo-section": "./src/components/good-choice-logo-section/good-choice-logo-section.tsx",
+    "./components/good-choice-logo-section/good-choice-logo-section.types": "./src/components/good-choice-logo-section/good-choice-logo-section.types.ts",
+    "./components/ontario-footer/ontario-footer": "./src/components/ontario-footer/ontario-footer.tsx",
+    "./components/ontario-footer/ontario-footer.types": "./src/components/ontario-footer/ontario-footer.types.ts",
+    "./components/ontario-offer-card/ontario-offer-card": "./src/components/ontario-offer-card/ontario-offer-card.tsx",
+    "./components/ontario-offer-card/ontario-offer-card.types": "./src/components/ontario-offer-card/ontario-offer-card.types.ts",
+    "./components/operator-review/operator-review": "./src/components/operator-review/operator-review.tsx",
+    "./components/operator-review/operator-review.types": "./src/components/operator-review/operator-review.types.ts",
+    "./components/page-header/page-header": "./src/components/page-header/page-header.tsx",
+    "./components/page-header/page-header.types": "./src/components/page-header/page-header.types.ts",
     "./globals.css": "./src/globals.css"
   },
   "scripts": {

@@ -6,4 +6,5 @@ export interface DirectoryItem {
 export interface WebsiteDirectoryProps {
     title: string;
     sites: DirectoryItem[];
+    splitAtDot?: boolean;
 }
