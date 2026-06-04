@@ -9,11 +9,11 @@ import type { NavItem } from '@lsm/ui/components/nav-drawer/nav-drawer.types';
 
 const BASE_ITEMS: NavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎰', label: 'Free Casino Bonuses', href: '/' },
-    { emoji: '💰', label: 'Deposit Offer', href: '/' },
+    { emoji: '🎰', label: 'Free Casino Money', href: '/' },
+    { emoji: '💰', label: 'Deposit Offers', href: '/' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
     { emoji: '👋', label: 'About Us', href: '/about' },
-    { emoji: '📋', label: 'Sign Up', href: '/signup' }
+    { emoji: '📋', label: 'Landing Page', href: '/signup' }
 ];
 
 export function SfbetsNav(): React.ReactElement {
