@@ -46,6 +46,14 @@ const MI_LOGOS: ResponsibleGamblingLogo[] = [
             'Super Free Bets and the services we provide are only for those who are at least 21 years of age'
     },
     {
+        src: '/sfbets/footer/mgcb.svg',
+        alt: 'Michigan Gaming Control Board',
+        width: 100,
+        height: 52,
+        description:
+            'All online casinos featured on Super Free Bets are licensed and regulated by the Michigan Gaming Control Board'
+    },
+    {
         src: '/sfbets/footer/rg-nj.png',
         alt: 'Responsible Gambling Michigan',
         width: 52,
@@ -68,7 +76,7 @@ export function SfbetsFooter({
 }: SfbetsFooterProps): React.ReactElement {
     const logos = state === 'mi' ? MI_LOGOS : NJ_LOGOS;
     const resolvedLegalText = legalText ?? (state === 'mi' ? MI_LEGAL_TEXT : NJ_LEGAL_TEXT);
-    const gridCols = state === 'mi' ? 'md:grid-cols-2' : 'md:grid-cols-3';
+    const gridCols = 'md:grid-cols-3';
 
     return (
         <footer className="bg-surface pb-8">
