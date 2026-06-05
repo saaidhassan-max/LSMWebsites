@@ -4,10 +4,10 @@ import type React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowRight, Mail, Phone } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Mail, User } from 'lucide-react';
 import { Button } from '@lsm/ui/components/button/button';
-import { ConsentForm } from '@lsm/ui/components/consent-form/consent-form';
-import type { ConsentFormData } from '@lsm/ui/components/consent-form/consent-form.types';
+import { Checkbox } from '@lsm/ui/components/checkbox/checkbox';
 import { SfbetsFooter } from '@lsm/ui/components/sfbets-footer/sfbets-footer';
 import { TextField } from '@lsm/ui/components/text-field/text-field';
 import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
@@ -15,25 +15,25 @@ import { USP } from '@lsm/ui/components/usp/usp';
 import { SfbetsNav } from '../../components/sfbets-nav';
 import { legalText, signupInstructionText, signupLegalDisclaimer } from '../../data/site-content';
 
+function validateName(value: string): string {
+    if (!value.trim()) return 'First name is required';
+    return '';
+}
+
 function validateEmail(value: string): string {
     if (!value.trim()) return 'Email is required';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email';
     return '';
 }
 
-function validatePhone(value: string): string {
-    if (!value.trim()) return 'Phone number is required';
-    return '';
-}
-
 export default function SignupPage(): React.ReactElement {
     const router = useRouter();
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [consentData, setConsentData] = useState<ConsentFormData | null>(null);
+    const [consentChecked, setConsentChecked] = useState(false);
+    const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
-    const [phoneError, setPhoneError] = useState('');
-    const [forceConsentErrors, setForceConsentErrors] = useState(false);
+    const [consentError, setConsentError] = useState(false);
     const submitButtonRef = useRef<HTMLDivElement>(null);
     const [showStickySubmit, setShowStickySubmit] = useState(false);
 
@@ -53,17 +53,26 @@ export default function SignupPage(): React.ReactElement {
     }, []);
 
     function handleSubmit(): void {
+        const nErr = validateName(name);
         const eErr = validateEmail(email);
-        const pErr = validatePhone(phone);
-        const consentValid = consentData?.isValid ?? false;
 
+        setNameError(nErr);
         setEmailError(eErr);
-        setPhoneError(pErr);
-        if (consentValid === false) setForceConsentErrors(true);
+        if (!consentChecked) setConsentError(true);
 
-        if (eErr === '' && pErr === '' && consentValid === true) {
+        if (nErr === '' && eErr === '' && consentChecked) {
             router.push('/');
         }
+    }
+
+    function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        setName(e.target.value);
+        if (nameError !== '') setNameError(validateName(e.target.value));
+    }
+
+    function handleNameClear(): void {
+        setName('');
+        if (nameError !== '') setNameError('First name is required');
     }
 
     function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -76,19 +85,10 @@ export default function SignupPage(): React.ReactElement {
         if (emailError !== '') setEmailError('Email is required');
     }
 
-    function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>): void {
-        setPhone(e.target.value);
-        if (phoneError !== '') setPhoneError(validatePhone(e.target.value));
-    }
-
-    function handlePhoneClear(): void {
-        setPhone('');
-        if (phoneError !== '') setPhoneError('Phone number is required');
-    }
-
-    function handleConsentChange(data: ConsentFormData): void {
-        setConsentData(data);
-        if (forceConsentErrors === true && data.isValid === true) setForceConsentErrors(false);
+    function handleConsentChange(): void {
+        const next = !consentChecked;
+        setConsentChecked(next);
+        if (next) setConsentError(false);
     }
 
     function handleStickyClick(): void {
@@ -137,30 +137,49 @@ export default function SignupPage(): React.ReactElement {
                             {signupInstructionText}
                         </p>
                         <TextField
+                            icon={User}
+                            label="First Name*"
+                            type="text"
+                            placeholder="Your Name"
+                            value={name}
+                            error={nameError}
+                            onChange={handleNameChange}
+                            onClear={handleNameClear}
+                        />
+                        <TextField
                             icon={Mail}
-                            label="Email"
+                            label="Email Address*"
                             type="email"
-                            placeholder="Insert your email"
+                            placeholder="Your Email"
                             value={email}
                             error={emailError}
                             onChange={handleEmailChange}
                             onClear={handleEmailClear}
                         />
-                        <TextField
-                            icon={Phone}
-                            label="Phone Number"
-                            type="tel"
-                            placeholder="Your phone number"
-                            value={phone}
-                            error={phoneError}
-                            onChange={handlePhoneChange}
-                            onClear={handlePhoneClear}
-                        />
-                        <ConsentForm
-                            defaultExpanded={false}
-                            forceShowErrors={forceConsentErrors}
-                            onChange={handleConsentChange}
-                        />
+
+                        <div className="flex flex-col gap-2">
+                            <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
+                                By checking the box below, you confirm that you are of legal gambling age in your state and have not self-excluded from any gambling operator.
+                            </p>
+                            <div className="flex items-center">
+                                <Checkbox
+                                    checked={consentChecked}
+                                    error={consentError}
+                                    onChange={handleConsentChange}
+                                />
+                                <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
+                                    I consent to receiving emails from Super Free Bets MI, its affiliates and other websites owned or operated by its parent company.
+                                </p>
+                            </div>
+                            <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
+                                Emails from Super Free Bets MI and its related entities will include gambling offers for casino and sports as well as promotional content related to eCommerce offerings. Email frequency may vary. To see our Privacy Policy,{' '}
+                                <Link href="/privacy-policy" className="underline">click here</Link>
+                                . For full terms and conditions,{' '}
+                                <Link href="/terms" className="underline">click here</Link>
+                                .
+                            </p>
+                        </div>
+
                         <div ref={submitButtonRef}>
                             <Button
                                 variant="primary"

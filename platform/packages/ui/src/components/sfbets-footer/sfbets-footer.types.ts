@@ -9,6 +9,7 @@ export interface ResponsibleGamblingLogo {
     width: number;
     height: number;
     description: string;
+    href?: string;
 }
 
 export interface SfbetsFooterProps {

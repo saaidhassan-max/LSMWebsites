@@ -5,14 +5,17 @@ import type { WelcomeBannerProps } from './welcome-banner.types';
 export function WelcomeBanner({
     text,
     textHighlight,
+    textSuffix,
     features,
     imageLeftSrc = '/ssm/welcome/ImageLeft.png',
-    imageRightSrc = '/ssm/welcome/ImageRight.png'
+    imageRightSrc = '/ssm/welcome/ImageRight.png',
+    imageLeftWidthMobile = 83,
+    imageLeftWidthDesktop = 204
 }: WelcomeBannerProps): React.ReactElement {
     return (
         <div className="w-full bg-surface overflow-hidden">
             <div className="md:hidden flex flex-row items-center h-16">
-                <div className="shrink-0 relative w-[83px] h-16">
+                <div className="shrink-0 relative h-16" style={{ width: imageLeftWidthMobile }}>
                     <Image
                         src={imageLeftSrc}
                         alt=""
@@ -27,6 +30,9 @@ export function WelcomeBanner({
                             <span className="text-tertiary">{textHighlight}</span>
                         )}
                         <span className="text-on-surface-light">{text}</span>
+                        {textSuffix !== undefined && (
+                            <span className="text-tertiary">{textSuffix}</span>
+                        )}
                     </p>
                 </div>
                 <div className="shrink-0 relative w-[92px] h-16">
@@ -41,7 +47,7 @@ export function WelcomeBanner({
             </div>
 
             <div className="hidden md:flex flex-row items-start">
-                <div className="shrink-0 relative w-[204px] h-[157px]">
+                <div className="shrink-0 relative h-[157px]" style={{ width: imageLeftWidthDesktop }}>
                     <Image
                         src={imageLeftSrc}
                         alt=""
@@ -56,6 +62,9 @@ export function WelcomeBanner({
                             <span className="text-tertiary">{textHighlight}</span>
                         )}
                         <span className="text-on-surface-light">{text}</span>
+                        {textSuffix !== undefined && (
+                            <span className="text-tertiary">{textSuffix}</span>
+                        )}
                     </p>
                     {features !== undefined && features.length > 0 && (
                         <div className="flex items-center justify-center gap-10">

@@ -59,18 +59,18 @@ export default function ContactPage(): React.ReactElement {
                 <div className="flex flex-col gap-4">
                     <TextField
                         icon={User}
-                        label="Name"
+                        label="First Name*"
                         type="text"
-                        placeholder="Your full name"
+                        placeholder="Your Name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         onClear={() => setName('')}
                     />
                     <TextField
                         icon={Mail}
-                        label="Email"
+                        label="Email Address*"
                         type="email"
-                        placeholder="Your email address"
+                        placeholder="Your Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         onClear={() => setEmail('')}
@@ -82,14 +82,14 @@ export default function ContactPage(): React.ReactElement {
                             className={`relative z-10 flex flex-col bg-surface-container-low border rounded-lg p-4 h-40 ${messageError !== undefined ? 'border-error' : 'border-outline-variant'}`}
                         >
                             <div className="flex items-center justify-between mb-1">
-                                <span className="text-[12px] leading-[14px] text-outline">Message</span>
+                                <span className="text-[12px] leading-[14px] text-outline">Message*</span>
                                 {messageError !== undefined && (
                                     <Info size={24} className="text-error shrink-0" />
                                 )}
                             </div>
                             <textarea
                                 className="flex-1 bg-transparent resize-none outline-none text-[14px] leading-5 text-on-surface-dark placeholder:text-outline"
-                                placeholder="Write your message here..."
+                                placeholder="Write your message here"
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                             />
@@ -117,7 +117,7 @@ export default function ContactPage(): React.ReactElement {
             </div>
 
             <div className="w-full max-w-[1440px] mx-auto px-4 py-4 md:px-16 md:py-8">
-                <WebsiteDirectory title="Super Free Bets Directory" sites={directorySites} />
+                <WebsiteDirectory title="Super Free Bets MI Directory" splitAtDot sites={directorySites} />
             </div>
 
             <SfbetsFooter legalText={legalText} state="mi" />

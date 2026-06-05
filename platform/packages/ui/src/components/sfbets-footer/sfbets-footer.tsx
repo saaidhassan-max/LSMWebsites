@@ -19,7 +19,7 @@ const NJ_LOGOS: ResponsibleGamblingLogo[] = [
             'Super Free Bets and the services we provide are only for those who are at least 21 years of age'
     },
     {
-        src: '/sfbets/footer/nj-dge.png',
+        src: '/sfbets/footer/dge.png',
         alt: 'New Jersey Division of Gaming Enforcement',
         width: 100,
         height: 52,
@@ -27,7 +27,7 @@ const NJ_LOGOS: ResponsibleGamblingLogo[] = [
             'All online casinos featured on Super Free Bets are licensed and regulated by the New Jersey Division of Gaming Enforcement'
     },
     {
-        src: '/sfbets/footer/rg-nj.png',
+        src: '/sfbets/footer/rgnj.png',
         alt: 'Responsible Gambling New Jersey',
         width: 52,
         height: 52,
@@ -50,14 +50,16 @@ const MI_LOGOS: ResponsibleGamblingLogo[] = [
         alt: 'Michigan Gaming Control Board',
         width: 100,
         height: 52,
+        href: 'https://www.michigan.gov/mgcb',
         description:
             'All online casinos featured on Super Free Bets are licensed and regulated by the Michigan Gaming Control Board'
     },
     {
-        src: '/sfbets/footer/rg-nj.png',
+        src: '/sfbets/footer/rgmi.png',
         alt: 'Responsible Gambling Michigan',
         width: 52,
         height: 52,
+        href: 'https://www.michigan.gov/mdhhs/keep-mi-healthy/mentalhealth/drugcontrol/probgamb/gambleresponsibly/get-help-for-problem-gambling',
         description:
             'If you or someone you know has a gambling problem and wants help, call: 1-800-270-7117'
     }
@@ -108,13 +110,25 @@ export function SfbetsFooter({
                     {logos.map((logo) => (
                         <div key={logo.alt} className="flex flex-col items-center gap-2">
                             <div className="flex h-16 w-[240px] items-center justify-center overflow-hidden">
-                                <Image
-                                    src={logo.src}
-                                    alt={logo.alt}
-                                    width={logo.width}
-                                    height={logo.height}
-                                    className="h-[52px] w-auto object-contain"
-                                />
+                                {logo.href ? (
+                                    <a href={logo.href} target="_blank" rel="noopener noreferrer">
+                                        <Image
+                                            src={logo.src}
+                                            alt={logo.alt}
+                                            width={logo.width}
+                                            height={logo.height}
+                                            className="h-[52px] w-auto object-contain"
+                                        />
+                                    </a>
+                                ) : (
+                                    <Image
+                                        src={logo.src}
+                                        alt={logo.alt}
+                                        width={logo.width}
+                                        height={logo.height}
+                                        className="h-[52px] w-auto object-contain"
+                                    />
+                                )}
                             </div>
                             <p className="text-[12px] leading-4 tracking-[0.4px] text-on-surface-light text-center">
                                 {logo.description}

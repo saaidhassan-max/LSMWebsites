@@ -3,7 +3,6 @@ import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { OperatorBanner } from '@lsm/ui/components/operator-banner/operator-banner';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SfbetsFooter } from '@lsm/ui/components/sfbets-footer/sfbets-footer';
-import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
 import { USP } from '@lsm/ui/components/usp/usp';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
@@ -18,16 +17,17 @@ export default function HomePage(): React.ReactElement {
             <USP text="OVER 5,000,000 SUBSCRIBERS" />
 
             <WelcomeBanner
-                textHighlight="TOP"
-                text=" FREE BET DEALS 2026"
+                textHighlight="TOP "
+                text="CASINO DEALS "
+                textSuffix="2026"
                 features={['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']}
                 imageLeftSrc="/sfbets/welcome-images/image-left.png"
                 imageRightSrc="/sfbets/welcome-images/image-right.png"
+                imageLeftWidthMobile={92}
+                imageLeftWidthDesktop={224}
             />
 
-            <TopTCs text='Special terms apply – including age verification. Click "How To Claim" for full details.' />
-
-            <div className="w-full max-w-[1440px] mx-auto">
+<div className="w-full max-w-[1440px] mx-auto">
                 <div className="flex flex-col gap-2 p-4 md:px-16 md:py-4">
                     <OfferCard {...offers[0]} />
                     <OfferCard {...offers[1]} />
@@ -42,6 +42,7 @@ export default function HomePage(): React.ReactElement {
                     <div className="md:hidden">
                         <SignupForm
                             brandName="Super Free Bets MI"
+                            nameEmailMode={true}
                             requiredFieldLabel="* Required information"
                             ageConfirmText="By checking the box below, you confirm that you are of legal gambling age in your state and have not self-excluded from any gambling operator."
                             consentLabel="I consent to receiving emails from Super Free Bets MI, its affiliates and other websites owned or operated by its parent company."
@@ -58,16 +59,17 @@ export default function HomePage(): React.ReactElement {
             </div>
 
             <div className="md:hidden w-full">
-                <WebsiteDirectory title="Super Free Bets Directory" sites={directorySites} />
+                <WebsiteDirectory title="Super Free Bets MI Directory" splitAtDot sites={directorySites} />
             </div>
 
             <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
                 <div className="flex-1">
-                    <WebsiteDirectory title="Super Free Bets Directory" sites={directorySites} />
+                    <WebsiteDirectory title="Super Free Bets MI Directory" splitAtDot sites={directorySites} />
                 </div>
                 <div className="flex-1">
                     <SignupForm
                             brandName="Super Free Bets MI"
+                            nameEmailMode={true}
                             requiredFieldLabel="* Required information"
                             ageConfirmText="By checking the box below, you confirm that you are of legal gambling age in your state and have not self-excluded from any gambling operator."
                             consentLabel="I consent to receiving emails from Super Free Bets MI, its affiliates and other websites owned or operated by its parent company."

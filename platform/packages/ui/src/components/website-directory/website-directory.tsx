@@ -2,7 +2,7 @@ import React from 'react';
 import type { WebsiteDirectoryProps } from './website-directory.types';
 
 export function WebsiteDirectory({ title, sites, splitAtDot = false }: WebsiteDirectoryProps): React.ReactElement {
-    const spaceIndex = splitAtDot ? title.indexOf(' ') : -1;
+    const spaceIndex = splitAtDot ? title.lastIndexOf(' ') : -1;
     const titleNode = spaceIndex !== -1 ? (
         <>
             <span className="text-tertiary">{title.slice(0, spaceIndex)}</span>
