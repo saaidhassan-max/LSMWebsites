@@ -117,7 +117,7 @@ export default async function HowToClaimPage({
                             <WebsiteDirectory title="Super Free Slot Games Directory" sites={directorySites} />
                         </div>
                         <div className="flex-1">
-                            <SignupForm brandName="Super Free Slot Games" />
+                            <SignupForm variant="sfb-sfsg" brandName="Super Free Slot Games" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
                         </div>
                     </div>
                 </div>

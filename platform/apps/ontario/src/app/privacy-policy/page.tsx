@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage(): React.ReactElement {
                         sites={directorySites}
                         splitAtDot
                     />
-                    <SignupForm brandName="Good.Choice" nameEmailMode />
+                    <SignupForm variant="ontario" brandName="Good.Choice" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
                 </div>
             </div>
 

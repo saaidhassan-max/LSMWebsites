@@ -117,7 +117,7 @@ export default async function HowToClaimPage({
                             <WebsiteDirectory title="Bingo Directory" sites={directorySites} />
                         </div>
                         <div className="flex-1">
-                            <SignupForm brandName="Super Free Bingo" />
+                            <SignupForm variant="sfb-sfsg" brandName="Super Free Bingo" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
                         </div>
                     </div>
                 </div>

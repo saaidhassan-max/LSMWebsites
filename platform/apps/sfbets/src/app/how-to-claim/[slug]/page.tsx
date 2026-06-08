@@ -118,12 +118,8 @@ export default async function HowToClaimPage({
                         </div>
                         <div className="flex-1">
                             <SignupForm
+                                variant="sfbets"
                                 brandName="Super Free Bets MI"
-                                nameEmailMode={true}
-                                requiredFieldLabel="* Required information"
-                                ageConfirmText="By checking the box below, you confirm that you are of legal gambling age in your state and have not self-excluded from any gambling operator."
-                                consentLabel="I consent to receiving emails from Super Free Bets MI, its affiliates and other websites owned or operated by its parent company."
-                                consentBodyText="Emails from Super Free Bets MI and its related entities will include gambling offers for casino and sports as well as promotional content related to eCommerce offerings. Email frequency may vary."
                                 privacyPolicyUrl="/privacy-policy"
                                 termsUrl="/terms"
                             />

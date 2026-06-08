@@ -100,10 +100,10 @@ export default async function ReviewPage({ params }: ReviewPageProps): Promise<R
                         </div>
                         <div className="flex-1">
                             <SignupForm
+                                variant="ontario"
                                 brandName="Good.Choice"
                                 privacyPolicyUrl="/privacy-policy"
                                 termsUrl="/terms"
-                                nameEmailMode
                             />
                         </div>
                     </div>

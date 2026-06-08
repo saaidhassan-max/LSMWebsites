@@ -40,7 +40,7 @@ export default function HomePage(): React.ReactElement {
                     <OfferCard {...offers[2]} />
                     <OfferCard {...offers[3]} />
                     <div className="md:hidden">
-                        <SignupForm brandName="Super Free Slot Games" />
+                        <SignupForm variant="sfb-sfsg" brandName="Super Free Slot Games" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
                     </div>
                     <OfferCard {...offers[4]} />
                     <OfferCard {...offers[5]} />
@@ -58,7 +58,7 @@ export default function HomePage(): React.ReactElement {
                     <WebsiteDirectory title="SFSG Slots Directory" sites={directorySites} />
                 </div>
                 <div className="flex-1">
-                    <SignupForm brandName="Super Free Slot Games" />
+                    <SignupForm variant="sfb-sfsg" brandName="Super Free Slot Games" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
                 </div>
             </div>
 

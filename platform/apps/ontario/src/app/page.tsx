@@ -52,10 +52,10 @@ export default function HomePage(): React.ReactElement {
 
                 <div className="md:hidden">
                     <SignupForm
+                        variant="ontario"
                         brandName="Good.Choice"
                         privacyPolicyUrl="/privacy-policy"
                         termsUrl="/terms"
-                        nameEmailMode
                     />
                 </div>
 
