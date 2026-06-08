@@ -160,10 +160,10 @@ export default function SignupPage(): React.ReactElement {
                         />
 
                         <div className="flex flex-col gap-2">
-                            <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
+                            <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-light">
                                 * Required information
                             </p>
-                            <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
+                            <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-light">
                                 By checking the box below, you confirm that you are of legal gambling age in your state and have not self-excluded from any gambling operator.
                             </p>
                             <div className="flex items-start gap-1">
@@ -172,11 +172,11 @@ export default function SignupPage(): React.ReactElement {
                                     error={consentError}
                                     onChange={handleConsentChange}
                                 />
-                                <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
+                                <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-light self-center">
                                     I consent to receiving emails from Super Free Bets MI, its affiliates and other websites owned or operated by its parent company.
                                 </p>
                             </div>
-                            <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
+                            <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-light">
                                 Emails from Super Free Bets MI and its related entities will include gambling offers for casino and sports as well as promotional content related to eCommerce offerings. Email frequency may vary. To see our Privacy Policy,{' '}
                                 <Link href="/privacy-policy" className="underline">click here</Link>
                                 . For full terms and conditions,{' '}
