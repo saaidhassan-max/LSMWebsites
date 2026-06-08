@@ -132,10 +132,12 @@ export default function SignupPage(): React.ReactElement {
                         </p>
                     </div>
 
-                    <div className="flex flex-col gap-[10px] pt-1 px-4 pb-4 md:p-8">
-                        <p className="text-sm font-normal leading-5 md:text-base md:font-bold text-on-surface-light text-center tracking-[0.15px]">
-                            {signupInstructionText}
-                        </p>
+                    <div className="flex flex-col gap-[10px] px-4 pb-4 md:p-8">
+                        <div className="bg-surface py-1 px-4 flex items-center justify-center">
+                            <p className="text-base font-bold leading-6 tracking-[0.15px] text-on-surface-light text-center">
+                                {signupInstructionText}
+                            </p>
+                        </div>
                         <TextField
                             icon={User}
                             label="First Name*"
@@ -158,6 +160,9 @@ export default function SignupPage(): React.ReactElement {
                         />
 
                         <div className="flex flex-col gap-2">
+                            <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
+                                * Required information
+                            </p>
                             <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
                                 By checking the box below, you confirm that you are of legal gambling age in your state and have not self-excluded from any gambling operator.
                             </p>
@@ -190,7 +195,7 @@ export default function SignupPage(): React.ReactElement {
                                 Sign Me Up
                             </Button>
                         </div>
-                        <Button variant="text" color="dark" className="w-full" onClick={() => router.push('/')}>
+                        <Button variant="text" color="light" className="w-full text-primary" onClick={() => router.push('/')}>
                             Skip
                         </Button>
                     </div>
