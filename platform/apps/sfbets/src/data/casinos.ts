@@ -37,7 +37,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Betfair Sportsbook T&Cs apply. Click for more details.\n\n18+. New customers only. Free bet credited upon registration. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfbets/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Betfair Sportsbook offer',
-        ctaText: 'CLICK TO CLAIM →',
+        ctaText: 'CLAIM NOW ➜',
         ctaHref: '#',
         reviewIntro:
             'Betfair Sportsbook is one of the most trusted names in online sports betting. This site offers a premium betting experience with an exclusive no deposit free bet offer for new customers.',
