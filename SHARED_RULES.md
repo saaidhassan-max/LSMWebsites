@@ -141,6 +141,17 @@ When a user asks you to review an updated Figma component and sync it to code, a
 
 Never report the sync as done after finding the first difference — work through all five layers.
 
+### Instance component check (MANDATORY)
+Before building any component that was shared from Figma:
+
+1. Read the Figma node and identify every `INSTANCE` node inside it
+2. For each instance, check whether a built version already exists in `packages/ui/src/components/`
+3. If an instance is **missing from the codebase:**
+   - Small / self-contained (icon wrapper, decorative element) — state you are building it as part of the same task, then do so
+   - Substantial component (button variant, label, form element, card) — stop and ask the user to confirm before building it
+4. Never stub, inline, or skip a missing sub-component silently
+5. Only start building the parent component once every sub-component dependency is resolved
+
 ### Never
 - Hardcode a color, spacing, or font value — always use a design token
 - Push to GitHub unless the user explicitly says to

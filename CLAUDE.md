@@ -24,6 +24,17 @@ Follow `SHARED_RULES.md` for project rules, workflow, escalation rules, tech sta
 - Why: the deep tool reads up to 20 levels of nesting AND resolves design token names (e.g. `secondary` instead of a raw hex). The non-deep tool stops at 4 levels and returns raw hex values, which means missed structure and potential token mismatches in code
 - If the bridge is not running: ask the user to open it (Plugins → Development → Figma Desktop Bridge), then wait and retry deep — do not proceed with the non-deep fallback
 
+## Instance Component Check (MANDATORY)
+Before building any component shared from Figma:
+
+1. Read the Figma node and identify every `INSTANCE` node inside it
+2. For each instance, check whether a built version already exists in `packages/ui/src/components/`
+3. If an instance is **missing from the codebase:**
+   - Small / self-contained (icon wrapper, decorative element) — state you are building it as part of the same task, then do so
+   - Substantial component (button variant, label, form element, card) — stop and ask the user to confirm before building it
+4. Never stub, inline, or skip a missing sub-component silently
+5. Only start building the parent component once every sub-component dependency is resolved
+
 ---
 
 ## Claude Session Start (MANDATORY — do this first, every session)

@@ -63,7 +63,10 @@
       "mcp__figma-desktop__get_design_context",
       "mcp__figma-desktop__get_metadata",
       "mcp__figma-desktop__get_screenshot",
-      "mcp__figma-desktop__get_variable_defs"
+      "mcp__figma-desktop__get_variable_defs",
+      "WebFetch(domain:superspillemaskiner.dk)",
+      "WebFetch(domain:superfreebingo.com)",
+      "Bash(awk '{print $9}')"
     ],
     "additionalDirectories": [
       "/Users/Saied.Hassan/Desktop/LSM multiagent/assets/ssm/footer",

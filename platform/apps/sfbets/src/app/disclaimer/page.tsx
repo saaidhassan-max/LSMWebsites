@@ -16,7 +16,7 @@ export default function DisclaimerPage(): React.ReactElement {
     return (
         <main className="flex w-full flex-col bg-surface">
             <SfbetsNav />
-            <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <USP text="OVER 150,000 OFFERS CLAIMED" />
 
             <section className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12">
                 <div className="flex flex-col gap-8">
