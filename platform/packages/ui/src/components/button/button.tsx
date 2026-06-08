@@ -27,13 +27,13 @@ const solidVariantClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
 
 const textVariantClasses: Record<ButtonColor, string> = {
     light: [
-        'bg-transparent text-on-surface-dark border border-transparent',
+        'bg-transparent text-on-surface-dark border border-transparent underline',
         'hover:border-on-surface-dark',
         'focus:bg-surface-container-low focus:border-on-surface-dark focus:outline-none',
         'disabled:text-disabled-content disabled:border-transparent'
     ].join(' '),
     dark: [
-        'bg-transparent text-on-surface-light border border-transparent',
+        'bg-transparent text-on-surface-light border border-transparent underline',
         'hover:border-on-surface-light',
         'focus:bg-outline-variant focus:border-on-surface-light focus:outline-none',
         'disabled:text-disabled-content disabled:border-transparent'
