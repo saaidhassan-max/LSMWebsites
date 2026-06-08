@@ -4,6 +4,7 @@ import type React from 'react';
 import { useState } from 'react';
 import { Mail, Phone, User, ArrowRight } from 'lucide-react';
 import { Button } from '../button/button';
+import { Checkbox } from '../checkbox/checkbox';
 import { TextField } from '../text-field/text-field';
 import { ConsentForm } from '../consent-form/consent-form';
 import type { ConsentFormData } from '../consent-form/consent-form.types';
@@ -120,8 +121,7 @@ export function SignupForm({
         if (nameError !== '') setNameError('First name is required');
     }
 
-    function handleConsentChange(e: React.ChangeEvent<HTMLInputElement>): void {
-        const checked = e.target.checked;
+    function handleConsentChange(checked: boolean): void {
         setConsent(checked);
         if (consentError !== '') setConsentError(checked ? '' : 'Please accept our terms to continue');
     }
@@ -137,17 +137,16 @@ export function SignupForm({
                         {ageConfirmText}
                     </p>
                     <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-1">
-                            <input
-                                type="checkbox"
+                        <div className="flex items-start gap-1">
+                            <Checkbox
                                 id="signup-consent"
                                 checked={consent}
+                                error={consentError !== ''}
                                 onChange={handleConsentChange}
-                                className="w-5 h-5 shrink-0 cursor-pointer accent-primary"
                             />
                             <label
                                 htmlFor="signup-consent"
-                                className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer"
+                                className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer self-center"
                             >
                                 {resolvedConsentLabel}
                             </label>
@@ -203,17 +202,16 @@ export function SignupForm({
                         <a href={termsUrl} className="underline">click here.</a>
                     </p>
                     <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-1">
-                            <input
-                                type="checkbox"
+                        <div className="flex items-start gap-1">
+                            <Checkbox
                                 id="signup-consent"
                                 checked={consent}
+                                error={consentError !== ''}
                                 onChange={handleConsentChange}
-                                className="w-5 h-5 shrink-0 cursor-pointer accent-primary"
                             />
                             <label
                                 htmlFor="signup-consent"
-                                className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer"
+                                className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer self-center"
                             >
                                 {consentLabel ?? `I consent to receiving emails from ${brandName}, its affiliates and other websites owned or operated by its parent company.`}
                             </label>
@@ -244,17 +242,16 @@ export function SignupForm({
                     {ageConfirmText}
                 </p>
                 <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-1">
-                        <input
-                            type="checkbox"
+                    <div className="flex items-start gap-1">
+                        <Checkbox
                             id="signup-consent"
                             checked={consent}
+                            error={consentError !== ''}
                             onChange={handleConsentChange}
-                            className="w-5 h-5 shrink-0 cursor-pointer accent-primary"
                         />
                         <label
                             htmlFor="signup-consent"
-                            className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer"
+                            className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer self-center"
                         >
                             {resolvedConsentLabel}
                         </label>
