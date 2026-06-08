@@ -166,7 +166,7 @@ export default function SignupPage(): React.ReactElement {
                             <p className="text-xs leading-4 tracking-[0.4px] text-on-surface-light">
                                 By checking the box below, you confirm that you are of legal gambling age in your state and have not self-excluded from any gambling operator.
                             </p>
-                            <div className="flex items-center">
+                            <div className="flex items-start gap-1">
                                 <Checkbox
                                     checked={consentChecked}
                                     error={consentError}
