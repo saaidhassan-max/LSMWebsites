@@ -1,6 +1,6 @@
 import type React from 'react';
 import Image from 'next/image';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Button } from '../button/button';
 import { Label } from '../label/label';
 import type { OfferCardProps } from './offer-card.types';
@@ -28,7 +28,7 @@ export function OfferCard({
 
     const ctaButton = (
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" className="block">
-            <Button variant={ctaVariant} trailingIcon={<ArrowRight size={24} />} className="w-full">
+            <Button variant={ctaVariant} className="w-full">
                 {ctaText}
             </Button>
         </a>
