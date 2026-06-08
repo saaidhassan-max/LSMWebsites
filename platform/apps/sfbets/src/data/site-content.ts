@@ -44,7 +44,7 @@ export const offers: OfferCardProps[] = [
         ctaHref: '#',
         ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/ladbrokes',
+        secondaryCtaHref: '/how-to-claim/betfair-sportsbook',
         termsText: '18+. New customers only. Free bet credited on first qualifying bet. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -58,7 +58,7 @@ export const offers: OfferCardProps[] = [
         ctaHref: '#',
         ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/sky-bet',
+        secondaryCtaHref: '/how-to-claim/betfair-sportsbook',
         termsText: '18+. New customers only. Free bet valid 7 days. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -72,7 +72,7 @@ export const offers: OfferCardProps[] = [
         ctaHref: '#',
         ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/paddy-power',
+        secondaryCtaHref: '/how-to-claim/betfair-sportsbook',
         termsText: '18+. New customers only. Place £10 qualifying bet to receive £40 in free bets. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -86,7 +86,7 @@ export const offers: OfferCardProps[] = [
         ctaHref: '#',
         ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/william-hill',
+        secondaryCtaHref: '/how-to-claim/betfair-sportsbook',
         termsText: '18+. New customers only. Free bet credited after first qualifying bet. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -100,7 +100,7 @@ export const offers: OfferCardProps[] = [
         ctaHref: '#',
         ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/coral',
+        secondaryCtaHref: '/how-to-claim/betfair-sportsbook',
         termsText: '18+. New customers only. Free bets on selected markets. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -114,7 +114,7 @@ export const offers: OfferCardProps[] = [
         ctaHref: '#',
         ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/bet365',
+        secondaryCtaHref: '/how-to-claim/betfair-sportsbook',
         termsText: '18+. New customers only. Min deposit £10. Free bet credited on qualifying bet. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -128,7 +128,7 @@ export const offers: OfferCardProps[] = [
         ctaHref: '#',
         ctaVariant: 'tertiary',
         secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/betvictor',
+        secondaryCtaHref: '/how-to-claim/betfair-sportsbook',
         termsText: '18+. New customers only. Free bet valid for 7 days. T&Cs apply. BeGambleAware.org.'
     }
 ];
