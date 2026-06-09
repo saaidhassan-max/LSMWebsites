@@ -80,10 +80,11 @@ interface BlockLink {
 
 const BLOCK_ACCESS_LINKS: BlockLink[] = [
     { label: 'GAMBAN.COM', href: 'https://gamban.com' },
-    { label: 'GAMBLOCK.COM', href: 'https://gamblock.com' },
+    { label: 'GAMBLOCK.COM', href: 'https://www.gamblock.com' },
     { label: 'FREEDOM.TO', href: 'https://freedom.to' },
-    { label: 'BETBLOCKER.ORG', href: 'https://betblocker.org' },
-    { label: 'NETNANNY.COM', href: 'https://netnanny.com' }
+    { label: 'BETBLOCKER.ORG', href: 'https://www.betblocker.org' },
+    { label: 'NETNANNY.COM', href: 'https://www.netnanny.com/features/internet-filter/' },
+    { label: 'MYPLAY.BREAK', href: 'https://www.olg.ca/en/my-play-break.html' }
 ];
 
 interface SupportOrg {
@@ -101,22 +102,28 @@ const EXTERNAL_SUPPORT: SupportOrg[] = [
         body: 'iGaming Ontario (iGO) work with the AGCO and the Government of Ontario to establish an online gaming market that helps protect consumers gambling through private gaming companies.'
     },
     {
+        title: 'The Centre for Addiction and Mental Health',
+        url: 'www.camh.ca',
+        href: 'https://www.camh.ca',
+        body: 'The Centre for Addiction and Mental Health (CAMH) is Canada\'s largest mental health teaching hospital and one of the world\'s leading research centres. They provide a range of information and advice relating to problem gambling.'
+    },
+    {
+        title: 'ConnexOntario Live Chat & Helpline',
+        url: 'connexontario.ca',
+        href: 'https://connexontario.ca',
+        body: 'ConnexOntario offer free, confidential information on health services for those facing issues with alcohol, drugs, mental illness, or gambling. You can access their support 24/7 via text, live chat, email or toll-free helpline: 1-866-531-2600.'
+    },
+    {
         title: 'Canadian Centre on Substance Use and Addiction',
-        url: 'https://gamblingguidelines.ca',
+        url: 'gamblingguidelines.ca',
         href: 'https://gamblingguidelines.ca',
         body: 'The National Gambling Support Network is a network of organisations working together to provide confidential treatment and support for anyone experiencing gambling-related harms, free to access across England, Scotland and Wales.'
     },
     {
         title: 'RGC',
-        url: 'https://responsiblegambling.org',
+        url: 'responsiblegambling.org',
         href: 'https://responsiblegambling.org',
         body: 'The Responsible Gambling Council (RGC) is a non-profit organization dedicated to problem gambling prevention. RGC works to reduce gambling risks through innovation, awareness and improved safeguards. They are not a treatment provider, but they can help connect you with the appropriate resources and support within your jurisdiction.'
-    },
-    {
-        title: 'ConnexOntario',
-        url: 'https://connexontario.ca',
-        href: 'https://connexontario.ca',
-        body: 'ConnexOntario offer free, confidential information on health services for those facing issues with alcohol, drugs, mental illness, or gambling. You can access their support 24/7 via text, live chat, email or toll-free helpline: 1-866-531-2600.'
     }
 ];
 
