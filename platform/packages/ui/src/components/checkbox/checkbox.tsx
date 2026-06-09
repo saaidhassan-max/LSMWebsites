@@ -37,11 +37,11 @@ export function Checkbox({
               ? disabled
                   ? 'bg-on-surface-dark border-on-surface-dark'
                   : 'bg-tertiary border-tertiary'
-              : 'bg-transparent border-on-surface-dark'
+              : 'bg-on-surface-light border-on-surface-dark'
     );
 
     const stateLayerClasses = cn(
-        'absolute inset-0 rounded-full transition-colors duration-200',
+        'absolute inset-0 rounded-full transition-colors duration-200 pointer-events-none',
         !disabled && isActive && 'group-hover:bg-tertiary/[0.08] peer-focus-visible:bg-tertiary/[0.12]',
         !disabled && !isActive && 'group-hover:bg-on-surface-dark/[0.08] peer-focus-visible:bg-on-surface-dark/[0.12]'
     );

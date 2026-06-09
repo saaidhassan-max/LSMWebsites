@@ -85,10 +85,9 @@ export default function SignupPage(): React.ReactElement {
         if (emailError !== '') setEmailError('Email is required');
     }
 
-    function handleConsentChange(): void {
-        const next = !consentChecked;
-        setConsentChecked(next);
-        if (next) setConsentError(false);
+    function handleConsentChange(checked: boolean): void {
+        setConsentChecked(checked);
+        if (checked) setConsentError(false);
     }
 
     function handleStickyClick(): void {

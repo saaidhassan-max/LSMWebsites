@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { useState } from 'react';
+import { useState, useId } from 'react';
 import { Mail, Phone, User, ArrowRight } from 'lucide-react';
 import { Button } from '../button/button';
 import { Checkbox } from '../checkbox/checkbox';
@@ -40,6 +40,8 @@ export function SignupForm({
     nameEmailMode = false
 }: SignupFormProps): React.ReactElement {
     const useNameEmail = variant != null || nameEmailMode;
+
+    const consentId = useId();
 
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -139,13 +141,13 @@ export function SignupForm({
                     <div className="flex flex-col gap-1">
                         <div className="flex items-start gap-1">
                             <Checkbox
-                                id="signup-consent"
+                                id={consentId}
                                 checked={consent}
                                 error={consentError !== ''}
                                 onChange={handleConsentChange}
                             />
                             <label
-                                htmlFor="signup-consent"
+                                htmlFor={consentId}
                                 className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer self-center"
                             >
                                 {resolvedConsentLabel}
@@ -204,13 +206,13 @@ export function SignupForm({
                     <div className="flex flex-col gap-1">
                         <div className="flex items-start gap-1">
                             <Checkbox
-                                id="signup-consent"
+                                id={consentId}
                                 checked={consent}
                                 error={consentError !== ''}
                                 onChange={handleConsentChange}
                             />
                             <label
-                                htmlFor="signup-consent"
+                                htmlFor={consentId}
                                 className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer self-center"
                             >
                                 {consentLabel ?? `I consent to receiving emails from ${brandName}, its affiliates and other websites owned or operated by its parent company.`}
@@ -244,13 +246,13 @@ export function SignupForm({
                 <div className="flex flex-col gap-1">
                     <div className="flex items-start gap-1">
                         <Checkbox
-                            id="signup-consent"
+                            id={consentId}
                             checked={consent}
                             error={consentError !== ''}
                             onChange={handleConsentChange}
                         />
                         <label
-                            htmlFor="signup-consent"
+                            htmlFor={consentId}
                             className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer self-center"
                         >
                             {resolvedConsentLabel}
