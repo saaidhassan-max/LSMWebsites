@@ -30,7 +30,7 @@ export function Checkbox({
     const showError = error === true && !isActive;
 
     const containerClasses = cn(
-        'w-[18px] h-[18px] rounded-[2px] border-2 flex items-center justify-center shrink-0 transition-colors duration-150',
+        'w-5 h-5 rounded-[2px] border-2 flex items-center justify-center shrink-0 transition-colors duration-150',
         showError
             ? 'bg-error border-error'
             : isActive
