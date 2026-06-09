@@ -10,29 +10,23 @@ export const metadata: Metadata = {
     description: 'Disclaimer for Super Free Bingo.'
 };
 
-const CONTENT = `The information provided on this website is for general information purposes only. Super Free Bingo makes no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of any information, products, services, or related graphics contained on this website.
+const CONTENT = `The information contained in this website is for general information purposes only. The information is provided by Super Free Bingo and whilst we endeavour to keep the information up-to-date and correct, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, products, services, or related graphics contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.
 
-Any reliance you place on information from this website is strictly at your own risk. We expressly exclude all liability for any loss or damage — direct or indirect — arising from the use of, or inability to use, this website or any content found on it.
+In no event will we be liable for any loss or damage including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this website.
 
-Third-Party Links
+Through this website you are able to link to other websites which are not under the control of Super Free Bingo. We have no control over the nature, content and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.
 
-This website contains links to third-party bingo and casino operator websites. We have no control over the content, nature, or availability of those sites. The inclusion of any link does not imply endorsement of the operator or their services. It is your responsibility to make yourself familiar with the terms and conditions and play rules operated by those third parties before registering or depositing.
+ANY LINKS TO THIRD PARTY SITES (INCLUDING BINGO SITES) ARE PROVIDED FOR YOUR CONVENIENCE TO PROVIDE FURTHER INFORMATION. WE HAVE NO RESPONSIBILITY FOR THE CONTENT OF LINKED WEBSITE(S). IT IS YOUR RESPONSIBILITY TO MAKE YOURSELF FAMILIAR WITH THE TERMS AND CONDITIONS AND PLAY RULES OPERATED BY THOSE THIRD PARTIES.
 
-Free Play Schemes
+PLEASE NOTE THAT WHERE THIRD PARTY SITES OFFER 'FREE BINGO' OR 'FREE PLAY' SCHEMES, THEY WILL BE SUBJECT TO THE RULES OF THE PARTICULAR SITE OPERATOR. THERE MAY BE RESTRICTIONS UPON HOW YOU CAN USE AND/OR WITHDRAW ANY SUMS OR WINNINGS FROM 'FREE BINGO' OR 'FREE PLAY' SCHEMES. SUCH SCHEMES MAY ONLY APPLY TO NEW, FIRST TIME PLAYERS. RULES VARY FROM SCHEME TO SCHEME AND YOU SHOULD CHECK THE TERMS AND CONDITIONS AND SCHEME RULES APPEARING ON THE PARTICULAR THIRD PARTY WEBSITE. IF IN DOUBT, YOU SHOULD CONTACT CUSTOMER SUPPORT FOR THE RELEVANT SITE OPERATOR.
 
-Free bingo and free spin offers featured on this website are provided by third-party operators. These schemes may carry restrictions on usage and withdrawals, and may be limited to new customers only. Terms vary by operator — please review the full terms on the relevant operator's website and contact their customer support team if anything is unclear.
-
-Availability
-
-While we make every effort to keep this website running smoothly, we accept no responsibility for any technical unavailability caused by circumstances beyond our control. We reserve the right to take the website offline for maintenance at any time without prior notice.
-
-This disclaimer is subject to the laws of England and Wales.`;
+Every effort is made to keep the website up and running smoothly. However, Super Free Bingo takes no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.`;
 
 export default function DisclaimerPage(): React.ReactElement {
     return (
         <main className="flex w-full flex-col bg-surface">
             <SfbNav />
-            <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <USP text="OVER 150,000 OFFERS CLAIMED" />
 
             <section className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12">
                 <div className="flex flex-col gap-8">

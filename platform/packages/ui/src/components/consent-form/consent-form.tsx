@@ -14,7 +14,7 @@ import type {
     InterestState
 } from './consent-form.types';
 
-const LEGAL_TEXT = `By accepting our terms and clicking "SIGN ME UP", I confirm that I would like to receive marketing communications about the latest casino, bingo, and sports offers; winners; news; giveaways; competitions and incentives via email, SMS and social messaging (e.g. WhatsApp) from Little Star Media Ltd and It's A Good Choice Ltd.`;
+const LEGAL_TEXT = `By accepting our terms and clicking "SIGN ME UP", I confirm that I would like to receive marketing communications about the latest casino, bingo, and sports offers; winners; news; giveaways; competitions and incentives via email, SMS, and social messaging (e.g. WhatsApp) from Little Star Media Ltd and It's A Good Choice Ltd. I also agree to receive exclusive non-gambling retail promotions, such as vouchers and discounts for well-known brands, via email, SMS and social messaging from selected third-party partners.`;
 
 const INTERESTS = [
     { key: 'casino', label: 'Casino (inc. Slots)' },
@@ -105,7 +105,7 @@ export function ConsentForm({
     }
 
     return (
-        <div className={`w-full flex flex-col gap-2 px-4 py-5 ${className}`}>
+        <div className={`w-full flex flex-col gap-2 ${className}`}>
             <div className="flex items-center w-full">
                 <Checkbox
                     checked={mainChecked}
@@ -133,7 +133,9 @@ export function ConsentForm({
                 </div>
             )}
 
-            <p className="text-sm font-normal leading-5 text-on-surface-light">{LEGAL_TEXT}</p>
+            <p className="text-xs font-normal leading-4 tracking-[0.4px] text-on-surface-light">
+                {LEGAL_TEXT}
+            </p>
 
             {isExpanded === true && (
                 <div className="flex flex-col gap-2 mt-1">

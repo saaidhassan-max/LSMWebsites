@@ -172,7 +172,7 @@ export function SignupForm({
 
         if (variant === 'sfb-sfsg') {
             return (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                     <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
                         {resolvedRequiredNote}
                     </p>
@@ -338,9 +338,8 @@ export function SignupForm({
                             />
                         </>
                     )}
+                    {renderConsentSection()}
                 </div>
-
-                {renderConsentSection()}
 
                 <Button
                     variant="secondary"

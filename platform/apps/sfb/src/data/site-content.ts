@@ -126,7 +126,7 @@ export const offers: OfferCardProps[] = [
 ];
 
 export const signupInstructionText =
-    'Sign up below to get the latest bingo deals delivered straight to your inbox!';
+    'Sign up below to get the latest deals delivered straight to your inbox!';
 
 export const signupLegalDisclaimer =
     'New Customers Only. 18+ Full T&Cs apply. BeGambleAware.org.';

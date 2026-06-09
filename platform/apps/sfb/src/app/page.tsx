@@ -15,7 +15,7 @@ export default function HomePage(): React.ReactElement {
         <main className="flex flex-col w-full bg-surface">
             <SfbNav />
 
-            <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <USP text="OVER 150,000 OFFERS CLAIMED" />
 
             <WelcomeBanner
                 textHighlight="TOP"
@@ -50,12 +50,12 @@ export default function HomePage(): React.ReactElement {
             </div>
 
             <div className="md:hidden w-full">
-                <WebsiteDirectory title="SFB Bingo Directory" sites={directorySites} />
+                <WebsiteDirectory title="Super Free Bingo Directory" sites={directorySites} splitAtDot />
             </div>
 
             <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
                 <div className="flex-1">
-                    <WebsiteDirectory title="SFB Bingo Directory" sites={directorySites} />
+                    <WebsiteDirectory title="Super Free Bingo Directory" sites={directorySites} splitAtDot />
                 </div>
                 <div className="flex-1">
                     <SignupForm variant="sfb-sfsg" brandName="Super Free Bingo" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />

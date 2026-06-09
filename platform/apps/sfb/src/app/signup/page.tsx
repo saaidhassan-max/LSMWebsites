@@ -100,7 +100,7 @@ export default function SignupPage(): React.ReactElement {
         <main className="flex flex-col w-full bg-surface min-h-screen gap-[10px] pb-[80px] md:pb-0">
             <div className="flex flex-col">
                 <SfbNav />
-                <USP text="OVER 5,000,000 SUBSCRIBERS" />
+                <USP text="OVER 150,000 OFFERS CLAIMED" />
             </div>
 
             <div className="relative overflow-hidden">
@@ -138,9 +138,9 @@ export default function SignupPage(): React.ReactElement {
                         </p>
                         <TextField
                             icon={Mail}
-                            label="Email"
+                            label="Email Address*"
                             type="email"
-                            placeholder="Insert your email"
+                            placeholder="Your Email"
                             value={email}
                             error={emailError}
                             onChange={handleEmailChange}
@@ -148,14 +148,17 @@ export default function SignupPage(): React.ReactElement {
                         />
                         <TextField
                             icon={Phone}
-                            label="Phone Number"
+                            label="Mobile Number"
                             type="tel"
-                            placeholder="Your phone number"
+                            placeholder="Your number"
                             value={phone}
                             error={phoneError}
                             onChange={handlePhoneChange}
                             onClear={handlePhoneClear}
                         />
+                        <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
+                            ** Required Information
+                        </p>
                         <ConsentForm
                             defaultExpanded={false}
                             forceShowErrors={forceConsentErrors}

@@ -81,7 +81,7 @@ export default function ContactPage(): React.ReactElement {
             </div>
 
             <div className="w-full max-w-[1440px] mx-auto px-4 py-4 md:px-16 md:py-8">
-                <WebsiteDirectory title="Bingo Directory" sites={directorySites} />
+                <WebsiteDirectory title="Super Free Bingo Directory" sites={directorySites} splitAtDot />
             </div>
 
             <SfbFooter legalText={legalText} />

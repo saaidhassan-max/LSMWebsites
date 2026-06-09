@@ -13,10 +13,23 @@ Before doing any project work, Claude Code must read:
 Follow `SHARED_RULES.md` for project rules, workflow, escalation rules, tech stack, design system rules, website list, and `PROGRESS.md` update requirements.
 
 ## Figma Tool Order (MANDATORY)
-1. Always use `mcp__figma-console__*` (desktop bridge) for ALL Figma read/write
-2. If it fails → ask user to restart the bridge plugin first
-3. Only fall back to other Figma MCP tools if it still fails after restart
+
+### Reading existing designs → Console Bridge MCP
+- Always use `mcp__figma-console__*` (desktop bridge) for reading any existing Figma component or design
+- If it fails → ask user to restart the bridge plugin first
+- Only fall back to other Figma MCP tools if it still fails after restart
 - Bridge path: /Users/Saied.Hassan/Desktop/LSM-DS/figma-console-mcp-main/figma-desktop-bridge
+
+### Creating new Figma content → figma-cli
+- Use `figma-ds-cli` (via Bash) when creating net-new components, layouts, or pages that do not yet exist in Figma
+- figma-cli uses JSX render syntax and binds directly to LSM Foundation tokens via `var:token-name` (e.g. `var:primary`, `var:tertiary`, `var:on-surface-light`)
+- CLI is installed at `~/.npm-global/bin/figma-ds-cli` — always prefix commands with `export PATH="$HOME/.npm-global/bin:$PATH" &&`
+- Figma Desktop must be running and connected (user runs `figma-ds-cli connect` once per session if not already connected)
+- After creating, use the console bridge to read back the result and verify token resolution
+
+### Decision rule (one line)
+- **Already exists in Figma → bridge MCP to read it, then write code**
+- **Does not exist in Figma yet → figma-cli to create it, then bridge to verify**
 
 ## Figma Reading — Always Use Deep (MANDATORY)
 - Always use `figma_get_component_for_development_deep` when reading any component, no exceptions

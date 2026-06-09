@@ -183,6 +183,27 @@ In a `flex-col` container, `mx-auto` absorbs available horizontal space instead 
 
 Apply this to every section that uses `max-w-[...]` — no exceptions.
 
+## Figma Tools — When to Use Which
+
+| Situation | Tool | Why |
+|---|---|---|
+| Reading an existing component or screen | `mcp__figma-console__*` (console bridge) | Resolves token names, reads 20 levels deep, pixel-accurate |
+| Creating something that doesn't exist in Figma yet | `figma-ds-cli` (CLI via Bash) | Fast creation with LSM token binding via `var:token-name` |
+| Verifying after CLI creation | `mcp__figma-console__*` | Confirm tokens resolved correctly and structure is right |
+
+**The one-line rule:** already in Figma → bridge. New from scratch → CLI first, then bridge to verify.
+
+**figma-cli token binding:** use `var:primary`, `var:secondary`, `var:tertiary`, `var:surface`, `var:on-surface-light`, `var:on-surface-dark`, `var:outline`, `var:outline-variant` etc. — these map directly to the LSM Foundation collection already in the Figma file.
+
+**figma-cli JSX render syntax (key props):**
+- Layout: `flex="row"` / `flex="col"`, `gap={8}`, `px={16}`, `py={8}`, `justify="center"`, `items="center"`
+- Size: `w={320}`, `h={48}`, `w="fill"`, `h="fill"`
+- Appearance: `bg="var:primary"`, `rounded={8}`, `stroke="var:outline"`
+- Text: `<Text size={16} weight="bold" color="var:on-surface-light" w="fill">Label</Text>`
+- Icons: `<Icon name="lucide:check" size={20} color="var:on-primary" />`
+
+---
+
 ## Design System — Token Collections
 The same token must be used in both Figma and code. No hardcoded values anywhere.
 
