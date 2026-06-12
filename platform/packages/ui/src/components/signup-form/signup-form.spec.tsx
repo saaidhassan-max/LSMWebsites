@@ -7,7 +7,7 @@ describe('SignupForm', () => {
     it('renders signup fields', () => {
         render(<SignupForm />);
 
-        expect(screen.getByLabelText('Email')).toBeInTheDocument();
-        expect(screen.getByLabelText('Phone Number')).toBeInTheDocument();
+        expect(screen.getByLabelText('Email Address*')).toBeInTheDocument();
+        expect(screen.getByLabelText('Phone Number*')).toBeInTheDocument();
     });
 });

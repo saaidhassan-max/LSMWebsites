@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Mail, User } from 'lucide-react';
+import { ArrowRight, Mail, Phone } from 'lucide-react';
 import { Button } from '@lsm/ui/components/button/button';
 import { Checkbox } from '@lsm/ui/components/checkbox/checkbox';
 import { SfbetsFooter } from '@lsm/ui/components/sfbets-footer/sfbets-footer';
@@ -15,8 +15,8 @@ import { USP } from '@lsm/ui/components/usp/usp';
 import { SfbetsNav } from '../../components/sfbets-nav';
 import { legalText, signupInstructionText, signupLegalDisclaimer } from '../../data/site-content';
 
-function validateName(value: string): string {
-    if (!value.trim()) return 'First name is required';
+function validatePhone(value: string): string {
+    if (!value.trim()) return 'Phone number is required';
     return '';
 }
 
@@ -28,11 +28,11 @@ function validateEmail(value: string): string {
 
 export default function SignupPage(): React.ReactElement {
     const router = useRouter();
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [consentChecked, setConsentChecked] = useState(false);
-    const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
     const [consentError, setConsentError] = useState(false);
     const submitButtonRef = useRef<HTMLDivElement>(null);
     const [showStickySubmit, setShowStickySubmit] = useState(false);
@@ -53,26 +53,16 @@ export default function SignupPage(): React.ReactElement {
     }, []);
 
     function handleSubmit(): void {
-        const nErr = validateName(name);
         const eErr = validateEmail(email);
+        const pErr = validatePhone(phone);
 
-        setNameError(nErr);
         setEmailError(eErr);
+        setPhoneError(pErr);
         if (!consentChecked) setConsentError(true);
 
-        if (nErr === '' && eErr === '' && consentChecked) {
+        if (eErr === '' && pErr === '' && consentChecked) {
             router.push('/');
         }
-    }
-
-    function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
-        setName(e.target.value);
-        if (nameError !== '') setNameError(validateName(e.target.value));
-    }
-
-    function handleNameClear(): void {
-        setName('');
-        if (nameError !== '') setNameError('First name is required');
     }
 
     function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -83,6 +73,16 @@ export default function SignupPage(): React.ReactElement {
     function handleEmailClear(): void {
         setEmail('');
         if (emailError !== '') setEmailError('Email is required');
+    }
+
+    function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        setPhone(e.target.value);
+        if (phoneError !== '') setPhoneError(validatePhone(e.target.value));
+    }
+
+    function handlePhoneClear(): void {
+        setPhone('');
+        if (phoneError !== '') setPhoneError('Phone number is required');
     }
 
     function handleConsentChange(checked: boolean): void {
@@ -138,16 +138,6 @@ export default function SignupPage(): React.ReactElement {
                             </p>
                         </div>
                         <TextField
-                            icon={User}
-                            label="First Name*"
-                            type="text"
-                            placeholder="Your Name"
-                            value={name}
-                            error={nameError}
-                            onChange={handleNameChange}
-                            onClear={handleNameClear}
-                        />
-                        <TextField
                             icon={Mail}
                             label="Email Address*"
                             type="email"
@@ -156,6 +146,16 @@ export default function SignupPage(): React.ReactElement {
                             error={emailError}
                             onChange={handleEmailChange}
                             onClear={handleEmailClear}
+                        />
+                        <TextField
+                            icon={Phone}
+                            label="Phone Number*"
+                            type="tel"
+                            placeholder="Your Phone Number"
+                            value={phone}
+                            error={phoneError}
+                            onChange={handlePhoneChange}
+                            onClear={handlePhoneClear}
                         />
 
                         <div className="flex flex-col gap-2">

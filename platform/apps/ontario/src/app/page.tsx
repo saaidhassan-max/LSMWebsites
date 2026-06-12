@@ -102,7 +102,6 @@ export default function HomePage(): React.ReactElement {
                             brandName="Good.Choice"
                             privacyPolicyUrl="/privacy-policy"
                             termsUrl="/terms"
-                            nameEmailMode
                         />
                     </div>
                 </div>

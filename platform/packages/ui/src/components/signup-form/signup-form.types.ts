@@ -3,7 +3,6 @@ export type SignupFormVariant = 'ontario' | 'sfb-sfsg' | 'sfbets';
 export interface SignupFormData {
     email: string;
     phone: string;
-    name: string;
     consent: boolean;
 }
 
@@ -18,5 +17,4 @@ export interface SignupFormProps {
     ageConfirmText?: string;
     consentLabel?: string;
     consentBodyText?: string;
-    nameEmailMode?: boolean;
 }
