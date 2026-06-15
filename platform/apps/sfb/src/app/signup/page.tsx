@@ -148,9 +148,9 @@ export default function SignupPage(): React.ReactElement {
                         />
                         <TextField
                             icon={Phone}
-                            label="Mobile Number"
+                            label="Phone Number*"
                             type="tel"
-                            placeholder="Your number"
+                            placeholder="Your Phone Number"
                             value={phone}
                             error={phoneError}
                             onChange={handlePhoneChange}

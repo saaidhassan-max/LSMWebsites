@@ -35,7 +35,7 @@ export default function Home(): React.ReactElement {
                         href="https://example.com"
                     />
                     <div className="md:hidden">
-                        <SignupForm brandName="Super Spillemaskiner" />
+                        <SignupForm variant="sfb-sfsg" brandName="Super Spillemaskiner" />
                     </div>
                     <OfferCard {...offers[2]} />
                     <OfferCard {...offers[3]} />
@@ -51,7 +51,7 @@ export default function Home(): React.ReactElement {
                     <WebsiteDirectory title="SSM Casino Directory" sites={directorySites} />
                 </div>
                 <div className="flex-1">
-                    <SignupForm brandName="Super Spillemaskiner" />
+                    <SignupForm variant="sfb-sfsg" brandName="Super Spillemaskiner" />
                 </div>
             </div>
 

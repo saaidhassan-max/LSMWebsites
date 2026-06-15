@@ -84,9 +84,9 @@ export default function SignupPage(): React.ReactElement {
 
                     <TextField
                         icon={Mail}
-                        label="Email"
+                        label="Email Address*"
                         type="email"
-                        placeholder="Insert your email"
+                        placeholder="Your Email"
                         value={email}
                         error={emailError}
                         onChange={(e) => {
@@ -100,9 +100,9 @@ export default function SignupPage(): React.ReactElement {
                     />
                     <TextField
                         icon={Phone}
-                        label="Phone Number"
+                        label="Phone Number*"
                         type="tel"
-                        placeholder="Your phone number"
+                        placeholder="Your Phone Number"
                         value={phone}
                         error={phoneError}
                         onChange={(e) => {

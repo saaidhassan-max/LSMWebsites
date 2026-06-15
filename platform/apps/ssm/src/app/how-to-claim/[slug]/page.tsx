@@ -117,7 +117,7 @@ export default async function HowToClaimPage({
                             <WebsiteDirectory title="SSM Casino Directory" sites={directorySites} />
                         </div>
                         <div className="flex-1">
-                            <SignupForm brandName="Super Spillemaskiner" />
+                            <SignupForm variant="sfb-sfsg" brandName="Super Spillemaskiner" />
                         </div>
                     </div>
                 </div>

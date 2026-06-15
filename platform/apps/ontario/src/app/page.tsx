@@ -99,6 +99,7 @@ export default function HomePage(): React.ReactElement {
                     </div>
                     <div className="flex-1">
                         <SignupForm
+                            variant="ontario"
                             brandName="Good.Choice"
                             privacyPolicyUrl="/privacy-policy"
                             termsUrl="/terms"
