@@ -17,6 +17,8 @@
     "build:sfbets": "npm run build --workspace=apps/sfbets",
     "dev:ontario": "npm run dev --workspace=apps/ontario",
     "build:ontario": "npm run build --workspace=apps/ontario",
+    "dev:cms": "npm run dev --workspace=apps/cms",
+    "build:cms": "npm run build --workspace=apps/cms",
     "storybook": "npm run storybook --workspace=packages/ui",
     "build-storybook": "npm run build-storybook --workspace=packages/ui"
   },

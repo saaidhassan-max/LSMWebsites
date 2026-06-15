@@ -19,12 +19,16 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '📋', label: 'Sign Up', href: '/signup' }
 ];
 
-export function SfbNav(): React.ReactElement {
+interface SfbNavProps {
+    items?: NavItem[];
+}
+
+export function SfbNav({ items: passedItems = BASE_ITEMS }: SfbNavProps): React.ReactElement {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const pathname = usePathname();
 
     const seenPaths = new Set<string>();
-    const items = BASE_ITEMS.map((item) => {
+    const items = passedItems.map((item) => {
         const isFirst = !seenPaths.has(item.href);
         seenPaths.add(item.href);
         return { ...item, isActive: item.href === pathname && isFirst };

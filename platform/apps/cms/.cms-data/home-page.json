@@ -1,0 +1,27 @@
+{
+  "offerIds": [
+    "off_betfair_casino_50fs",
+    "off_ladbrokes_50fs",
+    "off_sky_vegas_70fs",
+    "off_buzz_bingo_10fs",
+    "off_sun_bingo_10fs",
+    "off_paddy_power_games_60fs",
+    "off_foxy_bingo_100fs",
+    "off_betfair_bingo_60bonus"
+  ],
+  "welcome": {
+    "textHighlight": "TOP",
+    "text": " BINGO DEALS 2026",
+    "textSuffix": "",
+    "features": [
+      "⭐ Super Offers",
+      "✅ Super Simple",
+      "🛡️ Super Secure"
+    ],
+    "imageLeftSrc": "/sfb/welcome-images/image-left.png",
+    "imageRightSrc": "/sfb/welcome-images/image-right.png",
+    "imageLeftWidthMobile": 83,
+    "imageLeftWidthDesktop": 204
+  },
+  "updatedAt": "2026-06-13T09:00:00.000Z"
+}

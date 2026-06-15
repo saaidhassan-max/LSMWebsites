@@ -8,8 +8,10 @@ import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { USP } from '@lsm/ui/components/usp/usp';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { SfbNav } from '../../../components/sfb-nav';
+import { getCmsOfferPage, getCmsSiteSettings } from '../../../data/cms-content';
 import { getCasino } from '../../../data/casinos';
-import { directorySites, legalText } from '../../../data/site-content';
+
+export const dynamic = 'force-dynamic';
 
 export default async function HowToClaimPage({
     params
@@ -17,61 +19,69 @@ export default async function HowToClaimPage({
     params: Promise<{ slug: string }>;
 }): Promise<React.ReactElement> {
     const { slug } = await params;
+    const [cmsOffer, settings] = await Promise.all([getCmsOfferPage(slug), getCmsSiteSettings()]);
     const casino = getCasino(slug);
-    if (casino === undefined) {
+    const page = cmsOffer ?? casino;
+
+    if (page === undefined) {
         notFound();
     }
 
-    const midpoint = Math.ceil((casino.reviewSections?.length ?? 0) / 2);
-    const leftSections = casino.reviewSections?.slice(0, midpoint) ?? [];
-    const rightSections = casino.reviewSections?.slice(midpoint) ?? [];
+    const reviewSections = 'reviewSections' in page ? page.reviewSections : undefined;
+    const midpoint = Math.ceil((reviewSections?.length ?? 0) / 2);
+    const leftSections = reviewSections?.slice(0, midpoint) ?? [];
+    const rightSections = reviewSections?.slice(midpoint) ?? [];
 
     return (
         <main className="flex flex-col w-full bg-surface">
-            <SfbNav />
-            <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <SfbNav items={settings.navItems} />
+            <USP text={settings.howToClaimUspText} />
             <HtcUsp
-                logoSrc={casino.logoSrc}
-                logoAlt={casino.logoAlt}
-                headline={casino.offerHeadline}
-                badges={casino.trustBadges}
+                logoSrc={page.logoSrc}
+                logoAlt={page.logoAlt}
+                headline={page.offerHeadline}
+                badges={page.trustBadges}
             />
             <HowToClaimSteps
-                steps={casino.howToSteps}
-                termsText={casino.howToTermsText}
-                imageSrc={casino.howToImageSrc}
-                imageAlt={casino.howToImageAlt}
-                ctaText={casino.ctaText}
-                ctaHref={casino.ctaHref}
+                steps={page.howToSteps}
+                termsText={page.howToTermsText}
+                imageSrc={page.howToImageSrc}
+                imageAlt={page.howToImageAlt}
+                ctaText={page.ctaText}
+                ctaHref={page.ctaHref}
             />
             <div className="w-full pt-8">
                 <div className="md:hidden flex flex-col gap-6 px-4">
                     <p className="text-[14px] text-on-surface-light whitespace-pre-wrap">
-                        {casino.reviewBody}
+                        {page.reviewBody}
                     </p>
 
                     <a
-                        href={casino.ctaHref}
+                        href={page.ctaHref}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block w-full"
                     >
                         <Button variant="primary" className="w-full">
-                            {casino.ctaText}
+                            {page.ctaText}
                         </Button>
                     </a>
 
-                    <WebsiteDirectory title="Super Free Bingo Directory" sites={directorySites} splitAtDot />
+                    <WebsiteDirectory
+                        title={settings.directoryTitle}
+                        sites={settings.directorySites}
+                        splitAtDot
+                    />
                 </div>
                 <div className="hidden md:flex flex-col gap-6 max-w-[1440px] mx-auto">
                     <div className="flex flex-col gap-6 px-16">
-                        {casino.reviewIntro && (
+                        {page.reviewIntro && (
                             <p className="text-base font-bold text-on-surface-light">
-                                {casino.reviewIntro}
+                                {page.reviewIntro}
                             </p>
                         )}
 
-                        {casino.reviewSections && casino.reviewSections.length > 0 && (
+                        {reviewSections && reviewSections.length > 0 && (
                             <div className="grid grid-cols-2 gap-8">
                                 <div className="flex flex-col gap-8">
                                     {leftSections.map((section, i) => (
@@ -101,20 +111,24 @@ export default async function HowToClaimPage({
                         )}
                         <div className="grid grid-cols-2 gap-[10px]">
                             <a
-                                href={casino.ctaHref}
+                                href={page.ctaHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="block"
                             >
                                 <Button variant="primary" className="w-full">
-                                    {casino.ctaText}
+                                    {page.ctaText}
                                 </Button>
                             </a>
                         </div>
                     </div>
                     <div className="flex px-16 py-8">
                         <div className="flex-1">
-                            <WebsiteDirectory title="Super Free Bingo Directory" sites={directorySites} splitAtDot />
+                            <WebsiteDirectory
+                                title={settings.directoryTitle}
+                                sites={settings.directorySites}
+                                splitAtDot
+                            />
                         </div>
                         <div className="flex-1">
                             <SignupForm variant="sfb-sfsg" brandName="Super Free Bingo" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
@@ -122,7 +136,7 @@ export default async function HowToClaimPage({
                     </div>
                 </div>
             </div>
-            <SfbFooter legalText={legalText} />
+            <SfbFooter legalText={settings.footerLegalText} />
         </main>
     );
 }

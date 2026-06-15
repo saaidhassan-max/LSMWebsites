@@ -1,0 +1,82 @@
+[
+  {
+    "id": "op_betfair_casino",
+    "name": "32red",
+    "slug": "betfair-casino",
+    "logoSrc": "/uploads/img_mqf96m7v.png",
+    "status": "active",
+    "reviewIntro": "Betfair Casino is one of the most trusted names in online gaming, offering new players a no-deposit, no-wagering free spins welcome.",
+    "reviewBody": "Betfair Casino pairs sport-betting heritage with a premium casino: a huge slots library, live dealer tables, fast and secure payments, and full responsible-gambling tools. New customers can claim 50 free spins with no deposit and no wagering — winnings are paid in cash.",
+    "updatedAt": "2026-06-15T13:33:08.189Z"
+  },
+  {
+    "id": "op_betfair_bingo",
+    "name": "Betfair Bingo",
+    "slug": "betfair-bingo",
+    "logoSrc": "/sfb/brands/placeholder.png",
+    "status": "active",
+    "reviewIntro": "Betfair Bingo brings the trusted Betfair brand to the bingo room, with a generous bonus on your first £10 of tickets.",
+    "reviewBody": "Betfair Bingo offers a friendly community of rooms, daily games and jackpots alongside slots and casino games. Play £10 on bingo tickets and receive a £60 bingo bonus to get started.",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "op_ladbrokes",
+    "name": "Ladbrokes",
+    "slug": "ladbrokes",
+    "logoSrc": "/sfb/brands/placeholder.png",
+    "status": "active",
+    "reviewIntro": "Ladbrokes is one of the most recognisable names in UK gambling, with a polished online casino and a no-deposit free spins welcome.",
+    "reviewBody": "Ladbrokes Casino delivers a trusted experience with a large game library, live casino tables and familiar payment methods. New casino players receive 50 free spins on registration — no deposit, no wagering.",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "op_sun_bingo",
+    "name": "Sun Bingo",
+    "slug": "sun-bingo",
+    "logoSrc": "/sfb/brands/placeholder.png",
+    "status": "active",
+    "reviewIntro": "Sun Bingo is a long-running favourite, giving new players free spins on sign-up plus a big boost when they top up.",
+    "reviewBody": "Sun Bingo combines a vibrant bingo community with popular slots and daily promotions. Register to receive 10 free spins, then spend £10 to unlock 200 more.",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "op_sky_vegas",
+    "name": "Sky Vegas",
+    "slug": "sky-vegas",
+    "logoSrc": "/sfb/brands/placeholder.png",
+    "status": "active",
+    "reviewIntro": "Sky Vegas is a well-known UK casino brand offering one of the most generous no-deposit free spins welcomes around.",
+    "reviewBody": "Sky Vegas offers hundreds of slots and casino games with a slick, easy-to-use site. Opt in as a new customer to claim up to 70 free spins with no deposit and no wagering.",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "op_buzz_bingo",
+    "name": "Buzz Bingo",
+    "slug": "buzz-bingo",
+    "logoSrc": "/sfb/brands/placeholder.png",
+    "status": "active",
+    "reviewIntro": "Buzz Bingo is a leading UK bingo brand, combining online rooms and slots with an established real-world club presence.",
+    "reviewBody": "Buzz Bingo offers a community-driven experience with online rooms, slot games, daily deals and safer-gambling support. New customers receive 10 free spins on registration with no deposit required.",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "op_paddy_power_games",
+    "name": "Paddy Power Games",
+    "slug": "paddy-power-games",
+    "logoSrc": "/sfb/brands/placeholder.png",
+    "status": "active",
+    "reviewIntro": "Paddy Power Games delivers the brand’s trademark fun with a strong free-spins welcome across its slots and casino games.",
+    "reviewBody": "Paddy Power Games offers a broad library of slots, jackpots and live casino. New customers get 60 free spins, plus 200 more when they spend £10.",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "op_foxy_bingo",
+    "name": "Foxy Bingo",
+    "slug": "foxy-bingo",
+    "logoSrc": "/sfb/brands/placeholder.png",
+    "status": "active",
+    "reviewIntro": "Foxy Bingo is a household bingo name with a playful brand and a rewarding free-spins offer for new players.",
+    "reviewBody": "Foxy Bingo offers bingo rooms, slots and regular promotions in a friendly, well-known setting. Deposit and spend £10 to receive 100 free spins.",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  }
+]

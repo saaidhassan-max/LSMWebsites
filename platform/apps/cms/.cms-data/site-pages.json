@@ -1,0 +1,98 @@
+[
+  {
+    "id": "page_np2bszzr",
+    "name": "test page",
+    "slug": "untitled-szzr",
+    "status": "draft",
+    "publishedAt": null,
+    "updatedAt": "2026-06-15T13:30:12.110Z",
+    "sections": [
+      {
+        "id": "richText_stjauy",
+        "type": "richText",
+        "content": {
+          "heading": "Section heading",
+          "body": "Write your content here."
+        }
+      },
+      {
+        "id": "welcome_3k9zox",
+        "type": "welcome",
+        "content": {
+          "textHighlight": "TOP",
+          "text": " BINGO DEALS 2026",
+          "textSuffix": "",
+          "features": [
+            "⭐ Super Offers",
+            "✅ Super Simple",
+            "🛡️ Super Secure"
+          ],
+          "imageLeftSrc": "/sfb/welcome-images/image-left.png",
+          "imageRightSrc": "/sfb/welcome-images/image-right.png"
+        }
+      },
+      {
+        "id": "signup_ut05qt",
+        "type": "signup",
+        "content": {
+          "heading": "Sign up for the latest offers"
+        }
+      },
+      {
+        "id": "directory_zghpmu",
+        "type": "directory",
+        "content": {
+          "title": "Super Free Bingo Directory"
+        }
+      }
+    ]
+  },
+  {
+    "id": "page_no_deposit_bingo",
+    "name": "No Deposit Bingo",
+    "slug": "no-deposit-bingo",
+    "status": "published",
+    "publishedAt": "2026-06-13T09:00:00.000Z",
+    "updatedAt": "2026-06-13T09:00:00.000Z",
+    "sections": [
+      {
+        "id": "welcome_nodep",
+        "type": "welcome",
+        "content": {
+          "textHighlight": "NO DEPOSIT",
+          "text": " BINGO OFFERS",
+          "textSuffix": "",
+          "features": [
+            "⭐ No Deposit",
+            "✅ No Wagering",
+            "🛡️ Trusted Brands"
+          ],
+          "imageLeftSrc": "/sfb/welcome-images/image-left.png",
+          "imageRightSrc": "/sfb/welcome-images/image-right.png"
+        }
+      },
+      {
+        "id": "rich_nodep",
+        "type": "richText",
+        "content": {
+          "heading": "What is No Deposit Bingo?",
+          "body": "No deposit bingo offers let you claim free spins or free tickets without spending a penny. Simply register a new account with one of our trusted, UK-licensed brands and your free spins are added automatically — no card details or deposit required. It is the easiest way to try a new bingo site risk-free."
+        }
+      },
+      {
+        "id": "signup_nodep",
+        "type": "signup",
+        "content": {
+          "heading": "Get no-deposit offers in your inbox"
+        }
+      },
+      {
+        "id": "directory_nodep",
+        "type": "directory",
+        "content": {
+          "title": "Super Free Bingo Directory"
+        }
+      }
+    ]
+  }
+]

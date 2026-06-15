@@ -1,0 +1,159 @@
+[
+  {
+    "id": "off_betfair_casino_50fs",
+    "operatorId": "op_betfair_casino",
+    "headline": "50 FREE SPINS",
+    "label": "NO DEPOSIT",
+    "labelColor": "orange",
+    "details": [
+      "No Deposit",
+      "No Wagering"
+    ],
+    "howToClaimSteps": [
+      "Click \"Click To Claim\" to visit Betfair Casino.",
+      "Register a new account with your details.",
+      "Your bonus is applied automatically once you qualify — follow the on-site instructions."
+    ],
+    "termsText": "18+. New customers only. Register via promo code CASAFS to receive 50 free spins (worth £0.10 each). Winnings paid in cash. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "off_ladbrokes_50fs",
+    "operatorId": "op_ladbrokes",
+    "headline": "50 FREE SPINS",
+    "label": "NO DEPOSIT",
+    "labelColor": "red",
+    "details": [
+      "No Deposit",
+      "No Wagering"
+    ],
+    "howToClaimSteps": [
+      "Click \"Click To Claim\" to visit Ladbrokes.",
+      "Register a new account with your details.",
+      "Your bonus is applied automatically once you qualify — follow the on-site instructions."
+    ],
+    "termsText": "18+. New Casino players only. 50 Free Spins (£0.10 each, selected games, valid 7 days) awarded on registration. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "off_sky_vegas_70fs",
+    "operatorId": "op_sky_vegas",
+    "headline": "70 FREE SPINS",
+    "label": "NO DEPOSIT",
+    "labelColor": "red",
+    "details": [
+      "No Deposit",
+      "No Wagering"
+    ],
+    "howToClaimSteps": [
+      "Click \"Click To Claim\" to visit Sky Vegas.",
+      "Register a new account with your details.",
+      "Your bonus is applied automatically once you qualify — follow the on-site instructions."
+    ],
+    "termsText": "18+. New customers only. Opt-in required. 70 free spins with 7-day expiry. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "off_buzz_bingo_10fs",
+    "operatorId": "op_buzz_bingo",
+    "headline": "10 FREE SPINS",
+    "label": "NO DEPOSIT",
+    "labelColor": "red",
+    "details": [
+      "No Deposit"
+    ],
+    "howToClaimSteps": [
+      "Click \"Click To Claim\" to visit Buzz Bingo.",
+      "Register a new account with your details.",
+      "Your bonus is applied automatically once you qualify — follow the on-site instructions."
+    ],
+    "termsText": "18+. New customers only. Register online to receive 10 free spins. No deposit required. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "off_sun_bingo_10fs",
+    "operatorId": "op_sun_bingo",
+    "headline": "10 FREE SPINS + 200 ON £10",
+    "label": "SPEND £10",
+    "labelColor": "red",
+    "details": [
+      "10 Free Spins",
+      "+200 on £10"
+    ],
+    "howToClaimSteps": [
+      "Click \"Click To Claim\" to visit Sun Bingo.",
+      "Register a new account with your details.",
+      "Your bonus is applied automatically once you qualify — follow the on-site instructions."
+    ],
+    "termsText": "18+. New customers only. Register to receive 10 Free Spins, then spend £10 to receive 200 Free Spins. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "off_paddy_power_games_60fs",
+    "operatorId": "op_paddy_power_games",
+    "headline": "60 FREE SPINS + 200 ON £10",
+    "label": "SPEND £10",
+    "labelColor": "red",
+    "details": [
+      "60 Free Spins",
+      "+200 on £10"
+    ],
+    "howToClaimSteps": [
+      "Click \"Click To Claim\" to visit Paddy Power Games.",
+      "Register a new account with your details.",
+      "Your bonus is applied automatically once you qualify — follow the on-site instructions."
+    ],
+    "termsText": "18+. New customers only. 60 Free Spins on eligible games, plus 200 more when you spend £10. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "off_foxy_bingo_100fs",
+    "operatorId": "op_foxy_bingo",
+    "headline": "100 FREE SPINS",
+    "label": "SPEND £10",
+    "labelColor": "red",
+    "details": [
+      "Spend £10"
+    ],
+    "howToClaimSteps": [
+      "Click \"Click To Claim\" to visit Foxy Bingo.",
+      "Register a new account with your details.",
+      "Your bonus is applied automatically once you qualify — follow the on-site instructions."
+    ],
+    "termsText": "18+. New customers only. Deposit and spend £10 on any casino or slots game to receive 100 free spins. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  },
+  {
+    "id": "off_betfair_bingo_60bonus",
+    "operatorId": "op_betfair_bingo",
+    "headline": "£60 BINGO BONUS",
+    "label": "SPEND £10",
+    "labelColor": "red",
+    "details": [
+      "Spend £10"
+    ],
+    "howToClaimSteps": [
+      "Click \"Click To Claim\" to visit Betfair Bingo.",
+      "Register a new account with your details.",
+      "Your bonus is applied automatically once you qualify — follow the on-site instructions."
+    ],
+    "termsText": "18+. New customers only. Reg code BINW50. Play £10 on bingo tickets to receive a £60 bingo bonus. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "updatedAt": "2026-06-13T09:00:00.000Z"
+  }
+]

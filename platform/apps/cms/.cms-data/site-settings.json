@@ -1,0 +1,84 @@
+{
+  "uspText": "OVER 150,000 OFFERS CLAIMED",
+  "howToClaimUspText": "OVER 5,000,000 SUBSCRIBERS",
+  "directoryTitle": "Super Free Bingo Directory",
+  "directorySites": [
+    {
+      "name": "Betfair Casino"
+    },
+    {
+      "name": "Ladbrokes"
+    },
+    {
+      "name": "Buzz Bingo"
+    },
+    {
+      "name": "Gala Bingo"
+    },
+    {
+      "name": "MrQ"
+    },
+    {
+      "name": "Sun Vegas"
+    },
+    {
+      "name": "Sky Vegas"
+    },
+    {
+      "name": "Glossy Bingo"
+    },
+    {
+      "name": "Sun Bingo"
+    },
+    {
+      "name": "Foxy Bingo"
+    },
+    {
+      "name": "Heart Bingo"
+    }
+  ],
+  "footerLegalText": "BeGambleAware.org — Free, confidential advice for anyone affected by problem gambling. Call the National Gambling Helpline: 0808 8020 133.\n\nLittle Star Media Ltd, Exchange House, 450 Midsummer Boulevard, Milton Keynes, MK9 2EA, United Kingdom\n\n©2026 Super Free Bingo. All rights reserved. Unauthorised reproduction is a violation of applicable laws.",
+  "navItems": [
+    {
+      "emoji": "🏠",
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "emoji": "🎁",
+      "label": "No Deposit Bingo",
+      "href": "/no-deposit-bingo"
+    },
+    {
+      "emoji": "🔥",
+      "label": "Free Bingo Bonuses",
+      "href": "/"
+    },
+    {
+      "emoji": "💎",
+      "label": "No Wagering Bingo",
+      "href": "/"
+    },
+    {
+      "emoji": "🛡️",
+      "label": "Safer Gambling",
+      "href": "/safer-gambling"
+    },
+    {
+      "emoji": "👋",
+      "label": "About Us",
+      "href": "/about"
+    },
+    {
+      "emoji": "✉️",
+      "label": "Contact Us",
+      "href": "/contact"
+    },
+    {
+      "emoji": "📋",
+      "label": "Sign Up",
+      "href": "/signup"
+    }
+  ],
+  "updatedAt": "2026-06-15T13:30:41.576Z"
+}

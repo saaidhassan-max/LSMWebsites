@@ -1,0 +1,34 @@
+[
+  {
+    "id": "lp_50_free_spins",
+    "name": "50 Free Spins — No Deposit",
+    "slug": "50-free-spins",
+    "status": "published",
+    "publishedAt": "2026-06-13T09:00:00.000Z",
+    "updatedAt": "2026-06-13T09:00:00.000Z",
+    "content": {
+      "heroPrefix": "Up to",
+      "heroHeadline": "50 Free Spins",
+      "heroSubline": "No Deposit & No Wagering",
+      "instructionText": "Sign up to claim 50 free spins with no deposit and no wagering — plus the latest bingo deals straight to your inbox.",
+      "backgroundImage": "/sfb/LandingPage/landingpage-background.png",
+      "legalDisclaimer": "18+. New customers only. Free spins valued at £0.10 each. Winnings paid in cash. T&Cs apply. Please gamble responsibly. BeGambleAware.org."
+    }
+  },
+  {
+    "id": "lp_500_free_tickets",
+    "name": "500 Free Tickets — June",
+    "slug": "500-free-tickets-june",
+    "status": "draft",
+    "publishedAt": null,
+    "updatedAt": "2026-06-13T09:00:00.000Z",
+    "content": {
+      "heroPrefix": "Up to",
+      "heroHeadline": "500 Free Tickets",
+      "heroSubline": "No Deposit & No Wagering",
+      "instructionText": "Sign up to claim this offer and get the latest deals straight to your inbox.",
+      "backgroundImage": "/sfb/LandingPage/landingpage-background.png",
+      "legalDisclaimer": "18+. New customers only. T&Cs apply. Please gamble responsibly. BeGambleAware.org."
+    }
+  }
+]

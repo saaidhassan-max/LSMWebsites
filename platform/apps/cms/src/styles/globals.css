@@ -1,0 +1,216 @@
+@import "tailwindcss";
+@source "../../../../packages/ui/src";
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/fonts/futura/FuturaPTBook.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/fonts/futura/FuturaPTMedium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/fonts/futura/FuturaPTBold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('/fonts/futura/FuturaPTHeavy.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme inline {
+    --font-futura: 'Futura PT', sans-serif;
+    --color-primary: var(--color-primary);
+    --color-primary-hover: var(--color-primary-hover);
+    --color-primary-focused: var(--color-primary-focused);
+    --color-primary-text: var(--color-primary-text);
+    --color-on-primary: var(--color-on-primary);
+
+    --color-secondary: var(--color-secondary);
+    --color-secondary-hover: var(--color-secondary-hover);
+    --color-secondary-focused: var(--color-secondary-focused);
+
+    --color-tertiary: var(--color-tertiary);
+    --color-tertiary-hover: var(--color-tertiary-hover);
+    --color-tertiary-focused: var(--color-tertiary-focused);
+
+    --color-surface: var(--color-surface);
+    --color-surface-inverse: var(--color-surface-inverse);
+    --color-surface-inverse-new: var(--color-surface-inverse-new);
+    --color-surface-container-lowest: var(--color-surface-container-lowest);
+    --color-surface-container-low: var(--color-surface-container-low);
+    --color-surface-container: var(--color-surface-container);
+    --color-surface-container-high: var(--color-surface-container-high);
+    --color-surface-container-highest: var(--color-surface-container-highest);
+
+    --color-on-surface-light: var(--color-on-surface-light);
+    --color-on-surface-dark: var(--color-on-surface-dark);
+
+    --color-outline: var(--color-outline);
+    --color-outline-variant: var(--color-outline-variant);
+
+    --color-error: var(--color-error);
+
+    --color-accent-red: var(--color-accent-red);
+    --color-accent-orange: var(--color-accent-orange);
+
+    --color-disabled-content: var(--color-disabled-content);
+    --color-disabled-container: var(--color-disabled-container);
+}
+
+:root {
+    --m3-background: #f9f9f9;
+    --m3-surface: #f9f9f9;
+    --m3-surface-lowest: #ffffff;
+    --m3-surface-low: #f3f3f3;
+    --m3-surface-container: #eeeeee;
+    --m3-surface-high: #e8e8e8;
+    --m3-surface-highest: #e2e2e2;
+    --m3-on-surface: #1b1b1b;
+    --m3-on-surface-variant: #4c4546;
+    --m3-outline: #7e7576;
+    --m3-outline-variant: #cfc4c5;
+    --m3-gold: #ffc332;
+    --m3-on-gold: #6f5100;
+    --m3-primary: #1b1b1b;
+    --m3-on-primary: #ffffff;
+    --m3-success: #259942;
+    --m3-success-container: #d6ffe0;
+    --m3-on-success: #008020;
+    --m3-error: #ba1a1a;
+    --m3-error-container: #ffdad6;
+    --m3-on-error: #93000a;
+    --m3-accent-orange: #fd7548;
+}
+
+.dark {
+    --m3-background: #131313;
+    --m3-surface: #131313;
+    --m3-surface-lowest: #0e0e0e;
+    --m3-surface-low: #1b1b1b;
+    --m3-surface-container: #1f1f1f;
+    --m3-surface-high: #2a2a2a;
+    --m3-surface-highest: #353535;
+    --m3-on-surface: #e2e2e2;
+    --m3-on-surface-variant: #cfc4c5;
+    --m3-outline: #988e90;
+    --m3-outline-variant: #4c4546;
+    --m3-gold: #ffc332;
+    --m3-on-gold: #6f5100;
+    --m3-primary: #e2e2e2;
+    --m3-on-primary: #303030;
+    --m3-success: #abffc0;
+    --m3-success-container: #0e3a1b;
+    --m3-on-success: #abffc0;
+    --m3-error: #ffb4ab;
+    --m3-error-container: #5a1410;
+    --m3-on-error: #ffb4ab;
+    --m3-accent-orange: #fd7548;
+}
+
+@theme inline {
+    --font-roboto: 'Roboto', system-ui, -apple-system, sans-serif;
+    --color-m3-background: var(--m3-background);
+    --color-m3-surface: var(--m3-surface);
+    --color-m3-surface-lowest: var(--m3-surface-lowest);
+    --color-m3-surface-low: var(--m3-surface-low);
+    --color-m3-surface-container: var(--m3-surface-container);
+    --color-m3-surface-high: var(--m3-surface-high);
+    --color-m3-surface-highest: var(--m3-surface-highest);
+    --color-m3-on-surface: var(--m3-on-surface);
+    --color-m3-on-surface-variant: var(--m3-on-surface-variant);
+    --color-m3-outline: var(--m3-outline);
+    --color-m3-outline-variant: var(--m3-outline-variant);
+    --color-m3-gold: var(--m3-gold);
+    --color-m3-on-gold: var(--m3-on-gold);
+    --color-m3-primary: var(--m3-primary);
+    --color-m3-on-primary: var(--m3-on-primary);
+    --color-m3-success: var(--m3-success);
+    --color-m3-success-container: var(--m3-success-container);
+    --color-m3-on-success: var(--m3-on-success);
+    --color-m3-error: var(--m3-error);
+    --color-m3-error-container: var(--m3-error-container);
+    --color-m3-on-error: var(--m3-on-error);
+    --color-m3-accent-orange: var(--m3-accent-orange);
+}
+
+@theme {
+    --spacing-xs: 0px;
+    --spacing-s: 4px;
+    --spacing-m: 8px;
+    --spacing-l: 12px;
+    --spacing-xl: 16px;
+    --spacing-2xl: 24px;
+    --spacing-3xl: 32px;
+    --spacing-4xl: 40px;
+    --spacing-5xl: 44px;
+
+    --radius-xs: 2px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 32px;
+    --radius-full: 9999px;
+}
+
+html,
+body {
+    background: var(--m3-background);
+    color: var(--m3-on-surface);
+    font-family: var(--font-roboto);
+}
+
+.cms-editable {
+    cursor: pointer;
+    outline: 1.5px dashed transparent;
+    outline-offset: 2px;
+    transition: outline-color 0.12s ease;
+}
+
+.cms-editable:hover {
+    outline-color: var(--m3-gold);
+}
+
+.cms-editable-selected,
+.cms-editable-selected:hover {
+    outline: 2px solid var(--m3-gold);
+    outline-offset: 2px;
+}
+
+.cms-field-flash {
+    animation: cms-flash 0.9s ease;
+}
+
+.cms-mobile-offer-preview .md\:hidden {
+    display: block !important;
+}
+
+.cms-mobile-offer-preview .hidden.md\:block {
+    display: none !important;
+}
+
+@keyframes cms-flash {
+    0%,
+    100% {
+        background: transparent;
+    }
+    30% {
+        background: color-mix(in srgb, var(--m3-gold) 28%, transparent);
+    }
+}
