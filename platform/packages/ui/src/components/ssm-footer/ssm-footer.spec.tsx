@@ -10,4 +10,21 @@ describe('SsmFooter', () => {
         expect(screen.getByText('Privatlivspolitik')).toBeInTheDocument();
         expect(screen.getByAltText('ROFUS')).toBeInTheDocument();
     });
+
+    it('links responsible gambling logos that have Figma click actions', () => {
+        render(<SsmFooter />);
+
+        expect(screen.getByRole('link', { name: 'ROFUS' })).toHaveAttribute(
+            'href',
+            'https://www.rofus.nu/'
+        );
+        expect(screen.getByRole('link', { name: 'Ludomani' })).toHaveAttribute(
+            'href',
+            'https://ludomani.dk/'
+        );
+        expect(screen.getByRole('link', { name: 'StopSpillet' })).toHaveAttribute(
+            'href',
+            'https://www.stopspillet.dk/'
+        );
+    });
 });

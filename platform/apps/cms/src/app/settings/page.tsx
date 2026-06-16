@@ -3,11 +3,12 @@ import { CmsSidebar } from '@/components/cms-sidebar';
 import { SiteSettingsEditor } from '@/components/site-settings-editor';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { getSiteSettings } from '@/lib/site-settings-store';
+import { listSitePages } from '@/lib/site-pages-store';
 
 export const dynamic = 'force-dynamic';
 
 export default async function SettingsScreen(): Promise<React.ReactElement> {
-    const settings = await getSiteSettings();
+    const [settings, pages] = await Promise.all([getSiteSettings(), listSitePages()]);
 
     return (
         <div className="min-h-screen flex">
@@ -17,7 +18,7 @@ export default async function SettingsScreen(): Promise<React.ReactElement> {
                     <span className="text-[15px] font-medium">Site settings</span>
                     <ThemeToggle />
                 </header>
-                <SiteSettingsEditor settings={settings} />
+                <SiteSettingsEditor settings={settings} pages={pages} />
             </main>
         </div>
     );

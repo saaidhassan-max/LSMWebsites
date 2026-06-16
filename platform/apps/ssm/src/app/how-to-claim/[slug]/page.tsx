@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { Button } from '@lsm/ui/components/button/button';
 import { HowToClaimSteps } from '@lsm/ui/components/how-to-claim-steps/how-to-claim-steps';
 import { HtcUsp } from '@lsm/ui/components/htc-usp/htc-usp';
-import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SsmFooter } from '@lsm/ui/components/ssm-footer/ssm-footer';
 import { USP } from '@lsm/ui/components/usp/usp';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
@@ -112,13 +111,8 @@ export default async function HowToClaimPage({
                             </a>
                         </div>
                     </div>
-                    <div className="flex px-16 py-8">
-                        <div className="flex-1">
-                            <WebsiteDirectory title="SSM Casino Directory" sites={directorySites} />
-                        </div>
-                        <div className="flex-1">
-                            <SignupForm variant="sfb-sfsg" brandName="Super Spillemaskiner" />
-                        </div>
+                    <div className="px-16 py-8">
+                        <WebsiteDirectory title="SSM Casino Directory" sites={directorySites} />
                     </div>
                 </div>
             </div>

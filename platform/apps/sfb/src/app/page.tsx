@@ -10,17 +10,23 @@ import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-d
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { SfbNav } from '../components/sfb-nav';
 import { offers } from '../data/site-content';
-import { getCmsHomeOfferCards, getCmsHomeWelcomeContent, getCmsSiteSettings } from '../data/cms-content';
+import {
+    getCmsHomeRenderItems,
+    getCmsHomeSectionIds,
+    getCmsHomeWelcomeContent,
+    getCmsSiteSettings
+} from '../data/cms-content';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage(): Promise<React.ReactElement> {
-    const [cmsOffers, cmsWelcome, settings] = await Promise.all([
-        getCmsHomeOfferCards(),
+    const [cmsItems, sectionIds, cmsWelcome, settings] = await Promise.all([
+        getCmsHomeRenderItems(),
+        getCmsHomeSectionIds(),
         getCmsHomeWelcomeContent(),
         getCmsSiteSettings()
     ]);
-    const pageOffers = cmsOffers ?? offers;
+    const pageItems = cmsItems ?? offers.map((offer) => ({ kind: 'offer' as const, props: offer }));
     const welcome = cmsWelcome ?? {
         textHighlight: 'TOP',
         text: ' BINGO DEALS 2026',
@@ -38,77 +44,92 @@ export default async function HomePage(): Promise<React.ReactElement> {
 
             <USP text={settings.uspText} />
 
-            <WelcomeBanner
-                textHighlight={welcome.textHighlight}
-                text={welcome.text}
-                textSuffix={welcome.textSuffix === '' ? undefined : welcome.textSuffix}
-                features={welcome.features}
-                imageLeftSrc={welcome.imageLeftSrc}
-                imageRightSrc={welcome.imageRightSrc}
-                imageLeftWidthMobile={welcome.imageLeftWidthMobile}
-                imageLeftWidthDesktop={welcome.imageLeftWidthDesktop}
-            />
-
-            <TopTCs text='Special terms apply – including age verification. Click "How To Claim" for full details.' />
-
-            <div className="w-full max-w-[1440px] mx-auto">
-                <div className="flex flex-col gap-2 p-4 md:px-16 md:py-4">
-                    {pageOffers.map((offer, index) => (
-                        <Fragment key={offer.secondaryCtaHref ?? offer.offerMain + index}>
-                            <OfferCard {...offer} />
-                            {index === 1 && (
-                                <OperatorBanner
-                                    mobileSrc="/sfb/banners/operator-banner-mobile.jpg"
-                                    desktopSrc="/sfb/banners/operator-banner-desktop.jpg"
-                                    alt="Operator promotion"
-                                    href="https://example.com"
-                                />
-                            )}
-                            {index === 3 && (
-                                <div className="md:hidden">
-                                    <SignupForm
-                                        variant="sfb-sfsg"
-                                        brandName="Super Free Bingo"
-                                        privacyPolicyUrl="/privacy-policy"
-                                        termsUrl="/terms"
-                                    />
-                                </div>
-                            )}
-                        </Fragment>
-                    ))}
-                    {pageOffers.length < 4 && (
-                        <div className="md:hidden">
-                            <SignupForm
-                                variant="sfb-sfsg"
-                                brandName="Super Free Bingo"
-                                privacyPolicyUrl="/privacy-policy"
-                                termsUrl="/terms"
-                            />
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            <div className="md:hidden w-full">
-                <WebsiteDirectory
-                    title={settings.directoryTitle}
-                    sites={settings.directorySites}
-                    splitAtDot
+            {sectionIds.includes('welcome') && (
+                <WelcomeBanner
+                    textHighlight={welcome.textHighlight}
+                    text={welcome.text}
+                    textSuffix={welcome.textSuffix === '' ? undefined : welcome.textSuffix}
+                    features={welcome.features}
+                    imageLeftSrc={welcome.imageLeftSrc}
+                    imageRightSrc={welcome.imageRightSrc}
+                    imageLeftWidthMobile={welcome.imageLeftWidthMobile}
+                    imageLeftWidthDesktop={welcome.imageLeftWidthDesktop}
                 />
-            </div>
+            )}
 
-            <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
-                <div className="flex-1">
+            {sectionIds.includes('terms') && (
+                <TopTCs text='Special terms apply – including age verification. Click "How To Claim" for full details.' />
+            )}
+
+            {sectionIds.includes('offers') && (
+                <div className="w-full max-w-[1440px] mx-auto">
+                    <div className="flex flex-col gap-2 p-4 md:px-16 md:py-4">
+                        {pageItems.map((item, index) => (
+                            <Fragment key={index}>
+                                {item.kind === 'banner' ? (
+                                    <OperatorBanner
+                                        mobileSrc={item.mobileSrc}
+                                        desktopSrc={item.desktopSrc}
+                                        alt="Operator banner"
+                                        href={item.href === '' ? undefined : item.href}
+                                    />
+                                ) : (
+                                    <OfferCard {...item.props} />
+                                )}
+                                {index === 3 && sectionIds.includes('signup') && (
+                                    <div className="md:hidden">
+                                        <SignupForm
+                                            variant="sfb-sfsg"
+                                            brandName="Super Free Bingo"
+                                            privacyPolicyUrl="/privacy-policy"
+                                            termsUrl="/terms"
+                                        />
+                                    </div>
+                                )}
+                            </Fragment>
+                        ))}
+                        {pageItems.length < 4 && sectionIds.includes('signup') && (
+                            <div className="md:hidden">
+                                <SignupForm
+                                    variant="sfb-sfsg"
+                                    brandName="Super Free Bingo"
+                                    privacyPolicyUrl="/privacy-policy"
+                                    termsUrl="/terms"
+                                />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {sectionIds.includes('directory') && (
+                <div className="md:hidden w-full">
                     <WebsiteDirectory
                         title={settings.directoryTitle}
                         sites={settings.directorySites}
                         splitAtDot
                     />
                 </div>
-                <div className="flex-1">
-                    <SignupForm variant="sfb-sfsg" brandName="Super Free Bingo" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
+            )}
+
+            {(sectionIds.includes('directory') || sectionIds.includes('signup')) && (
+                <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
+                    {sectionIds.includes('directory') && (
+                        <div className="flex-1">
+                            <WebsiteDirectory
+                                title={settings.directoryTitle}
+                                sites={settings.directorySites}
+                                splitAtDot
+                            />
+                        </div>
+                    )}
+                    {sectionIds.includes('signup') && (
+                        <div className="flex-1">
+                            <SignupForm variant="sfb-sfsg" brandName="Super Free Bingo" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
+                        </div>
+                    )}
                 </div>
-            </div>
+            )}
 
             <SfbFooter legalText={settings.footerLegalText} />
         </main>

@@ -5,13 +5,9 @@ const SETTINGS_KEY = 'site-settings';
 
 const DEFAULT_NAV_ITEMS: SiteSettingsNavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎁', label: 'No Deposit Bingo', href: '/no-deposit-bingo' },
-    { emoji: '🔥', label: 'Free Bingo Bonuses', href: '/' },
-    { emoji: '✊', label: 'Exclusive Deals', href: '/' },
-    { emoji: '💎', label: 'No Wagering Bingo', href: '/' },
-    { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
+    { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '📋', label: 'Sign Up', href: '/signup' }
 ];
 

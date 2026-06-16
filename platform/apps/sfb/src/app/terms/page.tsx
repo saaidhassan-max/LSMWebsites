@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { USP } from '@lsm/ui/components/usp/usp';
 import { SfbNav } from '../../components/sfb-nav';
-import { legalText } from '../../data/site-content';
+import { getCmsSiteSettings } from '../../data/cms-content';
 
 export const metadata: Metadata = {
     title: 'Terms and Conditions | Super Free Bingo',
@@ -37,11 +37,13 @@ const DATA_PROTECTION = `Little Star Media is registered under the Data Protecti
 
 For more information, please read our Privacy Policy and Disclaimer.`;
 
-export default function TermsPage(): React.ReactElement {
+export default async function TermsPage(): Promise<React.ReactElement> {
+    const settings = await getCmsSiteSettings();
+
     return (
         <main className="flex w-full flex-col bg-surface">
-            <SfbNav />
-            <USP text="OVER 150,000 OFFERS CLAIMED" />
+            <SfbNav items={settings.navItems} />
+            <USP text={settings.uspText} />
 
             <section className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12">
                 <div className="flex flex-col gap-8">
@@ -65,7 +67,7 @@ export default function TermsPage(): React.ReactElement {
                 </div>
             </section>
 
-            <SfbFooter legalText={legalText} />
+            <SfbFooter legalText={settings.footerLegalText} />
         </main>
     );
 }

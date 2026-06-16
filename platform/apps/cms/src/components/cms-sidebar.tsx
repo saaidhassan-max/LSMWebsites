@@ -4,7 +4,7 @@ import Link from 'next/link';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Gift, Globe, Home, Info, LayoutGrid, LogOut, Mail, Plus, Settings, Tags } from 'lucide-react';
+import { Gift, Globe, Home, Info, LayoutGrid, LogOut, Mail, Megaphone, Plus, Settings, Tags } from 'lucide-react';
 import { createSupabaseBrowserClient, isBrowserSupabaseConfigured } from '@/lib/supabase-browser';
 import type { SitePage } from '@/lib/site-pages.types';
 
@@ -126,12 +126,6 @@ export function CmsSidebar({ active, activePageId }: CmsSidebarProps): React.Rea
                 />
                 <NavItem icon={<Info size={15} />} label="About us" />
                 <NavItem icon={<Mail size={15} />} label="Contact us" />
-                <NavItem
-                    href="/"
-                    icon={<LayoutGrid size={15} />}
-                    label="Landing pages"
-                    active={active === 'landing-pages'}
-                />
                 {pages.length > 0 && (
                     <div className="flex flex-col gap-0.5 pt-1">
                         {pages.map((page) => (
@@ -146,6 +140,15 @@ export function CmsSidebar({ active, activePageId }: CmsSidebarProps): React.Rea
                         ))}
                     </div>
                 )}
+                <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant px-1.5 pt-4 pb-1.5">
+                    Landing pages
+                </div>
+                <NavItem
+                    href="/"
+                    icon={<Megaphone size={15} />}
+                    label="All landing pages"
+                    active={active === 'landing-pages'}
+                />
                 <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant px-1.5 pt-4 pb-1.5">
                     Collections
                 </div>

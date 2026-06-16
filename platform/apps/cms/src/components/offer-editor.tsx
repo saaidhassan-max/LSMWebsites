@@ -14,6 +14,7 @@ import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.ty
 interface OfferEditorProps {
     offer: CmsOffer;
     operators: CmsOperator[];
+    returnTo?: string;
 }
 
 function formatDate(iso: string): string {
@@ -26,8 +27,14 @@ function formatDate(iso: string): string {
     });
 }
 
-export function OfferEditor({ offer, operators }: OfferEditorProps): React.ReactElement {
+function safeReturnTo(value: string | undefined): string {
+    if (value === '/home') return value;
+    return '/offers';
+}
+
+export function OfferEditor({ offer, operators, returnTo }: OfferEditorProps): React.ReactElement {
     const router = useRouter();
+    const backHref = safeReturnTo(returnTo);
     const [details, setDetails] = useState<CmsOfferDetails>({
         operatorId: offer.operatorId,
         headline: offer.headline,
@@ -138,9 +145,9 @@ export function OfferEditor({ offer, operators }: OfferEditorProps): React.React
                     <div className="flex items-center gap-3 min-w-0">
                         <button
                             type="button"
-                            onClick={() => router.push('/offers')}
+                            onClick={() => router.push(backHref)}
                             className="h-8 w-8 rounded-md border border-m3-outline-variant flex items-center justify-center text-m3-on-surface hover:bg-m3-surface-high transition-colors"
-                            aria-label="Back to offers"
+                            aria-label="Back"
                         >
                             <ArrowLeft size={16} />
                         </button>

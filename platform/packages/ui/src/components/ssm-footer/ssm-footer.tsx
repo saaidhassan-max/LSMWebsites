@@ -5,14 +5,15 @@ import type { FooterNavLink, ResponsibleGamblingLogo, SsmFooterProps } from './s
 const DEFAULT_NAV_LINKS: FooterNavLink[] = [
     { label: 'Privatlivspolitik', href: '/privacy-policy' },
     { label: 'Regler og vilkår', href: '/terms-and-conditions' },
-    { label: 'Om Os', href: '/om-os' },
-    { label: 'Kontakt Os', href: '/kontakt' }
+    { label: 'Om Os', href: '/about-us' },
+    { label: 'Kontakt Os', href: '/contact-us' }
 ];
 
 const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
     {
         src: '/ssm/footer/ssm-rofus.png',
         alt: 'ROFUS',
+        href: 'https://www.rofus.nu/',
         description:
             'ROFUS er Spillemyndighedens Register Over Frivilligt Udelukkede Spillere. I ROFUS kan du frivilligt registrere dig med MitID, hvis du ønsker at udelukke dig midlertidigt eller endeligt fra at kunne spille i Danmark.'
     },
@@ -25,19 +26,21 @@ const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
     {
         src: '/ssm/footer/smm-ludomani.png',
         alt: 'Ludomani',
+        href: 'https://ludomani.dk/',
         description:
             'Spil skal være sjovt. Kontakt Center for Ludomani, hvis det i stedet er et problem.'
     },
     {
         src: '/ssm/footer/SSM-stopspillet.png',
         alt: 'StopSpillet',
+        href: 'https://www.stopspillet.dk/',
         description:
             'StopSpillet er Spillemyndighedens uvildige hjælpelinje om spilafhængighed; i daglig tale kaldet ludomani.'
     }
 ];
 
 const DEFAULT_LEGAL_TEXT =
-    'Det danske Center for Ludomani er en organisation, som yder fortrolig telefonisk støtte og rådgivning til enhver, som er påvirket af ludomani.\nHjemmeside: http://www.ludomani.dk Telefonnummer: +45 70 11 18 10\nLittle Star Media Ltd, Exchange House, 450 Midsummer Boulevard, Milton Keynes, MK9 2EA, United Kingdom\n©2026 Super Spillemaskiner Alle rettigheder forbeholdes. Uautoriseret kopiering er en overtrædelse af alle gældende love om ophavsret.';
+    'Det danske Center for Ludomani er en organisation, som yder fortrolig telefonisk støtte og rådgivning til enhver, som er påvirket af ludomani.\nHjemmeside: http://www.ludomani.dk Telefonnummer: +45 70 11 18 10\nLittle Star Media Ltd, Exchange House, 450 Midsummer Boulevard, Milton Keynes, MK9 2EA, United Kingdom\n©2026 Super Spillemaskiner Alle rettigheder forbeholdes. Uautoriseret kopiering er en overtrædelse af alle gældende love.';
 
 export function SsmFooter({
     navLinks = DEFAULT_NAV_LINKS,
@@ -71,13 +74,30 @@ export function SsmFooter({
             <div className="flex flex-col md:flex-row gap-8 py-8 px-4 max-w-[1280px] mx-auto">
                 {RESPONSIBLE_GAMBLING_LOGOS.map((logo) => (
                     <div key={logo.alt} className="flex flex-col items-center gap-2 flex-1">
-                        <Image
-                            src={logo.src}
-                            alt={logo.alt}
-                            width={240}
-                            height={64}
-                            className="object-contain"
-                        />
+                        {logo.href ? (
+                            <a
+                                href={logo.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={logo.alt}
+                            >
+                                <Image
+                                    src={logo.src}
+                                    alt={logo.alt}
+                                    width={240}
+                                    height={64}
+                                    className="object-contain"
+                                />
+                            </a>
+                        ) : (
+                            <Image
+                                src={logo.src}
+                                alt={logo.alt}
+                                width={240}
+                                height={64}
+                                className="object-contain"
+                            />
+                        )}
                         <p className="text-[12px] leading-4 tracking-[0.4px] text-on-surface-light text-center">
                             {logo.description}
                         </p>

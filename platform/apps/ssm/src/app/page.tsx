@@ -1,7 +1,6 @@
 import type React from 'react';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { OperatorBanner } from '@lsm/ui/components/operator-banner/operator-banner';
-import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SsmFooter } from '@lsm/ui/components/ssm-footer/ssm-footer';
 import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
 import { USP } from '@lsm/ui/components/usp/usp';
@@ -34,9 +33,6 @@ export default function Home(): React.ReactElement {
                         alt="Operator promotion"
                         href="https://example.com"
                     />
-                    <div className="md:hidden">
-                        <SignupForm variant="sfb-sfsg" brandName="Super Spillemaskiner" />
-                    </div>
                     <OfferCard {...offers[2]} />
                     <OfferCard {...offers[3]} />
                 </div>
@@ -46,13 +42,8 @@ export default function Home(): React.ReactElement {
                 <WebsiteDirectory title="SSM Casino Directory" sites={directorySites} />
             </div>
 
-            <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
-                <div className="flex-1">
-                    <WebsiteDirectory title="SSM Casino Directory" sites={directorySites} />
-                </div>
-                <div className="flex-1">
-                    <SignupForm variant="sfb-sfsg" brandName="Super Spillemaskiner" />
-                </div>
+            <div className="hidden md:block w-full max-w-[1440px] mx-auto px-16 py-4">
+                <WebsiteDirectory title="SSM Casino Directory" sites={directorySites} />
             </div>
 
             <SsmFooter legalText={legalText} />

@@ -2,22 +2,28 @@
 
 import type React from 'react';
 import { useState, useTransition } from 'react';
-import { Save } from 'lucide-react';
+import { ArrowDown, ArrowUp, Save } from 'lucide-react';
 import { saveSiteSettingsAction } from '@/app/actions';
 import type { SiteSettings } from '@/lib/site-settings.types';
+import type { SitePage } from '@/lib/site-pages.types';
 
 interface SiteSettingsEditorProps {
     settings: SiteSettings;
+    pages: SitePage[];
+}
+
+interface NavigationOption {
+    emoji: string;
+    label: string;
+    href: string;
+    pageId?: string;
+    status?: SitePage['status'];
 }
 
 function toDirectoryText(settings: SiteSettings): string {
     return settings.directorySites
         .map((item) => (item.href === undefined ? item.name : item.name + '|' + item.href))
         .join('\n');
-}
-
-function toNavText(settings: SiteSettings): string {
-    return settings.navItems.map((item) => item.emoji + '|' + item.label + '|' + item.href).join('\n');
 }
 
 function directoryFromText(value: string): SiteSettings['directorySites'] {
@@ -31,22 +37,74 @@ function directoryFromText(value: string): SiteSettings['directorySites'] {
         });
 }
 
-function navFromText(value: string): SiteSettings['navItems'] {
-    return value
-        .split('\n')
-        .map((line) => line.trim())
-        .filter(Boolean)
-        .map((line) => {
-            const [emoji, label, href] = line.split('|').map((part) => part.trim());
-            return { emoji: emoji ?? '', label: label ?? '', href: href ?? '/' };
-        })
-        .filter((item) => item.label !== '');
+function fixedNavigationOptions(): NavigationOption[] {
+    return [
+        { emoji: '🏠', label: 'Home', href: '/' },
+        { emoji: '👋', label: 'About Us', href: '/about' },
+        { emoji: '✉️', label: 'Contact Us', href: '/contact' },
+        { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
+        { emoji: '📋', label: 'Landing page demo', href: '/signup' }
+    ];
 }
 
-export function SiteSettingsEditor({ settings }: SiteSettingsEditorProps): React.ReactElement {
+function pageNavigationOptions(pages: SitePage[], settings: SiteSettings): NavigationOption[] {
+    return pages.map((page) => {
+        const href = '/' + page.slug;
+        const existing = settings.navItems.find(
+            (item) => item.pageId === page.id || item.href === href
+        );
+        return {
+            emoji: existing?.emoji ?? '📄',
+            label: page.name,
+            href,
+            pageId: page.id,
+            status: page.status
+        };
+    });
+}
+
+function sameNavigationItem(a: NavigationOption, b: NavigationOption): boolean {
+    if (a.pageId !== undefined && b.pageId !== undefined) return a.pageId === b.pageId;
+    return a.href === b.href;
+}
+
+function buildNavigationOptions(settings: SiteSettings, pages: SitePage[]): NavigationOption[] {
+    const available = [...fixedNavigationOptions(), ...pageNavigationOptions(pages, settings)];
+    const ordered: NavigationOption[] = [];
+
+    settings.navItems.forEach((item) => {
+        const match = available.find(
+            (option) =>
+                (item.pageId !== undefined && option.pageId === item.pageId) ||
+                option.href === item.href
+        );
+        if (match !== undefined && !ordered.some((option) => sameNavigationItem(option, match))) {
+            ordered.push(match);
+        }
+    });
+
+    available.forEach((item) => {
+        if (!ordered.some((option) => sameNavigationItem(option, item))) ordered.push(item);
+    });
+
+    return ordered;
+}
+
+function toSettingsNavItems(items: NavigationOption[]): SiteSettings['navItems'] {
+    return items.map((item) => ({
+        emoji: item.emoji,
+        label: item.label,
+        href: item.href,
+        ...(item.pageId === undefined ? {} : { pageId: item.pageId })
+    }));
+}
+
+export function SiteSettingsEditor({ settings, pages }: SiteSettingsEditorProps): React.ReactElement {
     const [local, setLocal] = useState<SiteSettings>(settings);
     const [directoryText, setDirectoryText] = useState(toDirectoryText(settings));
-    const [navText, setNavText] = useState(toNavText(settings));
+    const [navigationItems, setNavigationItems] = useState<NavigationOption[]>(
+        buildNavigationOptions(settings, pages)
+    );
     const [dirty, setDirty] = useState(false);
     const [pending, startTransition] = useTransition();
 
@@ -60,9 +118,19 @@ export function SiteSettingsEditor({ settings }: SiteSettingsEditorProps): React
         update('directorySites', directoryFromText(value));
     }
 
-    function updateNav(value: string): void {
-        setNavText(value);
-        update('navItems', navFromText(value));
+    function moveNavigationItem(index: number, direction: -1 | 1): void {
+        const target = index + direction;
+        if (target < 0 || target >= navigationItems.length) return;
+
+        const next = [...navigationItems];
+        const current = next[index];
+        const replacement = next[target];
+        if (current === undefined || replacement === undefined) return;
+
+        next[index] = replacement;
+        next[target] = current;
+        setNavigationItems(next);
+        update('navItems', toSettingsNavItems(next));
     }
 
     function save(): void {
@@ -118,15 +186,57 @@ export function SiteSettingsEditor({ settings }: SiteSettingsEditorProps): React
                 <div>
                     <h2 className="text-[16px] font-medium">Navigation</h2>
                     <p className="text-[12px] text-m3-on-surface-variant mt-1">
-                        One item per line: emoji | label | URL.
+                        Reorder the site navigation here. Page names and URLs are edited on each page.
                     </p>
                 </div>
-                <textarea
-                    value={navText}
-                    onChange={(e) => updateNav(e.target.value)}
-                    rows={9}
-                    className={inputClass + ' resize-y leading-5 font-mono'}
-                />
+                <div className="flex flex-col gap-2">
+                    {navigationItems.map((item, index) => (
+                        <div
+                            key={item.pageId ?? item.href}
+                            className="flex items-center gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface px-3 py-2"
+                        >
+                            <span className="w-7 text-center text-[16px]">{item.emoji}</span>
+                            <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-2">
+                                    <span className="truncate text-[13px] font-medium text-m3-on-surface">
+                                        {item.label}
+                                    </span>
+                                    {item.status === 'draft' && (
+                                        <span className="rounded-full bg-m3-surface-highest px-1.5 py-0.5 text-[10px] text-m3-on-surface-variant">
+                                            Draft
+                                        </span>
+                                    )}
+                                    {item.href === '/signup' && (
+                                        <span className="rounded-full bg-m3-surface-highest px-1.5 py-0.5 text-[10px] text-m3-on-surface-variant">
+                                            Demo
+                                        </span>
+                                    )}
+                                </div>
+                                <div className="truncate text-[11px] text-m3-on-surface-variant">
+                                    {item.href}
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => moveNavigationItem(index, -1)}
+                                disabled={index === 0}
+                                aria-label={'Move ' + item.label + ' up'}
+                                className="h-8 w-8 rounded-md flex items-center justify-center text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
+                            >
+                                <ArrowUp size={15} />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => moveNavigationItem(index, 1)}
+                                disabled={index === navigationItems.length - 1}
+                                aria-label={'Move ' + item.label + ' down'}
+                                className="h-8 w-8 rounded-md flex items-center justify-center text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
+                            >
+                                <ArrowDown size={15} />
+                            </button>
+                        </div>
+                    ))}
+                </div>
             </section>
 
             <section className="rounded-xl border border-m3-outline-variant bg-m3-surface-low p-4 flex flex-col gap-4">

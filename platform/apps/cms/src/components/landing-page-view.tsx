@@ -163,12 +163,27 @@ export function LandingPageView({
                             ** Required Information
                         </p>
                         <ConsentForm defaultExpanded={false} onChange={noop} />
-                        <Button variant="primary" trailingIcon={<ArrowRight size={24} />} className="w-full">
-                            Sign Me Up
-                        </Button>
-                        <Button variant="text" color="dark" className="w-full">
-                            Skip
-                        </Button>
+                        <div className={'w-full' + editClass('primaryCtaText')} {...fieldProps('primaryCtaText')}>
+                            <Button
+                                variant="primary"
+                                trailingIcon={<ArrowRight size={24} />}
+                                className={'w-full' + (editable ? ' pointer-events-none' : '')}
+                            >
+                                {content.primaryCtaText}
+                            </Button>
+                        </div>
+                        <div
+                            className={'w-full' + editClass('secondaryCtaText')}
+                            {...fieldProps('secondaryCtaText')}
+                        >
+                            <Button
+                                variant="text"
+                                color="dark"
+                                className={'w-full' + (editable ? ' pointer-events-none' : '')}
+                            >
+                                {content.secondaryCtaText}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

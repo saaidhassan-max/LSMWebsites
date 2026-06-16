@@ -27,10 +27,14 @@ export interface CmsOffer {
 }
 
 export interface CmsHomeConfig {
-    offerIds: string[];
+    offerItems?: CmsOffersItem[];
+    offerIds?: string[];
+    sectionIds?: CmsHomeSectionId[];
     welcome?: CmsHomeWelcomeContent;
     updatedAt: string;
 }
+
+export type CmsHomeSectionId = 'welcome' | 'terms' | 'offers' | 'signup' | 'directory';
 
 export interface CmsHomeWelcomeContent {
     textHighlight: string;
@@ -47,6 +51,7 @@ export interface CmsSiteSettingsNavItem {
     emoji: string;
     label: string;
     href: string;
+    pageId?: string;
 }
 
 export interface CmsSiteSettingsDirectoryItem {
@@ -73,6 +78,8 @@ export interface CmsLandingPageContent {
     instructionText: string;
     backgroundImage: string;
     legalDisclaimer: string;
+    primaryCtaText?: string;
+    secondaryCtaText?: string;
 }
 
 export interface CmsLandingPage {
@@ -86,7 +93,21 @@ export interface CmsLandingPage {
 }
 
 export type CmsSitePageStatus = 'draft' | 'published';
-export type CmsSitePageSectionType = 'welcome' | 'terms' | 'richText' | 'signup' | 'directory';
+export type CmsSitePageSectionType = 'welcome' | 'terms' | 'richText' | 'signup' | 'directory' | 'offers';
+
+export interface CmsOffersOfferItem {
+    kind: 'offer';
+    offerId: string;
+}
+
+export interface CmsOffersBannerItem {
+    kind: 'banner';
+    mobileSrc: string;
+    desktopSrc: string;
+    href: string;
+}
+
+export type CmsOffersItem = CmsOffersOfferItem | CmsOffersBannerItem;
 
 export interface CmsSitePageSectionContent {
     textHighlight?: string;
@@ -98,6 +119,8 @@ export interface CmsSitePageSectionContent {
     heading?: string;
     body?: string;
     title?: string;
+    offerIds?: string[];
+    items?: CmsOffersItem[];
 }
 
 export interface CmsSitePageSection {

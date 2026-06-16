@@ -22,7 +22,7 @@ import {
     updateLandingContent,
     updateLandingDetails
 } from '@/lib/landing-store';
-import { removeHomeOfferIds, setHomeConfig, setHomeOfferIds } from '@/lib/home-store';
+import { removeHomeOfferIds, setHomeConfig } from '@/lib/home-store';
 import { setSiteSettings } from '@/lib/site-settings-store';
 import { createSitePage, setSitePagePublished, updateSitePage } from '@/lib/site-pages-store';
 import type { LandingPageContent, LandingPageDetails } from '@/lib/landing-pages.types';
@@ -70,12 +70,6 @@ export async function saveDetailsAction(id: string, details: LandingPageDetails)
     revalidatePath('/');
     revalidatePath('/edit/' + id);
     revalidatePath('/preview/' + details.slug);
-}
-
-export async function saveHomeOffersAction(offerIds: string[]): Promise<void> {
-    await setHomeOfferIds(offerIds);
-    revalidatePath('/home');
-    revalidatePath('/');
 }
 
 export async function saveHomeConfigAction(config: HomePageConfig): Promise<void> {

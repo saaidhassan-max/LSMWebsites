@@ -1,6 +1,8 @@
 import type React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
+import { OperatorBanner } from '@lsm/ui/components/operator-banner/operator-banner';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
 import { USP } from '@lsm/ui/components/usp/usp';
@@ -8,8 +10,14 @@ import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-d
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { SfbNav } from '../../components/sfb-nav';
-import { getCmsSitePage, getCmsSiteSettings } from '../../data/cms-content';
-import type { CmsSitePageSection } from '../../data/cms-content.types';
+import { getCmsOfferCardMap, getCmsSitePage, getCmsSiteSettings } from '../../data/cms-content';
+import type {
+    CmsOffersItem,
+    CmsSitePageSection,
+    CmsSitePageSectionContent,
+    CmsSiteSettings
+} from '../../data/cms-content.types';
+import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.types';
 
 export async function generateMetadata({
     params
@@ -21,7 +29,19 @@ export async function generateMetadata({
     return { title: page === null ? 'Super Free Bingo' : page.name + ' — Super Free Bingo' };
 }
 
-function renderSection(section: CmsSitePageSection): React.ReactElement {
+function offersItemsOf(content: CmsSitePageSectionContent): CmsOffersItem[] {
+    if (Array.isArray(content.items)) return content.items;
+    if (Array.isArray(content.offerIds)) {
+        return content.offerIds.map((offerId) => ({ kind: 'offer', offerId }));
+    }
+    return [];
+}
+
+function renderSection(
+    section: CmsSitePageSection,
+    settings: CmsSiteSettings,
+    cardMap: Record<string, OfferCardProps>
+): React.ReactElement {
     const content = section.content;
 
     if (section.type === 'welcome') {
@@ -51,10 +71,7 @@ function renderSection(section: CmsSitePageSection): React.ReactElement {
     }
     if (section.type === 'richText') {
         return (
-            <div
-                key={section.id}
-                className="w-full max-w-[960px] mx-auto px-4 py-6 flex flex-col gap-3"
-            >
+            <div key={section.id} className="w-full max-w-[960px] mx-auto px-4 py-6 flex flex-col gap-3">
                 <h2 className="text-[24px] md:text-[32px] font-bold text-on-surface-light">
                     {content.heading ?? ''}
                 </h2>
@@ -81,8 +98,39 @@ function renderSection(section: CmsSitePageSection): React.ReactElement {
             </div>
         );
     }
+    if (section.type === 'offers') {
+        const items = offersItemsOf(content);
+        return (
+            <div
+                key={section.id}
+                className="w-full max-w-[1440px] mx-auto p-4 md:px-16 md:py-4 flex flex-col gap-2"
+            >
+                {items.map((item, index) => {
+                    if (item.kind === 'banner') {
+                        return (
+                            <OperatorBanner
+                                key={index}
+                                mobileSrc={item.mobileSrc}
+                                desktopSrc={item.desktopSrc}
+                                alt="Operator banner"
+                                href={item.href === '' ? undefined : item.href}
+                            />
+                        );
+                    }
+                    const card = cardMap[item.offerId];
+                    if (card === undefined) return null;
+                    return <OfferCard key={index} {...card} />;
+                })}
+            </div>
+        );
+    }
     return (
-        <WebsiteDirectory key={section.id} title={content.title ?? 'Super Free Bingo Directory'} sites={[]} splitAtDot />
+        <WebsiteDirectory
+            key={section.id}
+            title={content.title ?? settings.directoryTitle}
+            sites={settings.directorySites}
+            splitAtDot
+        />
     );
 }
 
@@ -95,23 +143,18 @@ export default async function CmsSitePageRoute({
     const [page, settings] = await Promise.all([getCmsSitePage(slug), getCmsSiteSettings()]);
     if (page === null) notFound();
 
-    function renderConfiguredSection(section: CmsSitePageSection): React.ReactElement {
-        if (section.type !== 'directory') return renderSection(section);
-        return (
-            <WebsiteDirectory
-                key={section.id}
-                title={section.content.title ?? settings.directoryTitle}
-                sites={settings.directorySites}
-                splitAtDot
-            />
-        );
-    }
+    const offerIds = page.sections
+        .filter((section) => section.type === 'offers')
+        .flatMap((section) => offersItemsOf(section.content))
+        .filter((item): item is { kind: 'offer'; offerId: string } => item.kind === 'offer')
+        .map((item) => item.offerId);
+    const cardMap = await getCmsOfferCardMap(offerIds);
 
     return (
         <main className="flex flex-col w-full bg-surface min-h-screen">
             <SfbNav items={settings.navItems} />
             <USP text={settings.uspText} />
-            {page.sections.map(renderConfiguredSection)}
+            {page.sections.map((section) => renderSection(section, settings, cardMap))}
             <SfbFooter legalText={settings.footerLegalText} />
         </main>
     );

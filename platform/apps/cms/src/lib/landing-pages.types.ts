@@ -7,6 +7,8 @@ export interface LandingPageContent {
     instructionText: string;
     backgroundImage: string;
     legalDisclaimer: string;
+    primaryCtaText: string;
+    secondaryCtaText: string;
 }
 
 export interface LandingPageDetails {

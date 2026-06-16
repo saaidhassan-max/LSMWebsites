@@ -10,8 +10,18 @@ const DEFAULT_CONTENT: LandingPageContent = {
     instructionText: 'Sign up to claim this offer and get the latest deals straight to your inbox.',
     backgroundImage: '/sfb/LandingPage/landingpage-background.png',
     legalDisclaimer:
-        '18+. New customers only. T&Cs apply. Please gamble responsibly. BeGambleAware.org.'
+        '18+. New customers only. T&Cs apply. Please gamble responsibly. BeGambleAware.org.',
+    primaryCtaText: 'Sign Me Up',
+    secondaryCtaText: 'Skip'
 };
+
+function normalizeContent(content: Partial<LandingPageContent>): LandingPageContent {
+    return { ...DEFAULT_CONTENT, ...content };
+}
+
+function normalizePage(page: LandingPage): LandingPage {
+    return { ...page, content: normalizeContent(page.content) };
+}
 
 function now(): string {
     return new Date().toISOString();
@@ -49,7 +59,8 @@ function seed(): LandingPage[] {
 }
 
 async function readAll(): Promise<LandingPage[]> {
-    return readDoc<LandingPage[]>(LANDING_KEY, seed);
+    const pages = await readDoc<LandingPage[]>(LANDING_KEY, seed);
+    return pages.map(normalizePage);
 }
 
 async function writeAll(pages: LandingPage[]): Promise<void> {

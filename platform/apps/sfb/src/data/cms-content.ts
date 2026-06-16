@@ -4,17 +4,23 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.types';
 import type {
     CmsHomeConfig,
+    CmsHomeSectionId,
     CmsHomeWelcomeContent,
     CmsLandingPage,
     CmsLandingPageContent,
     CmsOffer,
     CmsOfferPageData,
     CmsOperator,
+    CmsOffersItem,
     CmsSitePage,
     CmsSiteSettings,
     CmsSiteSettingsDirectoryItem,
     CmsSiteSettingsNavItem
 } from './cms-content.types';
+
+export type CmsHomeRenderItem =
+    | { kind: 'offer'; props: OfferCardProps }
+    | { kind: 'banner'; mobileSrc: string; desktopSrc: string; href: string };
 
 const CMS_DATA_DIR = path.resolve(process.cwd(), '../cms/.cms-data');
 const OPERATORS_FILE = 'operators';
@@ -41,13 +47,9 @@ function getSupabase(): SupabaseClient {
 
 const DEFAULT_NAV_ITEMS: CmsSiteSettingsNavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎁', label: 'No Deposit Bingo', href: '/no-deposit-bingo' },
-    { emoji: '🔥', label: 'Free Bingo Bonuses', href: '/' },
-    { emoji: '✊', label: 'Exclusive Deals', href: '/' },
-    { emoji: '💎', label: 'No Wagering Bingo', href: '/' },
-    { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
+    { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '📋', label: 'Sign Up', href: '/signup' }
 ];
 
@@ -78,6 +80,7 @@ const DEFAULT_WELCOME: CmsHomeWelcomeContent = {
     imageLeftWidthMobile: 83,
     imageLeftWidthDesktop: 204
 };
+const DEFAULT_HOME_SECTION_IDS: CmsHomeSectionId[] = ['welcome', 'terms', 'offers', 'signup', 'directory'];
 
 async function readJson<T>(key: string): Promise<T | null> {
     if (useSupabase) {
@@ -110,10 +113,111 @@ function normalizeWelcome(value: Partial<CmsHomeWelcomeContent> | undefined): Cm
     };
 }
 
+function normalizeHomeSectionIds(value: CmsHomeSectionId[] | undefined): CmsHomeSectionId[] {
+    if (!Array.isArray(value)) return DEFAULT_HOME_SECTION_IDS;
+    const next = value.filter((id): id is CmsHomeSectionId =>
+        DEFAULT_HOME_SECTION_IDS.includes(id as CmsHomeSectionId)
+    );
+    if (next.length === 0) return DEFAULT_HOME_SECTION_IDS;
+    if (next.includes('offers')) return next;
+    const termsIndex = next.indexOf('terms');
+    const insertAt = termsIndex >= 0 ? termsIndex + 1 : Math.min(2, next.length);
+    next.splice(insertAt, 0, 'offers');
+    return next;
+}
+
+function normalizeOffersItems(home: CmsHomeConfig): CmsOffersItem[] {
+    if (Array.isArray(home.offerItems)) {
+        return home.offerItems
+            .map((item): CmsOffersItem | null => {
+                const entry = item as Partial<CmsOffersItem> & { offerId?: string };
+                if (entry.kind === 'banner') {
+                    return {
+                        kind: 'banner',
+                        mobileSrc:
+                            typeof entry.mobileSrc === 'string'
+                                ? entry.mobileSrc
+                                : '/sfb/banners/operator-banner-mobile.jpg',
+                        desktopSrc:
+                            typeof entry.desktopSrc === 'string'
+                                ? entry.desktopSrc
+                                : '/sfb/banners/operator-banner-desktop.jpg',
+                        href: typeof entry.href === 'string' ? entry.href : ''
+                    };
+                }
+                if (typeof entry.offerId === 'string') return { kind: 'offer', offerId: entry.offerId };
+                return null;
+            })
+            .filter((item): item is CmsOffersItem => item !== null);
+    }
+    if (Array.isArray(home.offerIds)) {
+        return home.offerIds
+            .filter((id): id is string => typeof id === 'string')
+            .map((offerId) => ({ kind: 'offer', offerId }));
+    }
+    return [];
+}
+
 function normalizeNavItems(items: CmsSiteSettingsNavItem[] | undefined): CmsSiteSettingsNavItem[] {
     if (!Array.isArray(items)) return DEFAULT_NAV_ITEMS;
     const next = items.filter((item) => item.label.trim() !== '' && item.href.trim() !== '');
     return next.length > 0 ? next : DEFAULT_NAV_ITEMS;
+}
+
+function toSitePageNavItem(
+    page: CmsSitePage,
+    existing: CmsSiteSettingsNavItem | undefined
+): CmsSiteSettingsNavItem {
+    return {
+        emoji: existing?.emoji ?? '📄',
+        label: page.name,
+        href: '/' + page.slug,
+        pageId: page.id
+    };
+}
+
+function sameNavItem(a: CmsSiteSettingsNavItem, b: CmsSiteSettingsNavItem): boolean {
+    if (a.pageId !== undefined && b.pageId !== undefined) return a.pageId === b.pageId;
+    return a.href === b.href;
+}
+
+function mergeNavItems(
+    items: CmsSiteSettingsNavItem[] | undefined,
+    pages: CmsSitePage[] | null
+): CmsSiteSettingsNavItem[] {
+    const saved = normalizeNavItems(items);
+    if (pages === null) return saved;
+
+    const publishedPages = pages.filter((page) => page.status === 'published');
+    const pageItems = publishedPages.map((page) =>
+        toSitePageNavItem(
+            page,
+            saved.find((item) => item.pageId === page.id || item.href === '/' + page.slug)
+        )
+    );
+    const available = [
+        ...DEFAULT_NAV_ITEMS.filter((item) => item.href !== '/signup'),
+        ...pageItems,
+        DEFAULT_NAV_ITEMS[DEFAULT_NAV_ITEMS.length - 1]
+    ].filter((item): item is CmsSiteSettingsNavItem => item !== undefined);
+    const ordered: CmsSiteSettingsNavItem[] = [];
+
+    saved.forEach((item) => {
+        const match = available.find(
+            (option) =>
+                (item.pageId !== undefined && option.pageId === item.pageId) ||
+                option.href === item.href
+        );
+        if (match !== undefined && !ordered.some((option) => sameNavItem(option, match))) {
+            ordered.push(match);
+        }
+    });
+
+    available.forEach((item) => {
+        if (!ordered.some((option) => sameNavItem(option, item))) ordered.push(item);
+    });
+
+    return ordered;
 }
 
 function normalizeDirectorySites(
@@ -124,7 +228,10 @@ function normalizeDirectorySites(
     return next.length > 0 ? next : DEFAULT_DIRECTORY_SITES;
 }
 
-function normalizeSettings(value: Partial<CmsSiteSettings> | null): CmsSiteSettings {
+function normalizeSettings(
+    value: Partial<CmsSiteSettings> | null,
+    pages: CmsSitePage[] | null
+): CmsSiteSettings {
     const settings = value ?? {};
     return {
         uspText:
@@ -144,7 +251,7 @@ function normalizeSettings(value: Partial<CmsSiteSettings> | null): CmsSiteSetti
             typeof settings.footerLegalText === 'string' && settings.footerLegalText.trim() !== ''
                 ? settings.footerLegalText
                 : DEFAULT_FOOTER_LEGAL_TEXT,
-        navItems: normalizeNavItems(settings.navItems),
+        navItems: mergeNavItems(settings.navItems, pages),
         updatedAt: typeof settings.updatedAt === 'string' ? settings.updatedAt : ''
     };
 }
@@ -176,7 +283,7 @@ function toOfferCardProps(offer: CmsOffer, operator: CmsOperator): OfferCardProp
     };
 }
 
-export async function getCmsHomeOfferCards(): Promise<OfferCardProps[] | null> {
+export async function getCmsHomeRenderItems(): Promise<CmsHomeRenderItem[] | null> {
     const [operators, offers, home] = await Promise.all([
         readJson<CmsOperator[]>(OPERATORS_FILE),
         readJson<CmsOffer[]>(OFFERS_FILE),
@@ -187,7 +294,34 @@ export async function getCmsHomeOfferCards(): Promise<OfferCardProps[] | null> {
 
     const operatorById = new Map(operators.map((operator) => [operator.id, operator]));
     const offerById = new Map(offers.map((offer) => [offer.id, offer]));
-    const cards = home.offerIds
+    const items = normalizeOffersItems(home)
+        .map((item): CmsHomeRenderItem | null => {
+            if (item.kind === 'banner') return item;
+            const offer = offerById.get(item.offerId);
+            if (offer === undefined || offer.status !== 'active') return null;
+            const operator = operatorById.get(offer.operatorId);
+            if (operator === undefined || operator.status !== 'active') return null;
+            return { kind: 'offer', props: toOfferCardProps(offer, operator) };
+        })
+        .filter((item): item is CmsHomeRenderItem => item !== null);
+
+    return items.length > 0 ? items : null;
+}
+
+export async function getCmsOfferCardsByIds(offerIds: string[]): Promise<OfferCardProps[]> {
+    if (offerIds.length === 0) return [];
+
+    const [operators, offers] = await Promise.all([
+        readJson<CmsOperator[]>(OPERATORS_FILE),
+        readJson<CmsOffer[]>(OFFERS_FILE)
+    ]);
+
+    if (operators === null || offers === null) return [];
+
+    const operatorById = new Map(operators.map((operator) => [operator.id, operator]));
+    const offerById = new Map(offers.map((offer) => [offer.id, offer]));
+
+    return offerIds
         .map((offerId) => offerById.get(offerId))
         .filter((offer): offer is CmsOffer => offer !== undefined && offer.status === 'active')
         .map((offer) => {
@@ -196,8 +330,31 @@ export async function getCmsHomeOfferCards(): Promise<OfferCardProps[] | null> {
             return toOfferCardProps(offer, operator);
         })
         .filter((card): card is OfferCardProps => card !== null);
+}
 
-    return cards.length > 0 ? cards : null;
+export async function getCmsOfferCardMap(offerIds: string[]): Promise<Record<string, OfferCardProps>> {
+    if (offerIds.length === 0) return {};
+
+    const [operators, offers] = await Promise.all([
+        readJson<CmsOperator[]>(OPERATORS_FILE),
+        readJson<CmsOffer[]>(OFFERS_FILE)
+    ]);
+
+    if (operators === null || offers === null) return {};
+
+    const operatorById = new Map(operators.map((operator) => [operator.id, operator]));
+    const offerById = new Map(offers.map((offer) => [offer.id, offer]));
+    const map: Record<string, OfferCardProps> = {};
+
+    offerIds.forEach((id) => {
+        const offer = offerById.get(id);
+        if (offer === undefined || offer.status !== 'active') return;
+        const operator = operatorById.get(offer.operatorId);
+        if (operator === undefined || operator.status !== 'active') return;
+        map[id] = toOfferCardProps(offer, operator);
+    });
+
+    return map;
 }
 
 export async function getCmsHomeWelcomeContent(): Promise<CmsHomeWelcomeContent | null> {
@@ -206,9 +363,18 @@ export async function getCmsHomeWelcomeContent(): Promise<CmsHomeWelcomeContent 
     return normalizeWelcome(home.welcome);
 }
 
+export async function getCmsHomeSectionIds(): Promise<CmsHomeSectionId[]> {
+    const home = await readJson<CmsHomeConfig>(HOME_FILE);
+    if (home === null) return DEFAULT_HOME_SECTION_IDS;
+    return normalizeHomeSectionIds(home.sectionIds);
+}
+
 export async function getCmsSiteSettings(): Promise<CmsSiteSettings> {
-    const settings = await readJson<CmsSiteSettings>(SITE_SETTINGS_FILE);
-    return normalizeSettings(settings);
+    const [settings, pages] = await Promise.all([
+        readJson<CmsSiteSettings>(SITE_SETTINGS_FILE),
+        readJson<CmsSitePage[]>(SITE_PAGES_FILE)
+    ]);
+    return normalizeSettings(settings, pages);
 }
 
 export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | null> {

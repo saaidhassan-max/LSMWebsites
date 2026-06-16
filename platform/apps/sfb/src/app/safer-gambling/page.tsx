@@ -6,7 +6,7 @@ import { Button } from '@lsm/ui/components/button/button';
 import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { USP } from '@lsm/ui/components/usp/usp';
 import { SfbNav } from '../../components/sfb-nav';
-import { legalText } from '../../data/site-content';
+import { getCmsSiteSettings } from '../../data/cms-content';
 
 export const metadata: Metadata = {
     title: 'Safer Gambling | Super Free Bingo',
@@ -151,11 +151,13 @@ const RESPONSIBLE_GAMBLING_LOGOS: RgLogo[] = [
     { src: '/sfb/footer/gamblingtherapy.svg', alt: 'Gambling Therapy', width: 137, height: 52 }
 ];
 
-export default function SaferGamblingPage(): React.ReactElement {
+export default async function SaferGamblingPage(): Promise<React.ReactElement> {
+    const settings = await getCmsSiteSettings();
+
     return (
         <main className="flex flex-col w-full bg-surface">
-            <SfbNav />
-            <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <SfbNav items={settings.navItems} />
+            <USP text={settings.howToClaimUspText} />
 
             <div className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12 flex flex-col gap-8">
                 <div className="py-3">
@@ -311,7 +313,7 @@ export default function SaferGamblingPage(): React.ReactElement {
                 </div>
             </div>
 
-            <SfbFooter legalText={legalText} />
+            <SfbFooter legalText={settings.footerLegalText} />
         </main>
     );
 }

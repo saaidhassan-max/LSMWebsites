@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "sfb",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:sfb", "--prefix", "/Users/Saied.Hassan/Desktop/LSM multiagent/platform"],
+      "port": 3002
+    },
+    {
+      "name": "cms",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:cms", "--prefix", "/Users/Saied.Hassan/Desktop/LSM multiagent/platform"],
+      "port": 3010
+    },
+    {
+      "name": "sfbets",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:sfbets", "--prefix", "/Users/Saied.Hassan/Desktop/LSM multiagent/platform"],
+      "port": 3004
+    },
+    {
+      "name": "ontario",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:ontario", "--prefix", "/Users/Saied.Hassan/Desktop/LSM multiagent/platform"],
+      "port": 3005
+    }
+  ]
+}

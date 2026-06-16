@@ -13,8 +13,8 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '🔥', label: 'Tilbud Med Indbetaling', href: '/' },
     { emoji: '✊', label: 'Eksklusiv Aftale', href: '/' },
     { emoji: '💎', label: 'Uden Satsningskrav', href: '/' },
-    { emoji: '👋', label: 'Om Os', href: '/om-os' },
-    { emoji: '✉️', label: 'Kontakt Os', href: '/kontakt' },
+    { emoji: '👋', label: 'Om Os', href: '/about-us' },
+    { emoji: '✉️', label: 'Kontakt Os', href: '/contact-us' },
     { emoji: '📋', label: 'Landing Page V2', href: '/signup-v2' }
 ];
 

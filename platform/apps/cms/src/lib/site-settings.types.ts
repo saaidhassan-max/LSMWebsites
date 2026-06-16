@@ -2,6 +2,7 @@ export interface SiteSettingsNavItem {
     emoji: string;
     label: string;
     href: string;
+    pageId?: string;
 }
 
 export interface SiteSettingsDirectoryItem {

@@ -10,9 +10,10 @@ import {
     ChevronUp,
     CloudUpload,
     EyeOff,
+    ImagePlus,
     Monitor,
     Plus,
-    Save,
+    Search,
     Smartphone,
     Trash2,
     Upload
@@ -22,9 +23,12 @@ import { CmsSidebar } from '@/components/cms-sidebar';
 import { PreviewFrame } from '@/components/preview-frame';
 import { SitePageView } from '@/components/site-page-view';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { SITE_PAGE_ASSETS, createSection, sectionTypeLabel } from '@/lib/site-page-content';
+import { SITE_PAGE_ASSETS, createBannerItem, createSection, sectionTypeLabel } from '@/lib/site-page-content';
+import type { CmsOffer, CmsOperator } from '@/lib/cms-content.types';
 import type {
     DirectoryContent,
+    OffersContent,
+    OffersItem,
     RichTextContent,
     SignupContent,
     SitePage,
@@ -38,12 +42,20 @@ import type { SiteSettings } from '@/lib/site-settings.types';
 
 type PreviewMode = 'mobile' | 'desktop';
 type SectionContentPatch = Partial<
-    WelcomeContent & TermsContent & RichTextContent & SignupContent & DirectoryContent
+    WelcomeContent & TermsContent & RichTextContent & SignupContent & DirectoryContent & OffersContent
 >;
+
+const labelColorClass = {
+    blue: 'bg-m3-primary',
+    red: 'bg-red-500',
+    orange: 'bg-orange-400'
+} as const;
 
 interface SitePageEditorProps {
     page: SitePage;
     settings: SiteSettings;
+    offers: CmsOffer[];
+    operators: CmsOperator[];
 }
 
 function toSlug(value: string): string {
@@ -54,20 +66,33 @@ function toSlug(value: string): string {
         .replace(/^-+|-+$/g, '');
 }
 
-export function SitePageEditor({ page, settings }: SitePageEditorProps): React.ReactElement {
+export function SitePageEditor({
+    page,
+    settings,
+    offers,
+    operators
+}: SitePageEditorProps): React.ReactElement {
     const router = useRouter();
     const [details, setDetails] = useState<SitePageDetails>({ name: page.name, slug: page.slug });
     const [sections, setSections] = useState<SitePageSection[]>(page.sections);
     const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
     const [published, setPublished] = useState(page.status === 'published');
     const [dirty, setDirty] = useState(false);
+    const [sectionReorder, setSectionReorder] = useState(false);
+    const [offerReorder, setOfferReorder] = useState(false);
+    const [offerQuery, setOfferQuery] = useState('');
     const [previewMode, setPreviewMode] = useState<PreviewMode>('mobile');
     const [pending, startTransition] = useTransition();
     const [uploading, setUploading] = useState(false);
-    const uploadTarget = useRef<{ sectionId: string; key: 'imageLeftSrc' | 'imageRightSrc' } | null>(null);
+    const uploadTarget = useRef<
+        | { kind: 'welcome'; sectionId: string; key: 'imageLeftSrc' | 'imageRightSrc' }
+        | { kind: 'banner'; sectionId: string; index: number; field: 'mobileSrc' | 'desktopSrc' }
+        | null
+    >(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const selectedSection = sections.find((section) => section.id === selectedSectionId) ?? null;
+    const operatorsById = new Map(operators.map((operator) => [operator.id, operator]));
 
     function updateDetails(key: keyof SitePageDetails, value: string): void {
         setDetails((current) => ({ ...current, [key]: key === 'slug' ? toSlug(value) : value }));
@@ -109,8 +134,62 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
         setDirty(true);
     }
 
+    function operatorName(offer: CmsOffer): string {
+        return operatorsById.get(offer.operatorId)?.name ?? 'Missing operator';
+    }
+
+    function offersItemsOf(sectionId: string): OffersItem[] {
+        const section = sections.find((item) => item.id === sectionId);
+        return section !== undefined && section.type === 'offers' ? section.content.items : [];
+    }
+
+    function addOfferItem(sectionId: string, offerId: string): void {
+        updateSectionContent(sectionId, {
+            items: [...offersItemsOf(sectionId), { kind: 'offer', offerId }]
+        });
+    }
+
+    function addBannerItem(sectionId: string): void {
+        updateSectionContent(sectionId, { items: [...offersItemsOf(sectionId), createBannerItem()] });
+    }
+
+    function removeItem(sectionId: string, index: number): void {
+        updateSectionContent(sectionId, {
+            items: offersItemsOf(sectionId).filter((_, i) => i !== index)
+        });
+    }
+
+    function moveItem(sectionId: string, index: number, delta: number): void {
+        const current = offersItemsOf(sectionId);
+        const target = index + delta;
+        if (target < 0 || target >= current.length) return;
+        const next = [...current];
+        [next[index], next[target]] = [next[target], next[index]];
+        updateSectionContent(sectionId, { items: next });
+    }
+
+    function updateBannerItem(
+        sectionId: string,
+        index: number,
+        patch: Partial<{ mobileSrc: string; desktopSrc: string; href: string }>
+    ): void {
+        const next = offersItemsOf(sectionId).map((item, i) =>
+            i === index && item.kind === 'banner' ? { ...item, ...patch } : item
+        );
+        updateSectionContent(sectionId, { items: next });
+    }
+
     function triggerUpload(sectionId: string, key: 'imageLeftSrc' | 'imageRightSrc'): void {
-        uploadTarget.current = { sectionId, key };
+        uploadTarget.current = { kind: 'welcome', sectionId, key };
+        fileInputRef.current?.click();
+    }
+
+    function triggerBannerUpload(
+        sectionId: string,
+        index: number,
+        field: 'mobileSrc' | 'desktopSrc'
+    ): void {
+        uploadTarget.current = { kind: 'banner', sectionId, index, field };
         fileInputRef.current?.click();
     }
 
@@ -124,7 +203,13 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
             body.append('file', file);
             const res = await fetch('/api/upload', { method: 'POST', body });
             const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) updateSectionContent(target.sectionId, { [target.key]: data.path });
+            if (data.path !== undefined) {
+                if (target.kind === 'welcome') {
+                    updateSectionContent(target.sectionId, { [target.key]: data.path });
+                } else {
+                    updateBannerItem(target.sectionId, target.index, { [target.field]: data.path });
+                }
+            }
         } finally {
             setUploading(false);
             uploadTarget.current = null;
@@ -275,6 +360,230 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                 </label>
             );
         }
+        if (section.type === 'offers') {
+            const items = section.content.items;
+            const query = offerQuery.trim().toLowerCase();
+            const filteredOffers =
+                query === ''
+                    ? offers
+                    : offers.filter(
+                          (offer) =>
+                              offer.headline.toLowerCase().includes(query) ||
+                              operatorName(offer).toLowerCase().includes(query) ||
+                              offer.label.toLowerCase().includes(query)
+                      );
+
+            return (
+                <div className="flex flex-col gap-3">
+                    <div className="text-[12px] text-m3-on-surface-variant">
+                        Build a feed of offer cards and operator banners, then reorder them.
+                    </div>
+                    {items.length > 0 && (
+                        <div className="flex flex-col gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <div className="text-[12px] font-medium">Items in this collection</div>
+                                    <div className="text-[11px] text-m3-on-surface-variant">
+                                        {items.length} item{items.length === 1 ? '' : 's'} placed
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setOfferReorder((value) => !value)}
+                                    disabled={items.length < 2}
+                                    className={
+                                        'flex items-center gap-1.5 text-[12px] px-2.5 py-1.5 rounded-md border transition-colors disabled:opacity-40 ' +
+                                        (offerReorder
+                                            ? 'bg-m3-gold text-m3-on-gold border-m3-gold'
+                                            : 'border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high')
+                                    }
+                                >
+                                    <ArrowUpDown size={14} />
+                                    {offerReorder ? 'Done' : 'Reorder'}
+                                </button>
+                            </div>
+                            {items.map((item, index) => {
+                                const offer =
+                                    item.kind === 'offer'
+                                        ? offers.find((o) => o.id === item.offerId)
+                                        : undefined;
+                                return (
+                                    <div
+                                        key={index}
+                                        className="flex flex-col gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-lowest px-3 py-2"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-5 shrink-0 text-center text-[12px] text-m3-on-surface-variant">
+                                                {index + 1}
+                                            </span>
+                                            {item.kind === 'banner' ? (
+                                                <>
+                                                    <ImagePlus size={16} className="shrink-0 text-m3-on-surface-variant" />
+                                                    <span className="min-w-0 flex-1 text-[12px] font-medium truncate">
+                                                        Operator banner
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span
+                                                        className={
+                                                            'shrink-0 w-2 h-8 rounded-sm ' +
+                                                            (offer === undefined
+                                                                ? 'bg-m3-surface-highest'
+                                                                : labelColorClass[offer.labelColor] ??
+                                                                  'bg-m3-surface-highest')
+                                                        }
+                                                    />
+                                                    <span className="min-w-0 flex-1">
+                                                        <span className="block text-[12px] font-medium truncate">
+                                                            {offer?.headline ?? 'Offer removed'}
+                                                        </span>
+                                                        <span className="block text-[11px] text-m3-on-surface-variant truncate">
+                                                            {offer === undefined ? '—' : operatorName(offer)}
+                                                        </span>
+                                                    </span>
+                                                </>
+                                            )}
+                                            {offerReorder ? (
+                                                <div className="flex items-center gap-1">
+                                                    <button
+                                                        type="button"
+                                                        aria-label="Move item up"
+                                                        disabled={index === 0}
+                                                        onClick={() => moveItem(section.id, index, -1)}
+                                                        className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
+                                                    >
+                                                        <ChevronUp size={15} />
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        aria-label="Move item down"
+                                                        disabled={index === items.length - 1}
+                                                        onClick={() => moveItem(section.id, index, 1)}
+                                                        className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
+                                                    >
+                                                        <ChevronDown size={15} />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    type="button"
+                                                    aria-label="Remove item"
+                                                    onClick={() => removeItem(section.id, index)}
+                                                    className="w-7 h-7 flex items-center justify-center rounded-md text-m3-error hover:bg-m3-error-container"
+                                                >
+                                                    <Trash2 size={15} />
+                                                </button>
+                                            )}
+                                        </div>
+                                        {item.kind === 'banner' && !offerReorder && (
+                                            <div className="flex flex-col gap-2 pt-2 border-t border-m3-outline-variant">
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    {(['mobileSrc', 'desktopSrc'] as const).map((field) => (
+                                                        <div key={field} className="flex flex-col gap-1">
+                                                            <span className="text-[11px] text-m3-on-surface-variant">
+                                                                {field === 'mobileSrc' ? 'Mobile image' : 'Desktop image'}
+                                                            </span>
+                                                            <div className="h-12 rounded-md border border-m3-outline-variant bg-m3-surface-low overflow-hidden flex items-center justify-center">
+                                                                <img
+                                                                    src={item[field]}
+                                                                    alt=""
+                                                                    className="max-w-full max-h-full object-contain"
+                                                                />
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => triggerBannerUpload(section.id, index, field)}
+                                                                disabled={uploading}
+                                                                className="flex items-center justify-center gap-1.5 text-[11px] px-2 py-1.5 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
+                                                            >
+                                                                <Upload size={12} />
+                                                                {uploading ? 'Uploading…' : 'Upload'}
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <label className={labelClass}>
+                                                    Link (optional)
+                                                    <input
+                                                        value={item.href}
+                                                        onChange={(e) =>
+                                                            updateBannerItem(section.id, index, {
+                                                                href: e.target.value
+                                                            })
+                                                        }
+                                                        placeholder="https://…"
+                                                        className={inputClass}
+                                                    />
+                                                </label>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                    <button
+                        type="button"
+                        onClick={() => addBannerItem(section.id)}
+                        className="flex items-center justify-center gap-1.5 h-9 rounded-md border border-m3-outline-variant text-[12px] font-medium text-m3-on-surface hover:bg-m3-surface-high"
+                    >
+                        <ImagePlus size={14} />
+                        Add operator banner
+                    </button>
+                    <div className="flex items-center gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-low px-3">
+                        <Search size={15} className="text-m3-on-surface-variant shrink-0" />
+                        <input
+                            value={offerQuery}
+                            onChange={(e) => setOfferQuery(e.target.value)}
+                            placeholder="Search offers or operators"
+                            className="h-10 min-w-0 flex-1 bg-transparent text-[13px] text-m3-on-surface placeholder:text-m3-on-surface-variant focus:outline-none"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        {filteredOffers.length === 0 && (
+                            <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">
+                                No matching offer assets.
+                            </div>
+                        )}
+                        {filteredOffers.map((offer) => (
+                            <div
+                                key={offer.id}
+                                className="rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 flex flex-col gap-2"
+                            >
+                                <div className="flex items-start gap-2">
+                                    <span
+                                        className={
+                                            'shrink-0 w-2 h-8 rounded-sm mt-0.5 ' +
+                                            (labelColorClass[offer.labelColor] ?? 'bg-m3-surface-highest')
+                                        }
+                                    />
+                                    <span className="min-w-0 flex-1">
+                                        <span className="block text-[13px] font-medium truncate">
+                                            {offer.headline}
+                                        </span>
+                                        <span className="block text-[11px] text-m3-on-surface-variant truncate">
+                                            {operatorName(offer)} · {offer.label}
+                                        </span>
+                                    </span>
+                                    <span className="text-[10px] px-1.5 py-0.5 rounded-full border border-m3-outline-variant text-m3-on-surface-variant">
+                                        {offer.status}
+                                    </span>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => addOfferItem(section.id, offer.id)}
+                                    className="flex items-center justify-center gap-1.5 h-8 rounded-md text-[12px] font-medium bg-m3-gold text-m3-on-gold hover:brightness-95"
+                                >
+                                    <Plus size={14} />
+                                    Add
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
         return (
             <label className={labelClass}>
                 Directory title
@@ -313,15 +622,6 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                         <ThemeToggle />
                         <button
                             type="button"
-                            onClick={save}
-                            disabled={pending || !dirty}
-                            className="flex items-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-lg border border-m3-outline-variant text-m3-on-surface hover:bg-m3-surface-high disabled:opacity-40"
-                        >
-                            <Save size={15} />
-                            Save
-                        </button>
-                        <button
-                            type="button"
                             onClick={togglePublish}
                             disabled={pending || details.slug.trim() === ''}
                             className="flex items-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-lg bg-m3-gold text-m3-on-gold hover:brightness-95 disabled:opacity-40"
@@ -333,8 +633,9 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                 </header>
 
                 <div className="flex-1 min-h-0 flex">
-                    <aside className="w-[360px] shrink-0 border-r border-m3-outline-variant overflow-y-auto bg-m3-surface-lowest p-4 flex flex-col gap-5">
-                        <section className="flex flex-col gap-3">
+                    <aside className="w-[360px] shrink-0 border-r border-m3-outline-variant bg-m3-surface-lowest flex flex-col min-h-0">
+                        <div className="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-5">
+                            <section className="flex flex-col gap-3">
                             <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
                                 Page setup
                             </div>
@@ -360,14 +661,26 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                             <div className="rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 text-[12px] text-m3-on-surface-variant leading-5">
                                 Logo/navigation, USP strip, and footer are always included on new pages.
                             </div>
-                        </section>
+                            </section>
 
-                        <section className="flex flex-col gap-2">
+                            <section className="flex flex-col gap-2">
                             <div className="flex items-center justify-between">
                                 <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
                                     Page content
                                 </div>
-                                <ArrowUpDown size={14} className="text-m3-on-surface-variant" />
+                                <button
+                                    type="button"
+                                    onClick={() => setSectionReorder((value) => !value)}
+                                    className={
+                                        'flex items-center gap-1.5 text-[12px] px-2.5 py-1.5 rounded-md border transition-colors ' +
+                                        (sectionReorder
+                                            ? 'bg-m3-gold text-m3-on-gold border-m3-gold'
+                                            : 'border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high')
+                                    }
+                                >
+                                    <ArrowUpDown size={14} />
+                                    {sectionReorder ? 'Done' : 'Reorder'}
+                                </button>
                             </div>
                             {sections.length === 0 && (
                                 <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">
@@ -377,12 +690,13 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                             {sections.map((section, index) => (
                                 <div
                                     key={section.id}
-                                    onClick={() => setSelectedSectionId(section.id)}
+                                    onClick={() => !sectionReorder && setSelectedSectionId(section.id)}
                                     className={
-                                        'flex items-center gap-2 rounded-lg border p-2 cursor-pointer hover:bg-m3-surface-high ' +
-                                        (selectedSectionId === section.id
+                                        'flex items-center gap-2 rounded-lg border p-2 ' +
+                                        (selectedSectionId === section.id && !sectionReorder
                                             ? 'border-m3-gold ring-1 ring-m3-gold'
-                                            : 'border-m3-outline-variant')
+                                            : 'border-m3-outline-variant') +
+                                        (sectionReorder ? '' : ' cursor-pointer hover:bg-m3-surface-high')
                                     }
                                 >
                                     <span className="w-6 text-center text-[12px] text-m3-on-surface-variant">
@@ -391,44 +705,49 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                                     <div className="min-w-0 flex-1 text-[13px] font-medium">
                                         {sectionTypeLabel(section.type)}
                                     </div>
-                                    <button
-                                        type="button"
-                                        aria-label="Move up"
-                                        disabled={index === 0}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            moveSection(index, -1);
-                                        }}
-                                        className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
-                                    >
-                                        <ChevronUp size={15} />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        aria-label="Move down"
-                                        disabled={index === sections.length - 1}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            moveSection(index, 1);
-                                        }}
-                                        className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
-                                    >
-                                        <ChevronDown size={15} />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        aria-label="Remove section"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            removeSection(section.id);
-                                        }}
-                                        className="w-7 h-7 flex items-center justify-center rounded-md text-m3-error hover:bg-m3-error-container"
-                                    >
-                                        <Trash2 size={15} />
-                                    </button>
+                                    {sectionReorder ? (
+                                        <>
+                                            <button
+                                                type="button"
+                                                aria-label="Move up"
+                                                disabled={index === 0}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    moveSection(index, -1);
+                                                }}
+                                                className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
+                                            >
+                                                <ChevronUp size={15} />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                aria-label="Move down"
+                                                disabled={index === sections.length - 1}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    moveSection(index, 1);
+                                                }}
+                                                className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
+                                            >
+                                                <ChevronDown size={15} />
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            aria-label="Remove section"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeSection(section.id);
+                                            }}
+                                            className="w-7 h-7 flex items-center justify-center rounded-md text-m3-error hover:bg-m3-error-container"
+                                        >
+                                            <Trash2 size={15} />
+                                        </button>
+                                    )}
                                 </div>
                             ))}
-                        </section>
+                            </section>
 
                         {selectedSection !== null && (
                             <section className="flex flex-col gap-3 rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3">
@@ -439,7 +758,7 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                             </section>
                         )}
 
-                        <section className="flex flex-col gap-2">
+                            <section className="flex flex-col gap-2">
                             <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
                                 Add assets
                             </div>
@@ -459,15 +778,27 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                                     </span>
                                 </button>
                             ))}
-                        </section>
+                            </section>
 
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            onChange={onPickImage}
-                            className="hidden"
-                        />
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={onPickImage}
+                                className="hidden"
+                            />
+                        </div>
+
+                        <div className="shrink-0 border-t border-m3-outline-variant bg-m3-surface-lowest/95 backdrop-blur p-4">
+                            <button
+                                type="button"
+                                onClick={save}
+                                disabled={pending || !dirty}
+                                className="w-full flex items-center justify-center gap-1.5 text-[13px] font-medium px-3.5 py-2.5 rounded-lg bg-m3-gold text-m3-on-gold hover:brightness-95 disabled:opacity-40"
+                            >
+                                {pending ? 'Saving...' : dirty ? 'Save changes' : 'Saved'}
+                            </button>
+                        </div>
                     </aside>
 
                     <main className="flex-1 min-w-0 min-h-0 flex flex-col bg-m3-surface-low">
@@ -512,6 +843,8 @@ export function SitePageEditor({ page, settings }: SitePageEditorProps): React.R
                                         <SitePageView
                                             sections={sections}
                                             settings={settings}
+                                            offers={offers}
+                                            operators={operators}
                                             editable
                                             selectedSectionId={selectedSectionId}
                                             onSelectSection={setSelectedSectionId}

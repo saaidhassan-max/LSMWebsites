@@ -101,6 +101,9 @@ export function SignupLandingPage({ content, settings }: SignupLandingPageProps)
         handleSubmit();
     }
 
+    const primaryCta = content.primaryCtaText || 'Sign Me Up';
+    const secondaryCta = content.secondaryCtaText || 'Skip';
+
     return (
         <main className="flex flex-col w-full bg-surface min-h-screen gap-[10px] pb-[80px] md:pb-0">
             <div className="flex flex-col">
@@ -176,11 +179,11 @@ export function SignupLandingPage({ content, settings }: SignupLandingPageProps)
                                 className="w-full"
                                 onClick={handleSubmit}
                             >
-                                Sign Me Up
+                                {primaryCta}
                             </Button>
                         </div>
                         <Button variant="text" color="dark" className="w-full" onClick={() => router.push('/')}>
-                            Skip
+                            {secondaryCta}
                         </Button>
                     </div>
                 </div>
@@ -197,7 +200,7 @@ export function SignupLandingPage({ content, settings }: SignupLandingPageProps)
                         className="w-full"
                         onClick={handleStickyClick}
                     >
-                        Sign Me Up
+                        {primaryCta}
                     </Button>
                 </div>
             )}

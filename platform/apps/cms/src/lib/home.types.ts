@@ -1,8 +1,13 @@
+import type { OffersItem } from './site-pages.types';
+
 export interface HomePageConfig {
-    offerIds: string[];
+    offerItems: OffersItem[];
+    sectionIds: HomeSectionId[];
     welcome: HomeWelcomeContent;
     updatedAt: string;
 }
+
+export type HomeSectionId = 'welcome' | 'terms' | 'offers' | 'signup' | 'directory';
 
 export interface HomeWelcomeContent {
     textHighlight: string;

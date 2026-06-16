@@ -43,6 +43,13 @@ const FIELD_SECTIONS: FieldSection[] = [
         fields: [{ key: 'instructionText', label: 'Instruction text', type: 'textarea' }]
     },
     {
+        title: 'Buttons',
+        fields: [
+            { key: 'primaryCtaText', label: 'Primary button (sign up)', type: 'text' },
+            { key: 'secondaryCtaText', label: 'Secondary button (skip)', type: 'text' }
+        ]
+    },
+    {
         title: 'Legal / T&Cs',
         fields: [{ key: 'legalDisclaimer', label: 'Terms & conditions', type: 'textarea' }]
     }

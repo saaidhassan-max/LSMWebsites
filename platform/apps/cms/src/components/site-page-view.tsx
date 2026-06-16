@@ -2,18 +2,23 @@
 
 import type React from 'react';
 import { LogoSection } from '@lsm/ui/components/logo-section/logo-section';
+import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
+import { OperatorBanner } from '@lsm/ui/components/operator-banner/operator-banner';
 import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
 import { USP } from '@lsm/ui/components/usp/usp';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
+import type { CmsOffer, CmsOperator } from '@/lib/cms-content.types';
 import type { SitePageSection } from '@/lib/site-pages.types';
 import type { SiteSettings } from '@/lib/site-settings.types';
 
 interface SitePageViewProps {
     sections: SitePageSection[];
     settings: SiteSettings;
+    offers: CmsOffer[];
+    operators: CmsOperator[];
     editable?: boolean;
     selectedSectionId?: string | null;
     onSelectSection?: (sectionId: string) => void;
@@ -26,6 +31,8 @@ function noop(): void {
 export function SitePageView({
     sections,
     settings,
+    offers,
+    operators,
     editable = false,
     selectedSectionId = null,
     onSelectSection
@@ -45,6 +52,10 @@ export function SitePageView({
                 onSelectSection?.(sectionId);
             }
         };
+    }
+
+    function operatorFor(offer: CmsOffer): CmsOperator | undefined {
+        return operators.find((operator) => operator.id === offer.operatorId);
     }
 
     function renderSection(section: SitePageSection): React.ReactElement {
@@ -106,6 +117,53 @@ export function SitePageView({
                         privacyPolicyUrl="/privacy-policy"
                         termsUrl="/terms"
                     />
+                </div>
+            );
+        }
+        if (section.type === 'offers') {
+            return (
+                <div
+                    key={section.id}
+                    className={'w-full max-w-[1440px] mx-auto p-4 md:px-16 md:py-4 flex flex-col gap-2 ' + wrapClass}
+                    {...wrapProps}
+                >
+                    {section.content.items.length === 0 && (
+                        <div className="rounded-lg border border-dashed border-outline-variant p-8 text-center text-on-surface-light">
+                            Add offer cards or an operator banner to this section.
+                        </div>
+                    )}
+                    {section.content.items.map((item, index) => {
+                        if (item.kind === 'banner') {
+                            return (
+                                <OperatorBanner
+                                    key={index}
+                                    mobileSrc={item.mobileSrc}
+                                    desktopSrc={item.desktopSrc}
+                                    alt="Operator banner"
+                                    href={item.href === '' ? undefined : item.href}
+                                />
+                            );
+                        }
+                        const offer = offers.find((o) => o.id === item.offerId);
+                        if (offer === undefined) return null;
+                        const operator = operatorFor(offer);
+                        return (
+                            <OfferCard
+                                key={index}
+                                label={offer.label}
+                                labelColor={offer.labelColor}
+                                logoSrc={operator?.logoSrc ?? '/sfb/brands/placeholder.png'}
+                                logoAlt={operator?.name ?? 'Operator logo'}
+                                offerMain={offer.headline}
+                                details={offer.details}
+                                ctaText="CLICK TO CLAIM"
+                                ctaHref={offer.ctaHref || '#'}
+                                secondaryCtaText="How To Claim"
+                                secondaryCtaHref={'/how-to-claim/' + offer.id}
+                                termsText={offer.termsText}
+                            />
+                        );
+                    })}
                 </div>
             );
         }
