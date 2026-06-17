@@ -23,10 +23,12 @@ import {
     updateLandingContent,
     updateLandingDetails
 } from '@/lib/landing-store';
-import { removeHomeOfferIds, setHomeConfig } from '@/lib/home-store';
+import { addHomeOfferId, removeHomeOfferIds, setHomeConfig } from '@/lib/home-store';
 import { setSiteSettings } from '@/lib/site-settings-store';
 import {
+    addSitePageOfferId,
     createSitePage,
+    removeSitePageOfferId,
     removeSitePageOfferIds,
     setSitePagePublished,
     updateSitePage
@@ -182,6 +184,24 @@ export async function removeOfferPlacementsAction(id: string, operatorId?: strin
     revalidatePath('/offers');
     revalidatePath('/offers/edit/' + id);
     if (operatorId !== undefined) revalidatePath('/operators/edit/' + operatorId);
+}
+
+export async function setOfferPlacementAction(
+    offerId: string,
+    target: { type: 'home' } | { type: 'sitePage'; pageId: string },
+    placed: boolean
+): Promise<void> {
+    if (target.type === 'home') {
+        if (placed) await addHomeOfferId(offerId);
+        else await removeHomeOfferIds([offerId]);
+        revalidatePath('/home');
+    } else {
+        if (placed) await addSitePageOfferId(target.pageId, offerId);
+        else await removeSitePageOfferId(target.pageId, offerId);
+        revalidatePath('/pages/edit/' + target.pageId);
+    }
+    revalidatePath('/offers');
+    revalidatePath('/offers/edit/' + offerId);
 }
 
 export async function saveOperatorAction(id: string, details: CmsOperatorDetails): Promise<void> {

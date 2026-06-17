@@ -1,5 +1,5 @@
-import type { SitePage, SitePageDetails, SitePageSection } from './site-pages.types';
-import { normalizeSection } from './site-page-content';
+import type { OffersSection, SitePage, SitePageDetails, SitePageSection } from './site-pages.types';
+import { createSection, normalizeSection } from './site-page-content';
 import { readDoc, writeDoc } from './cms-storage';
 
 const SITE_PAGES_KEY = 'site-pages';
@@ -96,6 +96,64 @@ export async function setSitePagePublished(id: string, published: boolean): Prom
               }
             : page
     );
+    await writeAll(next);
+}
+
+export async function addSitePageOfferId(pageId: string, offerId: string): Promise<void> {
+    const pages = await readAll();
+    const next: SitePage[] = pages.map((page) => {
+        if (page.id !== pageId) return page;
+
+        const normalized = normalizePage(page);
+        let foundOffersSection = false;
+        const sections = normalized.sections.map((section) => {
+            if (section.type !== 'offers') return section;
+            foundOffersSection = true;
+            const alreadyPlaced = section.content.items.some(
+                (item) => item.kind === 'offer' && item.offerId === offerId
+            );
+            if (alreadyPlaced) return section;
+            return {
+                ...section,
+                content: { items: [{ kind: 'offer' as const, offerId }, ...section.content.items] }
+            };
+        });
+
+        const offersSection: OffersSection = {
+            ...(createSection('offers') as OffersSection),
+            content: { items: [{ kind: 'offer', offerId }] }
+        };
+        const nextSections: SitePageSection[] = foundOffersSection
+            ? sections
+            : [...sections, offersSection];
+
+        return { ...normalized, sections: nextSections, updatedAt: now() };
+    });
+    await writeAll(next);
+}
+
+export async function removeSitePageOfferId(pageId: string, offerId: string): Promise<void> {
+    const pages = await readAll();
+    const next: SitePage[] = pages.map((page) => {
+        if (page.id !== pageId) return page;
+        const normalized = normalizePage(page);
+        return {
+            ...normalized,
+            sections: normalized.sections.map((section) =>
+                section.type === 'offers'
+                    ? {
+                          ...section,
+                          content: {
+                              items: section.content.items.filter(
+                                  (item) => item.kind === 'banner' || item.offerId !== offerId
+                              )
+                          }
+                      }
+                    : section
+            ),
+            updatedAt: now()
+        };
+    });
     await writeAll(next);
 }
 

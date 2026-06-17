@@ -28,6 +28,7 @@ export interface PublishedSnapshot extends PublishableSnapshot {
 export interface PublishStatus {
     hasUnpublishedChanges: boolean;
     publishedAt: string | null;
+    changes: string[];
 }
 
 function now(): string {
@@ -71,10 +72,121 @@ function publishableView(snapshot: PublishableSnapshot): string {
     });
 }
 
+function byId<T extends { id: string }>(items: T[]): Map<string, T> {
+    return new Map(items.map((item) => [item.id, item]));
+}
+
+function hasChanged<T>(draft: T, published: T): boolean {
+    return JSON.stringify(draft) !== JSON.stringify(published);
+}
+
+function itemName(value: string | undefined, fallback: string): string {
+    const trimmed = value?.trim();
+    return trimmed === undefined || trimmed === '' ? fallback : trimmed;
+}
+
+function collectRecordChanges<T extends { id: string }>(
+    singular: string,
+    draftItems: T[],
+    publishedItems: T[],
+    label: (item: T) => string,
+    detail?: (draft: T, published: T) => string | null
+): string[] {
+    const changes: string[] = [];
+    const publishedById = byId(publishedItems);
+    const draftById = byId(draftItems);
+
+    for (const draft of draftItems) {
+        const published = publishedById.get(draft.id);
+        if (published === undefined) {
+            changes.push('New ' + singular + ': ' + label(draft));
+            continue;
+        }
+        const detailed = detail?.(draft, published);
+        if (detailed !== undefined && detailed !== null) {
+            changes.push(detailed);
+        } else if (hasChanged(draft, published)) {
+            changes.push(singular.charAt(0).toUpperCase() + singular.slice(1) + ' changed: ' + label(draft));
+        }
+    }
+
+    for (const published of publishedItems) {
+        if (!draftById.has(published.id)) changes.push('Removed ' + singular + ': ' + label(published));
+    }
+
+    return changes;
+}
+
+function collectPublishChanges(draft: PublishableSnapshot, published: PublishableSnapshot): string[] {
+    const changes: string[] = [];
+
+    if (hasChanged(draft.home, published.home)) changes.push('Home page content or offer placement changed');
+    if (hasChanged(draft.settings, published.settings)) changes.push('Site-wide settings changed');
+
+    changes.push(
+        ...collectRecordChanges(
+            'offer',
+            draft.offers,
+            published.offers,
+            (offer) => itemName(offer.headline, offer.id),
+            (draftOffer, publishedOffer) => {
+                if (draftOffer.status !== publishedOffer.status) {
+                    return (
+                        'Offer ' +
+                        (draftOffer.status === 'hidden' ? 'hidden' : 'shown') +
+                        ': ' +
+                        itemName(draftOffer.headline, draftOffer.id)
+                    );
+                }
+                return hasChanged(draftOffer, publishedOffer)
+                    ? 'Offer changed: ' + itemName(draftOffer.headline, draftOffer.id)
+                    : null;
+            }
+        )
+    );
+
+    changes.push(
+        ...collectRecordChanges(
+            'operator',
+            draft.operators,
+            published.operators,
+            (operator) => itemName(operator.name, operator.id),
+            (draftOperator, publishedOperator) => {
+                if (draftOperator.status !== publishedOperator.status) {
+                    return (
+                        'Operator ' +
+                        (draftOperator.status === 'hidden' ? 'hidden' : 'shown') +
+                        ': ' +
+                        itemName(draftOperator.name, draftOperator.id)
+                    );
+                }
+                return hasChanged(draftOperator, publishedOperator)
+                    ? 'Operator changed: ' + itemName(draftOperator.name, draftOperator.id)
+                    : null;
+            }
+        )
+    );
+
+    changes.push(
+        ...collectRecordChanges('custom page', draft.sitePages, published.sitePages, (page) =>
+            itemName(page.name, page.id)
+        )
+    );
+    changes.push(
+        ...collectRecordChanges('landing page', draft.landingPages, published.landingPages, (page) =>
+            itemName(page.name, page.id)
+        )
+    );
+
+    return changes;
+}
+
 export async function getPublishStatus(): Promise<PublishStatus> {
     const [draft, published] = await Promise.all([buildPublishableSnapshot(), getPublishedSnapshot()]);
+    const changes = collectPublishChanges(draft, published);
     return {
         hasUnpublishedChanges: publishableView(draft) !== publishableView(published),
-        publishedAt: published.publishedAt
+        publishedAt: published.publishedAt,
+        changes
     };
 }

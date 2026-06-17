@@ -2,9 +2,9 @@
 
 import type React from 'react';
 import { useRef, useState, useTransition } from 'react';
-import { ArrowLeft, ExternalLink, Save, Upload } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Minus, Plus, Save, Upload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { saveOfferAction, saveOperatorLogoAction } from '@/app/actions';
+import { saveOfferAction, saveOperatorLogoAction, setOfferPlacementAction } from '@/app/actions';
 import { notifyCmsChanged } from '@/lib/cms-events';
 import { CmsSidebar } from '@/components/cms-sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -15,7 +15,17 @@ import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.ty
 interface OfferEditorProps {
     offer: CmsOffer;
     operators: CmsOperator[];
+    placements: OfferPlacement[];
     returnTo?: string;
+}
+
+export interface OfferPlacement {
+    id: string;
+    type: 'home' | 'sitePage';
+    label: string;
+    slug: string;
+    placed: boolean;
+    status: 'published' | 'draft';
 }
 
 function formatDate(iso: string): string {
@@ -35,7 +45,7 @@ function safeReturnTo(value: string | undefined): string {
     return '/offers';
 }
 
-export function OfferEditor({ offer, operators, returnTo }: OfferEditorProps): React.ReactElement {
+export function OfferEditor({ offer, operators, placements, returnTo }: OfferEditorProps): React.ReactElement {
     const router = useRouter();
     const backHref = safeReturnTo(returnTo);
     const [details, setDetails] = useState<CmsOfferDetails>({
@@ -53,6 +63,8 @@ export function OfferEditor({ offer, operators, returnTo }: OfferEditorProps): R
     const [dirty, setDirty] = useState(false);
     const [saved, setSaved] = useState(false);
     const [pending, startTransition] = useTransition();
+    const [placementPending, startPlacementTransition] = useTransition();
+    const [activePlacementId, setActivePlacementId] = useState<string | null>(null);
     const [logoOverrides, setLogoOverrides] = useState<Record<string, string>>({});
     const [pendingLogo, setPendingLogo] = useState<{ operatorId: string; logoSrc: string } | null>(null);
     const [uploadingLogo, setUploadingLogo] = useState(false);
@@ -136,6 +148,23 @@ export function OfferEditor({ offer, operators, returnTo }: OfferEditorProps): R
             setDirty(false);
             setPendingLogo(null);
             setSaved(true);
+        });
+    }
+
+    function togglePlacement(placement: OfferPlacement): void {
+        setActivePlacementId(placement.id);
+        startPlacementTransition(async () => {
+            try {
+                await setOfferPlacementAction(
+                    offer.id,
+                    placement.type === 'home' ? { type: 'home' } : { type: 'sitePage', pageId: placement.id },
+                    !placement.placed
+                );
+                notifyCmsChanged();
+                router.refresh();
+            } finally {
+                setActivePlacementId(null);
+            }
         });
     }
 
@@ -332,6 +361,74 @@ export function OfferEditor({ offer, operators, returnTo }: OfferEditorProps): R
                             <div className="flex justify-between gap-3">
                                 <span className="text-m3-on-surface-variant">Save state</span>
                                 <span>{hasUnsavedChanges ? 'Unsaved changes' : 'Up to date'}</span>
+                            </div>
+                        </div>
+                        <div className="border-t border-m3-outline-variant pt-4">
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <div className="text-[12px] font-medium">Placement</div>
+                                    <div className="text-[11px] text-m3-on-surface-variant mt-1">
+                                        Add or remove this offer from CMS pages. Publish when ready to update the
+                                        live site.
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-3 flex flex-col gap-2">
+                                {placements.map((placement) => {
+                                    const busy = placementPending && activePlacementId === placement.id;
+                                    return (
+                                        <div
+                                            key={placement.type + placement.id}
+                                            className="rounded-md border border-m3-outline-variant bg-m3-surface-low px-3 py-2 flex items-center justify-between gap-3"
+                                        >
+                                            <div className="min-w-0">
+                                                <div className="flex items-center gap-2 min-w-0">
+                                                    <span className="text-[12px] font-medium truncate">
+                                                        {placement.label}
+                                                    </span>
+                                                    <span
+                                                        className={
+                                                            'shrink-0 rounded-full px-2 py-0.5 text-[10px] ' +
+                                                            (placement.placed
+                                                                ? 'bg-m3-gold/20 text-m3-on-surface'
+                                                                : 'bg-m3-surface-highest text-m3-on-surface-variant')
+                                                        }
+                                                    >
+                                                        {placement.placed ? 'Placed' : 'Not placed'}
+                                                    </span>
+                                                </div>
+                                                <div className="mt-0.5 text-[11px] text-m3-on-surface-variant truncate">
+                                                    {placement.slug}
+                                                    {placement.status === 'draft' ? ' · Draft page' : ''}
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => togglePlacement(placement)}
+                                                disabled={placementPending}
+                                                className={
+                                                    'h-8 w-8 shrink-0 rounded-md border border-m3-outline-variant flex items-center justify-center transition disabled:opacity-40 ' +
+                                                    (placement.placed
+                                                        ? 'text-m3-on-surface hover:bg-m3-surface-high'
+                                                        : 'bg-m3-gold text-m3-on-gold hover:brightness-95')
+                                                }
+                                                aria-label={
+                                                    placement.placed
+                                                        ? 'Remove from ' + placement.label
+                                                        : 'Add to ' + placement.label
+                                                }
+                                            >
+                                                {busy ? (
+                                                    <span className="h-3 w-3 rounded-full border-2 border-current border-t-transparent animate-spin" />
+                                                ) : placement.placed ? (
+                                                    <Minus size={15} />
+                                                ) : (
+                                                    <Plus size={15} />
+                                                )}
+                                            </button>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </aside>

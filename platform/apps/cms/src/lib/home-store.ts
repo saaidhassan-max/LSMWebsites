@@ -94,6 +94,13 @@ export async function setHomeConfig(config: HomePageConfig): Promise<void> {
     await writeDoc(HOME_KEY, { ...normalizeConfig(config), updatedAt: now() });
 }
 
+export async function addHomeOfferId(offerId: string): Promise<void> {
+    const config = await getHomeConfig();
+    const alreadyPlaced = config.offerItems.some((item) => item.kind === 'offer' && item.offerId === offerId);
+    if (alreadyPlaced) return;
+    await setHomeConfig({ ...config, offerItems: [{ kind: 'offer', offerId }, ...config.offerItems] });
+}
+
 export async function removeHomeOfferIds(offerIds: string[]): Promise<void> {
     if (offerIds.length === 0) return;
     const config = await getHomeConfig();
