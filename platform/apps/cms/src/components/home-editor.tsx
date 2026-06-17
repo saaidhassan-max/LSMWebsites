@@ -275,7 +275,7 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                         </div>
                         <div className="flex items-center gap-2">
                             <Link
-                                href="http://localhost:3002"
+                                href={process.env.NEXT_PUBLIC_SFB_SITE_URL ?? 'http://localhost:3002'}
                                 target="_blank"
                                 className="flex items-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-lg border border-m3-outline-variant text-m3-on-surface hover:bg-m3-surface-high"
                             >
