@@ -1,7 +1,25 @@
-import type { HomePageConfig, HomeSectionId, HomeWelcomeContent } from './home.types';
-import type { OffersItem } from './site-pages.types';
+import type { HomePageConfig } from './home.types';
+import type { OffersItem, SitePageSection, WelcomeContent } from './site-pages.types';
+import { createSection, normalizeSection } from './site-page-content';
 import { listOffers } from './cms-content-store';
 import { readDoc, writeDoc } from './cms-storage';
+
+const HOME_KEY = 'home-page';
+
+function now(): string {
+    return new Date().toISOString();
+}
+
+const DEFAULT_WELCOME: WelcomeContent = {
+    textHighlight: 'TOP',
+    text: ' BINGO DEALS 2026',
+    textSuffix: '',
+    features: ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure'],
+    imageLeftSrc: '/sfb/welcome-images/image-left.png',
+    imageRightSrc: '/sfb/welcome-images/image-right.png',
+    imageLeftWidthMobile: 83,
+    imageLeftWidthDesktop: 204
+};
 
 function normalizeOfferItems(value: { offerItems?: unknown; offerIds?: unknown }): OffersItem[] {
     if (Array.isArray(value.offerItems)) {
@@ -29,64 +47,75 @@ function normalizeOfferItems(value: { offerItems?: unknown; offerIds?: unknown }
     return [];
 }
 
-const HOME_KEY = 'home-page';
-const DEFAULT_SECTION_IDS: HomeSectionId[] = ['welcome', 'terms', 'offers', 'signup', 'directory'];
-
-function now(): string {
-    return new Date().toISOString();
+function offersSection(items: OffersItem[]): SitePageSection {
+    const base = createSection('offers');
+    return { id: base.id, type: 'offers', content: { items } };
 }
 
-const DEFAULT_WELCOME: HomeWelcomeContent = {
-    textHighlight: 'TOP',
-    text: ' BINGO DEALS 2026',
-    textSuffix: '',
-    features: ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure'],
-    imageLeftSrc: '/sfb/welcome-images/image-left.png',
-    imageRightSrc: '/sfb/welcome-images/image-right.png',
-    imageLeftWidthMobile: 83,
-    imageLeftWidthDesktop: 204
-};
+function welcomeSection(content: WelcomeContent): SitePageSection {
+    const base = createSection('welcome');
+    return { id: base.id, type: 'welcome', content };
+}
 
-function normalizeWelcome(value: Partial<HomeWelcomeContent> | undefined): HomeWelcomeContent {
-    return {
+interface LegacyHomeConfig {
+    sections?: unknown;
+    sectionIds?: unknown;
+    welcome?: Partial<WelcomeContent>;
+    offerItems?: unknown;
+    offerIds?: unknown;
+    updatedAt?: string;
+}
+
+function legacyToSections(raw: LegacyHomeConfig): SitePageSection[] {
+    const sectionIds = Array.isArray(raw.sectionIds)
+        ? (raw.sectionIds as string[])
+        : ['welcome', 'terms', 'offers', 'signup', 'directory'];
+    const offerItems = normalizeOfferItems(raw);
+    const welcome: WelcomeContent = {
         ...DEFAULT_WELCOME,
-        ...(value ?? {}),
-        features: Array.isArray(value?.features) ? value.features : DEFAULT_WELCOME.features
+        ...(raw.welcome ?? {}),
+        features: Array.isArray(raw.welcome?.features) ? raw.welcome.features : DEFAULT_WELCOME.features
     };
+    const sections: SitePageSection[] = [];
+
+    for (const id of sectionIds) {
+        if (id === 'welcome') sections.push(welcomeSection(welcome));
+        else if (id === 'terms') sections.push(createSection('terms'));
+        else if (id === 'offers') sections.push(offersSection(offerItems));
+    }
+    return sections;
 }
 
-function normalizeConfig(value: Partial<HomePageConfig>): HomePageConfig {
-    const sectionIds = Array.isArray(value.sectionIds)
-        ? value.sectionIds.filter((id): id is HomeSectionId => DEFAULT_SECTION_IDS.includes(id as HomeSectionId))
-        : DEFAULT_SECTION_IDS;
-    const normalizedSectionIds = sectionIds.includes('offers') ? sectionIds : insertOffersSection(sectionIds);
-
+function normalizeConfig(raw: LegacyHomeConfig): HomePageConfig {
+    const sections = Array.isArray(raw.sections)
+        ? (raw.sections as { id: string; type: SitePageSection['type']; content?: unknown }[]).map(
+              (section) => normalizeSection(section)
+          )
+              .filter((section) => section.type !== 'directorySignup')
+        : legacyToSections(raw);
     return {
-        offerItems: normalizeOfferItems(value as { offerItems?: unknown; offerIds?: unknown }),
-        sectionIds: normalizedSectionIds,
-        welcome: normalizeWelcome(value.welcome),
-        updatedAt: typeof value.updatedAt === 'string' ? value.updatedAt : now()
+        sections,
+        updatedAt: typeof raw.updatedAt === 'string' ? raw.updatedAt : now()
     };
-}
-
-function insertOffersSection(sectionIds: HomeSectionId[]): HomeSectionId[] {
-    const next = [...sectionIds];
-    const termsIndex = next.indexOf('terms');
-    const insertAt = termsIndex >= 0 ? termsIndex + 1 : Math.min(2, next.length);
-    next.splice(insertAt, 0, 'offers');
-    return next;
 }
 
 async function seedConfig(): Promise<HomePageConfig> {
     const offers = await listOffers();
-    const offerItems: OffersItem[] = offers
+    const items: OffersItem[] = offers
         .filter((offer) => offer.status === 'active')
         .map((offer) => ({ kind: 'offer', offerId: offer.id }));
-    return { offerItems, sectionIds: DEFAULT_SECTION_IDS, welcome: DEFAULT_WELCOME, updatedAt: now() };
+    return {
+        sections: [
+            welcomeSection(DEFAULT_WELCOME),
+            createSection('terms'),
+            offersSection(items)
+        ],
+        updatedAt: now()
+    };
 }
 
 export async function getHomeConfig(): Promise<HomePageConfig> {
-    const raw = await readDoc<Partial<HomePageConfig>>(HOME_KEY, seedConfig);
+    const raw = await readDoc<LegacyHomeConfig>(HOME_KEY, seedConfig);
     return normalizeConfig(raw);
 }
 
@@ -94,18 +123,48 @@ export async function setHomeConfig(config: HomePageConfig): Promise<void> {
     await writeDoc(HOME_KEY, { ...normalizeConfig(config), updatedAt: now() });
 }
 
+function isOffersSection(
+    section: SitePageSection
+): section is Extract<SitePageSection, { type: 'offers' }> {
+    return section.type === 'offers';
+}
+
 export async function addHomeOfferId(offerId: string): Promise<void> {
     const config = await getHomeConfig();
-    const alreadyPlaced = config.offerItems.some((item) => item.kind === 'offer' && item.offerId === offerId);
+    const sections = [...config.sections];
+    const index = sections.findIndex(isOffersSection);
+    if (index === -1) {
+        sections.push(offersSection([{ kind: 'offer', offerId }]));
+        await setHomeConfig({ ...config, sections });
+        return;
+    }
+    const section = sections[index] as Extract<SitePageSection, { type: 'offers' }>;
+    const alreadyPlaced = section.content.items.some(
+        (item) => item.kind === 'offer' && item.offerId === offerId
+    );
     if (alreadyPlaced) return;
-    await setHomeConfig({ ...config, offerItems: [{ kind: 'offer', offerId }, ...config.offerItems] });
+    sections[index] = {
+        id: section.id,
+        type: 'offers',
+        content: { items: [{ kind: 'offer', offerId }, ...section.content.items] }
+    };
+    await setHomeConfig({ ...config, sections });
 }
 
 export async function removeHomeOfferIds(offerIds: string[]): Promise<void> {
     if (offerIds.length === 0) return;
     const config = await getHomeConfig();
-    const next = config.offerItems.filter(
-        (item) => item.kind === 'banner' || !offerIds.includes(item.offerId)
-    );
-    await setHomeConfig({ ...config, offerItems: next });
+    const sections: SitePageSection[] = config.sections.map((section) => {
+        if (!isOffersSection(section)) return section;
+        return {
+            id: section.id,
+            type: 'offers',
+            content: {
+                items: section.content.items.filter(
+                    (item) => item.kind === 'banner' || !offerIds.includes(item.offerId)
+                )
+            }
+        };
+    });
+    await setHomeConfig({ ...config, sections });
 }

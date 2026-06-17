@@ -9,7 +9,7 @@ function normalizePage(page: SitePage): SitePage {
         ...page,
         sections: (page.sections ?? []).map((section) =>
             normalizeSection(section as { id: string; type: SitePageSection['type']; content?: unknown })
-        )
+        ).filter((section) => section.type !== 'directorySignup')
     };
 }
 

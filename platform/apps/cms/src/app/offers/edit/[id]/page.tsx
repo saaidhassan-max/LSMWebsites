@@ -7,6 +7,14 @@ import { listSitePages } from '@/lib/site-pages-store';
 
 export const dynamic = 'force-dynamic';
 
+function isOfferPlacedOnHome(home: Awaited<ReturnType<typeof getHomeConfig>>, offerId: string): boolean {
+    return home.sections.some(
+        (section) =>
+            section.type === 'offers' &&
+            section.content.items.some((item) => item.kind === 'offer' && item.offerId === offerId)
+    );
+}
+
 export default async function EditOfferScreen({
     params,
     searchParams
@@ -29,7 +37,7 @@ export default async function EditOfferScreen({
             type: 'home',
             label: 'Home page',
             slug: '/',
-            placed: home.offerItems.some((item) => item.kind === 'offer' && item.offerId === offer.id),
+            placed: isOfferPlacedOnHome(home, offer.id),
             status: 'published'
         },
         ...pages.map((page): OfferPlacement => ({

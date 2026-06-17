@@ -1,33 +1,23 @@
 'use client';
 
 import type React from 'react';
-import { useRef, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-    ArrowLeft,
-    ArrowUpDown,
-    ChevronDown,
-    ChevronUp,
-    Eye,
-    EyeOff,
-    Monitor,
-    Plus,
-    Smartphone,
-    Trash2,
-    Upload
-} from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, Monitor, Smartphone } from 'lucide-react';
 import { publishSitePageAction, saveOfferAction, saveSitePageAction } from '@/app/actions';
 import { notifyCmsChanged } from '@/lib/cms-events';
-import { LinesTextarea } from '@/components/lines-textarea';
 import { CmsSidebar } from '@/components/cms-sidebar';
-import { OffersCollectionEditor } from '@/components/offers-collection-editor';
+import { PageAssetsPanel } from '@/components/page-assets-panel';
 import { PreviewFrame } from '@/components/preview-frame';
+import { SectionProperties } from '@/components/section-properties';
 import { SitePageView } from '@/components/site-page-view';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { SITE_PAGE_ASSETS, createSection, sectionTypeLabel } from '@/lib/site-page-content';
 import type { CmsOffer, CmsOperator } from '@/lib/cms-content.types';
 import type {
     DirectoryContent,
+    DirectorySignupContent,
+    ImageContent,
     OffersContent,
     OffersItem,
     RichTextContent,
@@ -44,7 +34,14 @@ import type { SiteSettings } from '@/lib/site-settings.types';
 type PreviewMode = 'mobile' | 'desktop';
 type PanelView = 'assets' | 'edit';
 type SectionContentPatch = Partial<
-    WelcomeContent & TermsContent & RichTextContent & SignupContent & DirectoryContent & OffersContent
+    WelcomeContent &
+        TermsContent &
+        RichTextContent &
+        SignupContent &
+        DirectoryContent &
+        DirectorySignupContent &
+        OffersContent &
+        ImageContent
 >;
 
 interface SitePageEditorProps {
@@ -70,7 +67,9 @@ export function SitePageEditor({
 }: SitePageEditorProps): React.ReactElement {
     const router = useRouter();
     const [details, setDetails] = useState<SitePageDetails>({ name: page.name, slug: page.slug });
-    const [sections, setSections] = useState<SitePageSection[]>(page.sections);
+    const [sections, setSections] = useState<SitePageSection[]>(
+        page.sections.filter((section) => section.type !== 'directorySignup')
+    );
     const [offerList, setOfferList] = useState<CmsOffer[]>(offers);
     const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
     const [panelView, setPanelView] = useState<PanelView>('assets');
@@ -79,9 +78,6 @@ export function SitePageEditor({
     const [sectionReorder, setSectionReorder] = useState(false);
     const [previewMode, setPreviewMode] = useState<PreviewMode>('mobile');
     const [pending, startTransition] = useTransition();
-    const [uploading, setUploading] = useState(false);
-    const uploadTarget = useRef<{ sectionId: string; key: 'imageLeftSrc' | 'imageRightSrc' } | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const selectedSection = sections.find((section) => section.id === selectedSectionId) ?? null;
 
@@ -98,7 +94,6 @@ export function SitePageEditor({
     function addSection(type: SitePageSectionType): void {
         const section = createSection(type);
         setSections((current) => [...current, section]);
-        selectSection(section.id);
         setDirty(true);
     }
 
@@ -155,31 +150,6 @@ export function SitePageEditor({
         });
     }
 
-    function triggerUpload(sectionId: string, key: 'imageLeftSrc' | 'imageRightSrc'): void {
-        uploadTarget.current = { sectionId, key };
-        fileInputRef.current?.click();
-    }
-
-    async function onPickImage(e: React.ChangeEvent<HTMLInputElement>): Promise<void> {
-        const file = e.target.files?.[0];
-        const target = uploadTarget.current;
-        if (file === undefined || target === null) return;
-        setUploading(true);
-        try {
-            const body = new FormData();
-            body.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body });
-            const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) {
-                updateSectionContent(target.sectionId, { [target.key]: data.path });
-            }
-        } finally {
-            setUploading(false);
-            uploadTarget.current = null;
-            if (fileInputRef.current !== null) fileInputRef.current.value = '';
-        }
-    }
-
     function save(): void {
         startTransition(async () => {
             await saveSitePageAction(page.id, details, sections);
@@ -201,151 +171,6 @@ export function SitePageEditor({
     const labelClass = 'flex flex-col gap-1.5 text-[12px] font-medium';
     const previewWidth = previewMode === 'mobile' ? '390px' : '1180px';
     const previewHeight = '760px';
-
-    function renderImageField(
-        section: { id: string },
-        key: 'imageLeftSrc' | 'imageRightSrc',
-        label: string,
-        src: string
-    ): React.ReactElement {
-        return (
-            <div className={labelClass}>
-                {label}
-                <div className="flex items-center gap-3">
-                    <div className="h-12 w-16 shrink-0 rounded-md border border-m3-outline-variant bg-m3-surface-low overflow-hidden flex items-center justify-center">
-                        <img src={src} alt="" className="max-w-full max-h-full object-contain" />
-                    </div>
-                    <button
-                        type="button"
-                        onClick={() => triggerUpload(section.id, key)}
-                        disabled={uploading}
-                        className="flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
-                    >
-                        <Upload size={14} />
-                        {uploading ? 'Uploading…' : 'Upload'}
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    function renderProperties(section: SitePageSection): React.ReactElement {
-        if (section.type === 'welcome') {
-            return (
-                <div className="flex flex-col gap-3">
-                    <label className={labelClass}>
-                        Highlight word
-                        <input
-                            value={section.content.textHighlight}
-                            onChange={(e) => updateSectionContent(section.id, { textHighlight: e.target.value })}
-                            className={inputClass}
-                        />
-                    </label>
-                    <label className={labelClass}>
-                        Main text
-                        <input
-                            value={section.content.text}
-                            onChange={(e) => updateSectionContent(section.id, { text: e.target.value })}
-                            className={inputClass}
-                        />
-                    </label>
-                    <label className={labelClass}>
-                        Suffix (optional)
-                        <input
-                            value={section.content.textSuffix}
-                            onChange={(e) => updateSectionContent(section.id, { textSuffix: e.target.value })}
-                            className={inputClass}
-                        />
-                    </label>
-                    <label className={labelClass}>
-                        Feature lines (one per line)
-                        <LinesTextarea
-                            lines={section.content.features}
-                            onChange={(features) => updateSectionContent(section.id, { features })}
-                            resyncKey={section.id}
-                            rows={3}
-                            className={inputClass + ' resize-y'}
-                        />
-                    </label>
-                    {renderImageField(section, 'imageLeftSrc', 'Left image', section.content.imageLeftSrc)}
-                    {renderImageField(section, 'imageRightSrc', 'Right image', section.content.imageRightSrc)}
-                </div>
-            );
-        }
-        if (section.type === 'terms') {
-            return (
-                <label className={labelClass}>
-                    Terms text
-                    <textarea
-                        value={section.content.text}
-                        onChange={(e) => updateSectionContent(section.id, { text: e.target.value })}
-                        rows={3}
-                        className={inputClass + ' resize-y'}
-                    />
-                </label>
-            );
-        }
-        if (section.type === 'richText') {
-            return (
-                <div className="flex flex-col gap-3">
-                    <label className={labelClass}>
-                        Heading
-                        <input
-                            value={section.content.heading}
-                            onChange={(e) => updateSectionContent(section.id, { heading: e.target.value })}
-                            className={inputClass}
-                        />
-                    </label>
-                    <label className={labelClass}>
-                        Body
-                        <textarea
-                            value={section.content.body}
-                            onChange={(e) => updateSectionContent(section.id, { body: e.target.value })}
-                            rows={6}
-                            className={inputClass + ' resize-y'}
-                        />
-                    </label>
-                </div>
-            );
-        }
-        if (section.type === 'signup') {
-            return (
-                <label className={labelClass}>
-                    Heading above form
-                    <input
-                        value={section.content.heading}
-                        onChange={(e) => updateSectionContent(section.id, { heading: e.target.value })}
-                        className={inputClass}
-                    />
-                </label>
-            );
-        }
-        if (section.type === 'offers') {
-            return (
-                <OffersCollectionEditor
-                    items={section.content.items}
-                    offers={offerList}
-                    operators={operators}
-                    onChange={(items) => updateOfferItems(section.id, items)}
-                    onOfferChange={updateOffer}
-                    onSaveOffer={saveOffer}
-                    editOfferHref={(id) =>
-                        '/offers/edit/' + id + '?returnTo=' + encodeURIComponent('/pages/edit/' + page.id)
-                    }
-                />
-            );
-        }
-        return (
-            <label className={labelClass}>
-                Directory title
-                <input
-                    value={section.content.title}
-                    onChange={(e) => updateSectionContent(section.id, { title: e.target.value })}
-                    className={inputClass}
-                />
-            </label>
-        );
-    }
 
     return (
         <div className="h-full flex">
@@ -464,116 +289,25 @@ export function SitePageEditor({
                                         </div>
                                     </section>
 
-                                    <section className="flex flex-col gap-2">
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                                Page content
-                                            </div>
-                                            <button
-                                                type="button"
-                                                onClick={() => setSectionReorder((value) => !value)}
-                                                className={
-                                                    'flex items-center gap-1.5 text-[12px] px-2.5 py-1.5 rounded-md border transition-colors ' +
-                                                    (sectionReorder
-                                                        ? 'bg-m3-gold text-m3-on-gold border-m3-gold'
-                                                        : 'border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high')
-                                                }
-                                            >
-                                                <ArrowUpDown size={14} />
-                                                {sectionReorder ? 'Done' : 'Reorder'}
-                                            </button>
-                                        </div>
-                                        {sections.length === 0 && (
-                                            <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">
-                                                Add assets below to build the body of this page.
-                                            </div>
-                                        )}
-                                        {sections.map((section, index) => (
-                                            <div
-                                                key={section.id}
-                                                onClick={() => !sectionReorder && selectSection(section.id)}
-                                                className={
-                                                    'flex items-center gap-2 rounded-lg border p-2 ' +
-                                                    (selectedSectionId === section.id && !sectionReorder
-                                                        ? 'border-m3-gold ring-1 ring-m3-gold'
-                                                        : 'border-m3-outline-variant') +
-                                                    (sectionReorder ? '' : ' cursor-pointer hover:bg-m3-surface-high')
-                                                }
-                                            >
-                                                <span className="w-6 text-center text-[12px] text-m3-on-surface-variant">
-                                                    {index + 1}
-                                                </span>
-                                                <div className="min-w-0 flex-1 text-[13px] font-medium">
-                                                    {sectionTypeLabel(section.type)}
-                                                </div>
-                                                {sectionReorder ? (
-                                                    <>
-                                                        <button
-                                                            type="button"
-                                                            aria-label="Move up"
-                                                            disabled={index === 0}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                moveSection(index, -1);
-                                                            }}
-                                                            className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
-                                                        >
-                                                            <ChevronUp size={15} />
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            aria-label="Move down"
-                                                            disabled={index === sections.length - 1}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                moveSection(index, 1);
-                                                            }}
-                                                            className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
-                                                        >
-                                                            <ChevronDown size={15} />
-                                                        </button>
-                                                    </>
-                                                ) : (
-                                                    <button
-                                                        type="button"
-                                                        aria-label="Remove section"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            removeSection(section.id);
-                                                        }}
-                                                        className="w-7 h-7 flex items-center justify-center rounded-md text-m3-error hover:bg-m3-error-container"
-                                                    >
-                                                        <Trash2 size={15} />
-                                                    </button>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </section>
-
-                                    <section className="flex flex-col gap-2">
-                                        <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                            Add assets
-                                        </div>
-                                        {SITE_PAGE_ASSETS.map((asset) => (
-                                            <button
-                                                key={asset.type}
-                                                type="button"
-                                                onClick={() => addSection(asset.type)}
-                                                className="flex items-center gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 text-left hover:bg-m3-surface-high"
-                                            >
-                                                <Plus size={15} className="shrink-0 text-m3-on-surface-variant" />
-                                                <span className="min-w-0">
-                                                    <span className="block text-[13px] font-medium">{asset.label}</span>
-                                                    <span className="block text-[11px] text-m3-on-surface-variant">
-                                                        {asset.description}
-                                                    </span>
-                                                </span>
-                                            </button>
-                                        ))}
-                                        <p className="text-[11px] text-m3-on-surface-variant leading-relaxed">
-                                            Adding an asset opens it in the Edit tab.
-                                        </p>
-                                    </section>
+                                    <PageAssetsPanel
+                                        items={sections.map((section) => ({
+                                            key: section.id,
+                                            label: sectionTypeLabel(section.type)
+                                        }))}
+                                        assets={SITE_PAGE_ASSETS.map((asset) => ({
+                                            type: asset.type,
+                                            label: asset.label,
+                                            description: asset.description
+                                        }))}
+                                        selectedKey={selectedSectionId}
+                                        reorder={sectionReorder}
+                                        onToggleReorder={() => setSectionReorder((value) => !value)}
+                                        onSelect={selectSection}
+                                        onRemove={removeSection}
+                                        onMove={moveSection}
+                                        onAdd={(type) => addSection(type as SitePageSectionType)}
+                                        emptyHint="Add assets below to build the body of this page."
+                                    />
                                 </>
                             )}
 
@@ -588,17 +322,20 @@ export function SitePageEditor({
                                     <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
                                         {sectionTypeLabel(selectedSection.type)} content
                                     </div>
-                                    {renderProperties(selectedSection)}
+                                    <SectionProperties
+                                        section={selectedSection}
+                                        onChange={(patch) => updateSectionContent(selectedSection.id, patch)}
+                                        offers={offerList}
+                                        operators={operators}
+                                        onOfferChange={updateOffer}
+                                        onSaveOffer={saveOffer}
+                                        onOffersItemsChange={(items) => updateOfferItems(selectedSection.id, items)}
+                                        editOfferHref={(id) =>
+                                            '/offers/edit/' + id + '?returnTo=' + encodeURIComponent('/pages/edit/' + page.id)
+                                        }
+                                    />
                                 </section>
                             )}
-
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept="image/*"
-                                onChange={onPickImage}
-                                className="hidden"
-                            />
                         </div>
 
                         <div className="shrink-0 border-t border-m3-outline-variant bg-m3-surface-lowest/95 backdrop-blur p-4">

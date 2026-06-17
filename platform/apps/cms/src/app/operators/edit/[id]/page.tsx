@@ -12,8 +12,11 @@ export const dynamic = 'force-dynamic';
 
 function collectOfferIds(home: HomePageConfig, pages: SitePage[]): Set<string> {
     const ids = new Set<string>();
-    home.offerItems.forEach((item) => {
-        if (item.kind === 'offer') ids.add(item.offerId);
+    home.sections.forEach((section) => {
+        if (section.type !== 'offers') return;
+        section.content.items.forEach((item) => {
+            if (item.kind === 'offer') ids.add(item.offerId);
+        });
     });
     pages.forEach((page) => {
         page.sections.forEach((section) => {

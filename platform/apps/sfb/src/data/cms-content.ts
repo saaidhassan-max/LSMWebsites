@@ -13,6 +13,7 @@ import type {
     CmsOperator,
     CmsOffersItem,
     CmsSitePage,
+    CmsSitePageSection,
     CmsSiteSettings,
     CmsSiteSettingsDirectoryItem,
     CmsSiteSettingsNavItem
@@ -164,6 +165,59 @@ function normalizeHomeSectionIds(value: CmsHomeSectionId[] | undefined): CmsHome
     const insertAt = termsIndex >= 0 ? termsIndex + 1 : Math.min(2, next.length);
     next.splice(insertAt, 0, 'offers');
     return next;
+}
+
+function homeLegacySection(id: CmsHomeSectionId, home: CmsHomeConfig): CmsSitePageSection {
+    if (id === 'welcome') {
+        return {
+            id: 'home_welcome',
+            type: 'welcome',
+            content: normalizeWelcome(home.welcome)
+        };
+    }
+    if (id === 'terms') {
+        return {
+            id: 'home_terms',
+            type: 'terms',
+            content: {
+                text: 'Special terms apply – including age verification. Click "How To Claim" for full details.'
+            }
+        };
+    }
+    if (id === 'offers') {
+        return {
+            id: 'home_offers',
+            type: 'offers',
+            content: { items: normalizeOffersItems(home) }
+        };
+    }
+    if (id === 'signup') {
+        return {
+            id: 'home_signup',
+            type: 'signup',
+            content: { heading: '' }
+        };
+    }
+    return {
+        id: 'home_directory',
+        type: 'directory',
+        content: { title: 'Super Free Bingo Directory' }
+    };
+}
+
+function normalizeHomeSections(home: CmsHomeConfig): CmsSitePageSection[] {
+    if (Array.isArray(home.sections)) {
+        return home.sections.filter((section) => section.type !== 'directorySignup');
+    }
+    const sectionIds = normalizeHomeSectionIds(home.sectionIds);
+    const sections: CmsSitePageSection[] = [];
+
+    sectionIds.forEach((id) => {
+        if (id === 'signup' || id === 'directory') return;
+        sections.push(homeLegacySection(id, home));
+    });
+
+    return sections;
 }
 
 function normalizeOffersItems(home: CmsHomeConfig): CmsOffersItem[] {
@@ -409,6 +463,12 @@ export async function getCmsHomeSectionIds(): Promise<CmsHomeSectionId[]> {
     return normalizeHomeSectionIds(home.sectionIds);
 }
 
+export async function getCmsHomeSections(): Promise<CmsSitePageSection[] | null> {
+    const home = await readJson<CmsHomeConfig>(HOME_FILE);
+    if (home === null) return null;
+    return normalizeHomeSections(home);
+}
+
 export async function getCmsSiteSettings(): Promise<CmsSiteSettings> {
     const [settings, pages] = await Promise.all([
         readJson<CmsSiteSettings>(SITE_SETTINGS_FILE),
@@ -459,7 +519,11 @@ export async function getCmsSitePage(slug: string): Promise<CmsSitePage | null> 
     const pages = await readJson<CmsSitePage[]>(SITE_PAGES_FILE);
     if (pages === null) return null;
     const page = pages.find((item) => item.slug === slug && item.status === 'published');
-    return page ?? null;
+    if (page === undefined) return null;
+    return {
+        ...page,
+        sections: page.sections.filter((section) => section.type !== 'directorySignup')
+    };
 }
 
 export type CmsContentPageKey = 'about' | 'privacy' | 'terms' | 'disclaimer';

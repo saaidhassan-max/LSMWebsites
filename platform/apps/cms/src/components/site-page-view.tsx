@@ -1,6 +1,7 @@
 'use client';
 
 import type React from 'react';
+import Image from 'next/image';
 import { LogoSection } from '@lsm/ui/components/logo-section/logo-section';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { OperatorBanner } from '@lsm/ui/components/operator-banner/operator-banner';
@@ -58,6 +59,41 @@ export function SitePageView({
         return operators.find((operator) => operator.id === offer.operatorId);
     }
 
+    function renderDirectorySignupTemplate(): React.ReactElement {
+        return (
+            <div className="w-full">
+                <div className="md:hidden flex flex-col">
+                    <WebsiteDirectory title={settings.directoryTitle} sites={settings.directorySites} splitAtDot />
+                    <div className="w-full max-w-[720px] mx-auto p-4 flex flex-col gap-4">
+                        <SignupForm
+                            variant="sfb-sfsg"
+                            brandName="Super Free Bingo"
+                            privacyPolicyUrl="/privacy-policy"
+                            termsUrl="/terms"
+                        />
+                    </div>
+                </div>
+                <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
+                    <div className="flex-1">
+                        <WebsiteDirectory
+                            title={settings.directoryTitle}
+                            sites={settings.directorySites}
+                            splitAtDot
+                        />
+                    </div>
+                    <div className="flex-1 flex flex-col gap-4">
+                        <SignupForm
+                            variant="sfb-sfsg"
+                            brandName="Super Free Bingo"
+                            privacyPolicyUrl="/privacy-policy"
+                            termsUrl="/terms"
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     function renderSection(section: SitePageSection): React.ReactElement {
         const wrapClass = editableClass(section.id);
         const wrapProps = editableProps(section.id);
@@ -72,6 +108,8 @@ export function SitePageView({
                         features={section.content.features}
                         imageLeftSrc={section.content.imageLeftSrc}
                         imageRightSrc={section.content.imageRightSrc}
+                        imageLeftWidthMobile={section.content.imageLeftWidthMobile}
+                        imageLeftWidthDesktop={section.content.imageLeftWidthDesktop}
                     />
                 </div>
             );
@@ -120,6 +158,7 @@ export function SitePageView({
                 </div>
             );
         }
+        if (section.type === 'directorySignup') return <div key={section.id} />;
         if (section.type === 'offers') {
             return (
                 <div
@@ -167,6 +206,33 @@ export function SitePageView({
                 </div>
             );
         }
+        if (section.type === 'image') {
+            const c = section.content;
+            return (
+                <div
+                    key={section.id}
+                    className={'w-full flex justify-center px-4 py-4 ' + wrapClass}
+                    {...wrapProps}
+                >
+                    <Image
+                        src={c.src}
+                        alt={c.alt}
+                        width={c.mobileWidth}
+                        height={c.mobileHeight}
+                        className="md:hidden object-contain"
+                        style={{ width: c.mobileWidth, height: c.mobileHeight, maxWidth: '100%' }}
+                    />
+                    <Image
+                        src={c.src}
+                        alt={c.alt}
+                        width={c.desktopWidth}
+                        height={c.desktopHeight}
+                        className="hidden md:block object-contain"
+                        style={{ width: c.desktopWidth, height: c.desktopHeight, maxWidth: '100%' }}
+                    />
+                </div>
+            );
+        }
         return (
             <div key={section.id} className={wrapClass} {...wrapProps}>
                 <WebsiteDirectory
@@ -196,7 +262,8 @@ export function SitePageView({
                 </div>
             )}
 
-            {sections.map(renderSection)}
+            {sections.filter((section) => section.type !== 'directorySignup').map(renderSection)}
+            {renderDirectorySignupTemplate()}
 
             <SfbFooter legalText={settings.footerLegalText} />
         </main>

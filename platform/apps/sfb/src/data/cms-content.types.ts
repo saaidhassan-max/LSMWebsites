@@ -27,6 +27,7 @@ export interface CmsOffer {
 }
 
 export interface CmsHomeConfig {
+    sections?: CmsSitePageSection[];
     offerItems?: CmsOffersItem[];
     offerIds?: string[];
     sectionIds?: CmsHomeSectionId[];
@@ -93,7 +94,15 @@ export interface CmsLandingPage {
 }
 
 export type CmsSitePageStatus = 'draft' | 'published';
-export type CmsSitePageSectionType = 'welcome' | 'terms' | 'richText' | 'signup' | 'directory' | 'offers';
+export type CmsSitePageSectionType =
+    | 'welcome'
+    | 'terms'
+    | 'richText'
+    | 'signup'
+    | 'directory'
+    | 'directorySignup'
+    | 'offers'
+    | 'image';
 
 export interface CmsOffersOfferItem {
     kind: 'offer';
@@ -116,11 +125,22 @@ export interface CmsSitePageSectionContent {
     features?: string[];
     imageLeftSrc?: string;
     imageRightSrc?: string;
+    imageLeftWidthMobile?: number;
+    imageLeftWidthDesktop?: number;
     heading?: string;
     body?: string;
     title?: string;
+    directoryTitle?: string;
+    signupHeading?: string;
     offerIds?: string[];
     items?: CmsOffersItem[];
+    src?: string;
+    alt?: string;
+    href?: string;
+    desktopWidth?: number;
+    desktopHeight?: number;
+    mobileWidth?: number;
+    mobileHeight?: number;
 }
 
 export interface CmsSitePageSection {

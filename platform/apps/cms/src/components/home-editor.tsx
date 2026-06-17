@@ -1,37 +1,49 @@
 'use client';
 
 import type React from 'react';
-import { useMemo, useRef, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-    ArrowLeft,
-    ArrowUpDown,
-    Check,
-    ChevronDown,
-    ChevronUp,
-    ExternalLink,
-    Layers,
-    Monitor,
-    Plus,
-    Smartphone,
-    Upload,
-    X
-} from 'lucide-react';
+import { ArrowLeft, ExternalLink, Monitor, Smartphone } from 'lucide-react';
 import { saveHomeConfigAction, saveOfferAction } from '@/app/actions';
 import { notifyCmsChanged } from '@/lib/cms-events';
 import { CmsSidebar } from '@/components/cms-sidebar';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { PageAssetsPanel } from '@/components/page-assets-panel';
 import { PreviewFrame } from '@/components/preview-frame';
-import { HomePageView } from '@/components/home-page-view';
-import type { HomeEditableSectionId, HomeRenderItem } from '@/components/home-page-view';
-import { OffersCollectionEditor } from '@/components/offers-collection-editor';
+import { SectionProperties } from '@/components/section-properties';
+import { SitePageView } from '@/components/site-page-view';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { SITE_PAGE_ASSETS, createSection, sectionTypeLabel } from '@/lib/site-page-content';
 import type { CmsOffer, CmsOperator } from '@/lib/cms-content.types';
-import type { HomePageConfig, HomeSectionId, HomeWelcomeContent } from '@/lib/home.types';
+import type { HomePageConfig } from '@/lib/home.types';
 import type { SiteSettings } from '@/lib/site-settings.types';
-import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.types';
+import type {
+    DirectoryContent,
+    DirectorySignupContent,
+    ImageContent,
+    OffersContent,
+    OffersItem,
+    RichTextContent,
+    SignupContent,
+    SitePageSection,
+    SitePageSectionType,
+    TermsContent,
+    WelcomeContent
+} from '@/lib/site-pages.types';
 
 type PreviewMode = 'mobile' | 'desktop';
+type PanelView = 'assets' | 'edit';
+type SectionContentPatch = Partial<
+    WelcomeContent &
+        TermsContent &
+        RichTextContent &
+        SignupContent &
+        DirectoryContent &
+        DirectorySignupContent &
+        OffersContent &
+        ImageContent
+>;
+
 interface HomeEditorProps {
     config: HomePageConfig;
     offers: CmsOffer[];
@@ -39,101 +51,66 @@ interface HomeEditorProps {
     settings: SiteSettings;
 }
 
-interface SectionAsset {
-    id: HomeSectionId;
-    label: string;
-    description: string;
-}
-
-const SECTION_ASSETS: SectionAsset[] = [
-    { id: 'welcome', label: 'Hero / welcome banner', description: 'Top visual intro section.' },
-    { id: 'terms', label: 'Top terms bar', description: 'Short legal disclosure line.' },
-    { id: 'offers', label: 'Offers collection', description: 'Multiple selected offer cards.' },
-    { id: 'signup', label: 'Signup form', description: 'Email and phone capture form.' },
-    { id: 'directory', label: 'Website directory', description: 'Directory links block.' }
-];
-
-export function HomeEditor({ config, offers, operators, settings }: HomeEditorProps): React.ReactElement {
+export function HomeEditor({
+    config,
+    offers,
+    operators,
+    settings
+}: HomeEditorProps): React.ReactElement {
     const router = useRouter();
+    const [sections, setSections] = useState<SitePageSection[]>(
+        config.sections.filter((section) => section.type !== 'directorySignup')
+    );
     const [offerList, setOfferList] = useState<CmsOffer[]>(offers);
-    const [offerItems, setOfferItems] = useState(config.offerItems);
-    const [sectionIds, setSectionIds] = useState<HomeSectionId[]>(config.sectionIds);
-    const [welcome, setWelcome] = useState<HomeWelcomeContent>(config.welcome);
-    const [featureLines, setFeatureLines] = useState(config.welcome.features.join('\n'));
-    const [selectedSection, setSelectedSection] = useState<HomeEditableSectionId | null>(null);
-    const [panelView, setPanelView] = useState<'assets' | 'edit'>('assets');
+    const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
+    const [panelView, setPanelView] = useState<PanelView>('assets');
     const [sectionReorder, setSectionReorder] = useState(false);
     const [dirty, setDirty] = useState(false);
     const [previewMode, setPreviewMode] = useState<PreviewMode>('mobile');
-    const [uploadingImage, setUploadingImage] = useState<'left' | 'right' | null>(null);
     const [saving, startSave] = useTransition();
-    const leftImageInputRef = useRef<HTMLInputElement>(null);
-    const rightImageInputRef = useRef<HTMLInputElement>(null);
 
-    const offersById = useMemo(() => {
-        const map: Record<string, CmsOffer> = {};
-        offerList.forEach((offer) => {
-            map[offer.id] = offer;
-        });
-        return map;
-    }, [offerList]);
+    const selectedSection = sections.find((section) => section.id === selectedSectionId) ?? null;
 
-    const operatorsById = useMemo(() => {
-        const map: Record<string, CmsOperator> = {};
-        operators.forEach((operator) => {
-            map[operator.id] = operator;
-        });
-        return map;
-    }, [operators]);
-
-    function operatorFor(offer: CmsOffer): CmsOperator | undefined {
-        return operatorsById[offer.operatorId];
-    }
-
-    function operatorName(offer: CmsOffer): string {
-        return operatorFor(offer)?.name ?? 'Missing operator';
-    }
-
-    function toCardProps(offer: CmsOffer): OfferCardProps {
-        const operator = operatorFor(offer);
-        return {
-            label: offer.label,
-            labelColor: offer.labelColor,
-            logoSrc: operator?.logoSrc ?? '/sfb/brands/placeholder.png',
-            logoAlt: operator?.name ?? '',
-            offerMain: offer.headline,
-            details: offer.details,
-            ctaText: 'CLICK TO CLAIM',
-            ctaHref: offer.ctaHref || '#',
-            secondaryCtaText: 'How To Claim',
-            secondaryCtaHref: '/how-to-claim/' + offer.id,
-            termsText: offer.termsText
-        };
-    }
-
-    const renderItems: HomeRenderItem[] = offerItems
-        .map((item): HomeRenderItem | null => {
-            if (item.kind === 'banner') return item;
-            const offer = offersById[item.offerId];
-            if (offer === undefined) return null;
-            const operator = operatorFor(offer);
-            if (offer.status !== 'active' || operator?.status !== 'active') return null;
-            return { kind: 'offer', offerId: offer.id, props: toCardProps(offer) };
-        })
-        .filter((item): item is HomeRenderItem => item !== null);
-
-    const activePlacedCount = renderItems.length;
-    const hiddenPlacedCount = offerItems.length - activePlacedCount;
-
-    function selectSection(sectionId: HomeEditableSectionId): void {
-        setSelectedSection(sectionId);
+    function selectSection(id: string): void {
+        setSelectedSectionId(id);
         setPanelView('edit');
     }
 
-    function updateOfferItems(items: typeof offerItems): void {
-        setOfferItems(items);
-        setSelectedSection('offers');
+    function addSection(type: SitePageSectionType): void {
+        setSections((current) => [...current, createSection(type)]);
         setDirty(true);
+    }
+
+    function removeSection(id: string): void {
+        setSections((current) => current.filter((section) => section.id !== id));
+        if (selectedSectionId === id) setSelectedSectionId(null);
+        setDirty(true);
+    }
+
+    function moveSection(index: number, delta: number): void {
+        setSections((current) => {
+            const target = index + delta;
+            if (target < 0 || target >= current.length) return current;
+            const next = [...current];
+            [next[index], next[target]] = [next[target], next[index]];
+            return next;
+        });
+        setDirty(true);
+    }
+
+    function updateSectionContent(id: string, patch: SectionContentPatch): void {
+        setSections((current) =>
+            current.map((section) =>
+                section.id === id
+                    ? ({ ...section, content: { ...section.content, ...patch } } as SitePageSection)
+                    : section
+            )
+        );
+        setDirty(true);
+    }
+
+    function updateOfferItems(id: string, items: OffersItem[]): void {
+        updateSectionContent(id, { items });
     }
 
     function updateOffer(offerId: string, patch: Partial<CmsOffer>): void {
@@ -158,86 +135,9 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
         notifyCmsChanged();
     }
 
-    function addSection(sectionId: HomeSectionId): void {
-        if (sectionIds.includes(sectionId)) {
-            selectSection(sectionId);
-            return;
-        }
-        setSectionIds((ids) => [...ids, sectionId]);
-        selectSection(sectionId);
-        setDirty(true);
-    }
-
-    function removeSection(sectionId: HomeSectionId): void {
-        setSectionIds((ids) => ids.filter((id) => id !== sectionId));
-        if (selectedSection === sectionId) setSelectedSection(null);
-        setDirty(true);
-    }
-
-    function moveSection(index: number, delta: number): void {
-        setSectionIds((ids) => {
-            const next = [...ids];
-            const target = index + delta;
-            if (target < 0 || target >= next.length) return ids;
-            [next[index], next[target]] = [next[target], next[index]];
-            return next;
-        });
-        setDirty(true);
-    }
-
-    function updateWelcome<K extends keyof HomeWelcomeContent>(
-        key: K,
-        value: HomeWelcomeContent[K]
-    ): void {
-        setWelcome((current) => ({ ...current, [key]: value }));
-        setDirty(true);
-    }
-
-    function updateWelcomeFeatures(value: string): void {
-        setFeatureLines(value);
-        updateWelcome(
-            'features',
-            value
-                .split('\n')
-                .map((line) => line.trim())
-                .filter(Boolean)
-        );
-    }
-
-    async function uploadWelcomeImage(
-        e: React.ChangeEvent<HTMLInputElement>,
-        target: 'left' | 'right'
-    ): Promise<void> {
-        const file = e.target.files?.[0];
-        if (file === undefined) return;
-        setUploadingImage(target);
-        try {
-            const body = new FormData();
-            body.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body });
-            const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) {
-                updateWelcome(target === 'left' ? 'imageLeftSrc' : 'imageRightSrc', data.path);
-            }
-        } finally {
-            setUploadingImage(null);
-            if (target === 'left' && leftImageInputRef.current !== null) {
-                leftImageInputRef.current.value = '';
-            }
-            if (target === 'right' && rightImageInputRef.current !== null) {
-                rightImageInputRef.current.value = '';
-            }
-        }
-    }
-
     function save(): void {
         startSave(async () => {
-            await saveHomeConfigAction({
-                offerItems,
-                sectionIds,
-                welcome,
-                updatedAt: config.updatedAt
-            });
+            await saveHomeConfigAction({ sections, updatedAt: config.updatedAt });
             notifyCmsChanged();
             setDirty(false);
         });
@@ -245,8 +145,7 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
 
     const previewWidth = previewMode === 'mobile' ? '390px' : '1180px';
     const previewHeight = '760px';
-    const inputClass =
-        'w-full rounded-md border border-m3-outline-variant bg-m3-surface-low px-3 py-2 text-[13px] text-m3-on-surface focus:outline-none focus:border-m3-gold';
+
     return (
         <div className="h-full flex flex-col">
             <div className="flex flex-1 min-h-0">
@@ -266,9 +165,7 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                             <div className="min-w-0">
                                 <div className="text-[14px] font-medium truncate">Home page builder</div>
                                 <div className="text-[11px] text-m3-on-surface-variant">
-                                    {activePlacedCount} live asset{activePlacedCount === 1 ? '' : 's'}
-                                    {hiddenPlacedCount > 0 ? ' · ' + hiddenPlacedCount + ' hidden' : ''}
-                                    {' · ' + sectionIds.length + ' section' + (sectionIds.length === 1 ? '' : 's')}
+                                    {sections.length} asset{sections.length === 1 ? '' : 's'}
                                     {dirty ? ' · unsaved changes' : ''}
                                 </div>
                             </div>
@@ -318,362 +215,57 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                                 </div>
 
                                 {panelView === 'assets' && (
-                                <section className="flex flex-col gap-3">
-                                    <div>
-                                        <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                            Page content
-                                        </div>
-                                        <div className="text-[12px] text-m3-on-surface-variant mt-0.5">
-                                            Logo/navigation, USP strip, and footer are always included on the home page.
-                                        </div>
-                                    </div>
-
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                                Body assets
+                                    <PageAssetsPanel
+                                        intro={
+                                            <div className="rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 text-[12px] text-m3-on-surface-variant leading-5">
+                                                Logo/navigation, USP strip, and footer are always included on
+                                                the home page.
                                             </div>
-                                            <button
-                                                type="button"
-                                                onClick={() => setSectionReorder((value) => !value)}
-                                                className={
-                                                    'flex items-center gap-1.5 text-[12px] px-2.5 py-1.5 rounded-md border transition-colors ' +
-                                                    (sectionReorder
-                                                        ? 'bg-m3-gold text-m3-on-gold border-m3-gold'
-                                                        : 'border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high')
-                                                }
-                                            >
-                                                <ArrowUpDown size={14} />
-                                                {sectionReorder ? 'Done' : 'Reorder'}
-                                            </button>
-                                        </div>
-                                        {sectionIds.length === 0 && (
-                                            <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">
-                                                No optional page sections placed yet. Open Assets and add one.
-                                            </div>
-                                        )}
-                                        {sectionIds.map((sectionId, index) => {
-                                            const asset = SECTION_ASSETS.find((item) => item.id === sectionId);
-                                            if (asset === undefined) return null;
-                                            return (
-                                                <div
-                                                    key={sectionId}
-                                                    onClick={() => !sectionReorder && selectSection(sectionId)}
-                                                    className={
-                                                        'flex items-center gap-2 rounded-lg border p-2 ' +
-                                                        (selectedSection === sectionId && !sectionReorder
-                                                            ? 'border-m3-gold ring-1 ring-m3-gold'
-                                                            : 'border-m3-outline-variant') +
-                                                        (sectionReorder ? '' : ' cursor-pointer hover:bg-m3-surface-high')
-                                                    }
-                                                >
-                                                    <Layers size={15} className="shrink-0 text-m3-on-surface-variant" />
-                                                    <div className="min-w-0 flex-1">
-                                                        <div className="text-[13px] font-medium truncate">
-                                                            {asset.label}
-                                                        </div>
-                                                        <div className="text-[11px] text-m3-on-surface-variant truncate">
-                                                            {sectionId === 'offers'
-                                                                ? offerItems.length +
-                                                                  ' collection item' +
-                                                                  (offerItems.length === 1 ? '' : 's')
-                                                                : asset.description}
-                                                        </div>
-                                                    </div>
-                                                    {sectionReorder ? (
-                                                        <div className="flex items-center gap-1 shrink-0">
-                                                            <button
-                                                                type="button"
-                                                                aria-label="Move section up"
-                                                                disabled={index === 0}
-                                                                onClick={() => moveSection(index, -1)}
-                                                                className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
-                                                            >
-                                                                <ChevronUp size={15} />
-                                                            </button>
-                                                            <button
-                                                                type="button"
-                                                                aria-label="Move section down"
-                                                                disabled={index === sectionIds.length - 1}
-                                                                onClick={() => moveSection(index, 1)}
-                                                                className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
-                                                            >
-                                                                <ChevronDown size={15} />
-                                                            </button>
-                                                        </div>
-                                                    ) : (
-                                                        <button
-                                                            type="button"
-                                                            aria-label={'Remove ' + asset.label}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                removeSection(sectionId);
-                                                            }}
-                                                            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-md text-m3-on-surface-variant hover:bg-m3-surface-high"
-                                                        >
-                                                            <X size={15} />
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-
-                                    <p className="text-[11px] text-m3-on-surface-variant leading-relaxed">
-                                        <Check size={12} className="inline mr-1 -mt-0.5" />
-                                        {sectionReorder
-                                            ? 'Use the arrows to reorder, then press Done.'
-                                            : 'Select an asset to edit its content.'}
-                                    </p>
-                                </section>
+                                        }
+                                        items={sections.map((section) => ({
+                                            key: section.id,
+                                            label: sectionTypeLabel(section.type)
+                                        }))}
+                                        assets={SITE_PAGE_ASSETS.map((asset) => ({
+                                            type: asset.type,
+                                            label: asset.label,
+                                            description: asset.description
+                                        }))}
+                                        selectedKey={selectedSectionId}
+                                        reorder={sectionReorder}
+                                        onToggleReorder={() => setSectionReorder((value) => !value)}
+                                        onSelect={selectSection}
+                                        onRemove={removeSection}
+                                        onMove={moveSection}
+                                        onAdd={(type) => addSection(type as SitePageSectionType)}
+                                        emptyHint="Add assets below to build the home page body."
+                                    />
                                 )}
 
-                            {panelView === 'edit' && selectedSection === null && (
-                                <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">
-                                    Select an asset from the Assets tab to edit it here.
-                                </div>
-                            )}
-
-                            {panelView === 'edit' && selectedSection !== null && (
-                                <section className="flex flex-col gap-4">
-                                    {selectedSection === 'offers' && (
-                                        <div className="flex flex-col gap-4">
-                                            <div>
-                                                <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                                    Offers collection content
-                                                </div>
-                                            </div>
-                                            <OffersCollectionEditor
-                                                items={offerItems}
-                                                offers={offerList}
-                                                operators={operators}
-                                                onChange={updateOfferItems}
-                                                onOfferChange={updateOffer}
-                                                onSaveOffer={saveOffer}
-                                                editOfferHref={(id) => '/offers/edit/' + id + '?returnTo=/home'}
-                                            />
-                                        </div>
-                                    )}
-
-                                    {selectedSection !== null && selectedSection !== 'welcome' && selectedSection !== 'offers' && (
-                                        <div className="flex flex-col gap-3">
-                                            <div>
-                                                <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                                    Section properties
-                                                </div>
-                                                <div className="text-[18px] font-medium mt-1">
-                                                    {SECTION_ASSETS.find((asset) => asset.id === selectedSection)?.label}
-                                                </div>
-                                            </div>
-                                            <div className="rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 text-[12px] text-m3-on-surface-variant leading-5">
-                                                This section is controlled by the shared site settings for now.
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {selectedSection === 'welcome' && (
-                                        <div className="flex flex-col gap-4">
-                                            <div>
-                                                <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                                    Section properties
-                                                </div>
-                                                <div className="text-[18px] font-medium mt-1">
-                                                    Hero / welcome banner
-                                                </div>
-                                                <div className="text-[12px] text-m3-on-surface-variant mt-1">
-                                                    These fields update the preview immediately and save to the
-                                                    live SFB home when you press Save.
-                                                </div>
-                                            </div>
-
-                                            <label className="flex flex-col gap-1.5 text-[12px] font-medium">
-                                                Highlight text
-                                                <input
-                                                    value={welcome.textHighlight}
-                                                    onChange={(e) => updateWelcome('textHighlight', e.target.value)}
-                                                    className={inputClass}
-                                                />
-                                            </label>
-                                            <label className="flex flex-col gap-1.5 text-[12px] font-medium">
-                                                Main title
-                                                <input
-                                                    value={welcome.text}
-                                                    onChange={(e) => updateWelcome('text', e.target.value)}
-                                                    className={inputClass}
-                                                />
-                                            </label>
-                                            <label className="flex flex-col gap-1.5 text-[12px] font-medium">
-                                                Suffix text
-                                                <input
-                                                    value={welcome.textSuffix}
-                                                    onChange={(e) => updateWelcome('textSuffix', e.target.value)}
-                                                    className={inputClass}
-                                                />
-                                            </label>
-                                            <label className="flex flex-col gap-1.5 text-[12px] font-medium">
-                                                Feature bullets
-                                                <span className="text-[11px] font-normal text-m3-on-surface-variant">
-                                                    One feature per line.
-                                                </span>
-                                                <textarea
-                                                    value={featureLines}
-                                                    onChange={(e) => updateWelcomeFeatures(e.target.value)}
-                                                    rows={4}
-                                                    className={inputClass + ' resize-y leading-5'}
-                                                />
-                                            </label>
-
-                                            <div className="grid grid-cols-2 gap-3">
-                                                <label className="flex flex-col gap-1.5 text-[12px] font-medium">
-                                                    Mobile left width
-                                                    <input
-                                                        type="number"
-                                                        value={welcome.imageLeftWidthMobile}
-                                                        onChange={(e) =>
-                                                            updateWelcome(
-                                                                'imageLeftWidthMobile',
-                                                                Number(e.target.value) || 83
-                                                            )
-                                                        }
-                                                        className={inputClass}
-                                                    />
-                                                </label>
-                                                <label className="flex flex-col gap-1.5 text-[12px] font-medium">
-                                                    Desktop left width
-                                                    <input
-                                                        type="number"
-                                                        value={welcome.imageLeftWidthDesktop}
-                                                        onChange={(e) =>
-                                                            updateWelcome(
-                                                                'imageLeftWidthDesktop',
-                                                                Number(e.target.value) || 204
-                                                            )
-                                                        }
-                                                        className={inputClass}
-                                                    />
-                                                </label>
-                                            </div>
-
-                                            <div className="flex flex-col gap-3">
-                                                <div className="text-[12px] font-medium">Left image</div>
-                                                <div className="h-20 rounded-lg border border-m3-outline-variant bg-m3-surface-low overflow-hidden flex items-center justify-center">
-                                                    <img
-                                                        src={welcome.imageLeftSrc}
-                                                        alt=""
-                                                        className="max-h-full max-w-full object-contain"
-                                                    />
-                                                </div>
-                                                <input
-                                                    value={welcome.imageLeftSrc}
-                                                    onChange={(e) => updateWelcome('imageLeftSrc', e.target.value)}
-                                                    className={inputClass}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => leftImageInputRef.current?.click()}
-                                                    disabled={uploadingImage !== null}
-                                                    className="flex items-center justify-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
-                                                >
-                                                    <Upload size={14} />
-                                                    {uploadingImage === 'left'
-                                                        ? 'Uploading...'
-                                                        : 'Upload left image'}
-                                                </button>
-                                                <input
-                                                    ref={leftImageInputRef}
-                                                    type="file"
-                                                    accept="image/*"
-                                                    onChange={(e) => uploadWelcomeImage(e, 'left')}
-                                                    className="hidden"
-                                                />
-                                            </div>
-
-                                            <div className="flex flex-col gap-3">
-                                                <div className="text-[12px] font-medium">Right image</div>
-                                                <div className="h-20 rounded-lg border border-m3-outline-variant bg-m3-surface-low overflow-hidden flex items-center justify-center">
-                                                    <img
-                                                        src={welcome.imageRightSrc}
-                                                        alt=""
-                                                        className="max-h-full max-w-full object-contain"
-                                                    />
-                                                </div>
-                                                <input
-                                                    value={welcome.imageRightSrc}
-                                                    onChange={(e) => updateWelcome('imageRightSrc', e.target.value)}
-                                                    className={inputClass}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => rightImageInputRef.current?.click()}
-                                                    disabled={uploadingImage !== null}
-                                                    className="flex items-center justify-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
-                                                >
-                                                    <Upload size={14} />
-                                                    {uploadingImage === 'right'
-                                                        ? 'Uploading...'
-                                                        : 'Upload right image'}
-                                                </button>
-                                                <input
-                                                    ref={rightImageInputRef}
-                                                    type="file"
-                                                    accept="image/*"
-                                                    onChange={(e) => uploadWelcomeImage(e, 'right')}
-                                                    className="hidden"
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                </section>
-                            )}
-
-                                {panelView === 'assets' && (
-                                <section className="flex flex-col gap-4">
-                                    <div>
-                                        <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                            Asset library
-                                        </div>
-                                        <div className="text-[12px] text-m3-on-surface-variant mt-0.5">
-                                            Add reusable assets to this page.
-                                        </div>
+                                {panelView === 'edit' && selectedSection === null && (
+                                    <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">
+                                        Select an asset from the Assets tab to edit it here.
                                     </div>
+                                )}
 
-                                    <section className="flex flex-col gap-2">
+                                {panelView === 'edit' && selectedSection !== null && (
+                                    <section className="flex flex-col gap-3">
                                         <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
-                                            Page assets
+                                            {sectionTypeLabel(selectedSection.type)} content
                                         </div>
-                                        {SECTION_ASSETS.map((asset) => (
-                                            <div
-                                                key={asset.id}
-                                                className={
-                                                    'flex items-center gap-2 rounded-lg border px-3 py-2 text-left text-[12px] ' +
-                                                    (selectedSection === asset.id
-                                                        ? 'border-m3-gold ring-1 ring-m3-gold'
-                                                        : 'border-m3-outline-variant')
-                                                }
-                                            >
-                                                <Layers size={14} className="shrink-0 text-m3-on-surface-variant" />
-                                                <span className="min-w-0 flex-1">
-                                                    <span className="block text-m3-on-surface">{asset.label}</span>
-                                                    <span className="block text-[11px] text-m3-on-surface-variant truncate">
-                                                        {asset.description}
-                                                    </span>
-                                                </span>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => addSection(asset.id)}
-                                                    disabled={sectionIds.includes(asset.id)}
-                                                    className="shrink-0 flex items-center justify-center gap-1 h-8 px-2.5 rounded-md bg-m3-gold text-m3-on-gold text-[12px] font-medium hover:brightness-95 disabled:opacity-40"
-                                                >
-                                                    <Plus size={14} />
-                                                    {sectionIds.includes(asset.id) ? 'Placed' : 'Add'}
-                                                </button>
-                                            </div>
-                                        ))}
-                                        <p className="text-[11px] text-m3-on-surface-variant leading-relaxed">
-                                            Adding an asset opens it in the Edit tab.
-                                        </p>
+                                        <SectionProperties
+                                            section={selectedSection}
+                                            onChange={(patch) => updateSectionContent(selectedSection.id, patch)}
+                                            offers={offerList}
+                                            operators={operators}
+                                            onOfferChange={updateOffer}
+                                            onSaveOffer={saveOffer}
+                                            onOffersItemsChange={(items) =>
+                                                updateOfferItems(selectedSection.id, items)
+                                            }
+                                            editOfferHref={(id) => '/offers/edit/' + id + '?returnTo=/home'}
+                                        />
                                     </section>
-                                </section>
                                 )}
                             </div>
 
@@ -687,7 +279,6 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                                     {saving ? 'Saving...' : dirty ? 'Save changes' : 'Saved'}
                                 </button>
                             </div>
-
                         </aside>
 
                         <main className="flex-1 min-w-0 min-h-0 flex flex-col bg-m3-surface-low">
@@ -733,13 +324,13 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                                         style={{ width: previewWidth }}
                                     >
                                         <PreviewFrame width={previewWidth} height={previewHeight}>
-                                            <HomePageView
-                                                items={renderItems}
-                                                sectionIds={sectionIds}
-                                                welcome={welcome}
+                                            <SitePageView
+                                                sections={sections}
                                                 settings={settings}
+                                                offers={offerList}
+                                                operators={operators}
                                                 editable
-                                                selectedSectionId={selectedSection}
+                                                selectedSectionId={selectedSectionId}
                                                 onSelectSection={selectSection}
                                             />
                                         </PreviewFrame>

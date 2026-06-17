@@ -52,8 +52,11 @@ export const SITE_PAGE_ASSETS: AssetDef[] = [
     { type: 'terms', label: 'Top terms bar', description: 'Short legal line below the hero.' },
     { type: 'offers', label: 'Offers collection', description: 'A stack of selected offer cards.' },
     { type: 'signup', label: 'Signup form', description: 'Lead capture form with consent.' },
-    { type: 'directory', label: 'Website directory', description: 'Directory links block.' }
+    { type: 'directory', label: 'Website directory', description: 'Directory links block.' },
+    { type: 'image', label: 'Image', description: 'A single image with custom width and height.' }
 ];
+
+export const DEFAULT_IMAGE_SRC = '/sfb/brands/placeholder.png';
 
 export function sectionTypeLabel(type: SitePageSectionType): string {
     const found = SITE_PAGE_ASSETS.find((asset) => asset.type === type);
@@ -77,7 +80,9 @@ export function createSection(type: SitePageSectionType): SitePageSection {
                     textSuffix: '',
                     features: ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure'],
                     imageLeftSrc: '/sfb/welcome-images/image-left.png',
-                    imageRightSrc: '/sfb/welcome-images/image-right.png'
+                    imageRightSrc: '/sfb/welcome-images/image-right.png',
+                    imageLeftWidthMobile: 83,
+                    imageLeftWidthDesktop: 204
                 }
             };
         case 'terms':
@@ -98,9 +103,36 @@ export function createSection(type: SitePageSectionType): SitePageSection {
             return { id, type, content: { heading: 'Sign up for the latest offers' } };
         case 'directory':
             return { id, type, content: { title: 'Super Free Bingo Directory' } };
+        case 'directorySignup':
+            return {
+                id,
+                type,
+                content: {
+                    directoryTitle: 'Super Free Bingo Directory',
+                    signupHeading: 'Sign up for the latest offers'
+                }
+            };
         case 'offers':
             return { id, type, content: { items: [] } };
+        case 'image':
+            return {
+                id,
+                type,
+                content: {
+                    src: DEFAULT_IMAGE_SRC,
+                    alt: '',
+                    href: '',
+                    desktopWidth: 600,
+                    desktopHeight: 200,
+                    mobileWidth: 320,
+                    mobileHeight: 160
+                }
+            };
     }
+}
+
+export function createDefaultSections(): SitePageSection[] {
+    return [createSection('welcome')];
 }
 
 export function normalizeSection(raw: { id: string; type: SitePageSectionType; content?: unknown }): SitePageSection {

@@ -1,5 +1,13 @@
 export type SitePageStatus = 'draft' | 'published';
-export type SitePageSectionType = 'welcome' | 'terms' | 'richText' | 'signup' | 'directory' | 'offers';
+export type SitePageSectionType =
+    | 'welcome'
+    | 'terms'
+    | 'richText'
+    | 'signup'
+    | 'directory'
+    | 'directorySignup'
+    | 'offers'
+    | 'image';
 
 export interface WelcomeContent {
     textHighlight: string;
@@ -8,6 +16,8 @@ export interface WelcomeContent {
     features: string[];
     imageLeftSrc: string;
     imageRightSrc: string;
+    imageLeftWidthMobile: number;
+    imageLeftWidthDesktop: number;
 }
 
 export interface TermsContent {
@@ -27,6 +37,11 @@ export interface DirectoryContent {
     title: string;
 }
 
+export interface DirectorySignupContent {
+    directoryTitle: string;
+    signupHeading: string;
+}
+
 export interface OffersOfferItem {
     kind: 'offer';
     offerId: string;
@@ -43,6 +58,16 @@ export type OffersItem = OffersOfferItem | OffersBannerItem;
 
 export interface OffersContent {
     items: OffersItem[];
+}
+
+export interface ImageContent {
+    src: string;
+    alt: string;
+    href: string;
+    desktopWidth: number;
+    desktopHeight: number;
+    mobileWidth: number;
+    mobileHeight: number;
 }
 
 export interface WelcomeSection {
@@ -75,10 +100,22 @@ export interface DirectorySection {
     content: DirectoryContent;
 }
 
+export interface DirectorySignupSection {
+    id: string;
+    type: 'directorySignup';
+    content: DirectorySignupContent;
+}
+
 export interface OffersSection {
     id: string;
     type: 'offers';
     content: OffersContent;
+}
+
+export interface ImageSection {
+    id: string;
+    type: 'image';
+    content: ImageContent;
 }
 
 export type SitePageSection =
@@ -87,7 +124,9 @@ export type SitePageSection =
     | RichTextSection
     | SignupSection
     | DirectorySection
-    | OffersSection;
+    | DirectorySignupSection
+    | OffersSection
+    | ImageSection;
 
 export interface SitePageDetails {
     name: string;

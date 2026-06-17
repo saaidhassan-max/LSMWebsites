@@ -1,5 +1,6 @@
 import type React from 'react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { OperatorBanner } from '@lsm/ui/components/operator-banner/operator-banner';
@@ -37,6 +38,37 @@ function offersItemsOf(content: CmsSitePageSectionContent): CmsOffersItem[] {
     return [];
 }
 
+function renderDirectorySignupTemplate(settings: CmsSiteSettings): React.ReactElement {
+    return (
+        <div className="w-full">
+            <div className="md:hidden flex flex-col">
+                <WebsiteDirectory title={settings.directoryTitle} sites={settings.directorySites} splitAtDot />
+                <div className="w-full max-w-[720px] mx-auto p-4 flex flex-col gap-4">
+                    <SignupForm
+                        variant="sfb-sfsg"
+                        brandName="Super Free Bingo"
+                        privacyPolicyUrl="/privacy-policy"
+                        termsUrl="/terms"
+                    />
+                </div>
+            </div>
+            <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
+                <div className="flex-1">
+                    <WebsiteDirectory title={settings.directoryTitle} sites={settings.directorySites} splitAtDot />
+                </div>
+                <div className="flex-1 flex flex-col gap-4">
+                    <SignupForm
+                        variant="sfb-sfsg"
+                        brandName="Super Free Bingo"
+                        privacyPolicyUrl="/privacy-policy"
+                        termsUrl="/terms"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function renderSection(
     section: CmsSitePageSection,
     settings: CmsSiteSettings,
@@ -55,6 +87,8 @@ function renderSection(
                 features={content.features ?? ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']}
                 imageLeftSrc={content.imageLeftSrc ?? '/sfb/welcome-images/image-left.png'}
                 imageRightSrc={content.imageRightSrc ?? '/sfb/welcome-images/image-right.png'}
+                imageLeftWidthMobile={content.imageLeftWidthMobile ?? 83}
+                imageLeftWidthDesktop={content.imageLeftWidthDesktop ?? 204}
             />
         );
     }
@@ -95,6 +129,95 @@ function renderSection(
                     privacyPolicyUrl="/privacy-policy"
                     termsUrl="/terms"
                 />
+            </div>
+        );
+    }
+    if (section.type === 'directorySignup') {
+        return (
+            <div key={section.id} className="w-full">
+                <div className="md:hidden flex flex-col">
+                    <WebsiteDirectory
+                        title={content.directoryTitle ?? settings.directoryTitle}
+                        sites={settings.directorySites}
+                        splitAtDot
+                    />
+                    <div className="w-full max-w-[720px] mx-auto p-4 flex flex-col gap-4">
+                        {content.signupHeading !== undefined && content.signupHeading !== '' && (
+                            <h2 className="text-[22px] font-bold text-on-surface-light text-center">
+                                {content.signupHeading}
+                            </h2>
+                        )}
+                        <SignupForm
+                            variant="sfb-sfsg"
+                            brandName="Super Free Bingo"
+                            privacyPolicyUrl="/privacy-policy"
+                            termsUrl="/terms"
+                        />
+                    </div>
+                </div>
+                <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
+                    <div className="flex-1">
+                        <WebsiteDirectory
+                            title={content.directoryTitle ?? settings.directoryTitle}
+                            sites={settings.directorySites}
+                            splitAtDot
+                        />
+                    </div>
+                    <div className="flex-1 flex flex-col gap-4">
+                        {content.signupHeading !== undefined && content.signupHeading !== '' && (
+                            <h2 className="text-[28px] font-bold text-on-surface-light text-center">
+                                {content.signupHeading}
+                            </h2>
+                        )}
+                        <SignupForm
+                            variant="sfb-sfsg"
+                            brandName="Super Free Bingo"
+                            privacyPolicyUrl="/privacy-policy"
+                            termsUrl="/terms"
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    if (section.type === 'image') {
+        const src = content.src ?? '';
+        if (src === '') return <div key={section.id} />;
+        const alt = content.alt ?? '';
+        const href = content.href ?? '';
+        const mobileWidth = content.mobileWidth ?? 320;
+        const mobileHeight = content.mobileHeight ?? 160;
+        const desktopWidth = content.desktopWidth ?? 600;
+        const desktopHeight = content.desktopHeight ?? 200;
+        const picture = (
+            <>
+                <Image
+                    src={src}
+                    alt={alt}
+                    width={mobileWidth}
+                    height={mobileHeight}
+                    className="md:hidden object-contain"
+                    style={{ width: mobileWidth, height: mobileHeight, maxWidth: '100%' }}
+                />
+                <Image
+                    src={src}
+                    alt={alt}
+                    width={desktopWidth}
+                    height={desktopHeight}
+                    className="hidden md:block object-contain"
+                    style={{ width: desktopWidth, height: desktopHeight, maxWidth: '100%' }}
+                />
+            </>
+        );
+        return (
+            <div key={section.id} className="w-full flex justify-center px-4 py-4">
+                {href === '' ? (
+                    picture
+                ) : (
+                    <a href={href} target="_blank" rel="noopener noreferrer sponsored">
+                        {picture}
+                    </a>
+                )}
             </div>
         );
     }
@@ -155,6 +278,7 @@ export default async function CmsSitePageRoute({
             <SfbNav items={settings.navItems} />
             <USP text={settings.uspText} />
             {page.sections.map((section) => renderSection(section, settings, cardMap))}
+            {renderDirectorySignupTemplate(settings)}
             <SfbFooter legalText={settings.footerLegalText} />
         </main>
     );
