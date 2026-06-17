@@ -11,7 +11,7 @@ export default async function SettingsScreen(): Promise<React.ReactElement> {
     const [settings, pages] = await Promise.all([getSiteSettings(), listSitePages()]);
 
     return (
-        <div className="min-h-screen flex">
+        <div className="h-full flex">
             <CmsSidebar active="settings" />
             <main className="flex-1 min-w-0">
                 <header className="flex items-center justify-between px-6 h-14 border-b border-m3-outline-variant">

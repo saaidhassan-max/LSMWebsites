@@ -8,11 +8,16 @@ import { listOffers, listOperators } from '@/lib/cms-content-store';
 
 export const dynamic = 'force-dynamic';
 
-export default async function OffersScreen(): Promise<React.ReactElement> {
+export default async function OffersScreen({
+    searchParams
+}: {
+    searchParams: Promise<{ created?: string }>;
+}): Promise<React.ReactElement> {
+    const { created } = await searchParams;
     const [offers, operators] = await Promise.all([listOffers(), listOperators()]);
 
     return (
-        <div className="min-h-screen flex">
+        <div className="h-full flex">
             <CmsSidebar active="offers" />
             <main className="flex-1 min-w-0">
                 <header className="flex items-center justify-between px-6 h-14 border-b border-m3-outline-variant">
@@ -30,7 +35,7 @@ export default async function OffersScreen(): Promise<React.ReactElement> {
                         </form>
                     </div>
                 </header>
-                <OffersManager offers={offers} operators={operators} />
+                <OffersManager offers={offers} operators={operators} highlightedId={created} />
             </main>
         </div>
     );

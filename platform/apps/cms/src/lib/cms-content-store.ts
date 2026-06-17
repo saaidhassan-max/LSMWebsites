@@ -163,7 +163,7 @@ export async function getOffer(id: string): Promise<CmsOffer | undefined> {
     return offer === undefined ? undefined : normalizeOffer(offer);
 }
 
-export async function createOperator(): Promise<void> {
+export async function createOperator(): Promise<string> {
     const operators = await readJsonFile<CmsOperator>(OPERATORS_FILE, seedOperators);
     const id = makeId('op');
     const name = 'New operator';
@@ -178,17 +178,19 @@ export async function createOperator(): Promise<void> {
         updatedAt: now()
     };
     await writeJsonFile(OPERATORS_FILE, [operator, ...operators]);
+    return id;
 }
 
-export async function createOffer(): Promise<void> {
+export async function createOffer(): Promise<string> {
     const [operators, offers] = await Promise.all([
         readJsonFile<CmsOperator>(OPERATORS_FILE, seedOperators),
         readJsonFile<CmsOffer>(OFFERS_FILE, seedOffers)
     ]);
     const operator = operators[0];
-    if (operator === undefined) return;
+    if (operator === undefined) return '';
+    const id = makeId('off');
     const offer: CmsOffer = {
-        id: makeId('off'),
+        id,
         operatorId: operator.id,
         headline: 'New offer',
         label: 'NO DEPOSIT',
@@ -201,6 +203,7 @@ export async function createOffer(): Promise<void> {
         updatedAt: now()
     };
     await writeJsonFile(OFFERS_FILE, [offer, ...offers]);
+    return id;
 }
 
 export async function createOfferForOperator(operatorId: string): Promise<string> {
@@ -228,12 +231,37 @@ export async function createOfferForOperator(operatorId: string): Promise<string
     return id;
 }
 
+export async function duplicateOffer(id: string): Promise<string> {
+    const offers = await readJsonFile<CmsOffer>(OFFERS_FILE, seedOffers);
+    const source = offers.find((offer) => offer.id === id);
+    if (source === undefined) return '';
+    const copyId = makeId('off');
+    const copy: CmsOffer = {
+        ...source,
+        id: copyId,
+        headline: 'Copy of ' + source.headline,
+        status: 'hidden',
+        updatedAt: now()
+    };
+    await writeJsonFile(OFFERS_FILE, [copy, ...offers]);
+    return copyId;
+}
+
 export async function setOperatorStatus(id: string, status: CmsRecordStatus): Promise<void> {
-    const operators = await readJsonFile<CmsOperator>(OPERATORS_FILE, seedOperators);
+    const [operators, offers] = await Promise.all([
+        readJsonFile<CmsOperator>(OPERATORS_FILE, seedOperators),
+        readJsonFile<CmsOffer>(OFFERS_FILE, seedOffers)
+    ]);
     const next = operators.map((operator) =>
         operator.id === id ? { ...operator, status, updatedAt: now() } : operator
     );
-    await writeJsonFile(OPERATORS_FILE, next);
+    const nextOffers =
+        status === 'hidden'
+            ? offers.map((offer) =>
+                  offer.operatorId === id ? { ...offer, status: 'hidden' as const, updatedAt: now() } : offer
+              )
+            : offers;
+    await Promise.all([writeJsonFile(OPERATORS_FILE, next), writeJsonFile(OFFERS_FILE, nextOffers)]);
 }
 
 export async function setOfferStatus(id: string, status: CmsRecordStatus): Promise<void> {

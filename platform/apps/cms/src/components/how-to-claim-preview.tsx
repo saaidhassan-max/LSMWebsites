@@ -25,7 +25,7 @@ export function HowToClaimPreview({ offer, operator }: HowToClaimPreviewProps): 
     const previewHeight = '760px';
 
     return (
-        <div className="h-screen flex">
+        <div className="h-full flex">
             <CmsSidebar active="offers" />
             <div className="flex-1 min-w-0 flex flex-col">
                 <header className="flex items-center justify-between px-4 h-14 border-b border-m3-outline-variant shrink-0">

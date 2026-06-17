@@ -12,7 +12,7 @@ export default async function LandingPagesScreen(): Promise<React.ReactElement> 
     const pages = await listLandingPages();
 
     return (
-        <div className="min-h-screen flex">
+        <div className="h-full flex">
             <CmsSidebar active="landing-pages" />
 
             <main className="flex-1 min-w-0">

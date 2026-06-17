@@ -4,6 +4,7 @@ import type React from 'react';
 import { useState, useTransition } from 'react';
 import { ArrowDown, ArrowUp, Save } from 'lucide-react';
 import { saveSiteSettingsAction } from '@/app/actions';
+import { notifyCmsChanged } from '@/lib/cms-events';
 import type { SiteSettings } from '@/lib/site-settings.types';
 import type { SitePage } from '@/lib/site-pages.types';
 
@@ -136,6 +137,7 @@ export function SiteSettingsEditor({ settings, pages }: SiteSettingsEditorProps)
     function save(): void {
         startTransition(async () => {
             await saveSiteSettingsAction(local);
+            notifyCmsChanged();
             setDirty(false);
         });
     }

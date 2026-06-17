@@ -82,7 +82,45 @@ const DEFAULT_WELCOME: CmsHomeWelcomeContent = {
 };
 const DEFAULT_HOME_SECTION_IDS: CmsHomeSectionId[] = ['welcome', 'terms', 'offers', 'signup', 'directory'];
 
+const PUBLISHED_KEY = 'published-site';
+
+const SNAPSHOT_FIELD: Record<string, string> = {
+    [OPERATORS_FILE]: 'operators',
+    [OFFERS_FILE]: 'offers',
+    [HOME_FILE]: 'home',
+    [LANDING_PAGES_FILE]: 'landingPages',
+    [SITE_PAGES_FILE]: 'sitePages',
+    [SITE_SETTINGS_FILE]: 'settings'
+};
+
+async function readPublishedSnapshot(): Promise<Record<string, unknown> | null> {
+    if (useSupabase) {
+        const { data, error } = await getSupabase()
+            .from('cms_documents')
+            .select('data')
+            .eq('key', PUBLISHED_KEY)
+            .maybeSingle();
+        if (error !== null || data === null) return null;
+        return data.data as Record<string, unknown>;
+    }
+    try {
+        const raw = await fs.readFile(path.join(CMS_DATA_DIR, PUBLISHED_KEY + '.json'), 'utf8');
+        return JSON.parse(raw) as Record<string, unknown>;
+    } catch {
+        return null;
+    }
+}
+
 async function readJson<T>(key: string): Promise<T | null> {
+    const snapshot = await readPublishedSnapshot();
+    if (snapshot === null) return readDraftJson<T>(key);
+    const field = SNAPSHOT_FIELD[key];
+    if (field === undefined) return null;
+    const value = snapshot[field];
+    return value === undefined ? null : (value as T);
+}
+
+async function readDraftJson<T>(key: string): Promise<T | null> {
     if (useSupabase) {
         const { data, error } = await getSupabase()
             .from('cms_documents')

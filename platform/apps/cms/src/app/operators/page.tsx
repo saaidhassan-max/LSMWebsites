@@ -8,11 +8,16 @@ import { countOffersByOperator, listOperators } from '@/lib/cms-content-store';
 
 export const dynamic = 'force-dynamic';
 
-export default async function OperatorsScreen(): Promise<React.ReactElement> {
+export default async function OperatorsScreen({
+    searchParams
+}: {
+    searchParams: Promise<{ created?: string }>;
+}): Promise<React.ReactElement> {
+    const { created } = await searchParams;
     const [operators, offerCounts] = await Promise.all([listOperators(), countOffersByOperator()]);
 
     return (
-        <div className="min-h-screen flex">
+        <div className="h-full flex">
             <CmsSidebar active="operators" />
             <main className="flex-1 min-w-0">
                 <header className="flex items-center justify-between px-6 h-14 border-b border-m3-outline-variant">
@@ -30,7 +35,7 @@ export default async function OperatorsScreen(): Promise<React.ReactElement> {
                         </form>
                     </div>
                 </header>
-                <OperatorsManager operators={operators} offerCounts={offerCounts} />
+                <OperatorsManager operators={operators} offerCounts={offerCounts} highlightedId={created} />
             </main>
         </div>
     );

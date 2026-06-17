@@ -1,9 +1,24 @@
 'use client';
 
 import type React from 'react';
-import { useRef, useState } from 'react';
-import { ArrowUpDown, ChevronDown, ChevronUp, ImagePlus, Plus, Search, Trash2, Upload } from 'lucide-react';
+import { useRef, useState, useTransition } from 'react';
+import Link from 'next/link';
+import {
+    ArrowLeft,
+    ArrowUpDown,
+    ChevronDown,
+    ChevronRight,
+    ChevronUp,
+    ExternalLink,
+    ImagePlus,
+    Plus,
+    Save,
+    Search,
+    Trash2,
+    Upload
+} from 'lucide-react';
 import { createBannerItem } from '@/lib/site-page-content';
+import { OfferCardFields } from '@/components/offer-card-fields';
 import type { OffersItem } from '@/lib/site-pages.types';
 import type { CmsLabelColor, CmsOffer, CmsOperator } from '@/lib/cms-content.types';
 
@@ -18,17 +33,26 @@ interface OffersCollectionEditorProps {
     offers: CmsOffer[];
     operators: CmsOperator[];
     onChange: (items: OffersItem[]) => void;
+    onOfferChange: (offerId: string, patch: Partial<CmsOffer>) => void;
+    onSaveOffer: (offerId: string) => Promise<void>;
+    editOfferHref: (offerId: string) => string;
 }
 
 export function OffersCollectionEditor({
     items,
     offers,
     operators,
-    onChange
+    onChange,
+    onOfferChange,
+    onSaveOffer,
+    editOfferHref
 }: OffersCollectionEditorProps): React.ReactElement {
     const [reorder, setReorder] = useState(false);
     const [query, setQuery] = useState('');
     const [uploading, setUploading] = useState(false);
+    const [detailIndex, setDetailIndex] = useState<number | null>(null);
+    const [savingOffer, startSaveOffer] = useTransition();
+    const [offerSaved, setOfferSaved] = useState(false);
     const uploadTarget = useRef<{ index: number; field: 'mobileSrc' | 'desktopSrc' } | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -48,6 +72,7 @@ export function OffersCollectionEditor({
 
     function removeAt(index: number): void {
         onChange(items.filter((_, i) => i !== index));
+        if (detailIndex === index) setDetailIndex(null);
     }
 
     function move(index: number, delta: number): void {
@@ -88,8 +113,129 @@ export function OffersCollectionEditor({
         }
     }
 
+    function saveOffer(offerId: string): void {
+        startSaveOffer(async () => {
+            await onSaveOffer(offerId);
+            setOfferSaved(true);
+        });
+    }
+
     const inputClass =
         'w-full rounded-md border border-m3-outline-variant bg-m3-surface-low px-3 py-2 text-[13px] text-m3-on-surface focus:outline-none focus:border-m3-gold';
+
+    if (detailIndex !== null && items[detailIndex] !== undefined) {
+        const item = items[detailIndex];
+        const backButton = (
+            <button
+                type="button"
+                onClick={() => setDetailIndex(null)}
+                className="flex items-center gap-1.5 text-[12px] font-medium text-m3-on-surface-variant hover:text-m3-on-surface"
+            >
+                <ArrowLeft size={14} />
+                Back to collection
+            </button>
+        );
+
+        if (item.kind === 'offer') {
+            const offer = offers.find((o) => o.id === item.offerId);
+            if (offer === undefined) {
+                return (
+                    <div className="flex flex-col gap-3">
+                        {backButton}
+                        <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">
+                            This offer was removed from the collection.
+                        </div>
+                    </div>
+                );
+            }
+            return (
+                <div className="flex flex-col gap-4">
+                    {backButton}
+                    <div>
+                        <div className="text-[18px] font-medium">Offer card</div>
+                        <div className="text-[12px] text-m3-on-surface-variant mt-0.5">
+                            {operatorName(offer)} · edits apply everywhere this offer appears.
+                        </div>
+                    </div>
+                    <OfferCardFields
+                        offer={offer}
+                        onChange={(patch) => {
+                            onOfferChange(offer.id, patch);
+                            setOfferSaved(false);
+                        }}
+                    />
+                    <div className="flex flex-col gap-2">
+                        <button
+                            type="button"
+                            onClick={() => saveOffer(offer.id)}
+                            disabled={savingOffer}
+                            className="flex items-center justify-center gap-1.5 text-[13px] font-medium px-3.5 py-2.5 rounded-lg bg-m3-gold text-m3-on-gold hover:brightness-95 disabled:opacity-40"
+                        >
+                            <Save size={15} />
+                            {savingOffer ? 'Saving offer…' : offerSaved ? 'Offer saved' : 'Save offer'}
+                        </button>
+                        <Link
+                            href={editOfferHref(offer.id)}
+                            className="flex items-center justify-center gap-1.5 text-[12px] font-medium px-3.5 py-2 rounded-lg border border-m3-outline-variant text-m3-on-surface hover:bg-m3-surface-high"
+                        >
+                            <ExternalLink size={14} />
+                            Open full editor (logo, operator, how-to-claim page)
+                        </Link>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="flex flex-col gap-4">
+                {backButton}
+                <div>
+                    <div className="text-[18px] font-medium">Operator banner</div>
+                    <div className="text-[12px] text-m3-on-surface-variant mt-0.5">
+                        Full-width image placed between offer cards.
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                    {(['mobileSrc', 'desktopSrc'] as const).map((field) => (
+                        <div key={field} className="flex flex-col gap-1.5">
+                            <span className="text-[12px] font-medium">
+                                {field === 'mobileSrc' ? 'Mobile image' : 'Desktop image'}
+                            </span>
+                            <div className="h-16 rounded-md border border-m3-outline-variant bg-m3-surface-low overflow-hidden flex items-center justify-center">
+                                <img src={item[field]} alt="" className="max-w-full max-h-full object-contain" />
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => triggerBannerUpload(detailIndex, field)}
+                                disabled={uploading}
+                                className="flex items-center justify-center gap-1.5 text-[12px] px-2 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
+                            >
+                                <Upload size={13} />
+                                {uploading ? 'Uploading…' : 'Upload'}
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                <label className="flex flex-col gap-1.5 text-[12px] font-medium">
+                    Link (optional)
+                    <input
+                        value={item.href}
+                        onChange={(e) => updateBanner(detailIndex, { href: e.target.value })}
+                        placeholder="https://…"
+                        className={inputClass}
+                    />
+                </label>
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={onPickImage}
+                    className="hidden"
+                />
+            </div>
+        );
+    }
+
     const lowerQuery = query.trim().toLowerCase();
     const filteredOffers =
         lowerQuery === ''
@@ -104,7 +250,7 @@ export function OffersCollectionEditor({
     return (
         <div className="flex flex-col gap-3">
             <div className="text-[12px] text-m3-on-surface-variant">
-                Build a feed of offer cards and operator banners, then reorder them.
+                Select a card to edit it, reorder the feed, or add offer cards and operator banners.
             </div>
             {items.length > 0 && (
                 <div className="flex flex-col gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3">
@@ -136,108 +282,78 @@ export function OffersCollectionEditor({
                         return (
                             <div
                                 key={index}
-                                className="flex flex-col gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-lowest px-3 py-2"
+                                onClick={() => !reorder && setDetailIndex(index)}
+                                className={
+                                    'flex items-center gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-lowest px-3 py-2 ' +
+                                    (reorder ? '' : 'cursor-pointer hover:bg-m3-surface-high')
+                                }
                             >
-                                <div className="flex items-center gap-2">
-                                    <span className="w-5 shrink-0 text-center text-[12px] text-m3-on-surface-variant">
-                                        {index + 1}
-                                    </span>
-                                    {item.kind === 'banner' ? (
-                                        <>
-                                            <ImagePlus size={16} className="shrink-0 text-m3-on-surface-variant" />
-                                            <span className="min-w-0 flex-1 text-[12px] font-medium truncate">
-                                                Operator banner
+                                <span className="w-5 shrink-0 text-center text-[12px] text-m3-on-surface-variant">
+                                    {index + 1}
+                                </span>
+                                {item.kind === 'banner' ? (
+                                    <>
+                                        <ImagePlus size={16} className="shrink-0 text-m3-on-surface-variant" />
+                                        <span className="min-w-0 flex-1 text-[12px] font-medium truncate">
+                                            Operator banner
+                                        </span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span
+                                            className={
+                                                'shrink-0 w-2 h-8 rounded-sm ' +
+                                                (offer === undefined
+                                                    ? 'bg-m3-surface-highest'
+                                                    : labelColorClass[offer.labelColor] ?? 'bg-m3-surface-highest')
+                                            }
+                                        />
+                                        <span className="min-w-0 flex-1">
+                                            <span className="block text-[12px] font-medium truncate">
+                                                {offer?.headline ?? 'Offer removed'}
                                             </span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span
-                                                className={
-                                                    'shrink-0 w-2 h-8 rounded-sm ' +
-                                                    (offer === undefined
-                                                        ? 'bg-m3-surface-highest'
-                                                        : labelColorClass[offer.labelColor] ?? 'bg-m3-surface-highest')
-                                                }
-                                            />
-                                            <span className="min-w-0 flex-1">
-                                                <span className="block text-[12px] font-medium truncate">
-                                                    {offer?.headline ?? 'Offer removed'}
-                                                </span>
-                                                <span className="block text-[11px] text-m3-on-surface-variant truncate">
-                                                    {offer === undefined ? '—' : operatorName(offer)}
-                                                </span>
+                                            <span className="block text-[11px] text-m3-on-surface-variant truncate">
+                                                {offer === undefined ? '—' : operatorName(offer)}
                                             </span>
-                                        </>
-                                    )}
-                                    {reorder ? (
-                                        <div className="flex items-center gap-1">
-                                            <button
-                                                type="button"
-                                                aria-label="Move item up"
-                                                disabled={index === 0}
-                                                onClick={() => move(index, -1)}
-                                                className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
-                                            >
-                                                <ChevronUp size={15} />
-                                            </button>
-                                            <button
-                                                type="button"
-                                                aria-label="Move item down"
-                                                disabled={index === items.length - 1}
-                                                onClick={() => move(index, 1)}
-                                                className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
-                                            >
-                                                <ChevronDown size={15} />
-                                            </button>
-                                        </div>
-                                    ) : (
+                                        </span>
+                                    </>
+                                )}
+                                {reorder ? (
+                                    <div className="flex items-center gap-1">
+                                        <button
+                                            type="button"
+                                            aria-label="Move item up"
+                                            disabled={index === 0}
+                                            onClick={() => move(index, -1)}
+                                            className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
+                                        >
+                                            <ChevronUp size={15} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            aria-label="Move item down"
+                                            disabled={index === items.length - 1}
+                                            onClick={() => move(index, 1)}
+                                            className="w-7 h-7 flex items-center justify-center rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high disabled:opacity-30"
+                                        >
+                                            <ChevronDown size={15} />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <>
                                         <button
                                             type="button"
                                             aria-label="Remove item"
-                                            onClick={() => removeAt(index)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeAt(index);
+                                            }}
                                             className="w-7 h-7 flex items-center justify-center rounded-md text-m3-error hover:bg-m3-error-container"
                                         >
                                             <Trash2 size={15} />
                                         </button>
-                                    )}
-                                </div>
-                                {item.kind === 'banner' && !reorder && (
-                                    <div className="flex flex-col gap-2 pt-2 border-t border-m3-outline-variant">
-                                        <div className="grid grid-cols-2 gap-2">
-                                            {(['mobileSrc', 'desktopSrc'] as const).map((field) => (
-                                                <div key={field} className="flex flex-col gap-1">
-                                                    <span className="text-[11px] text-m3-on-surface-variant">
-                                                        {field === 'mobileSrc' ? 'Mobile image' : 'Desktop image'}
-                                                    </span>
-                                                    <div className="h-12 rounded-md border border-m3-outline-variant bg-m3-surface-low overflow-hidden flex items-center justify-center">
-                                                        <img
-                                                            src={item[field]}
-                                                            alt=""
-                                                            className="max-w-full max-h-full object-contain"
-                                                        />
-                                                    </div>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => triggerBannerUpload(index, field)}
-                                                        disabled={uploading}
-                                                        className="flex items-center justify-center gap-1.5 text-[11px] px-2 py-1.5 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
-                                                    >
-                                                        <Upload size={12} />
-                                                        {uploading ? 'Uploading…' : 'Upload'}
-                                                    </button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        <label className="flex flex-col gap-1.5 text-[12px] font-medium">
-                                            Link (optional)
-                                            <input
-                                                value={item.href}
-                                                onChange={(e) => updateBanner(index, { href: e.target.value })}
-                                                placeholder="https://…"
-                                                className={inputClass}
-                                            />
-                                        </label>
-                                    </div>
+                                        <ChevronRight size={15} className="shrink-0 text-m3-on-surface-variant" />
+                                    </>
                                 )}
                             </div>
                         );

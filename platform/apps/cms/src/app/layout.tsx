@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import '@lsm/tokens/styles';
 import '@/styles/globals.css';
+import { GlobalPublishBar } from '@/components/global-publish-bar';
 
 const roboto = Roboto({
     subsets: ['latin'],
@@ -29,8 +30,9 @@ export default function RootLayout({
             <head>
                 <script dangerouslySetInnerHTML={{ __html: themeScript }} />
             </head>
-            <body className="bg-m3-background text-m3-on-surface min-h-screen antialiased">
-                {children}
+            <body className="bg-m3-background text-m3-on-surface h-screen overflow-hidden antialiased flex flex-col">
+                <GlobalPublishBar />
+                <div className="flex-1 min-h-0">{children}</div>
             </body>
         </html>
     );

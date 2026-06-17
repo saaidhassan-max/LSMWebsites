@@ -18,7 +18,8 @@ import {
     Upload,
     X
 } from 'lucide-react';
-import { saveHomeConfigAction } from '@/app/actions';
+import { saveHomeConfigAction, saveOfferAction } from '@/app/actions';
+import { notifyCmsChanged } from '@/lib/cms-events';
 import { CmsSidebar } from '@/components/cms-sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { PreviewFrame } from '@/components/preview-frame';
@@ -54,11 +55,13 @@ const SECTION_ASSETS: SectionAsset[] = [
 
 export function HomeEditor({ config, offers, operators, settings }: HomeEditorProps): React.ReactElement {
     const router = useRouter();
+    const [offerList, setOfferList] = useState<CmsOffer[]>(offers);
     const [offerItems, setOfferItems] = useState(config.offerItems);
     const [sectionIds, setSectionIds] = useState<HomeSectionId[]>(config.sectionIds);
     const [welcome, setWelcome] = useState<HomeWelcomeContent>(config.welcome);
     const [featureLines, setFeatureLines] = useState(config.welcome.features.join('\n'));
     const [selectedSection, setSelectedSection] = useState<HomeEditableSectionId | null>(null);
+    const [panelView, setPanelView] = useState<'assets' | 'edit'>('assets');
     const [sectionReorder, setSectionReorder] = useState(false);
     const [dirty, setDirty] = useState(false);
     const [previewMode, setPreviewMode] = useState<PreviewMode>('mobile');
@@ -69,11 +72,11 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
 
     const offersById = useMemo(() => {
         const map: Record<string, CmsOffer> = {};
-        offers.forEach((offer) => {
+        offerList.forEach((offer) => {
             map[offer.id] = offer;
         });
         return map;
-    }, [offers]);
+    }, [offerList]);
 
     const operatorsById = useMemo(() => {
         const map: Record<string, CmsOperator> = {};
@@ -124,12 +127,35 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
 
     function selectSection(sectionId: HomeEditableSectionId): void {
         setSelectedSection(sectionId);
+        setPanelView('edit');
     }
 
     function updateOfferItems(items: typeof offerItems): void {
         setOfferItems(items);
         setSelectedSection('offers');
         setDirty(true);
+    }
+
+    function updateOffer(offerId: string, patch: Partial<CmsOffer>): void {
+        setOfferList((current) =>
+            current.map((offer) => (offer.id === offerId ? { ...offer, ...patch } : offer))
+        );
+    }
+
+    async function saveOffer(offerId: string): Promise<void> {
+        const offer = offerList.find((item) => item.id === offerId);
+        if (offer === undefined) return;
+        await saveOfferAction(offerId, {
+            operatorId: offer.operatorId,
+            headline: offer.headline,
+            label: offer.label,
+            labelColor: offer.labelColor,
+            details: offer.details,
+            howToClaimSteps: offer.howToClaimSteps,
+            termsText: offer.termsText,
+            ctaHref: offer.ctaHref
+        });
+        notifyCmsChanged();
     }
 
     function addSection(sectionId: HomeSectionId): void {
@@ -212,6 +238,7 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                 welcome,
                 updatedAt: config.updatedAt
             });
+            notifyCmsChanged();
             setDirty(false);
         });
     }
@@ -221,7 +248,7 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
     const inputClass =
         'w-full rounded-md border border-m3-outline-variant bg-m3-surface-low px-3 py-2 text-[13px] text-m3-on-surface focus:outline-none focus:border-m3-gold';
     return (
-        <div className="h-screen flex flex-col">
+        <div className="h-full flex flex-col">
             <div className="flex flex-1 min-h-0">
                 <CmsSidebar active="home" />
 
@@ -262,6 +289,35 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                     <div className="flex-1 min-h-0 flex">
                         <aside className="w-[360px] shrink-0 border-r border-m3-outline-variant bg-m3-surface-lowest flex flex-col min-h-0">
                             <div className="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-5">
+                                <div className="flex items-center rounded-lg border border-m3-outline-variant bg-m3-surface-low p-1">
+                                    <button
+                                        type="button"
+                                        onClick={() => setPanelView('assets')}
+                                        className={
+                                            'flex-1 h-8 rounded-md text-[12px] font-medium transition-colors ' +
+                                            (panelView === 'assets'
+                                                ? 'bg-m3-gold text-m3-on-gold'
+                                                : 'text-m3-on-surface-variant hover:bg-m3-surface-high')
+                                        }
+                                    >
+                                        Assets
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => selectedSection !== null && setPanelView('edit')}
+                                        disabled={selectedSection === null}
+                                        className={
+                                            'flex-1 h-8 rounded-md text-[12px] font-medium transition-colors disabled:opacity-40 ' +
+                                            (panelView === 'edit'
+                                                ? 'bg-m3-gold text-m3-on-gold'
+                                                : 'text-m3-on-surface-variant hover:bg-m3-surface-high')
+                                        }
+                                    >
+                                        Edit
+                                    </button>
+                                </div>
+
+                                {panelView === 'assets' && (
                                 <section className="flex flex-col gap-3">
                                     <div>
                                         <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
@@ -370,8 +426,15 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                                             : 'Select an asset to edit its content.'}
                                     </p>
                                 </section>
+                                )}
 
-                            {selectedSection !== null && (
+                            {panelView === 'edit' && selectedSection === null && (
+                                <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">
+                                    Select an asset from the Assets tab to edit it here.
+                                </div>
+                            )}
+
+                            {panelView === 'edit' && selectedSection !== null && (
                                 <section className="flex flex-col gap-4">
                                     {selectedSection === 'offers' && (
                                         <div className="flex flex-col gap-4">
@@ -382,9 +445,12 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                                             </div>
                                             <OffersCollectionEditor
                                                 items={offerItems}
-                                                offers={offers}
+                                                offers={offerList}
                                                 operators={operators}
                                                 onChange={updateOfferItems}
+                                                onOfferChange={updateOffer}
+                                                onSaveOffer={saveOffer}
+                                                editOfferHref={(id) => '/offers/edit/' + id + '?returnTo=/home'}
                                             />
                                         </div>
                                     )}
@@ -560,6 +626,7 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                                 </section>
                             )}
 
+                                {panelView === 'assets' && (
                                 <section className="flex flex-col gap-4">
                                     <div>
                                         <div className="text-[11px] uppercase tracking-wide text-m3-on-surface-variant">
@@ -602,13 +669,12 @@ export function HomeEditor({ config, offers, operators, settings }: HomeEditorPr
                                                 </button>
                                             </div>
                                         ))}
-                                        {selectedSection !== null && (
-                                            <div className="rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 text-[12px] text-m3-on-surface-variant leading-5">
-                                                Select an asset above to change its allowed properties.
-                                            </div>
-                                        )}
+                                        <p className="text-[11px] text-m3-on-surface-variant leading-relaxed">
+                                            Adding an asset opens it in the Edit tab.
+                                        </p>
                                     </section>
                                 </section>
+                                )}
                             </div>
 
                             <div className="shrink-0 border-t border-m3-outline-variant bg-m3-surface-lowest/95 backdrop-blur p-4">

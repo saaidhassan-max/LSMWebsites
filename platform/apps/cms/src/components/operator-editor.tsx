@@ -2,9 +2,15 @@
 
 import type React from 'react';
 import { useRef, useState, useTransition } from 'react';
-import { ArrowLeft, Pencil, Plus, Save, Upload } from 'lucide-react';
+import { ArrowLeft, Copy, Eye, EyeOff, Pencil, Plus, Save, Upload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { createOfferForOperatorAction, saveOperatorAction } from '@/app/actions';
+import {
+    createOfferForOperatorAction,
+    duplicateOfferAction,
+    removeOfferPlacementsAction,
+    saveOperatorAction,
+} from '@/app/actions';
+import { notifyCmsChanged } from '@/lib/cms-events';
 import { CmsSidebar } from '@/components/cms-sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
 import type { CmsOffer, CmsOperator, CmsOperatorDetails } from '@/lib/cms-content.types';
@@ -12,6 +18,7 @@ import type { CmsOffer, CmsOperator, CmsOperatorDetails } from '@/lib/cms-conten
 interface OperatorEditorProps {
     operator: CmsOperator;
     offers: CmsOffer[];
+    offerUsage: Record<string, 'live' | 'draft' | 'notPlaced'>;
 }
 
 function formatDate(iso: string): string {
@@ -24,7 +31,35 @@ function formatDate(iso: string): string {
     });
 }
 
-export function OperatorEditor({ operator, offers }: OperatorEditorProps): React.ReactElement {
+function offerChip(offer: CmsOffer, usage: 'live' | 'draft' | 'notPlaced' | undefined): {
+    label: string;
+    className: string;
+} {
+    if (offer.status === 'hidden') {
+        return {
+            label: 'Not placed',
+            className: 'bg-m3-surface-highest text-m3-on-surface-variant'
+        };
+    }
+    if (usage === 'live') {
+        return {
+            label: 'Live',
+            className: 'bg-m3-success-container text-m3-on-success'
+        };
+    }
+    if (usage === 'draft') {
+        return {
+            label: 'Active',
+            className: 'bg-m3-gold/20 text-m3-on-surface'
+        };
+    }
+    return {
+        label: 'Not placed',
+        className: 'bg-m3-surface-highest text-m3-on-surface-variant'
+    };
+}
+
+export function OperatorEditor({ operator, offers, offerUsage }: OperatorEditorProps): React.ReactElement {
     const router = useRouter();
     const [details, setDetails] = useState<CmsOperatorDetails>({
         name: operator.name,
@@ -37,6 +72,8 @@ export function OperatorEditor({ operator, offers }: OperatorEditorProps): React
     const [saved, setSaved] = useState(false);
     const [pending, startTransition] = useTransition();
     const [adding, startAdd] = useTransition();
+    const [duplicating, startDuplicate] = useTransition();
+    const [changingOfferStatus, startOfferStatusChange] = useTransition();
     const [uploading, setUploading] = useState(false);
     const logoInputRef = useRef<HTMLInputElement>(null);
 
@@ -65,17 +102,34 @@ export function OperatorEditor({ operator, offers }: OperatorEditorProps): React
     function save(): void {
         startTransition(async () => {
             await saveOperatorAction(operator.id, details);
+            notifyCmsChanged();
             setDirty(false);
             setSaved(true);
         });
     }
 
     function addOffer(): void {
-        startAdd(() => createOfferForOperatorAction(operator.id));
+        startAdd(() => createOfferForOperatorAction(operator.id, '/operators/edit/' + operator.id));
+    }
+
+    function duplicateOffer(offerId: string): void {
+        startDuplicate(async () => {
+            await duplicateOfferAction(offerId, operator.id);
+            notifyCmsChanged();
+            router.refresh();
+        });
+    }
+
+    function removeOfferPlacements(offerId: string): void {
+        startOfferStatusChange(async () => {
+            await removeOfferPlacementsAction(offerId, operator.id);
+            notifyCmsChanged();
+            router.refresh();
+        });
     }
 
     return (
-        <div className="min-h-screen flex">
+        <div className="h-full flex">
             <CmsSidebar active="operators" />
             <main className="flex-1 min-w-0">
                 <header className="flex items-center justify-between px-6 h-14 border-b border-m3-outline-variant">
@@ -223,22 +277,77 @@ export function OperatorEditor({ operator, offers }: OperatorEditorProps): React
                                     No offers under this operator yet.
                                 </p>
                             )}
-                            {offers.map((item) => (
-                                <button
-                                    key={item.id}
-                                    type="button"
-                                    onClick={() => router.push('/offers/edit/' + item.id)}
-                                    className="flex items-center justify-between gap-2 rounded-md border border-m3-outline-variant p-2 text-left hover:bg-m3-surface-high"
-                                >
-                                    <div className="min-w-0">
-                                        <div className="text-[12px] font-medium truncate">{item.headline}</div>
-                                        <div className="text-[10px] text-m3-on-surface-variant capitalize">
-                                            {item.status} · {item.label}
+                            {offers.map((item) => {
+                                const chip = offerChip(item, offerUsage[item.id]);
+                                const canHideFromSite = chip.label === 'Live' || chip.label === 'Active';
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className={
+                                            'flex items-center justify-between gap-2 rounded-md border p-2 ' +
+                                            (canHideFromSite
+                                                ? 'border-m3-gold'
+                                                : 'border-m3-outline-variant')
+                                        }
+                                    >
+                                        <div className="min-w-0">
+                                            <div className="flex items-center gap-1.5 min-w-0">
+                                                <div className="text-[12px] font-medium truncate">{item.headline}</div>
+                                                <span
+                                                    className={
+                                                        'shrink-0 text-[10px] px-1.5 py-0.5 rounded-full ' +
+                                                        chip.className
+                                                    }
+                                                >
+                                                    {chip.label}
+                                                </span>
+                                            </div>
+                                            <div className="text-[10px] text-m3-on-surface-variant">
+                                                {item.label}
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-1 shrink-0">
+                                            <button
+                                                type="button"
+                                                onClick={() => removeOfferPlacements(item.id)}
+                                                disabled={changingOfferStatus || !canHideFromSite}
+                                                aria-label={
+                                                    canHideFromSite
+                                                        ? 'Hide ' + item.headline + ' from site'
+                                                        : item.headline + ' is not placed on any page'
+                                                }
+                                                className="w-7 h-7 rounded-md flex items-center justify-center text-m3-on-surface-variant hover:bg-m3-surface-high hover:text-m3-on-surface disabled:opacity-40"
+                                            >
+                                                {canHideFromSite ? <EyeOff size={13} /> : <Eye size={13} />}
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    router.push(
+                                                        '/offers/edit/' +
+                                                            item.id +
+                                                            '?returnTo=' +
+                                                            encodeURIComponent('/operators/edit/' + operator.id)
+                                                    )
+                                                }
+                                                aria-label={'Edit ' + item.headline}
+                                                className="w-7 h-7 rounded-md flex items-center justify-center text-m3-on-surface-variant hover:bg-m3-surface-high hover:text-m3-on-surface"
+                                            >
+                                                <Pencil size={13} />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => duplicateOffer(item.id)}
+                                                disabled={duplicating}
+                                                aria-label={'Duplicate ' + item.headline}
+                                                className="w-7 h-7 rounded-md flex items-center justify-center text-m3-on-surface-variant hover:bg-m3-surface-high hover:text-m3-on-surface disabled:opacity-40"
+                                            >
+                                                <Copy size={13} />
+                                            </button>
                                         </div>
                                     </div>
-                                    <Pencil size={13} className="text-m3-on-surface-variant shrink-0" />
-                                </button>
-                            ))}
+                                );
+                            })}
                         </div>
                     </aside>
                 </div>

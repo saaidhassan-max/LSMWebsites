@@ -98,3 +98,25 @@ export async function setSitePagePublished(id: string, published: boolean): Prom
     );
     await writeAll(next);
 }
+
+export async function removeSitePageOfferIds(offerIds: string[]): Promise<void> {
+    if (offerIds.length === 0) return;
+    const pages = await readAll();
+    const next = pages.map((page) => ({
+        ...page,
+        sections: page.sections.map((section) =>
+            section.type === 'offers'
+                ? {
+                      ...section,
+                      content: {
+                          items: section.content.items.filter(
+                              (item) => item.kind === 'banner' || !offerIds.includes(item.offerId)
+                          )
+                      }
+                  }
+                : section
+        ),
+        updatedAt: now()
+    }));
+    await writeAll(next);
+}

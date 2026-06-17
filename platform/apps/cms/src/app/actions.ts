@@ -8,6 +8,7 @@ import {
     createOperator,
     deleteOffer,
     deleteOperator,
+    duplicateOffer,
     setOfferStatus,
     setOperatorStatus,
     updateOffer,
@@ -24,7 +25,13 @@ import {
 } from '@/lib/landing-store';
 import { removeHomeOfferIds, setHomeConfig } from '@/lib/home-store';
 import { setSiteSettings } from '@/lib/site-settings-store';
-import { createSitePage, setSitePagePublished, updateSitePage } from '@/lib/site-pages-store';
+import {
+    createSitePage,
+    removeSitePageOfferIds,
+    setSitePagePublished,
+    updateSitePage
+} from '@/lib/site-pages-store';
+import { getPublishStatus, publishSite, type PublishStatus } from '@/lib/published-store';
 import type { LandingPageContent, LandingPageDetails } from '@/lib/landing-pages.types';
 import type { CmsOfferDetails, CmsOperatorDetails, CmsRecordStatus } from '@/lib/cms-content.types';
 import type { HomePageConfig } from '@/lib/home.types';
@@ -57,6 +64,15 @@ export async function deleteAction(id: string): Promise<void> {
 export async function publishAction(id: string, published: boolean): Promise<void> {
     await setPublished(id, published);
     revalidatePath('/');
+}
+
+export async function publishSiteAction(): Promise<void> {
+    await publishSite();
+    revalidatePath('/', 'layout');
+}
+
+export async function getPublishStatusAction(): Promise<PublishStatus> {
+    return getPublishStatus();
 }
 
 export async function saveContentAction(id: string, content: LandingPageContent): Promise<void> {
@@ -100,20 +116,30 @@ export async function publishSitePageAction(id: string, published: boolean): Pro
 }
 
 export async function createOperatorAction(): Promise<void> {
-    await createOperator();
+    const id = await createOperator();
     revalidatePath('/operators');
+    redirect('/operators?created=' + id);
 }
 
 export async function createOfferAction(): Promise<void> {
-    await createOffer();
+    const id = await createOffer();
     revalidatePath('/offers');
+    redirect('/offers?created=' + id);
 }
 
-export async function createOfferForOperatorAction(operatorId: string): Promise<void> {
+export async function createOfferForOperatorAction(operatorId: string, returnTo?: string): Promise<void> {
     const newId = await createOfferForOperator(operatorId);
     revalidatePath('/offers');
     revalidatePath('/operators/edit/' + operatorId);
-    if (newId !== '') redirect('/offers/edit/' + newId);
+    const suffix = returnTo === undefined ? '' : '?returnTo=' + encodeURIComponent(returnTo);
+    if (newId !== '') redirect('/offers/edit/' + newId + suffix);
+}
+
+export async function duplicateOfferAction(id: string, operatorId?: string): Promise<void> {
+    await duplicateOffer(id);
+    revalidatePath('/offers');
+    revalidatePath('/home');
+    if (operatorId !== undefined) revalidatePath('/operators/edit/' + operatorId);
 }
 
 export async function deleteOperatorAction(id: string): Promise<void> {
@@ -138,12 +164,24 @@ export async function setOperatorStatusAction(id: string, status: CmsRecordStatu
     await setOperatorStatus(id, status);
     revalidatePath('/operators');
     revalidatePath('/operators/edit/' + id);
+    revalidatePath('/offers');
+    revalidatePath('/home');
+    revalidatePath('/');
 }
 
 export async function setOfferStatusAction(id: string, status: CmsRecordStatus): Promise<void> {
     await setOfferStatus(id, status);
     revalidatePath('/offers');
     revalidatePath('/offers/edit/' + id);
+}
+
+export async function removeOfferPlacementsAction(id: string, operatorId?: string): Promise<void> {
+    await removeHomeOfferIds([id]);
+    await removeSitePageOfferIds([id]);
+    revalidatePath('/home');
+    revalidatePath('/offers');
+    revalidatePath('/offers/edit/' + id);
+    if (operatorId !== undefined) revalidatePath('/operators/edit/' + operatorId);
 }
 
 export async function saveOperatorAction(id: string, details: CmsOperatorDetails): Promise<void> {

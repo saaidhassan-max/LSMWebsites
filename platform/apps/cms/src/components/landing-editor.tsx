@@ -3,8 +3,9 @@
 import type React from 'react';
 import { useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Check, CloudUpload, ExternalLink, EyeOff, Monitor, Smartphone, Upload } from 'lucide-react';
+import { ArrowLeft, Check, Eye, ExternalLink, EyeOff, Monitor, Smartphone, Upload } from 'lucide-react';
 import { saveContentAction, saveDetailsAction, publishAction } from '@/app/actions';
+import { notifyCmsChanged } from '@/lib/cms-events';
 import type { LandingPage, LandingPageContent, LandingPageDetails } from '@/lib/landing-pages.types';
 import type { SiteSettings } from '@/lib/site-settings.types';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -121,21 +122,19 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
         startSave(async () => {
             await saveDetailsAction(page.id, details);
             await saveContentAction(page.id, content);
+            notifyCmsChanged();
             setUpdatedAt(new Date().toISOString());
             setDirty(false);
         });
     }
 
-    function togglePublish(): void {
+    function toggleShowOnSite(): void {
         startSave(async () => {
-            await saveDetailsAction(page.id, details);
-            await saveContentAction(page.id, content);
             await publishAction(page.id, !published);
             const nextPublished = !published;
             setPublished(nextPublished);
             setPublishedAt(nextPublished ? new Date().toISOString() : null);
-            setUpdatedAt(new Date().toISOString());
-            setDirty(false);
+            notifyCmsChanged();
         });
     }
 
@@ -173,7 +172,7 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
     const previewUrl = '/preview/' + details.slug;
 
     return (
-        <div className="h-screen flex flex-col">
+        <div className="h-full flex flex-col">
             <header className="flex items-center justify-between px-4 h-14 border-b border-m3-outline-variant shrink-0">
                 <div className="flex items-center gap-3 min-w-0">
                     <button
@@ -187,7 +186,7 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
                     <div className="min-w-0">
                         <div className="text-[14px] font-medium truncate">{details.name}</div>
                         <div className="text-[11px] text-m3-on-surface-variant">
-                            {published ? 'Published' : 'Draft'}
+                            {published ? 'Shown on site' : 'Hidden from site'}
                             {dirty ? ' · unsaved changes' : ''}
                         </div>
                     </div>
@@ -204,12 +203,32 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
                     </button>
                     <button
                         type="button"
-                        onClick={togglePublish}
+                        onClick={toggleShowOnSite}
                         disabled={saving || !canSave}
-                        className="flex items-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-lg bg-m3-gold text-m3-on-gold hover:brightness-95 disabled:opacity-40"
+                        role="switch"
+                        aria-checked={published}
+                        className={
+                            'flex items-center gap-2 text-[13px] font-medium px-3 py-2 rounded-lg border transition-colors disabled:opacity-40 ' +
+                            (published
+                                ? 'border-m3-gold text-m3-on-surface'
+                                : 'border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high')
+                        }
                     >
-                        {published ? <EyeOff size={15} /> : <CloudUpload size={15} />}
-                        {published ? 'Unpublish' : 'Publish'}
+                        {published ? <Eye size={15} className="text-m3-gold" /> : <EyeOff size={15} />}
+                        Show on site
+                        <span
+                            className={
+                                'ml-1 inline-flex items-center w-8 h-4 rounded-full transition-colors ' +
+                                (published ? 'bg-m3-gold' : 'bg-m3-surface-highest')
+                            }
+                        >
+                            <span
+                                className={
+                                    'inline-block w-3 h-3 rounded-full bg-white transition-transform ' +
+                                    (published ? 'translate-x-4' : 'translate-x-1')
+                                }
+                            />
+                        </span>
                     </button>
                 </div>
             </header>
@@ -246,7 +265,7 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
                             <div className="rounded-md bg-m3-surface-low p-2">
                                 <div>Status</div>
                                 <div className="text-m3-on-surface font-medium">
-                                    {published ? 'Published' : 'Draft'}
+                                    {published ? 'Shown on site' : 'Hidden from site'}
                                 </div>
                             </div>
                             <div className="rounded-md bg-m3-surface-low p-2">
@@ -255,7 +274,7 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
                             </div>
                         </div>
                         <div className="rounded-md bg-m3-surface-low p-2 text-[11px] text-m3-on-surface-variant">
-                            <div>Published</div>
+                            <div>Show intent updated</div>
                             <div className="text-m3-on-surface font-medium">{formatDateTime(publishedAt)}</div>
                         </div>
                         <button

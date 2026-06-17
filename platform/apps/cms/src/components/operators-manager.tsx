@@ -1,15 +1,17 @@
 'use client';
 
 import type React from 'react';
-import { useMemo, useState, useTransition } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Pencil, Search, Trash2 } from 'lucide-react';
 import { deleteOperatorAction, setOperatorStatusAction } from '@/app/actions';
+import { notifyCmsChanged } from '@/lib/cms-events';
 import type { CmsOperator, CmsRecordStatus } from '@/lib/cms-content.types';
 
 interface OperatorsManagerProps {
     operators: CmsOperator[];
     offerCounts: Record<string, number>;
+    highlightedId?: string;
 }
 
 type StatusFilter = 'all' | CmsRecordStatus;
@@ -25,26 +27,45 @@ function formatDate(iso: string): string {
 
 export function OperatorsManager({
     operators,
-    offerCounts = {}
+    offerCounts = {},
+    highlightedId
 }: OperatorsManagerProps): React.ReactElement {
     const router = useRouter();
     const [query, setQuery] = useState('');
     const [status, setStatus] = useState<StatusFilter>('all');
+    const [activeHighlightId, setActiveHighlightId] = useState(highlightedId);
     const [pending, startTransition] = useTransition();
+
+    useEffect(() => {
+        setActiveHighlightId(highlightedId);
+        if (highlightedId === undefined) return;
+        const timeout = window.setTimeout(() => setActiveHighlightId(undefined), 3000);
+        return () => window.clearTimeout(timeout);
+    }, [highlightedId]);
 
     const filteredOperators = useMemo(
         () =>
-            operators.filter((operator) => {
+            operators
+                .filter((operator) => {
                 const matchesStatus = status === 'all' || operator.status === status;
                 const searchText = (operator.name + ' ' + operator.slug).toLowerCase();
                 const matchesQuery = searchText.includes(query.trim().toLowerCase());
                 return matchesStatus && matchesQuery;
-            }),
-        [operators, query, status]
+            })
+                .sort((a, b) => {
+                    if (a.id === highlightedId) return -1;
+                    if (b.id === highlightedId) return 1;
+                    return 0;
+                }),
+        [highlightedId, operators, query, status]
     );
 
     function setStatusForOperator(id: string, nextStatus: CmsRecordStatus): void {
-        startTransition(() => setOperatorStatusAction(id, nextStatus));
+        startTransition(async () => {
+            await setOperatorStatusAction(id, nextStatus);
+            notifyCmsChanged();
+            router.refresh();
+        });
     }
 
     function removeOperator(id: string, name: string): void {
@@ -63,7 +84,11 @@ export function OperatorsManager({
             window.alert('Name did not match. Nothing was deleted.');
             return;
         }
-        startTransition(() => deleteOperatorAction(id));
+        startTransition(async () => {
+            await deleteOperatorAction(id);
+            notifyCmsChanged();
+            router.refresh();
+        });
     }
 
     return (
@@ -107,7 +132,12 @@ export function OperatorsManager({
                 {filteredOperators.map((operator) => (
                     <div
                         key={operator.id}
-                        className="grid grid-cols-[72px_minmax(0,1fr)_auto] gap-4 px-4 py-3 rounded-lg border border-m3-outline-variant bg-m3-surface-lowest"
+                        className={
+                            'grid grid-cols-[72px_minmax(0,1fr)_auto] gap-4 px-4 py-3 rounded-lg border bg-m3-surface-lowest transition-colors duration-500 ' +
+                            (operator.id === activeHighlightId
+                                ? 'border-m3-gold'
+                                : 'border-m3-outline-variant')
+                        }
                     >
                         <div className="h-14 rounded-md bg-m3-surface-low border border-m3-outline-variant overflow-hidden flex items-center justify-center">
                             <img src={operator.logoSrc} alt="" className="max-w-full max-h-full object-contain" />

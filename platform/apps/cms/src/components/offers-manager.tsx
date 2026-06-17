@@ -1,15 +1,17 @@
 'use client';
 
 import type React from 'react';
-import { useMemo, useState, useTransition } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Pencil, Search, Trash2 } from 'lucide-react';
 import { deleteOfferAction, setOfferStatusAction } from '@/app/actions';
+import { notifyCmsChanged } from '@/lib/cms-events';
 import type { CmsOffer, CmsOperator, CmsRecordStatus } from '@/lib/cms-content.types';
 
 interface OffersManagerProps {
     offers: CmsOffer[];
     operators: CmsOperator[];
+    highlightedId?: string;
 }
 
 type StatusFilter = 'all' | CmsRecordStatus;
@@ -23,11 +25,19 @@ function formatDate(iso: string): string {
     });
 }
 
-export function OffersManager({ offers, operators }: OffersManagerProps): React.ReactElement {
+export function OffersManager({ offers, operators, highlightedId }: OffersManagerProps): React.ReactElement {
     const router = useRouter();
     const [query, setQuery] = useState('');
     const [status, setStatus] = useState<StatusFilter>('all');
+    const [activeHighlightId, setActiveHighlightId] = useState(highlightedId);
     const [pending, startTransition] = useTransition();
+
+    useEffect(() => {
+        setActiveHighlightId(highlightedId);
+        if (highlightedId === undefined) return;
+        const timeout = window.setTimeout(() => setActiveHighlightId(undefined), 3000);
+        return () => window.clearTimeout(timeout);
+    }, [highlightedId]);
 
     const operatorById = useMemo(
         () => new Map(operators.map((operator) => [operator.id, operator])),
@@ -36,7 +46,8 @@ export function OffersManager({ offers, operators }: OffersManagerProps): React.
 
     const filteredOffers = useMemo(
         () =>
-            offers.filter((offer) => {
+            offers
+                .filter((offer) => {
                 const operator = operatorById.get(offer.operatorId);
                 const matchesStatus = status === 'all' || offer.status === status;
                 const searchText = (
@@ -50,17 +61,30 @@ export function OffersManager({ offers, operators }: OffersManagerProps): React.
                 ).toLowerCase();
                 const matchesQuery = searchText.includes(query.trim().toLowerCase());
                 return matchesStatus && matchesQuery;
-            }),
-        [offers, operatorById, query, status]
+            })
+                .sort((a, b) => {
+                    if (a.id === highlightedId) return -1;
+                    if (b.id === highlightedId) return 1;
+                    return 0;
+                }),
+        [highlightedId, offers, operatorById, query, status]
     );
 
     function setStatusForOffer(id: string, nextStatus: CmsRecordStatus): void {
-        startTransition(() => setOfferStatusAction(id, nextStatus));
+        startTransition(async () => {
+            await setOfferStatusAction(id, nextStatus);
+            notifyCmsChanged();
+            router.refresh();
+        });
     }
 
     function removeOffer(id: string, headline: string): void {
         if (!window.confirm('Delete the offer "' + headline + '"? This cannot be undone.')) return;
-        startTransition(() => deleteOfferAction(id));
+        startTransition(async () => {
+            await deleteOfferAction(id);
+            notifyCmsChanged();
+            router.refresh();
+        });
     }
 
     return (
@@ -106,7 +130,12 @@ export function OffersManager({ offers, operators }: OffersManagerProps): React.
                     return (
                         <div
                             key={offer.id}
-                            className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 px-4 py-3 rounded-lg border border-m3-outline-variant bg-m3-surface-lowest"
+                            className={
+                                'grid grid-cols-[minmax(0,1fr)_auto] gap-4 px-4 py-3 rounded-lg border bg-m3-surface-lowest transition-colors duration-500 ' +
+                                (offer.id === activeHighlightId
+                                    ? 'border-m3-gold'
+                                    : 'border-m3-outline-variant')
+                            }
                         >
                             <div className="min-w-0 flex flex-col gap-2">
                                 <div className="flex items-center gap-2 min-w-0">

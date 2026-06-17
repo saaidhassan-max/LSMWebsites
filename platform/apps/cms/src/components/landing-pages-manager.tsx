@@ -23,7 +23,7 @@ interface StatusFilterButtonProps {
 type StatusFilter = 'all' | LandingPageStatus;
 
 function formatDate(iso: string | null): string {
-    if (iso === null) return 'Not published';
+    if (iso === null) return 'Not shown';
     return new Date(iso).toLocaleDateString('en-GB', {
         day: 'numeric',
         month: 'short',
@@ -36,7 +36,7 @@ function StatusBadge({ page }: StatusBadgeProps): React.ReactElement {
     if (page.status === 'published') {
         return (
             <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-m3-success-container text-m3-on-success whitespace-nowrap">
-                Published
+                Shown on site
             </span>
         );
     }
@@ -109,7 +109,7 @@ export function LandingPagesManager({ pages }: LandingPagesManagerProps): React.
                             onClick={() => setStatus('draft')}
                         />
                         <StatusFilterButton
-                            label="Published"
+                            label="Shown"
                             active={status === 'published'}
                             onClick={() => setStatus('published')}
                         />
@@ -139,7 +139,7 @@ export function LandingPagesManager({ pages }: LandingPagesManagerProps): React.
                                     Updated <span className="text-m3-on-surface">{formatDate(page.updatedAt)}</span>
                                 </div>
                                 <div>
-                                    Published{' '}
+                                    Show intent{' '}
                                     <span className="text-m3-on-surface">{formatDate(page.publishedAt)}</span>
                                 </div>
                             </div>

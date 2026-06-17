@@ -3,8 +3,9 @@
 import type React from 'react';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { Copy, ExternalLink, Pencil, Trash2, CloudUpload, EyeOff } from 'lucide-react';
+import { Copy, ExternalLink, Pencil, Trash2, Eye, EyeOff } from 'lucide-react';
 import { duplicateAction, deleteAction, publishAction } from '@/app/actions';
+import { notifyCmsChanged } from '@/lib/cms-events';
 
 interface LandingRowActionsProps {
     id: string;
@@ -25,7 +26,11 @@ export function LandingRowActions({ id, slug, published }: LandingRowActionsProp
     }
 
     function onTogglePublish(): void {
-        startTransition(() => publishAction(id, !published));
+        startTransition(async () => {
+            await publishAction(id, !published);
+            notifyCmsChanged();
+            router.refresh();
+        });
     }
 
     function onEdit(): void {
@@ -34,7 +39,13 @@ export function LandingRowActions({ id, slug, published }: LandingRowActionsProp
 
     function onDelete(): void {
         const ok = window.confirm('Delete this landing page? This cannot be undone.');
-        if (ok) startTransition(() => deleteAction(id));
+        if (ok) {
+            startTransition(async () => {
+                await deleteAction(id);
+                notifyCmsChanged();
+                router.refresh();
+            });
+        }
     }
 
     const primaryClass =
@@ -61,10 +72,10 @@ export function LandingRowActions({ id, slug, published }: LandingRowActionsProp
                 type="button"
                 onClick={onTogglePublish}
                 className={iconClass}
-                aria-label={published ? 'Unpublish' : 'Publish'}
+                aria-label={published ? 'Hide from site' : 'Show on site'}
                 disabled={pending}
             >
-                {published ? <EyeOff size={17} /> : <CloudUpload size={17} />}
+                {published ? <EyeOff size={17} /> : <Eye size={17} />}
             </button>
             <button type="button" onClick={onDelete} className={dangerClass} aria-label="Delete" disabled={pending}>
                 <Trash2 size={17} />

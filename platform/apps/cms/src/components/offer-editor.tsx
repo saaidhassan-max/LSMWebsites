@@ -5,6 +5,7 @@ import { useRef, useState, useTransition } from 'react';
 import { ArrowLeft, ExternalLink, Save, Upload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { saveOfferAction, saveOperatorLogoAction } from '@/app/actions';
+import { notifyCmsChanged } from '@/lib/cms-events';
 import { CmsSidebar } from '@/components/cms-sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
 import type { CmsLabelColor, CmsOffer, CmsOfferDetails, CmsOperator } from '@/lib/cms-content.types';
@@ -29,6 +30,8 @@ function formatDate(iso: string): string {
 
 function safeReturnTo(value: string | undefined): string {
     if (value === '/home') return value;
+    if (value?.startsWith('/pages/edit/') === true) return value;
+    if (value?.startsWith('/operators/edit/') === true) return value;
     return '/offers';
 }
 
@@ -129,6 +132,7 @@ export function OfferEditor({ offer, operators, returnTo }: OfferEditorProps): R
             if (pendingLogo !== null) {
                 await saveOperatorLogoAction(pendingLogo.operatorId, pendingLogo.logoSrc);
             }
+            notifyCmsChanged();
             setDirty(false);
             setPendingLogo(null);
             setSaved(true);
@@ -138,7 +142,7 @@ export function OfferEditor({ offer, operators, returnTo }: OfferEditorProps): R
     const hasUnsavedChanges = dirty || pendingLogo !== null;
 
     return (
-        <div className="min-h-screen flex">
+        <div className="h-full flex">
             <CmsSidebar active="offers" />
             <main className="flex-1 min-w-0">
                 <header className="flex items-center justify-between px-6 h-14 border-b border-m3-outline-variant">
