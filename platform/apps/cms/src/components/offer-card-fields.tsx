@@ -1,6 +1,7 @@
 'use client';
 
 import type React from 'react';
+import { useEffect, useState } from 'react';
 import type { CmsLabelColor, CmsOffer } from '@/lib/cms-content.types';
 
 interface OfferCardFieldsProps {
@@ -20,6 +21,14 @@ function toLines(value: string): string[] {
 }
 
 export function OfferCardFields({ offer, onChange }: OfferCardFieldsProps): React.ReactElement {
+    const [detailsText, setDetailsText] = useState(offer.details.join('\n'));
+    const [stepsText, setStepsText] = useState(offer.howToClaimSteps.join('\n'));
+
+    useEffect(() => {
+        setDetailsText(offer.details.join('\n'));
+        setStepsText(offer.howToClaimSteps.join('\n'));
+    }, [offer.id]);
+
     return (
         <div className="flex flex-col gap-3">
             <label className={labelClass}>
@@ -56,8 +65,11 @@ export function OfferCardFields({ offer, onChange }: OfferCardFieldsProps): Reac
                 Detail bullets
                 <span className="text-[11px] font-normal text-m3-on-surface-variant">One per line.</span>
                 <textarea
-                    value={offer.details.join('\n')}
-                    onChange={(e) => onChange({ details: toLines(e.target.value) })}
+                    value={detailsText}
+                    onChange={(e) => {
+                        setDetailsText(e.target.value);
+                        onChange({ details: toLines(e.target.value) });
+                    }}
                     rows={4}
                     className={inputClass + ' resize-y leading-5'}
                 />
@@ -68,8 +80,11 @@ export function OfferCardFields({ offer, onChange }: OfferCardFieldsProps): Reac
                     One step per line. Shown on this offer&apos;s how-to-claim page.
                 </span>
                 <textarea
-                    value={offer.howToClaimSteps.join('\n')}
-                    onChange={(e) => onChange({ howToClaimSteps: toLines(e.target.value) })}
+                    value={stepsText}
+                    onChange={(e) => {
+                        setStepsText(e.target.value);
+                        onChange({ howToClaimSteps: toLines(e.target.value) });
+                    }}
                     rows={4}
                     className={inputClass + ' resize-y leading-5'}
                 />

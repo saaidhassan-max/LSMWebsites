@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { publishSitePageAction, saveOfferAction, saveSitePageAction } from '@/app/actions';
 import { notifyCmsChanged } from '@/lib/cms-events';
+import { LinesTextarea } from '@/components/lines-textarea';
 import { CmsSidebar } from '@/components/cms-sidebar';
 import { OffersCollectionEditor } from '@/components/offers-collection-editor';
 import { PreviewFrame } from '@/components/preview-frame';
@@ -258,13 +259,10 @@ export function SitePageEditor({
                     </label>
                     <label className={labelClass}>
                         Feature lines (one per line)
-                        <textarea
-                            value={section.content.features.join('\n')}
-                            onChange={(e) =>
-                                updateSectionContent(section.id, {
-                                    features: e.target.value.split('\n').map((line) => line.trim()).filter(Boolean)
-                                })
-                            }
+                        <LinesTextarea
+                            lines={section.content.features}
+                            onChange={(features) => updateSectionContent(section.id, { features })}
+                            resyncKey={section.id}
                             rows={3}
                             className={inputClass + ' resize-y'}
                         />
