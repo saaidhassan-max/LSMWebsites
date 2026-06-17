@@ -4,11 +4,14 @@ import { listOffers, listOperators } from './cms-content-store';
 import { listSitePages } from './site-pages-store';
 import { listLandingPages } from './landing-store';
 import { getSiteSettings } from './site-settings-store';
+import { getContentPages } from './content-pages-store';
+import { CONTENT_PAGE_KEYS } from './content-pages.types';
 import type { HomePageConfig } from './home.types';
 import type { CmsOffer, CmsOperator } from './cms-content.types';
 import type { SitePage } from './site-pages.types';
 import type { LandingPage } from './landing-pages.types';
 import type { SiteSettings } from './site-settings.types';
+import type { ContentPagesDoc } from './content-pages.types';
 
 const PUBLISHED_KEY = 'published-site';
 
@@ -19,6 +22,7 @@ export interface PublishableSnapshot {
     sitePages: SitePage[];
     landingPages: LandingPage[];
     settings: SiteSettings;
+    contentPages: ContentPagesDoc;
 }
 
 export interface PublishedSnapshot extends PublishableSnapshot {
@@ -36,15 +40,17 @@ function now(): string {
 }
 
 async function buildPublishableSnapshot(): Promise<PublishableSnapshot> {
-    const [home, offers, operators, sitePages, landingPages, settings] = await Promise.all([
-        getHomeConfig(),
-        listOffers(),
-        listOperators(),
-        listSitePages(),
-        listLandingPages(),
-        getSiteSettings()
-    ]);
-    return { home, offers, operators, sitePages, landingPages, settings };
+    const [home, offers, operators, sitePages, landingPages, settings, contentPages] =
+        await Promise.all([
+            getHomeConfig(),
+            listOffers(),
+            listOperators(),
+            listSitePages(),
+            listLandingPages(),
+            getSiteSettings(),
+            getContentPages()
+        ]);
+    return { home, offers, operators, sitePages, landingPages, settings, contentPages };
 }
 
 async function seedSnapshot(): Promise<PublishedSnapshot> {
@@ -68,7 +74,8 @@ function publishableView(snapshot: PublishableSnapshot): string {
         operators: snapshot.operators,
         sitePages: snapshot.sitePages,
         landingPages: snapshot.landingPages,
-        settings: snapshot.settings
+        settings: snapshot.settings,
+        contentPages: snapshot.contentPages
     });
 }
 
@@ -122,6 +129,14 @@ function collectPublishChanges(draft: PublishableSnapshot, published: Publishabl
 
     if (hasChanged(draft.home, published.home)) changes.push('Home page content or offer placement changed');
     if (hasChanged(draft.settings, published.settings)) changes.push('Site-wide settings changed');
+
+    for (const key of CONTENT_PAGE_KEYS) {
+        const draftPage = draft.contentPages[key];
+        const publishedPage = published.contentPages?.[key];
+        if (publishedPage === undefined || hasChanged(draftPage, publishedPage)) {
+            changes.push('Content page changed: ' + itemName(draftPage.title, key));
+        }
+    }
 
     changes.push(
         ...collectRecordChanges(

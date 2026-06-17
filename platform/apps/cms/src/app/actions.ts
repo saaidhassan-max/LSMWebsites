@@ -25,6 +25,7 @@ import {
 } from '@/lib/landing-store';
 import { addHomeOfferId, removeHomeOfferIds, setHomeConfig } from '@/lib/home-store';
 import { setSiteSettings } from '@/lib/site-settings-store';
+import { setContentPage } from '@/lib/content-pages-store';
 import {
     addSitePageOfferId,
     createSitePage,
@@ -39,6 +40,7 @@ import type { CmsOfferDetails, CmsOperatorDetails, CmsRecordStatus } from '@/lib
 import type { HomePageConfig } from '@/lib/home.types';
 import type { SiteSettings } from '@/lib/site-settings.types';
 import type { SitePageDetails, SitePageSection } from '@/lib/site-pages.types';
+import type { ContentPageKey, ContentPagePatch } from '@/lib/content-pages.types';
 
 export async function createAction(): Promise<void> {
     const newId = await createLandingPage();
@@ -101,6 +103,14 @@ export async function saveSiteSettingsAction(settings: SiteSettings): Promise<vo
     revalidatePath('/settings');
     revalidatePath('/home');
     revalidatePath('/');
+}
+
+export async function saveContentPageAction(
+    key: ContentPageKey,
+    patch: ContentPagePatch
+): Promise<void> {
+    await setContentPage(key, patch);
+    revalidatePath('/settings/' + key);
 }
 
 export async function saveSitePageAction(

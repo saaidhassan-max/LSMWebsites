@@ -4,7 +4,7 @@ import Link from 'next/link';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Gift, Globe, Home, Info, LayoutGrid, LogOut, Mail, Megaphone, Plus, Settings, Tags } from 'lucide-react';
+import { Gift, Globe, Home, LayoutGrid, LogOut, Megaphone, Plus, Settings, Tags } from 'lucide-react';
 import { createSupabaseBrowserClient, isBrowserSupabaseConfigured } from '@/lib/supabase-browser';
 import type { SitePage } from '@/lib/site-pages.types';
 
@@ -124,8 +124,6 @@ export function CmsSidebar({ active, activePageId }: CmsSidebarProps): React.Rea
                     label="Home"
                     active={active === 'home'}
                 />
-                <NavItem icon={<Info size={15} />} label="About us" />
-                <NavItem icon={<Mail size={15} />} label="Contact us" />
                 {pages.length > 0 && (
                     <div className="flex flex-col gap-0.5 pt-1">
                         {pages.map((page) => (

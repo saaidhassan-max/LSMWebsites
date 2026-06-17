@@ -3,7 +3,8 @@ import type { Metadata } from 'next';
 import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { USP } from '@lsm/ui/components/usp/usp';
 import { SfbNav } from '../../components/sfb-nav';
-import { getCmsSiteSettings } from '../../data/cms-content';
+import { getCmsContentPage, getCmsSiteSettings } from '../../data/cms-content';
+import { ContentPageBody } from '../../components/content-page-body';
 
 export const metadata: Metadata = {
     title: 'Privacy Policy | Super Free Bingo',
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default async function PrivacyPolicyPage(): Promise<React.ReactElement> {
-    const settings = await getCmsSiteSettings();
+    const [settings, cms] = await Promise.all([getCmsSiteSettings(), getCmsContentPage('privacy')]);
+    const title = cms?.title ?? 'Privacy Policy';
+    const subtitle = cms?.subtitle ?? 'Super Free Bingo — a product of Little Star Media Limited';
 
     return (
         <main className="flex w-full flex-col bg-surface">
@@ -22,11 +25,16 @@ export default async function PrivacyPolicyPage(): Promise<React.ReactElement> {
                 <div className="flex flex-col gap-8">
                     <div className="px-4 py-3">
                         <h1 className="text-[32px] font-bold leading-tight text-tertiary md:text-[45px] md:leading-[52px]">
-                            Privacy Policy
+                            {title}
                         </h1>
-                        <p className="mt-2 text-sm text-on-surface-light">Super Free Bingo — a product of Little Star Media Limited</p>
+                        {subtitle !== '' && (
+                            <p className="mt-2 text-sm text-on-surface-light">{subtitle}</p>
+                        )}
                     </div>
 
+                    {cms !== null ? (
+                        <ContentPageBody bodyHtml={cms.bodyHtml} />
+                    ) : (
                     <div className="w-full md:max-w-[948px] flex flex-col gap-8 text-base leading-6 tracking-[0.5px] text-on-surface-light">
 
                         <div className="flex flex-col gap-3">
@@ -242,6 +250,7 @@ export default async function PrivacyPolicyPage(): Promise<React.ReactElement> {
                         </div>
 
                     </div>
+                    )}
                 </div>
             </section>
 

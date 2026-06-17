@@ -29,6 +29,7 @@ const HOME_FILE = 'home-page';
 const LANDING_PAGES_FILE = 'landing-pages';
 const SITE_PAGES_FILE = 'site-pages';
 const SITE_SETTINGS_FILE = 'site-settings';
+const CONTENT_PAGES_FILE = 'content-pages';
 
 const SUPABASE_URL = process.env.SUPABASE_URL ?? '';
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY ?? '';
@@ -90,7 +91,8 @@ const SNAPSHOT_FIELD: Record<string, string> = {
     [HOME_FILE]: 'home',
     [LANDING_PAGES_FILE]: 'landingPages',
     [SITE_PAGES_FILE]: 'sitePages',
-    [SITE_SETTINGS_FILE]: 'settings'
+    [SITE_SETTINGS_FILE]: 'settings',
+    [CONTENT_PAGES_FILE]: 'contentPages'
 };
 
 async function readPublishedSnapshot(): Promise<Record<string, unknown> | null> {
@@ -458,6 +460,27 @@ export async function getCmsSitePage(slug: string): Promise<CmsSitePage | null> 
     if (pages === null) return null;
     const page = pages.find((item) => item.slug === slug && item.status === 'published');
     return page ?? null;
+}
+
+export type CmsContentPageKey = 'about' | 'privacy' | 'terms' | 'disclaimer';
+
+export interface CmsContentPage {
+    key: CmsContentPageKey;
+    title: string;
+    subtitle: string;
+    bodyHtml: string;
+}
+
+export async function getCmsContentPage(key: CmsContentPageKey): Promise<CmsContentPage | null> {
+    const doc = await readJson<Record<string, Partial<CmsContentPage>>>(CONTENT_PAGES_FILE);
+    const page = doc?.[key];
+    if (page === undefined || typeof page.bodyHtml !== 'string') return null;
+    return {
+        key,
+        title: typeof page.title === 'string' ? page.title : '',
+        subtitle: typeof page.subtitle === 'string' ? page.subtitle : '',
+        bodyHtml: page.bodyHtml
+    };
 }
 
 export async function getCmsLandingPageContent(slug: string): Promise<CmsLandingPageContent | null> {
