@@ -2,7 +2,7 @@
 
 import type React from 'react';
 import { useMemo, useState } from 'react';
-import { Search } from 'lucide-react';
+import { ArrowDownWideNarrow, ArrowUpNarrowWide, Search } from 'lucide-react';
 import type { LandingPage, LandingPageStatus } from '@/lib/landing-pages.types';
 import { LandingRowActions } from '@/components/landing-row-actions';
 
@@ -21,6 +21,7 @@ interface StatusFilterButtonProps {
 }
 
 type StatusFilter = 'all' | LandingPageStatus;
+type SortOrder = 'newest' | 'oldest';
 
 function formatDate(iso: string | null): string {
     if (iso === null) return 'Not shown';
@@ -72,16 +73,23 @@ function StatusFilterButton({
 export function LandingPagesManager({ pages }: LandingPagesManagerProps): React.ReactElement {
     const [query, setQuery] = useState('');
     const [status, setStatus] = useState<StatusFilter>('all');
+    const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
 
     const filteredPages = useMemo(
         () =>
-            pages.filter((page) => {
-                const matchesStatus = status === 'all' || page.status === status;
-                const searchText = (page.name + ' ' + page.slug).toLowerCase();
-                const matchesQuery = searchText.includes(query.trim().toLowerCase());
-                return matchesStatus && matchesQuery;
-            }),
-        [pages, query, status]
+            pages
+                .filter((page) => {
+                    const matchesStatus = status === 'all' || page.status === status;
+                    const searchText = (page.name + ' ' + page.slug).toLowerCase();
+                    const matchesQuery = searchText.includes(query.trim().toLowerCase());
+                    return matchesStatus && matchesQuery;
+                })
+                .sort((a, b) =>
+                    sortOrder === 'newest'
+                        ? b.createdAt.localeCompare(a.createdAt)
+                        : a.createdAt.localeCompare(b.createdAt)
+                ),
+        [pages, query, status, sortOrder]
     );
 
     return (
@@ -114,8 +122,29 @@ export function LandingPagesManager({ pages }: LandingPagesManagerProps): React.
                             onClick={() => setStatus('published')}
                         />
                     </div>
-                    <div className="text-[12px] text-m3-on-surface-variant">
-                        {filteredPages.length} of {pages.length} pages
+                    <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={() =>
+                                setSortOrder((order) => (order === 'newest' ? 'oldest' : 'newest'))
+                            }
+                            aria-label={
+                                sortOrder === 'newest'
+                                    ? 'Sorted by newest first — click to show oldest first'
+                                    : 'Sorted by oldest first — click to show newest first'
+                            }
+                            className="flex items-center gap-1.5 text-[12px] px-3 py-1.5 rounded-md border border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high transition-colors"
+                        >
+                            {sortOrder === 'newest' ? (
+                                <ArrowDownWideNarrow size={14} />
+                            ) : (
+                                <ArrowUpNarrowWide size={14} />
+                            )}
+                            {sortOrder === 'newest' ? 'Newest first' : 'Oldest first'}
+                        </button>
+                        <div className="text-[12px] text-m3-on-surface-variant whitespace-nowrap">
+                            {filteredPages.length} of {pages.length} pages
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,6 +164,9 @@ export function LandingPagesManager({ pages }: LandingPagesManagerProps): React.
                                 /preview/{page.slug}
                             </div>
                             <div className="grid grid-cols-2 gap-2 max-w-[420px] text-[11px] text-m3-on-surface-variant">
+                                <div>
+                                    Created <span className="text-m3-on-surface">{formatDate(page.createdAt)}</span>
+                                </div>
                                 <div>
                                     Updated <span className="text-m3-on-surface">{formatDate(page.updatedAt)}</span>
                                 </div>

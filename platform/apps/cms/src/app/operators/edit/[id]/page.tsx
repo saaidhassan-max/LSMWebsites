@@ -6,26 +6,22 @@ import { getHomeConfig } from '@/lib/home-store';
 import { getPublishedSnapshot } from '@/lib/published-store';
 import { listSitePages } from '@/lib/site-pages-store';
 import type { HomePageConfig } from '@/lib/home.types';
-import type { SitePage } from '@/lib/site-pages.types';
+import type { SitePage, SitePageSection } from '@/lib/site-pages.types';
 
 export const dynamic = 'force-dynamic';
 
 function collectOfferIds(home: HomePageConfig, pages: SitePage[]): Set<string> {
     const ids = new Set<string>();
-    home.sections.forEach((section) => {
-        if (section.type !== 'offers') return;
-        section.content.items.forEach((item) => {
-            if (item.kind === 'offer') ids.add(item.offerId);
-        });
-    });
-    pages.forEach((page) => {
-        page.sections.forEach((section) => {
+    const addFromSections = (sections: SitePageSection[]): void => {
+        sections.forEach((section) => {
             if (section.type !== 'offers') return;
             section.content.items.forEach((item) => {
                 if (item.kind === 'offer') ids.add(item.offerId);
             });
         });
-    });
+    };
+    addFromSections(home?.sections ?? []);
+    (pages ?? []).forEach((page) => addFromSections(page?.sections ?? []));
     return ids;
 }
 

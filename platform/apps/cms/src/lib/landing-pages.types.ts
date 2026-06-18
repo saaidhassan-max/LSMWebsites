@@ -22,6 +22,7 @@ export interface LandingPage {
     slug: string;
     status: LandingPageStatus;
     publishedAt: string | null;
+    createdAt: string;
     updatedAt: string;
     content: LandingPageContent;
 }

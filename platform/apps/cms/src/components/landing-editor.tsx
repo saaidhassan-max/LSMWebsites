@@ -3,7 +3,7 @@
 import type React from 'react';
 import { useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Check, Eye, ExternalLink, EyeOff, Monitor, Smartphone, Upload } from 'lucide-react';
+import { ArrowLeft, Check, Eye, ExternalLink, EyeOff, ImagePlus, Monitor, Smartphone } from 'lucide-react';
 import { saveContentAction, saveDetailsAction, publishAction } from '@/app/actions';
 import { notifyCmsChanged } from '@/lib/cms-events';
 import type { LandingPage, LandingPageContent, LandingPageDetails } from '@/lib/landing-pages.types';
@@ -11,6 +11,7 @@ import type { SiteSettings } from '@/lib/site-settings.types';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LandingPageView } from '@/components/landing-page-view';
 import { PreviewFrame } from '@/components/preview-frame';
+import { AssetPickerModal } from '@/components/asset-picker-modal';
 
 type FieldKey = keyof LandingPageContent;
 type PreviewMode = 'mobile' | 'desktop';
@@ -75,9 +76,8 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
     const [publishedAt, setPublishedAt] = useState(page.publishedAt);
     const [previewMode, setPreviewMode] = useState<PreviewMode>('mobile');
     const [saving, startSave] = useTransition();
-    const [uploading, setUploading] = useState(false);
+    const [pickerOpen, setPickerOpen] = useState(false);
     const fieldRefs = useRef<Record<string, HTMLDivElement | null>>({});
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     function update(key: FieldKey, value: string): void {
         setContent((c) => ({ ...c, [key]: value }));
@@ -144,23 +144,7 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
 
     function requestImageUpload(): void {
         selectField('backgroundImage');
-        fileInputRef.current?.click();
-    }
-
-    async function onPickImage(e: React.ChangeEvent<HTMLInputElement>): Promise<void> {
-        const file = e.target.files?.[0];
-        if (file === undefined) return;
-        setUploading(true);
-        try {
-            const body = new FormData();
-            body.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body });
-            const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) update('backgroundImage', data.path);
-        } finally {
-            setUploading(false);
-            if (fileInputRef.current !== null) fileInputRef.current.value = '';
-        }
+        setPickerOpen(true);
     }
 
     const inputClass =
@@ -333,19 +317,11 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
                                             <button
                                                 type="button"
                                                 onClick={requestImageUpload}
-                                                disabled={uploading}
-                                                className="flex items-center justify-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
+                                                className="flex items-center justify-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high"
                                             >
-                                                <Upload size={14} />
-                                                {uploading ? 'Uploading…' : 'Upload new image'}
+                                                <ImagePlus size={14} />
+                                                Choose or upload
                                             </button>
-                                            <input
-                                                ref={fileInputRef}
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={onPickImage}
-                                                className="hidden"
-                                            />
                                         </div>
                                     )}
                                 </div>
@@ -415,6 +391,11 @@ export function LandingEditor({ page, settings }: LandingEditorProps): React.Rea
                     </div>
                 </main>
             </div>
+            <AssetPickerModal
+                open={pickerOpen}
+                onClose={() => setPickerOpen(false)}
+                onSelect={(path) => update('backgroundImage', path)}
+            />
         </div>
     );
 }

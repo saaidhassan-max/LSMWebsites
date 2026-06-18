@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { useRef, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import {
     ArrowLeft,
@@ -14,9 +14,9 @@ import {
     Plus,
     Save,
     Search,
-    Trash2,
-    Upload
+    Trash2
 } from 'lucide-react';
+import { AssetPickerModal } from '@/components/asset-picker-modal';
 import { createBannerItem } from '@/lib/site-page-content';
 import { OfferCardFields } from '@/components/offer-card-fields';
 import type { OffersItem } from '@/lib/site-pages.types';
@@ -49,12 +49,13 @@ export function OffersCollectionEditor({
 }: OffersCollectionEditorProps): React.ReactElement {
     const [reorder, setReorder] = useState(false);
     const [query, setQuery] = useState('');
-    const [uploading, setUploading] = useState(false);
     const [detailIndex, setDetailIndex] = useState<number | null>(null);
     const [savingOffer, startSaveOffer] = useTransition();
     const [offerSaved, setOfferSaved] = useState(false);
-    const uploadTarget = useRef<{ index: number; field: 'mobileSrc' | 'desktopSrc' } | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [pickerTarget, setPickerTarget] = useState<{
+        index: number;
+        field: 'mobileSrc' | 'desktopSrc';
+    } | null>(null);
 
     const operatorsById = new Map(operators.map((operator) => [operator.id, operator]));
 
@@ -88,29 +89,6 @@ export function OffersCollectionEditor({
         patch: Partial<{ mobileSrc: string; desktopSrc: string; href: string }>
     ): void {
         onChange(items.map((item, i) => (i === index && item.kind === 'banner' ? { ...item, ...patch } : item)));
-    }
-
-    function triggerBannerUpload(index: number, field: 'mobileSrc' | 'desktopSrc'): void {
-        uploadTarget.current = { index, field };
-        fileInputRef.current?.click();
-    }
-
-    async function onPickImage(e: React.ChangeEvent<HTMLInputElement>): Promise<void> {
-        const file = e.target.files?.[0];
-        const target = uploadTarget.current;
-        if (file === undefined || target === null) return;
-        setUploading(true);
-        try {
-            const body = new FormData();
-            body.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body });
-            const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) updateBanner(target.index, { [target.field]: data.path });
-        } finally {
-            setUploading(false);
-            uploadTarget.current = null;
-            if (fileInputRef.current !== null) fileInputRef.current.value = '';
-        }
     }
 
     function saveOffer(offerId: string): void {
@@ -206,12 +184,11 @@ export function OffersCollectionEditor({
                             </div>
                             <button
                                 type="button"
-                                onClick={() => triggerBannerUpload(detailIndex, field)}
-                                disabled={uploading}
-                                className="flex items-center justify-center gap-1.5 text-[12px] px-2 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
+                                onClick={() => setPickerTarget({ index: detailIndex, field })}
+                                className="flex items-center justify-center gap-1.5 text-[12px] px-2 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high"
                             >
-                                <Upload size={13} />
-                                {uploading ? 'Uploading…' : 'Upload'}
+                                <ImagePlus size={13} />
+                                Choose or upload
                             </button>
                         </div>
                     ))}
@@ -225,13 +202,6 @@ export function OffersCollectionEditor({
                         className={inputClass}
                     />
                 </label>
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={onPickImage}
-                    className="hidden"
-                />
             </div>
         );
     }
@@ -416,12 +386,12 @@ export function OffersCollectionEditor({
                     </div>
                 ))}
             </div>
-            <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={onPickImage}
-                className="hidden"
+            <AssetPickerModal
+                open={pickerTarget !== null}
+                onClose={() => setPickerTarget(null)}
+                onSelect={(path) => {
+                    if (pickerTarget !== null) updateBanner(pickerTarget.index, { [pickerTarget.field]: path });
+                }}
             />
         </div>
     );

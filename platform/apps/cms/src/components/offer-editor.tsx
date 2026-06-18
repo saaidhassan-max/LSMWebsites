@@ -1,9 +1,10 @@
 'use client';
 
 import type React from 'react';
-import { useRef, useState, useTransition } from 'react';
-import { ArrowLeft, ExternalLink, Minus, Plus, Save, Upload } from 'lucide-react';
+import { useState, useTransition } from 'react';
+import { ArrowLeft, ExternalLink, ImagePlus, Minus, Plus, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { AssetPickerModal } from '@/components/asset-picker-modal';
 import { saveOfferAction, saveOperatorLogoAction, setOfferPlacementAction } from '@/app/actions';
 import { notifyCmsChanged } from '@/lib/cms-events';
 import { CmsSidebar } from '@/components/cms-sidebar';
@@ -67,8 +68,7 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
     const [activePlacementId, setActivePlacementId] = useState<string | null>(null);
     const [logoOverrides, setLogoOverrides] = useState<Record<string, string>>({});
     const [pendingLogo, setPendingLogo] = useState<{ operatorId: string; logoSrc: string } | null>(null);
-    const [uploadingLogo, setUploadingLogo] = useState(false);
-    const logoInputRef = useRef<HTMLInputElement>(null);
+    const [logoPickerOpen, setLogoPickerOpen] = useState(false);
 
     const selectedOperator = operators.find((operator) => operator.id === details.operatorId);
     const currentLogo =
@@ -89,25 +89,10 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
         termsText: details.termsText
     };
 
-    async function onPickLogo(e: React.ChangeEvent<HTMLInputElement>): Promise<void> {
-        const file = e.target.files?.[0];
-        if (file === undefined) return;
-        setUploadingLogo(true);
-        try {
-            const body = new FormData();
-            body.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body });
-            const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) {
-                const path = data.path;
-                setLogoOverrides((current) => ({ ...current, [details.operatorId]: path }));
-                setPendingLogo({ operatorId: details.operatorId, logoSrc: path });
-                setSaved(false);
-            }
-        } finally {
-            setUploadingLogo(false);
-            if (logoInputRef.current !== null) logoInputRef.current.value = '';
-        }
+    function applyLogo(path: string): void {
+        setLogoOverrides((current) => ({ ...current, [details.operatorId]: path }));
+        setPendingLogo({ operatorId: details.operatorId, logoSrc: path });
+        setSaved(false);
     }
 
     function updateField<K extends keyof CmsOfferDetails>(key: K, value: CmsOfferDetails[K]): void {
@@ -251,20 +236,13 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
                                 </div>
                                 <button
                                     type="button"
-                                    onClick={() => logoInputRef.current?.click()}
-                                    disabled={uploadingLogo || pending}
+                                    onClick={() => setLogoPickerOpen(true)}
+                                    disabled={pending}
                                     className="flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
                                 >
-                                    <Upload size={14} />
-                                    {uploadingLogo ? 'Uploading…' : 'Upload logo'}
+                                    <ImagePlus size={14} />
+                                    Choose or upload
                                 </button>
-                                <input
-                                    ref={logoInputRef}
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={onPickLogo}
-                                    className="hidden"
-                                />
                             </div>
                         </div>
                         <label className="flex flex-col gap-1.5 text-[12px] font-medium">
@@ -434,6 +412,11 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
                     </aside>
                 </div>
             </main>
+            <AssetPickerModal
+                open={logoPickerOpen}
+                onClose={() => setLogoPickerOpen(false)}
+                onSelect={applyLogo}
+            />
         </div>
     );
 }

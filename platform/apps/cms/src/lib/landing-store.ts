@@ -20,7 +20,11 @@ function normalizeContent(content: Partial<LandingPageContent>): LandingPageCont
 }
 
 function normalizePage(page: LandingPage): LandingPage {
-    return { ...page, content: normalizeContent(page.content) };
+    return {
+        ...page,
+        createdAt: page.createdAt ?? page.updatedAt,
+        content: normalizeContent(page.content)
+    };
 }
 
 function now(): string {
@@ -39,6 +43,7 @@ function seed(): LandingPage[] {
             slug: '500-free-tickets-june',
             status: 'published',
             publishedAt: '2026-06-08T09:00:00.000Z',
+            createdAt: '2026-06-08T09:00:00.000Z',
             updatedAt: '2026-06-08T09:00:00.000Z',
             content: { ...DEFAULT_CONTENT }
         },
@@ -48,6 +53,7 @@ function seed(): LandingPage[] {
             slug: 'welcome-bonus-spring',
             status: 'published',
             publishedAt: '2026-05-02T09:00:00.000Z',
+            createdAt: '2026-05-02T09:00:00.000Z',
             updatedAt: '2026-05-02T09:00:00.000Z',
             content: {
                 ...DEFAULT_CONTENT,
@@ -109,6 +115,7 @@ export async function duplicateLandingPage(id: string): Promise<string> {
         slug: source.slug + '-copy-' + Math.random().toString(36).slice(2, 6),
         status: 'draft',
         publishedAt: null,
+        createdAt: now(),
         updatedAt: now(),
         content: { ...source.content }
     };
@@ -125,6 +132,7 @@ export async function createLandingPage(): Promise<string> {
         slug: 'untitled-' + stamp,
         status: 'draft',
         publishedAt: null,
+        createdAt: now(),
         updatedAt: now(),
         content: { ...DEFAULT_CONTENT }
     };

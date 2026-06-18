@@ -1,9 +1,10 @@
 'use client';
 
 import type React from 'react';
-import { useRef, useState, useTransition } from 'react';
-import { ArrowLeft, Copy, Eye, EyeOff, Pencil, Plus, Save, Upload } from 'lucide-react';
+import { useState, useTransition } from 'react';
+import { ArrowLeft, Copy, Eye, EyeOff, ImagePlus, Pencil, Plus, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { AssetPickerModal } from '@/components/asset-picker-modal';
 import {
     createOfferForOperatorAction,
     duplicateOfferAction,
@@ -74,24 +75,7 @@ export function OperatorEditor({ operator, offers, offerUsage }: OperatorEditorP
     const [adding, startAdd] = useTransition();
     const [duplicating, startDuplicate] = useTransition();
     const [changingOfferStatus, startOfferStatusChange] = useTransition();
-    const [uploading, setUploading] = useState(false);
-    const logoInputRef = useRef<HTMLInputElement>(null);
-
-    async function onPickLogo(e: React.ChangeEvent<HTMLInputElement>): Promise<void> {
-        const file = e.target.files?.[0];
-        if (file === undefined) return;
-        setUploading(true);
-        try {
-            const body = new FormData();
-            body.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body });
-            const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) updateField('logoSrc', data.path);
-        } finally {
-            setUploading(false);
-            if (logoInputRef.current !== null) logoInputRef.current.value = '';
-        }
-    }
+    const [pickerOpen, setPickerOpen] = useState(false);
 
     function updateField<K extends keyof CmsOperatorDetails>(key: K, value: CmsOperatorDetails[K]): void {
         setDetails((current) => ({ ...current, [key]: value }));
@@ -199,20 +183,12 @@ export function OperatorEditor({ operator, offers, offerUsage }: OperatorEditorP
                                 </div>
                                 <button
                                     type="button"
-                                    onClick={() => logoInputRef.current?.click()}
-                                    disabled={uploading}
-                                    className="flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
+                                    onClick={() => setPickerOpen(true)}
+                                    className="flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high"
                                 >
-                                    <Upload size={14} />
-                                    {uploading ? 'Uploading…' : 'Upload logo'}
+                                    <ImagePlus size={14} />
+                                    Choose or upload
                                 </button>
-                                <input
-                                    ref={logoInputRef}
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={onPickLogo}
-                                    className="hidden"
-                                />
                             </div>
                             <input
                                 value={details.logoSrc}
@@ -352,6 +328,11 @@ export function OperatorEditor({ operator, offers, offerUsage }: OperatorEditorP
                     </aside>
                 </div>
             </main>
+            <AssetPickerModal
+                open={pickerOpen}
+                onClose={() => setPickerOpen(false)}
+                onSelect={(path) => updateField('logoSrc', path)}
+            />
         </div>
     );
 }

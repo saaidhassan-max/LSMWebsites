@@ -1,8 +1,9 @@
 'use client';
 
 import type React from 'react';
-import { useRef, useState } from 'react';
-import { Upload } from 'lucide-react';
+import { useState } from 'react';
+import { ImagePlus } from 'lucide-react';
+import { AssetPickerModal } from '@/components/asset-picker-modal';
 import { LinesTextarea } from '@/components/lines-textarea';
 import { OffersCollectionEditor } from '@/components/offers-collection-editor';
 import type { CmsOffer, CmsOperator } from '@/lib/cms-content.types';
@@ -57,32 +58,7 @@ export function SectionProperties({
     onOffersItemsChange,
     editOfferHref
 }: SectionPropertiesProps): React.ReactElement {
-    const [uploading, setUploading] = useState(false);
-    const uploadTarget = useRef<UploadKey | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    function triggerUpload(key: UploadKey): void {
-        uploadTarget.current = key;
-        fileInputRef.current?.click();
-    }
-
-    async function onPickImage(e: React.ChangeEvent<HTMLInputElement>): Promise<void> {
-        const file = e.target.files?.[0];
-        const target = uploadTarget.current;
-        if (file === undefined || target === null) return;
-        setUploading(true);
-        try {
-            const body = new FormData();
-            body.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body });
-            const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) onChange({ [target]: data.path } as ContentPatch);
-        } finally {
-            setUploading(false);
-            uploadTarget.current = null;
-            if (fileInputRef.current !== null) fileInputRef.current.value = '';
-        }
-    }
+    const [pickerTarget, setPickerTarget] = useState<UploadKey | null>(null);
 
     function renderImageField(key: UploadKey, label: string, src: string): React.ReactElement {
         return (
@@ -94,12 +70,11 @@ export function SectionProperties({
                     </div>
                     <button
                         type="button"
-                        onClick={() => triggerUpload(key)}
-                        disabled={uploading}
-                        className="flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high disabled:opacity-40"
+                        onClick={() => setPickerTarget(key)}
+                        className="flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high"
                     >
-                        <Upload size={14} />
-                        {uploading ? 'Uploading…' : 'Upload'}
+                        <ImagePlus size={14} />
+                        Choose or upload
                     </button>
                 </div>
             </div>
@@ -355,12 +330,12 @@ export function SectionProperties({
     return (
         <>
             {body()}
-            <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={onPickImage}
-                className="hidden"
+            <AssetPickerModal
+                open={pickerTarget !== null}
+                onClose={() => setPickerTarget(null)}
+                onSelect={(path) => {
+                    if (pickerTarget !== null) onChange({ [pickerTarget]: path } as ContentPatch);
+                }}
             />
         </>
     );

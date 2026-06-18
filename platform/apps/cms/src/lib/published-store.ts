@@ -1,5 +1,5 @@
 import { readDoc, writeDoc } from './cms-storage';
-import { getHomeConfig } from './home-store';
+import { getHomeConfig, normalizeHomeConfig } from './home-store';
 import { listOffers, listOperators } from './cms-content-store';
 import { listSitePages } from './site-pages-store';
 import { listLandingPages } from './landing-store';
@@ -58,8 +58,23 @@ async function seedSnapshot(): Promise<PublishedSnapshot> {
     return { ...body, publishedAt: now() };
 }
 
+async function normalizeSnapshot(raw: PublishedSnapshot): Promise<PublishedSnapshot> {
+    const publishedAt = raw.publishedAt ?? now();
+    return {
+        home: normalizeHomeConfig(raw.home ?? { sections: [], updatedAt: publishedAt }),
+        offers: raw.offers ?? [],
+        operators: raw.operators ?? [],
+        sitePages: raw.sitePages ?? [],
+        landingPages: raw.landingPages ?? [],
+        settings: raw.settings ?? (await getSiteSettings()),
+        contentPages: raw.contentPages ?? (await getContentPages()),
+        publishedAt
+    };
+}
+
 export async function getPublishedSnapshot(): Promise<PublishedSnapshot> {
-    return readDoc<PublishedSnapshot>(PUBLISHED_KEY, seedSnapshot);
+    const raw = await readDoc<PublishedSnapshot>(PUBLISHED_KEY, seedSnapshot);
+    return normalizeSnapshot(raw);
 }
 
 export async function publishSite(): Promise<void> {

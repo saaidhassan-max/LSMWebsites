@@ -86,6 +86,10 @@ function legacyToSections(raw: LegacyHomeConfig): SitePageSection[] {
     return sections;
 }
 
+export function normalizeHomeConfig(raw: LegacyHomeConfig): HomePageConfig {
+    return normalizeConfig(raw);
+}
+
 function normalizeConfig(raw: LegacyHomeConfig): HomePageConfig {
     const sections = Array.isArray(raw.sections)
         ? (raw.sections as { id: string; type: SitePageSection['type']; content?: unknown }[]).map(
