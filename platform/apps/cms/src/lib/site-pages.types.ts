@@ -47,12 +47,21 @@ export interface OffersOfferItem {
     offerId: string;
 }
 
-export interface OffersBannerItem {
+export interface OffersGeneralBannerItem {
     kind: 'banner';
+    tie: 'general';
     mobileSrc: string;
     desktopSrc: string;
     href: string;
 }
+
+export interface OffersOfferBannerItem {
+    kind: 'banner';
+    tie: 'offer';
+    offerId: string;
+}
+
+export type OffersBannerItem = OffersGeneralBannerItem | OffersOfferBannerItem;
 
 export type OffersItem = OffersOfferItem | OffersBannerItem;
 

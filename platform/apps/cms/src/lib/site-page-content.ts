@@ -3,13 +3,27 @@ import type { OffersItem, SitePageSection, SitePageSectionType } from './site-pa
 export const DEFAULT_BANNER_MOBILE = '/sfb/banners/operator-banner-mobile.jpg';
 export const DEFAULT_BANNER_DESKTOP = '/sfb/banners/operator-banner-desktop.jpg';
 
-export function createBannerItem(): OffersItem {
+export function createGeneralBannerItem(): OffersItem {
     return {
         kind: 'banner',
+        tie: 'general',
         mobileSrc: DEFAULT_BANNER_MOBILE,
         desktopSrc: DEFAULT_BANNER_DESKTOP,
         href: ''
     };
+}
+
+export function createOfferBannerItem(offerId: string): OffersItem {
+    return { kind: 'banner', tie: 'offer', offerId };
+}
+
+interface RawOffersItem {
+    kind?: string;
+    tie?: string;
+    offerId?: string;
+    mobileSrc?: string;
+    desktopSrc?: string;
+    href?: string;
 }
 
 function normalizeOffersItems(content: unknown): OffersItem[] {
@@ -17,10 +31,14 @@ function normalizeOffersItems(content: unknown): OffersItem[] {
     if (Array.isArray(raw.items)) {
         return raw.items
             .map((item): OffersItem | null => {
-                const entry = item as Partial<OffersItem> & { offerId?: string };
+                const entry = item as RawOffersItem;
                 if (entry.kind === 'banner') {
+                    if (entry.tie === 'offer' && typeof entry.offerId === 'string') {
+                        return { kind: 'banner', tie: 'offer', offerId: entry.offerId };
+                    }
                     return {
                         kind: 'banner',
+                        tie: 'general',
                         mobileSrc: typeof entry.mobileSrc === 'string' ? entry.mobileSrc : DEFAULT_BANNER_MOBILE,
                         desktopSrc:
                             typeof entry.desktopSrc === 'string' ? entry.desktopSrc : DEFAULT_BANNER_DESKTOP,

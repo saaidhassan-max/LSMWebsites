@@ -1,5 +1,28 @@
 [
   {
+    "id": "off_jfr7e2tb",
+    "operatorId": "op_betfair_casino",
+    "headline": "New offer",
+    "label": "NO DEPOSIT",
+    "labelColor": "red",
+    "details": [
+      "No Deposit",
+      "No Wagering"
+    ],
+    "howToClaimSteps": [],
+    "termsText": "18+. New customers only. T&Cs apply. BeGambleAware.org.",
+    "ctaHref": "#",
+    "status": "active",
+    "startDate": null,
+    "endDate": null,
+    "banner": {
+      "mobileSrc": "/sfb/banners/operator-banner-mobile.jpg",
+      "desktopSrc": "/sfb/banners/operator-banner-desktop.jpg",
+      "href": ""
+    },
+    "updatedAt": "2026-06-22T10:09:12.590Z"
+  },
+  {
     "id": "off_betfair_casino_50fs",
     "operatorId": "op_betfair_casino",
     "headline": "50 FREE SPINS",

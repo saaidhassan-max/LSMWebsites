@@ -14,6 +14,12 @@
       "port": 3010
     },
     {
+      "name": "cms-local",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "cd '/Users/Saied.Hassan/Desktop/LSM multiagent/platform/apps/cms' && SUPABASE_URL= SUPABASE_SERVICE_ROLE_KEY= SUPABASE_ANON_KEY= NEXT_PUBLIC_SUPABASE_URL= NEXT_PUBLIC_SUPABASE_ANON_KEY= npx next dev -p 3010"],
+      "port": 3010
+    },
+    {
       "name": "sfbets",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev:sfbets", "--prefix", "/Users/Saied.Hassan/Desktop/LSM multiagent/platform"],

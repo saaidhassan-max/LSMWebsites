@@ -11,6 +11,7 @@ import type {
     CmsOffer,
     CmsOfferPageData,
     CmsOperator,
+    CmsOffersBannerItem,
     CmsOffersItem,
     CmsSitePage,
     CmsSitePageSection,
@@ -224,10 +225,21 @@ function normalizeOffersItems(home: CmsHomeConfig): CmsOffersItem[] {
     if (Array.isArray(home.offerItems)) {
         return home.offerItems
             .map((item): CmsOffersItem | null => {
-                const entry = item as Partial<CmsOffersItem> & { offerId?: string };
+                const entry = item as {
+                    kind?: string;
+                    tie?: string;
+                    offerId?: string;
+                    mobileSrc?: string;
+                    desktopSrc?: string;
+                    href?: string;
+                };
                 if (entry.kind === 'banner') {
+                    if (entry.tie === 'offer' && typeof entry.offerId === 'string') {
+                        return { kind: 'banner', tie: 'offer', offerId: entry.offerId };
+                    }
                     return {
                         kind: 'banner',
+                        tie: 'general',
                         mobileSrc:
                             typeof entry.mobileSrc === 'string'
                                 ? entry.mobileSrc
@@ -350,6 +362,60 @@ function normalizeSettings(
     };
 }
 
+function isOfferLive(offer: CmsOffer, today: string = new Date().toISOString().slice(0, 10)): boolean {
+    if (offer.status !== 'active') return false;
+    const start = offer.startDate ?? null;
+    const end = offer.endDate ?? null;
+    if (start !== null && start > today) return false;
+    if (end !== null && end < today) return false;
+    return true;
+}
+
+function resolveBannerImages(
+    item: CmsOffersBannerItem,
+    offerById: Map<string, CmsOffer>,
+    operatorById: Map<string, CmsOperator>
+): { mobileSrc: string; desktopSrc: string; href: string } | null {
+    if (item.tie === 'offer') {
+        const offer = offerById.get(item.offerId);
+        if (
+            offer === undefined ||
+            !isOfferLive(offer) ||
+            offer.banner === null ||
+            offer.banner === undefined
+        ) {
+            return null;
+        }
+        const operator = operatorById.get(offer.operatorId);
+        if (operator === undefined || operator.status !== 'active') return null;
+        const href = offer.banner.href || offer.ctaHref;
+        return {
+            mobileSrc: offer.banner.mobileSrc,
+            desktopSrc: offer.banner.desktopSrc,
+            href: href === '#' ? '' : href
+        };
+    }
+    return { mobileSrc: item.mobileSrc, desktopSrc: item.desktopSrc, href: item.href };
+}
+
+function resolveBannerRenderItem(
+    item: CmsOffersBannerItem,
+    offerById: Map<string, CmsOffer>,
+    operatorById: Map<string, CmsOperator>
+): CmsHomeRenderItem | null {
+    const images = resolveBannerImages(item, offerById, operatorById);
+    return images === null ? null : { kind: 'banner', ...images };
+}
+
+function resolveBannerSectionItem(
+    item: CmsOffersBannerItem,
+    offerById: Map<string, CmsOffer>,
+    operatorById: Map<string, CmsOperator>
+): CmsOffersItem | null {
+    const images = resolveBannerImages(item, offerById, operatorById);
+    return images === null ? null : { kind: 'banner', tie: 'general', ...images };
+}
+
 function normalizeSteps(offer: CmsOffer, operator: CmsOperator): string[] {
     if (Array.isArray(offer.howToClaimSteps) && offer.howToClaimSteps.length > 0) {
         return offer.howToClaimSteps;
@@ -390,9 +456,11 @@ export async function getCmsHomeRenderItems(): Promise<CmsHomeRenderItem[] | nul
     const offerById = new Map(offers.map((offer) => [offer.id, offer]));
     const items = normalizeOffersItems(home)
         .map((item): CmsHomeRenderItem | null => {
-            if (item.kind === 'banner') return item;
+            if (item.kind === 'banner') {
+                return resolveBannerRenderItem(item, offerById, operatorById);
+            }
             const offer = offerById.get(item.offerId);
-            if (offer === undefined || offer.status !== 'active') return null;
+            if (offer === undefined || !isOfferLive(offer)) return null;
             const operator = operatorById.get(offer.operatorId);
             if (operator === undefined || operator.status !== 'active') return null;
             return { kind: 'offer', props: toOfferCardProps(offer, operator) };
@@ -417,7 +485,7 @@ export async function getCmsOfferCardsByIds(offerIds: string[]): Promise<OfferCa
 
     return offerIds
         .map((offerId) => offerById.get(offerId))
-        .filter((offer): offer is CmsOffer => offer !== undefined && offer.status === 'active')
+        .filter((offer): offer is CmsOffer => offer !== undefined && isOfferLive(offer))
         .map((offer) => {
             const operator = operatorById.get(offer.operatorId);
             if (operator === undefined || operator.status !== 'active') return null;
@@ -442,7 +510,7 @@ export async function getCmsOfferCardMap(offerIds: string[]): Promise<Record<str
 
     offerIds.forEach((id) => {
         const offer = offerById.get(id);
-        if (offer === undefined || offer.status !== 'active') return;
+        if (offer === undefined || !isOfferLive(offer)) return;
         const operator = operatorById.get(offer.operatorId);
         if (operator === undefined || operator.status !== 'active') return;
         map[id] = toOfferCardProps(offer, operator);
@@ -464,9 +532,24 @@ export async function getCmsHomeSectionIds(): Promise<CmsHomeSectionId[]> {
 }
 
 export async function getCmsHomeSections(): Promise<CmsSitePageSection[] | null> {
-    const home = await readJson<CmsHomeConfig>(HOME_FILE);
+    const [home, offers, operators] = await Promise.all([
+        readJson<CmsHomeConfig>(HOME_FILE),
+        readJson<CmsOffer[]>(OFFERS_FILE),
+        readJson<CmsOperator[]>(OPERATORS_FILE)
+    ]);
     if (home === null) return null;
-    return normalizeHomeSections(home);
+    const offerById = new Map((offers ?? []).map((offer) => [offer.id, offer]));
+    const operatorById = new Map((operators ?? []).map((operator) => [operator.id, operator]));
+    return normalizeHomeSections(home).map((section) => {
+        if (section.type !== 'offers' || !Array.isArray(section.content.items)) return section;
+        const items = section.content.items
+            .map((item): CmsOffersItem | null => {
+                if (item.kind !== 'banner') return item;
+                return resolveBannerSectionItem(item, offerById, operatorById);
+            })
+            .filter((item): item is CmsOffersItem => item !== null);
+        return { ...section, content: { ...section.content, items } };
+    });
 }
 
 export async function getCmsSiteSettings(): Promise<CmsSiteSettings> {
@@ -486,10 +569,10 @@ export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | 
     if (operators === null || offers === null) return null;
 
     const offer =
-        offers.find((item) => item.id === slug && item.status === 'active') ??
+        offers.find((item) => item.id === slug && isOfferLive(item)) ??
         offers.find((item) => {
             const operator = operators.find((candidate) => candidate.id === item.operatorId);
-            return operator?.slug === slug && item.status === 'active';
+            return operator?.slug === slug && isOfferLive(item);
         });
 
     if (offer === undefined) return null;
@@ -516,13 +599,30 @@ export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | 
 }
 
 export async function getCmsSitePage(slug: string): Promise<CmsSitePage | null> {
-    const pages = await readJson<CmsSitePage[]>(SITE_PAGES_FILE);
+    const [pages, offers, operators] = await Promise.all([
+        readJson<CmsSitePage[]>(SITE_PAGES_FILE),
+        readJson<CmsOffer[]>(OFFERS_FILE),
+        readJson<CmsOperator[]>(OPERATORS_FILE)
+    ]);
     if (pages === null) return null;
     const page = pages.find((item) => item.slug === slug && item.status === 'published');
     if (page === undefined) return null;
+    const offerById = new Map((offers ?? []).map((offer) => [offer.id, offer]));
+    const operatorById = new Map((operators ?? []).map((operator) => [operator.id, operator]));
     return {
         ...page,
-        sections: page.sections.filter((section) => section.type !== 'directorySignup')
+        sections: page.sections
+            .filter((section) => section.type !== 'directorySignup')
+            .map((section) => {
+                if (section.type !== 'offers' || !Array.isArray(section.content.items)) return section;
+                const items = section.content.items
+                    .map((item): CmsOffersItem | null => {
+                        if (item.kind !== 'banner') return item;
+                        return resolveBannerSectionItem(item, offerById, operatorById);
+                    })
+                    .filter((item): item is CmsOffersItem => item !== null);
+                return { ...section, content: { ...section.content, items } };
+            })
     };
 }
 

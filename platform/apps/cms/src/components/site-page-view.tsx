@@ -168,17 +168,31 @@ export function SitePageView({
                 >
                     {section.content.items.length === 0 && (
                         <div className="rounded-lg border border-dashed border-outline-variant p-8 text-center text-on-surface-light">
-                            Add offer cards or an operator banner to this section.
+                            Add offer cards, ad banners, or offer banners to this section.
                         </div>
                     )}
                     {section.content.items.map((item, index) => {
                         if (item.kind === 'banner') {
+                            if (item.tie === 'offer') {
+                                const bannerOffer = offers.find((o) => o.id === item.offerId);
+                                if (bannerOffer === undefined || bannerOffer.banner === null) return null;
+                                const bannerHref = bannerOffer.banner.href || bannerOffer.ctaHref;
+                                return (
+                                    <OperatorBanner
+                                        key={index}
+                                        mobileSrc={bannerOffer.banner.mobileSrc}
+                                        desktopSrc={bannerOffer.banner.desktopSrc}
+                                        alt="Offer banner"
+                                        href={bannerHref === '' || bannerHref === '#' ? undefined : bannerHref}
+                                    />
+                                );
+                            }
                             return (
                                 <OperatorBanner
                                     key={index}
                                     mobileSrc={item.mobileSrc}
                                     desktopSrc={item.desktopSrc}
-                                    alt="Operator banner"
+                                    alt="Ad banner"
                                     href={item.href === '' ? undefined : item.href}
                                 />
                             );

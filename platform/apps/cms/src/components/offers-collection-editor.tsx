@@ -17,7 +17,7 @@ import {
     Trash2
 } from 'lucide-react';
 import { AssetPickerModal } from '@/components/asset-picker-modal';
-import { createBannerItem } from '@/lib/site-page-content';
+import { createGeneralBannerItem, createOfferBannerItem } from '@/lib/site-page-content';
 import { OfferCardFields } from '@/components/offer-card-fields';
 import type { OffersItem } from '@/lib/site-pages.types';
 import type { CmsLabelColor, CmsOffer, CmsOperator } from '@/lib/cms-content.types';
@@ -58,6 +58,8 @@ export function OffersCollectionEditor({
     } | null>(null);
 
     const operatorsById = new Map(operators.map((operator) => [operator.id, operator]));
+    const offersById = new Map(offers.map((offer) => [offer.id, offer]));
+    const offersWithBanner = offers.filter((offer) => offer.banner !== null);
 
     function operatorName(offer: CmsOffer): string {
         return operatorsById.get(offer.operatorId)?.name ?? 'Missing operator';
@@ -67,8 +69,12 @@ export function OffersCollectionEditor({
         onChange([...items, { kind: 'offer', offerId }]);
     }
 
-    function addBanner(): void {
-        onChange([...items, createBannerItem()]);
+    function addGeneralBanner(): void {
+        onChange([...items, createGeneralBannerItem()]);
+    }
+
+    function addOfferBanner(offerId: string): void {
+        onChange([...items, createOfferBannerItem(offerId)]);
     }
 
     function removeAt(index: number): void {
@@ -88,7 +94,13 @@ export function OffersCollectionEditor({
         index: number,
         patch: Partial<{ mobileSrc: string; desktopSrc: string; href: string }>
     ): void {
-        onChange(items.map((item, i) => (i === index && item.kind === 'banner' ? { ...item, ...patch } : item)));
+        onChange(
+            items.map((item, i) =>
+                i === index && item.kind === 'banner' && item.tie === 'general'
+                    ? { ...item, ...patch }
+                    : item
+            )
+        );
     }
 
     function saveOffer(offerId: string): void {
@@ -164,13 +176,52 @@ export function OffersCollectionEditor({
             );
         }
 
+        if (item.tie === 'offer') {
+            const offer = offersById.get(item.offerId);
+            return (
+                <div className="flex flex-col gap-4">
+                    {backButton}
+                    <div>
+                        <div className="text-[18px] font-medium">Offer banner</div>
+                        <div className="text-[12px] text-m3-on-surface-variant mt-0.5">
+                            {offer === undefined
+                                ? 'This offer was removed.'
+                                : 'Promotes ' +
+                                  offer.headline +
+                                  ' · ' +
+                                  operatorName(offer) +
+                                  '. Edited on the offer.'}
+                        </div>
+                    </div>
+                    {offer !== undefined && offer.banner !== null && (
+                        <div className="h-20 rounded-md border border-m3-outline-variant bg-m3-surface-low overflow-hidden flex items-center justify-center">
+                            <img
+                                src={offer.banner.desktopSrc}
+                                alt=""
+                                className="max-w-full max-h-full object-contain"
+                            />
+                        </div>
+                    )}
+                    {offer !== undefined && (
+                        <Link
+                            href={editOfferHref(offer.id)}
+                            className="flex items-center justify-center gap-1.5 text-[12px] font-medium px-3.5 py-2 rounded-lg border border-m3-outline-variant text-m3-on-surface hover:bg-m3-surface-high"
+                        >
+                            <ExternalLink size={14} />
+                            Edit banner in the offer
+                        </Link>
+                    )}
+                </div>
+            );
+        }
+
         return (
             <div className="flex flex-col gap-4">
                 {backButton}
                 <div>
-                    <div className="text-[18px] font-medium">Operator banner</div>
+                    <div className="text-[18px] font-medium">Ad banner</div>
                     <div className="text-[12px] text-m3-on-surface-variant mt-0.5">
-                        Full-width image placed between offer cards.
+                        A general full-width advert, not tied to any offer.
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
@@ -216,11 +267,19 @@ export function OffersCollectionEditor({
                       operatorName(offer).toLowerCase().includes(lowerQuery) ||
                       offer.label.toLowerCase().includes(lowerQuery)
               );
+    const filteredOfferBanners =
+        lowerQuery === ''
+            ? offersWithBanner
+            : offersWithBanner.filter(
+                  (offer) =>
+                      offer.headline.toLowerCase().includes(lowerQuery) ||
+                      operatorName(offer).toLowerCase().includes(lowerQuery)
+              );
 
     return (
         <div className="flex flex-col gap-3">
             <div className="text-[12px] text-m3-on-surface-variant">
-                Select a card to edit it, reorder the feed, or add offer cards and operator banners.
+                Select an item to edit it, reorder the feed, or add offer cards, ad banners, and offer banners.
             </div>
             {items.length > 0 && (
                 <div className="flex flex-col gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3">
@@ -264,8 +323,16 @@ export function OffersCollectionEditor({
                                 {item.kind === 'banner' ? (
                                     <>
                                         <ImagePlus size={16} className="shrink-0 text-m3-on-surface-variant" />
-                                        <span className="min-w-0 flex-1 text-[12px] font-medium truncate">
-                                            Operator banner
+                                        <span className="min-w-0 flex-1">
+                                            <span className="block text-[12px] font-medium truncate">
+                                                {item.tie === 'offer'
+                                                    ? (offersById.get(item.offerId)?.headline ?? 'Offer removed') +
+                                                      ' banner'
+                                                    : 'Ad banner'}
+                                            </span>
+                                            <span className="block text-[11px] text-m3-on-surface-variant truncate">
+                                                {item.tie === 'offer' ? 'Offer banner' : 'General advert'}
+                                            </span>
                                         </span>
                                     </>
                                 ) : (
@@ -330,14 +397,6 @@ export function OffersCollectionEditor({
                     })}
                 </div>
             )}
-            <button
-                type="button"
-                onClick={addBanner}
-                className="flex items-center justify-center gap-1.5 h-9 rounded-md border border-m3-outline-variant text-[12px] font-medium text-m3-on-surface hover:bg-m3-surface-high"
-            >
-                <ImagePlus size={14} />
-                Add operator banner
-            </button>
             <div className="flex items-center gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-low px-3">
                 <Search size={15} className="text-m3-on-surface-variant shrink-0" />
                 <input
@@ -347,6 +406,53 @@ export function OffersCollectionEditor({
                     className="h-10 min-w-0 flex-1 bg-transparent text-[13px] text-m3-on-surface placeholder:text-m3-on-surface-variant focus:outline-none"
                 />
             </div>
+            <button
+                type="button"
+                onClick={addGeneralBanner}
+                className="flex items-center gap-2 rounded-lg border border-dashed border-m3-outline-variant bg-m3-surface-low p-3 text-left hover:bg-m3-surface-high"
+            >
+                <ImagePlus size={16} className="shrink-0 text-m3-on-surface-variant" />
+                <span className="min-w-0 flex-1">
+                    <span className="block text-[13px] font-medium">Add ad banner</span>
+                    <span className="block text-[11px] text-m3-on-surface-variant">
+                        A general advert — upload an image and link, not tied to an offer.
+                    </span>
+                </span>
+                <Plus size={16} className="shrink-0 text-m3-on-surface-variant" />
+            </button>
+            {filteredOfferBanners.length > 0 && (
+                <div className="flex flex-col gap-2">
+                    <div className="text-[11px] font-medium uppercase tracking-wide text-m3-on-surface-variant">
+                        Offer banners
+                    </div>
+                    {filteredOfferBanners.map((offer) => (
+                        <div
+                            key={offer.id}
+                            className="rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 flex items-center gap-3"
+                        >
+                            <img
+                                src={offer.banner?.desktopSrc ?? ''}
+                                alt=""
+                                className="h-10 w-20 object-contain rounded border border-m3-outline-variant"
+                            />
+                            <span className="min-w-0 flex-1">
+                                <span className="block text-[13px] font-medium truncate">{offer.headline}</span>
+                                <span className="block text-[11px] text-m3-on-surface-variant truncate">
+                                    {operatorName(offer)}
+                                </span>
+                            </span>
+                            <button
+                                type="button"
+                                onClick={() => addOfferBanner(offer.id)}
+                                className="flex items-center gap-1 h-8 px-2.5 rounded-md text-[12px] font-medium bg-m3-gold text-m3-on-gold"
+                            >
+                                <Plus size={14} />
+                                Add
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
             <div className="flex flex-col gap-2">
                 {filteredOffers.length === 0 && (
                     <div className="rounded-lg border border-dashed border-m3-outline-variant p-4 text-[12px] text-m3-on-surface-variant">

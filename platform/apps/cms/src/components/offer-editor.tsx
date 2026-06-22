@@ -10,6 +10,8 @@ import { notifyCmsChanged } from '@/lib/cms-events';
 import { CmsSidebar } from '@/components/cms-sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
 import type { CmsLabelColor, CmsOffer, CmsOfferDetails, CmsOperator } from '@/lib/cms-content.types';
+import { getOfferScheduleStatus } from '@/lib/offer-status';
+import { OfferStatusChip } from '@/components/offer-status-chip';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.types';
 
@@ -57,7 +59,10 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
         details: offer.details,
         howToClaimSteps: offer.howToClaimSteps,
         termsText: offer.termsText,
-        ctaHref: offer.ctaHref
+        ctaHref: offer.ctaHref,
+        startDate: offer.startDate,
+        endDate: offer.endDate,
+        banner: offer.banner
     });
     const [detailLines, setDetailLines] = useState(offer.details.join('\n'));
     const [stepLines, setStepLines] = useState(offer.howToClaimSteps.join('\n'));
@@ -69,6 +74,23 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
     const [logoOverrides, setLogoOverrides] = useState<Record<string, string>>({});
     const [pendingLogo, setPendingLogo] = useState<{ operatorId: string; logoSrc: string } | null>(null);
     const [logoPickerOpen, setLogoPickerOpen] = useState(false);
+    const [bannerPicker, setBannerPicker] = useState<'mobileSrc' | 'desktopSrc' | null>(null);
+
+    const DEFAULT_BANNER_MOBILE = '/sfb/banners/operator-banner-mobile.jpg';
+    const DEFAULT_BANNER_DESKTOP = '/sfb/banners/operator-banner-desktop.jpg';
+
+    function addBanner(): void {
+        updateField('banner', {
+            mobileSrc: DEFAULT_BANNER_MOBILE,
+            desktopSrc: DEFAULT_BANNER_DESKTOP,
+            href: ''
+        });
+    }
+
+    function updateBanner(patch: Partial<{ mobileSrc: string; desktopSrc: string; href: string }>): void {
+        if (details.banner === null) return;
+        updateField('banner', { ...details.banner, ...patch });
+    }
 
     const selectedOperator = operators.find((operator) => operator.id === details.operatorId);
     const currentLogo =
@@ -158,8 +180,8 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
     return (
         <div className="h-full flex">
             <CmsSidebar active="offers" />
-            <main className="flex-1 min-w-0">
-                <header className="flex items-center justify-between px-6 h-14 border-b border-m3-outline-variant">
+            <main className="flex-1 min-w-0 flex flex-col">
+                <header className="shrink-0 flex items-center justify-between px-6 h-14 border-b border-m3-outline-variant">
                     <div className="flex items-center gap-3 min-w-0">
                         <button
                             type="button"
@@ -198,6 +220,7 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
                     </div>
                 </header>
 
+                <div className="flex-1 min-h-0 overflow-y-auto">
                 <div className="p-6 grid grid-cols-[minmax(0,560px)_minmax(280px,380px)] gap-6 items-start">
                     <section className="rounded-lg border border-m3-outline-variant bg-m3-surface-lowest p-5 flex flex-col gap-4">
                         <div>
@@ -304,6 +327,47 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
                                 className="h-10 rounded-md border border-m3-outline-variant bg-m3-surface-low px-3 text-[13px] focus:outline-none focus:border-m3-gold"
                             />
                         </label>
+                        <div className="flex flex-col gap-2 rounded-md border border-m3-outline-variant bg-m3-surface-low p-3">
+                            <div className="flex items-center justify-between">
+                                <span className="text-[12px] font-medium">Schedule</span>
+                                <OfferStatusChip
+                                    status={getOfferScheduleStatus({
+                                        status: offer.status,
+                                        startDate: details.startDate,
+                                        endDate: details.endDate
+                                    })}
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <label className="flex flex-col gap-1.5 text-[12px] font-medium">
+                                    Start date
+                                    <input
+                                        type="date"
+                                        value={details.startDate ?? ''}
+                                        max={details.endDate ?? undefined}
+                                        onChange={(e) =>
+                                            updateField('startDate', e.target.value === '' ? null : e.target.value)
+                                        }
+                                        className="h-10 rounded-md border border-m3-outline-variant bg-m3-surface-lowest px-3 text-[13px] focus:outline-none focus:border-m3-gold"
+                                    />
+                                </label>
+                                <label className="flex flex-col gap-1.5 text-[12px] font-medium">
+                                    End date
+                                    <input
+                                        type="date"
+                                        value={details.endDate ?? ''}
+                                        min={details.startDate ?? undefined}
+                                        onChange={(e) =>
+                                            updateField('endDate', e.target.value === '' ? null : e.target.value)
+                                        }
+                                        className="h-10 rounded-md border border-m3-outline-variant bg-m3-surface-lowest px-3 text-[13px] focus:outline-none focus:border-m3-gold"
+                                    />
+                                </label>
+                            </div>
+                            <span className="text-[11px] text-m3-on-surface-variant">
+                                Leave blank for no limit. Hidden offers stay hidden regardless of dates.
+                            </span>
+                        </div>
                         <label className="flex flex-col gap-1.5 text-[12px] font-medium">
                             Terms
                             <textarea
@@ -313,6 +377,73 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
                                 className="rounded-md border border-m3-outline-variant bg-m3-surface-low px-3 py-2 text-[13px] leading-5 focus:outline-none focus:border-m3-gold resize-y"
                             />
                         </label>
+                        <div className="flex flex-col gap-3 rounded-md border border-m3-outline-variant bg-m3-surface-low p-3">
+                            <div className="flex items-center justify-between gap-2">
+                                <div>
+                                    <div className="text-[12px] font-medium">Promo banner</div>
+                                    <div className="text-[11px] text-m3-on-surface-variant">
+                                        A full-width ad for this offer. Place it from a page&apos;s offers
+                                        collection.
+                                    </div>
+                                </div>
+                                {details.banner === null ? (
+                                    <button
+                                        type="button"
+                                        onClick={addBanner}
+                                        className="shrink-0 flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high"
+                                    >
+                                        <Plus size={14} />
+                                        Add banner
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={() => updateField('banner', null)}
+                                        className="shrink-0 flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-md text-m3-error hover:bg-m3-error-container"
+                                    >
+                                        <Minus size={14} />
+                                        Remove
+                                    </button>
+                                )}
+                            </div>
+                            {details.banner !== null && (
+                                <>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {(['mobileSrc', 'desktopSrc'] as const).map((field) => (
+                                            <div key={field} className="flex flex-col gap-1.5">
+                                                <span className="text-[11px] font-medium">
+                                                    {field === 'mobileSrc' ? 'Mobile image' : 'Desktop image'}
+                                                </span>
+                                                <div className="h-16 rounded-md border border-m3-outline-variant bg-m3-surface-lowest overflow-hidden flex items-center justify-center">
+                                                    <img
+                                                        src={details.banner?.[field] ?? ''}
+                                                        alt=""
+                                                        className="max-w-full max-h-full object-contain"
+                                                    />
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setBannerPicker(field)}
+                                                    className="flex items-center justify-center gap-1.5 text-[11px] px-2 py-1.5 rounded-md border border-m3-outline-variant hover:bg-m3-surface-high"
+                                                >
+                                                    <ImagePlus size={13} />
+                                                    Choose or upload
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <label className="flex flex-col gap-1.5 text-[11px] font-medium">
+                                        Link
+                                        <input
+                                            value={details.banner?.href ?? ''}
+                                            onChange={(e) => updateBanner({ href: e.target.value })}
+                                            placeholder="Defaults to the offer CTA"
+                                            className="h-9 rounded-md border border-m3-outline-variant bg-m3-surface-lowest px-2.5 text-[12px] focus:outline-none focus:border-m3-gold"
+                                        />
+                                    </label>
+                                </>
+                            )}
+                        </div>
                     </section>
 
                     <aside className="rounded-lg border border-m3-outline-variant bg-m3-surface-lowest p-5 flex flex-col gap-4">
@@ -411,11 +542,19 @@ export function OfferEditor({ offer, operators, placements, returnTo }: OfferEdi
                         </div>
                     </aside>
                 </div>
+                </div>
             </main>
             <AssetPickerModal
                 open={logoPickerOpen}
                 onClose={() => setLogoPickerOpen(false)}
                 onSelect={applyLogo}
+            />
+            <AssetPickerModal
+                open={bannerPicker !== null}
+                onClose={() => setBannerPicker(null)}
+                onSelect={(path) => {
+                    if (bannerPicker !== null) updateBanner({ [bannerPicker]: path });
+                }}
             />
         </div>
     );

@@ -3,10 +3,13 @@
 import type React from 'react';
 import { useEffect, useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, EyeOff, Pencil, Search, Trash2 } from 'lucide-react';
+import { Calendar, Eye, EyeOff, Pencil, Search, Trash2 } from 'lucide-react';
 import { deleteOfferAction, setOfferStatusAction } from '@/app/actions';
 import { notifyCmsChanged } from '@/lib/cms-events';
 import type { CmsOffer, CmsOperator, CmsRecordStatus } from '@/lib/cms-content.types';
+import type { OfferScheduleStatus } from '@/lib/offer-status';
+import { OFFER_STATUS_LABEL, getOfferScheduleStatus } from '@/lib/offer-status';
+import { OfferStatusChip } from '@/components/offer-status-chip';
 
 interface OffersManagerProps {
     offers: CmsOffer[];
@@ -14,7 +17,9 @@ interface OffersManagerProps {
     highlightedId?: string;
 }
 
-type StatusFilter = 'all' | CmsRecordStatus;
+type StatusFilter = 'all' | OfferScheduleStatus;
+
+const STATUS_FILTERS: StatusFilter[] = ['all', 'live', 'scheduled', 'ended', 'hidden'];
 
 function formatDate(iso: string): string {
     return new Date(iso).toLocaleDateString('en-GB', {
@@ -23,6 +28,21 @@ function formatDate(iso: string): string {
         hour: '2-digit',
         minute: '2-digit'
     });
+}
+
+function formatDay(iso: string): string {
+    return new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    });
+}
+
+function scheduleSummary(offer: CmsOffer): string {
+    if (offer.startDate === null && offer.endDate === null) return 'Always on';
+    const start = offer.startDate === null ? 'Open' : formatDay(offer.startDate);
+    const end = offer.endDate === null ? 'No end' : formatDay(offer.endDate);
+    return start + ' → ' + end;
 }
 
 export function OffersManager({ offers, operators, highlightedId }: OffersManagerProps): React.ReactElement {
@@ -49,7 +69,7 @@ export function OffersManager({ offers, operators, highlightedId }: OffersManage
             offers
                 .filter((offer) => {
                 const operator = operatorById.get(offer.operatorId);
-                const matchesStatus = status === 'all' || offer.status === status;
+                const matchesStatus = status === 'all' || getOfferScheduleStatus(offer) === status;
                 const searchText = (
                     offer.headline +
                     ' ' +
@@ -101,20 +121,20 @@ export function OffersManager({ offers, operators, highlightedId }: OffersManage
                 </div>
                 <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
-                        {(['all', 'active', 'hidden'] as StatusFilter[]).map((filter) => (
+                        {STATUS_FILTERS.map((filter) => (
                             <button
                                 key={filter}
                                 type="button"
                                 onClick={() => setStatus(filter)}
                                 aria-pressed={status === filter}
                                 className={
-                                    'text-[12px] px-3 py-1.5 rounded-md border capitalize transition-colors ' +
+                                    'text-[12px] px-3 py-1.5 rounded-md border transition-colors ' +
                                     (status === filter
                                         ? 'bg-m3-gold text-m3-on-gold border-m3-gold'
                                         : 'border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high')
                                 }
                             >
-                                {filter}
+                                {filter === 'all' ? 'All' : OFFER_STATUS_LABEL[filter]}
                             </button>
                         ))}
                     </div>
@@ -140,9 +160,7 @@ export function OffersManager({ offers, operators, highlightedId }: OffersManage
                             <div className="min-w-0 flex flex-col gap-2">
                                 <div className="flex items-center gap-2 min-w-0">
                                     <div className="text-[13px] font-medium truncate">{offer.headline}</div>
-                                    <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-m3-surface-highest text-m3-on-surface-variant capitalize">
-                                        {offer.status}
-                                    </span>
+                                    <OfferStatusChip status={getOfferScheduleStatus(offer)} />
                                     <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-m3-gold/20 text-m3-on-surface">
                                         {offer.label}
                                     </span>
@@ -153,7 +171,10 @@ export function OffersManager({ offers, operators, highlightedId }: OffersManage
                                 <div className="text-[12px] text-m3-on-surface-variant">
                                     Details <span className="text-m3-on-surface">{offer.details.join(' / ')}</span>
                                 </div>
-                                <div className="text-[11px] text-m3-on-surface-variant">
+                                <div className="text-[11px] text-m3-on-surface-variant flex items-center gap-1.5">
+                                    <Calendar size={12} className="shrink-0" />
+                                    Schedule <span className="text-m3-on-surface">{scheduleSummary(offer)}</span>
+                                    <span className="text-m3-outline-variant">·</span>
                                     Updated <span className="text-m3-on-surface">{formatDate(offer.updatedAt)}</span>
                                 </div>
                                 <div className="text-[12px] text-m3-on-surface-variant line-clamp-2">

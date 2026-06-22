@@ -85,6 +85,9 @@ function seedOffers(): CmsOffer[] {
                 '18+. New customers only. Free spins valued at £0.10. Winnings paid in cash. T&Cs apply. BeGambleAware.org.',
             ctaHref: '#',
             status: 'active',
+            startDate: null,
+            endDate: null,
+            banner: null,
             updatedAt: '2026-06-08T09:00:00.000Z'
         },
         {
@@ -103,6 +106,9 @@ function seedOffers(): CmsOffer[] {
                 '18+. New Casino players only. 50 Free Spins awarded upon registration. T&Cs apply. BeGambleAware.org.',
             ctaHref: '#',
             status: 'active',
+            startDate: null,
+            endDate: null,
+            banner: null,
             updatedAt: '2026-06-08T09:00:00.000Z'
         },
         {
@@ -121,6 +127,9 @@ function seedOffers(): CmsOffer[] {
                 '18+. New customers only. Register online to receive 10 free spins. No deposit required. T&Cs apply. BeGambleAware.org.',
             ctaHref: '#',
             status: 'active',
+            startDate: null,
+            endDate: null,
+            banner: null,
             updatedAt: '2026-06-08T09:00:00.000Z'
         }
     ];
@@ -143,7 +152,10 @@ function normalizeOffer(offer: CmsOffer): CmsOffer {
     return {
         ...offer,
         details: Array.isArray(offer.details) ? offer.details : [],
-        howToClaimSteps: Array.isArray(offer.howToClaimSteps) ? offer.howToClaimSteps : []
+        howToClaimSteps: Array.isArray(offer.howToClaimSteps) ? offer.howToClaimSteps : [],
+        startDate: offer.startDate ?? null,
+        endDate: offer.endDate ?? null,
+        banner: offer.banner ?? null
     };
 }
 
@@ -200,6 +212,9 @@ export async function createOffer(): Promise<string> {
         termsText: '18+. New customers only. T&Cs apply. BeGambleAware.org.',
         ctaHref: '#',
         status: 'active',
+        startDate: null,
+        endDate: null,
+        banner: null,
         updatedAt: now()
     };
     await writeJsonFile(OFFERS_FILE, [offer, ...offers]);
@@ -225,6 +240,9 @@ export async function createOfferForOperator(operatorId: string): Promise<string
         termsText: '18+. New customers only. T&Cs apply. BeGambleAware.org.',
         ctaHref: '#',
         status: 'active',
+        startDate: null,
+        endDate: null,
+        banner: null,
         updatedAt: now()
     };
     await writeJsonFile(OFFERS_FILE, [offer, ...offers]);
@@ -353,6 +371,9 @@ export async function updateOffer(id: string, details: CmsOfferDetails): Promise
                   howToClaimSteps: details.howToClaimSteps.map((line) => line.trim()).filter(Boolean),
                   termsText: details.termsText,
                   ctaHref: details.ctaHref.trim() || '#',
+                  startDate: details.startDate,
+                  endDate: details.endDate,
+                  banner: details.banner,
                   updatedAt: now()
               }
             : offer

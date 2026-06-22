@@ -25,10 +25,21 @@ function normalizeOfferItems(value: { offerItems?: unknown; offerIds?: unknown }
     if (Array.isArray(value.offerItems)) {
         return value.offerItems
             .map((raw): OffersItem | null => {
-                const entry = raw as Partial<OffersItem> & { offerId?: string };
+                const entry = raw as {
+                    kind?: string;
+                    tie?: string;
+                    offerId?: string;
+                    mobileSrc?: string;
+                    desktopSrc?: string;
+                    href?: string;
+                };
                 if (entry.kind === 'banner') {
+                    if (entry.tie === 'offer' && typeof entry.offerId === 'string') {
+                        return { kind: 'banner', tie: 'offer', offerId: entry.offerId };
+                    }
                     return {
                         kind: 'banner',
+                        tie: 'general',
                         mobileSrc: typeof entry.mobileSrc === 'string' ? entry.mobileSrc : '',
                         desktopSrc: typeof entry.desktopSrc === 'string' ? entry.desktopSrc : '',
                         href: typeof entry.href === 'string' ? entry.href : ''

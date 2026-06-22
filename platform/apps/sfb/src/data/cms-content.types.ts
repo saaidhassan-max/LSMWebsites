@@ -12,6 +12,12 @@ export interface CmsOperator {
     updatedAt: string;
 }
 
+export interface CmsOfferBanner {
+    mobileSrc: string;
+    desktopSrc: string;
+    href: string;
+}
+
 export interface CmsOffer {
     id: string;
     operatorId: string;
@@ -23,6 +29,9 @@ export interface CmsOffer {
     termsText: string;
     ctaHref: string;
     status: CmsRecordStatus;
+    startDate?: string | null;
+    endDate?: string | null;
+    banner?: CmsOfferBanner | null;
     updatedAt: string;
 }
 
@@ -109,12 +118,21 @@ export interface CmsOffersOfferItem {
     offerId: string;
 }
 
-export interface CmsOffersBannerItem {
+export interface CmsOffersGeneralBannerItem {
     kind: 'banner';
+    tie?: 'general';
     mobileSrc: string;
     desktopSrc: string;
     href: string;
 }
+
+export interface CmsOffersOfferBannerItem {
+    kind: 'banner';
+    tie: 'offer';
+    offerId: string;
+}
+
+export type CmsOffersBannerItem = CmsOffersGeneralBannerItem | CmsOffersOfferBannerItem;
 
 export type CmsOffersItem = CmsOffersOfferItem | CmsOffersBannerItem;
 

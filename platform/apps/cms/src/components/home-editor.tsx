@@ -130,7 +130,10 @@ export function HomeEditor({
             details: offer.details,
             howToClaimSteps: offer.howToClaimSteps,
             termsText: offer.termsText,
-            ctaHref: offer.ctaHref
+            ctaHref: offer.ctaHref,
+            startDate: offer.startDate,
+            endDate: offer.endDate,
+            banner: offer.banner
         });
         notifyCmsChanged();
     }

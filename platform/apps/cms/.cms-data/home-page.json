@@ -1,27 +1,70 @@
 {
-  "offerIds": [
-    "off_betfair_casino_50fs",
-    "off_ladbrokes_50fs",
-    "off_sky_vegas_70fs",
-    "off_buzz_bingo_10fs",
-    "off_sun_bingo_10fs",
-    "off_paddy_power_games_60fs",
-    "off_foxy_bingo_100fs",
-    "off_betfair_bingo_60bonus"
+  "sections": [
+    {
+      "id": "welcome_y9gicx",
+      "type": "welcome",
+      "content": {
+        "textHighlight": "TOP",
+        "text": " BINGO DEALS 2026",
+        "textSuffix": "",
+        "features": [
+          "⭐ Super Offers",
+          "✅ Super Simple",
+          "🛡️ Super Secure"
+        ],
+        "imageLeftSrc": "/sfb/welcome-images/image-left.png",
+        "imageRightSrc": "/sfb/welcome-images/image-right.png",
+        "imageLeftWidthMobile": 83,
+        "imageLeftWidthDesktop": 204
+      }
+    },
+    {
+      "id": "offers_wlkho4",
+      "type": "offers",
+      "content": {
+        "items": [
+          {
+            "kind": "offer",
+            "offerId": "off_betfair_casino_50fs"
+          },
+          {
+            "kind": "offer",
+            "offerId": "off_ladbrokes_50fs"
+          },
+          {
+            "kind": "offer",
+            "offerId": "off_sky_vegas_70fs"
+          },
+          {
+            "kind": "offer",
+            "offerId": "off_buzz_bingo_10fs"
+          },
+          {
+            "kind": "offer",
+            "offerId": "off_sun_bingo_10fs"
+          },
+          {
+            "kind": "offer",
+            "offerId": "off_paddy_power_games_60fs"
+          },
+          {
+            "kind": "offer",
+            "offerId": "off_foxy_bingo_100fs"
+          },
+          {
+            "kind": "offer",
+            "offerId": "off_betfair_bingo_60bonus"
+          }
+        ]
+      }
+    },
+    {
+      "id": "terms_747k7t",
+      "type": "terms",
+      "content": {
+        "text": "Special terms apply – including age verification. Click \"How To Claim\" for full details."
+      }
+    }
   ],
-  "welcome": {
-    "textHighlight": "TOP",
-    "text": " BINGO DEALS 2026",
-    "textSuffix": "",
-    "features": [
-      "⭐ Super Offers",
-      "✅ Super Simple",
-      "🛡️ Super Secure"
-    ],
-    "imageLeftSrc": "/sfb/welcome-images/image-left.png",
-    "imageRightSrc": "/sfb/welcome-images/image-right.png",
-    "imageLeftWidthMobile": 83,
-    "imageLeftWidthDesktop": 204
-  },
-  "updatedAt": "2026-06-13T09:00:00.000Z"
+  "updatedAt": "2026-06-22T10:10:50.823Z"
 }

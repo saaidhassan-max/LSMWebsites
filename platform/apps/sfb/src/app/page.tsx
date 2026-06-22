@@ -221,12 +221,13 @@ function renderSection(
             >
                 {items.map((item, index) => {
                     if (item.kind === 'banner') {
+                        if (item.tie === 'offer') return null;
                         return (
                             <OperatorBanner
                                 key={index}
                                 mobileSrc={item.mobileSrc}
                                 desktopSrc={item.desktopSrc}
-                                alt="Operator banner"
+                                alt="Promotional banner"
                                 href={item.href === '' ? undefined : item.href}
                             />
                         );
