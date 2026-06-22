@@ -166,7 +166,9 @@ export function HomeEditor({
                                 <ArrowLeft size={18} />
                             </button>
                             <div className="min-w-0">
-                                <div className="text-[14px] font-medium truncate">Home page builder</div>
+                                <div className="text-[14px] font-medium truncate">
+                                    Home page builder
+                                </div>
                                 <div className="text-[11px] text-m3-on-surface-variant">
                                     {sections.length} asset{sections.length === 1 ? '' : 's'}
                                     {dirty ? ' · unsaved changes' : ''}
@@ -175,7 +177,9 @@ export function HomeEditor({
                         </div>
                         <div className="flex items-center gap-2">
                             <Link
-                                href={process.env.NEXT_PUBLIC_SFB_SITE_URL ?? 'http://localhost:3002'}
+                                href={
+                                    process.env.NEXT_PUBLIC_SFB_SITE_URL ?? 'http://localhost:3002'
+                                }
                                 target="_blank"
                                 className="flex items-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-lg border border-m3-outline-variant text-m3-on-surface hover:bg-m3-surface-high"
                             >
@@ -204,7 +208,9 @@ export function HomeEditor({
                                     </button>
                                     <button
                                         type="button"
-                                        onClick={() => selectedSection !== null && setPanelView('edit')}
+                                        onClick={() =>
+                                            selectedSection !== null && setPanelView('edit')
+                                        }
                                         disabled={selectedSection === null}
                                         className={
                                             'flex-1 h-8 rounded-md text-[12px] font-medium transition-colors disabled:opacity-40 ' +
@@ -221,8 +227,8 @@ export function HomeEditor({
                                     <PageAssetsPanel
                                         intro={
                                             <div className="rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 text-[12px] text-m3-on-surface-variant leading-5">
-                                                Logo/navigation, USP strip, and footer are always included on
-                                                the home page.
+                                                Logo/navigation, USP strip, and footer are always
+                                                included on the home page.
                                             </div>
                                         }
                                         items={sections.map((section) => ({
@@ -258,7 +264,9 @@ export function HomeEditor({
                                         </div>
                                         <SectionProperties
                                             section={selectedSection}
-                                            onChange={(patch) => updateSectionContent(selectedSection.id, patch)}
+                                            onChange={(patch) =>
+                                                updateSectionContent(selectedSection.id, patch)
+                                            }
                                             offers={offerList}
                                             operators={operators}
                                             onOfferChange={updateOffer}
@@ -266,7 +274,9 @@ export function HomeEditor({
                                             onOffersItemsChange={(items) =>
                                                 updateOfferItems(selectedSection.id, items)
                                             }
-                                            editOfferHref={(id) => '/offers/edit/' + id + '?returnTo=/home'}
+                                            editOfferHref={(id) =>
+                                                '/offers/edit/' + id + '?returnTo=/home'
+                                            }
                                         />
                                     </section>
                                 )}
@@ -287,7 +297,9 @@ export function HomeEditor({
                         <main className="flex-1 min-w-0 min-h-0 flex flex-col bg-m3-surface-low">
                             <div className="h-12 shrink-0 border-b border-m3-outline-variant px-4 flex items-center justify-between gap-3">
                                 <div className="text-[12px] text-m3-on-surface-variant">
-                                    {previewMode === 'mobile' ? 'Mobile preview' : 'Desktop preview'}
+                                    {previewMode === 'mobile'
+                                        ? 'Mobile preview'
+                                        : 'Desktop preview'}
                                 </div>
                                 <div className="flex items-center rounded-lg border border-m3-outline-variant bg-m3-surface-lowest p-1">
                                     <button

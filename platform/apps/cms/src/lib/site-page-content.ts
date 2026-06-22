@@ -39,13 +39,19 @@ function normalizeOffersItems(content: unknown): OffersItem[] {
                     return {
                         kind: 'banner',
                         tie: 'general',
-                        mobileSrc: typeof entry.mobileSrc === 'string' ? entry.mobileSrc : DEFAULT_BANNER_MOBILE,
+                        mobileSrc:
+                            typeof entry.mobileSrc === 'string'
+                                ? entry.mobileSrc
+                                : DEFAULT_BANNER_MOBILE,
                         desktopSrc:
-                            typeof entry.desktopSrc === 'string' ? entry.desktopSrc : DEFAULT_BANNER_DESKTOP,
+                            typeof entry.desktopSrc === 'string'
+                                ? entry.desktopSrc
+                                : DEFAULT_BANNER_DESKTOP,
                         href: typeof entry.href === 'string' ? entry.href : ''
                     };
                 }
-                if (typeof entry.offerId === 'string') return { kind: 'offer', offerId: entry.offerId };
+                if (typeof entry.offerId === 'string')
+                    return { kind: 'offer', offerId: entry.offerId };
                 return null;
             })
             .filter((item): item is OffersItem => item !== null);
@@ -153,10 +159,18 @@ export function createDefaultSections(): SitePageSection[] {
     return [createSection('welcome')];
 }
 
-export function normalizeSection(raw: { id: string; type: SitePageSectionType; content?: unknown }): SitePageSection {
+export function normalizeSection(raw: {
+    id: string;
+    type: SitePageSectionType;
+    content?: unknown;
+}): SitePageSection {
     const fresh = createSection(raw.type);
     if (raw.type === 'offers') {
-        return { id: raw.id, type: 'offers', content: { items: normalizeOffersItems(raw.content) } };
+        return {
+            id: raw.id,
+            type: 'offers',
+            content: { items: normalizeOffersItems(raw.content) }
+        };
     }
     if (raw.content === undefined || raw.content === null) {
         return { ...fresh, id: raw.id } as SitePageSection;

@@ -211,7 +211,11 @@ export function SitePageEditor({
                                     : 'border-m3-outline-variant text-m3-on-surface-variant hover:bg-m3-surface-high')
                             }
                         >
-                            {published ? <Eye size={15} className="text-m3-gold" /> : <EyeOff size={15} />}
+                            {published ? (
+                                <Eye size={15} className="text-m3-gold" />
+                            ) : (
+                                <EyeOff size={15} />
+                            )}
                             Show on site
                             <span
                                 className={
@@ -272,23 +276,30 @@ export function SitePageEditor({
                                             Page name
                                             <input
                                                 value={details.name}
-                                                onChange={(e) => updateDetails('name', e.target.value)}
+                                                onChange={(e) =>
+                                                    updateDetails('name', e.target.value)
+                                                }
                                                 className={inputClass}
                                             />
                                         </label>
                                         <label className={labelClass}>
                                             URL slug
                                             <div className="flex items-center rounded-md border border-m3-outline-variant bg-m3-surface-low focus-within:border-m3-gold">
-                                                <span className="pl-3 text-[12px] text-m3-on-surface-variant">/</span>
+                                                <span className="pl-3 text-[12px] text-m3-on-surface-variant">
+                                                    /
+                                                </span>
                                                 <input
                                                     value={details.slug}
-                                                    onChange={(e) => updateDetails('slug', e.target.value)}
+                                                    onChange={(e) =>
+                                                        updateDetails('slug', e.target.value)
+                                                    }
                                                     className="w-full bg-transparent px-1 py-2 text-[13px] text-m3-on-surface focus:outline-none"
                                                 />
                                             </div>
                                         </label>
                                         <div className="rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3 text-[12px] text-m3-on-surface-variant leading-5">
-                                            Logo/navigation, USP strip, and footer are always included on new pages.
+                                            Logo/navigation, USP strip, and footer are always
+                                            included on new pages.
                                         </div>
                                     </section>
 
@@ -327,14 +338,21 @@ export function SitePageEditor({
                                     </div>
                                     <SectionProperties
                                         section={selectedSection}
-                                        onChange={(patch) => updateSectionContent(selectedSection.id, patch)}
+                                        onChange={(patch) =>
+                                            updateSectionContent(selectedSection.id, patch)
+                                        }
                                         offers={offerList}
                                         operators={operators}
                                         onOfferChange={updateOffer}
                                         onSaveOffer={saveOffer}
-                                        onOffersItemsChange={(items) => updateOfferItems(selectedSection.id, items)}
+                                        onOffersItemsChange={(items) =>
+                                            updateOfferItems(selectedSection.id, items)
+                                        }
                                         editOfferHref={(id) =>
-                                            '/offers/edit/' + id + '?returnTo=' + encodeURIComponent('/pages/edit/' + page.id)
+                                            '/offers/edit/' +
+                                            id +
+                                            '?returnTo=' +
+                                            encodeURIComponent('/pages/edit/' + page.id)
                                         }
                                     />
                                 </section>
@@ -366,7 +384,9 @@ export function SitePageEditor({
                                     aria-pressed={previewMode === 'mobile'}
                                     className={
                                         'flex items-center justify-center w-9 h-8 rounded-md text-m3-on-surface-variant hover:bg-m3-surface-high ' +
-                                        (previewMode === 'mobile' ? 'bg-m3-gold text-m3-on-gold hover:bg-m3-gold' : '')
+                                        (previewMode === 'mobile'
+                                            ? 'bg-m3-gold text-m3-on-gold hover:bg-m3-gold'
+                                            : '')
                                     }
                                 >
                                     <Smartphone size={16} />
@@ -378,7 +398,9 @@ export function SitePageEditor({
                                     aria-pressed={previewMode === 'desktop'}
                                     className={
                                         'flex items-center justify-center w-9 h-8 rounded-md text-m3-on-surface-variant hover:bg-m3-surface-high ' +
-                                        (previewMode === 'desktop' ? 'bg-m3-gold text-m3-on-gold hover:bg-m3-gold' : '')
+                                        (previewMode === 'desktop'
+                                            ? 'bg-m3-gold text-m3-on-gold hover:bg-m3-gold'
+                                            : '')
                                     }
                                 >
                                     <Monitor size={16} />

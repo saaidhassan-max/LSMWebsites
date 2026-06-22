@@ -276,10 +276,15 @@ export async function setOperatorStatus(id: string, status: CmsRecordStatus): Pr
     const nextOffers =
         status === 'hidden'
             ? offers.map((offer) =>
-                  offer.operatorId === id ? { ...offer, status: 'hidden' as const, updatedAt: now() } : offer
+                  offer.operatorId === id
+                      ? { ...offer, status: 'hidden' as const, updatedAt: now() }
+                      : offer
               )
             : offers;
-    await Promise.all([writeJsonFile(OPERATORS_FILE, next), writeJsonFile(OFFERS_FILE, nextOffers)]);
+    await Promise.all([
+        writeJsonFile(OPERATORS_FILE, next),
+        writeJsonFile(OFFERS_FILE, nextOffers)
+    ]);
 }
 
 export async function setOfferStatus(id: string, status: CmsRecordStatus): Promise<void> {
@@ -321,7 +326,9 @@ export async function deleteOperator(id: string): Promise<string[]> {
         readJsonFile<CmsOperator>(OPERATORS_FILE, seedOperators),
         readJsonFile<CmsOffer>(OFFERS_FILE, seedOffers)
     ]);
-    const removedOfferIds = offers.filter((offer) => offer.operatorId === id).map((offer) => offer.id);
+    const removedOfferIds = offers
+        .filter((offer) => offer.operatorId === id)
+        .map((offer) => offer.id);
     await Promise.all([
         writeJsonFile(
             OPERATORS_FILE,
@@ -368,7 +375,9 @@ export async function updateOffer(id: string, details: CmsOfferDetails): Promise
                   label: details.label.trim() || offer.label,
                   labelColor: details.labelColor,
                   details: details.details.map((line) => line.trim()).filter(Boolean),
-                  howToClaimSteps: details.howToClaimSteps.map((line) => line.trim()).filter(Boolean),
+                  howToClaimSteps: details.howToClaimSteps
+                      .map((line) => line.trim())
+                      .filter(Boolean),
                   termsText: details.termsText,
                   ctaHref: details.ctaHref.trim() || '#',
                   startDate: details.startDate,

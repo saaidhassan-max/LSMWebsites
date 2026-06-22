@@ -42,7 +42,11 @@ function renderDirectorySignupTemplate(settings: CmsSiteSettings): React.ReactEl
     return (
         <div className="w-full">
             <div className="md:hidden flex flex-col">
-                <WebsiteDirectory title={settings.directoryTitle} sites={settings.directorySites} splitAtDot />
+                <WebsiteDirectory
+                    title={settings.directoryTitle}
+                    sites={settings.directorySites}
+                    splitAtDot
+                />
                 <div className="w-full max-w-[720px] mx-auto p-4 flex flex-col gap-4">
                     <SignupForm
                         variant="sfb-sfsg"
@@ -54,7 +58,11 @@ function renderDirectorySignupTemplate(settings: CmsSiteSettings): React.ReactEl
             </div>
             <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
                 <div className="flex-1">
-                    <WebsiteDirectory title={settings.directoryTitle} sites={settings.directorySites} splitAtDot />
+                    <WebsiteDirectory
+                        title={settings.directoryTitle}
+                        sites={settings.directorySites}
+                        splitAtDot
+                    />
                 </div>
                 <div className="flex-1 flex flex-col gap-4">
                     <SignupForm
@@ -84,7 +92,9 @@ function renderSection(
                 textHighlight={content.textHighlight ?? 'TOP'}
                 text={content.text ?? ' BINGO DEALS 2026'}
                 textSuffix={suffix === '' ? undefined : suffix}
-                features={content.features ?? ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']}
+                features={
+                    content.features ?? ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']
+                }
                 imageLeftSrc={content.imageLeftSrc ?? '/sfb/welcome-images/image-left.png'}
                 imageRightSrc={content.imageRightSrc ?? '/sfb/welcome-images/image-right.png'}
                 imageLeftWidthMobile={content.imageLeftWidthMobile ?? 83}
@@ -105,7 +115,10 @@ function renderSection(
     }
     if (section.type === 'richText') {
         return (
-            <div key={section.id} className="w-full max-w-[960px] mx-auto px-4 py-6 flex flex-col gap-3">
+            <div
+                key={section.id}
+                className="w-full max-w-[960px] mx-auto px-4 py-6 flex flex-col gap-3"
+            >
                 <h2 className="text-[24px] md:text-[32px] font-bold text-on-surface-light">
                     {content.heading ?? ''}
                 </h2>

@@ -45,7 +45,8 @@ function normalizeOfferItems(value: { offerItems?: unknown; offerIds?: unknown }
                         href: typeof entry.href === 'string' ? entry.href : ''
                     };
                 }
-                if (typeof entry.offerId === 'string') return { kind: 'offer', offerId: entry.offerId };
+                if (typeof entry.offerId === 'string')
+                    return { kind: 'offer', offerId: entry.offerId };
                 return null;
             })
             .filter((item): item is OffersItem => item !== null);
@@ -85,7 +86,9 @@ function legacyToSections(raw: LegacyHomeConfig): SitePageSection[] {
     const welcome: WelcomeContent = {
         ...DEFAULT_WELCOME,
         ...(raw.welcome ?? {}),
-        features: Array.isArray(raw.welcome?.features) ? raw.welcome.features : DEFAULT_WELCOME.features
+        features: Array.isArray(raw.welcome?.features)
+            ? raw.welcome.features
+            : DEFAULT_WELCOME.features
     };
     const sections: SitePageSection[] = [];
 
@@ -103,9 +106,8 @@ export function normalizeHomeConfig(raw: LegacyHomeConfig): HomePageConfig {
 
 function normalizeConfig(raw: LegacyHomeConfig): HomePageConfig {
     const sections = Array.isArray(raw.sections)
-        ? (raw.sections as { id: string; type: SitePageSection['type']; content?: unknown }[]).map(
-              (section) => normalizeSection(section)
-          )
+        ? (raw.sections as { id: string; type: SitePageSection['type']; content?: unknown }[])
+              .map((section) => normalizeSection(section))
               .filter((section) => section.type !== 'directorySignup')
         : legacyToSections(raw);
     return {
@@ -120,11 +122,7 @@ async function seedConfig(): Promise<HomePageConfig> {
         .filter((offer) => offer.status === 'active')
         .map((offer) => ({ kind: 'offer', offerId: offer.id }));
     return {
-        sections: [
-            welcomeSection(DEFAULT_WELCOME),
-            createSection('terms'),
-            offersSection(items)
-        ],
+        sections: [welcomeSection(DEFAULT_WELCOME), createSection('terms'), offersSection(items)],
         updatedAt: now()
     };
 }

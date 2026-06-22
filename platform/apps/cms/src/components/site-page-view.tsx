@@ -63,7 +63,11 @@ export function SitePageView({
         return (
             <div className="w-full">
                 <div className="md:hidden flex flex-col">
-                    <WebsiteDirectory title={settings.directoryTitle} sites={settings.directorySites} splitAtDot />
+                    <WebsiteDirectory
+                        title={settings.directoryTitle}
+                        sites={settings.directorySites}
+                        splitAtDot
+                    />
                     <div className="w-full max-w-[720px] mx-auto p-4 flex flex-col gap-4">
                         <SignupForm
                             variant="sfb-sfsg"
@@ -104,7 +108,11 @@ export function SitePageView({
                     <WelcomeBanner
                         textHighlight={section.content.textHighlight}
                         text={section.content.text}
-                        textSuffix={section.content.textSuffix === '' ? undefined : section.content.textSuffix}
+                        textSuffix={
+                            section.content.textSuffix === ''
+                                ? undefined
+                                : section.content.textSuffix
+                        }
                         features={section.content.features}
                         imageLeftSrc={section.content.imageLeftSrc}
                         imageRightSrc={section.content.imageRightSrc}
@@ -125,7 +133,9 @@ export function SitePageView({
             return (
                 <div
                     key={section.id}
-                    className={'w-full max-w-[960px] mx-auto px-4 py-6 flex flex-col gap-3 ' + wrapClass}
+                    className={
+                        'w-full max-w-[960px] mx-auto px-4 py-6 flex flex-col gap-3 ' + wrapClass
+                    }
                     {...wrapProps}
                 >
                     <h2 className="text-[24px] md:text-[32px] font-bold text-on-surface-light">
@@ -163,7 +173,10 @@ export function SitePageView({
             return (
                 <div
                     key={section.id}
-                    className={'w-full max-w-[1440px] mx-auto p-4 md:px-16 md:py-4 flex flex-col gap-2 ' + wrapClass}
+                    className={
+                        'w-full max-w-[1440px] mx-auto p-4 md:px-16 md:py-4 flex flex-col gap-2 ' +
+                        wrapClass
+                    }
                     {...wrapProps}
                 >
                     {section.content.items.length === 0 && (
@@ -175,7 +188,8 @@ export function SitePageView({
                         if (item.kind === 'banner') {
                             if (item.tie === 'offer') {
                                 const bannerOffer = offers.find((o) => o.id === item.offerId);
-                                if (bannerOffer === undefined || bannerOffer.banner === null) return null;
+                                if (bannerOffer === undefined || bannerOffer.banner === null)
+                                    return null;
                                 const bannerHref = bannerOffer.banner.href || bannerOffer.ctaHref;
                                 return (
                                     <OperatorBanner
@@ -183,7 +197,11 @@ export function SitePageView({
                                         mobileSrc={bannerOffer.banner.mobileSrc}
                                         desktopSrc={bannerOffer.banner.desktopSrc}
                                         alt="Offer banner"
-                                        href={bannerHref === '' || bannerHref === '#' ? undefined : bannerHref}
+                                        href={
+                                            bannerHref === '' || bannerHref === '#'
+                                                ? undefined
+                                                : bannerHref
+                                        }
                                     />
                                 );
                             }

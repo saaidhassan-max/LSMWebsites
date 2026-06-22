@@ -45,7 +45,11 @@ function scheduleSummary(offer: CmsOffer): string {
     return start + ' → ' + end;
 }
 
-export function OffersManager({ offers, operators, highlightedId }: OffersManagerProps): React.ReactElement {
+export function OffersManager({
+    offers,
+    operators,
+    highlightedId
+}: OffersManagerProps): React.ReactElement {
     const router = useRouter();
     const [query, setQuery] = useState('');
     const [status, setStatus] = useState<StatusFilter>('all');
@@ -68,20 +72,21 @@ export function OffersManager({ offers, operators, highlightedId }: OffersManage
         () =>
             offers
                 .filter((offer) => {
-                const operator = operatorById.get(offer.operatorId);
-                const matchesStatus = status === 'all' || getOfferScheduleStatus(offer) === status;
-                const searchText = (
-                    offer.headline +
-                    ' ' +
-                    offer.label +
-                    ' ' +
-                    offer.details.join(' ') +
-                    ' ' +
-                    (operator?.name ?? '')
-                ).toLowerCase();
-                const matchesQuery = searchText.includes(query.trim().toLowerCase());
-                return matchesStatus && matchesQuery;
-            })
+                    const operator = operatorById.get(offer.operatorId);
+                    const matchesStatus =
+                        status === 'all' || getOfferScheduleStatus(offer) === status;
+                    const searchText = (
+                        offer.headline +
+                        ' ' +
+                        offer.label +
+                        ' ' +
+                        offer.details.join(' ') +
+                        ' ' +
+                        (operator?.name ?? '')
+                    ).toLowerCase();
+                    const matchesQuery = searchText.includes(query.trim().toLowerCase());
+                    return matchesStatus && matchesQuery;
+                })
                 .sort((a, b) => {
                     if (a.id === highlightedId) return -1;
                     if (b.id === highlightedId) return 1;
@@ -159,23 +164,37 @@ export function OffersManager({ offers, operators, highlightedId }: OffersManage
                         >
                             <div className="min-w-0 flex flex-col gap-2">
                                 <div className="flex items-center gap-2 min-w-0">
-                                    <div className="text-[13px] font-medium truncate">{offer.headline}</div>
+                                    <div className="text-[13px] font-medium truncate">
+                                        {offer.headline}
+                                    </div>
                                     <OfferStatusChip status={getOfferScheduleStatus(offer)} />
                                     <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-m3-gold/20 text-m3-on-surface">
                                         {offer.label}
                                     </span>
                                 </div>
                                 <div className="text-[12px] text-m3-on-surface-variant">
-                                    Operator <span className="text-m3-on-surface">{operator?.name ?? 'Missing'}</span>
+                                    Operator{' '}
+                                    <span className="text-m3-on-surface">
+                                        {operator?.name ?? 'Missing'}
+                                    </span>
                                 </div>
                                 <div className="text-[12px] text-m3-on-surface-variant">
-                                    Details <span className="text-m3-on-surface">{offer.details.join(' / ')}</span>
+                                    Details{' '}
+                                    <span className="text-m3-on-surface">
+                                        {offer.details.join(' / ')}
+                                    </span>
                                 </div>
                                 <div className="text-[11px] text-m3-on-surface-variant flex items-center gap-1.5">
                                     <Calendar size={12} className="shrink-0" />
-                                    Schedule <span className="text-m3-on-surface">{scheduleSummary(offer)}</span>
+                                    Schedule{' '}
+                                    <span className="text-m3-on-surface">
+                                        {scheduleSummary(offer)}
+                                    </span>
                                     <span className="text-m3-outline-variant">·</span>
-                                    Updated <span className="text-m3-on-surface">{formatDate(offer.updatedAt)}</span>
+                                    Updated{' '}
+                                    <span className="text-m3-on-surface">
+                                        {formatDate(offer.updatedAt)}
+                                    </span>
                                 </div>
                                 <div className="text-[12px] text-m3-on-surface-variant line-clamp-2">
                                     {offer.termsText}
@@ -201,7 +220,11 @@ export function OffersManager({ offers, operators, highlightedId }: OffersManage
                                     }
                                     className="flex items-center justify-center gap-1.5 h-8 px-3 rounded-md text-[12px] font-medium border border-m3-outline-variant text-m3-on-surface hover:bg-m3-surface-high transition-colors disabled:opacity-40"
                                 >
-                                    {offer.status === 'active' ? <EyeOff size={15} /> : <Eye size={15} />}
+                                    {offer.status === 'active' ? (
+                                        <EyeOff size={15} />
+                                    ) : (
+                                        <Eye size={15} />
+                                    )}
                                     {offer.status === 'active' ? 'Hide' : 'Show'}
                                 </button>
                                 <button

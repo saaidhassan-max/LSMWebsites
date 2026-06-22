@@ -83,7 +83,13 @@ const DEFAULT_WELCOME: CmsHomeWelcomeContent = {
     imageLeftWidthMobile: 83,
     imageLeftWidthDesktop: 204
 };
-const DEFAULT_HOME_SECTION_IDS: CmsHomeSectionId[] = ['welcome', 'terms', 'offers', 'signup', 'directory'];
+const DEFAULT_HOME_SECTION_IDS: CmsHomeSectionId[] = [
+    'welcome',
+    'terms',
+    'offers',
+    'signup',
+    'directory'
+];
 
 const PUBLISHED_KEY = 'published-site';
 
@@ -147,7 +153,9 @@ function normalizeImagePath(src: string): string {
     return src;
 }
 
-function normalizeWelcome(value: Partial<CmsHomeWelcomeContent> | undefined): CmsHomeWelcomeContent {
+function normalizeWelcome(
+    value: Partial<CmsHomeWelcomeContent> | undefined
+): CmsHomeWelcomeContent {
     return {
         ...DEFAULT_WELCOME,
         ...(value ?? {}),
@@ -251,7 +259,8 @@ function normalizeOffersItems(home: CmsHomeConfig): CmsOffersItem[] {
                         href: typeof entry.href === 'string' ? entry.href : ''
                     };
                 }
-                if (typeof entry.offerId === 'string') return { kind: 'offer', offerId: entry.offerId };
+                if (typeof entry.offerId === 'string')
+                    return { kind: 'offer', offerId: entry.offerId };
                 return null;
             })
             .filter((item): item is CmsOffersItem => item !== null);
@@ -345,7 +354,8 @@ function normalizeSettings(
                 ? settings.uspText
                 : 'OVER 150,000 OFFERS CLAIMED',
         howToClaimUspText:
-            typeof settings.howToClaimUspText === 'string' && settings.howToClaimUspText.trim() !== ''
+            typeof settings.howToClaimUspText === 'string' &&
+            settings.howToClaimUspText.trim() !== ''
                 ? settings.howToClaimUspText
                 : 'OVER 5,000,000 SUBSCRIBERS',
         directoryTitle:
@@ -362,7 +372,10 @@ function normalizeSettings(
     };
 }
 
-function isOfferLive(offer: CmsOffer, today: string = new Date().toISOString().slice(0, 10)): boolean {
+function isOfferLive(
+    offer: CmsOffer,
+    today: string = new Date().toISOString().slice(0, 10)
+): boolean {
     if (offer.status !== 'active') return false;
     const start = offer.startDate ?? null;
     const end = offer.endDate ?? null;
@@ -494,7 +507,9 @@ export async function getCmsOfferCardsByIds(offerIds: string[]): Promise<OfferCa
         .filter((card): card is OfferCardProps => card !== null);
 }
 
-export async function getCmsOfferCardMap(offerIds: string[]): Promise<Record<string, OfferCardProps>> {
+export async function getCmsOfferCardMap(
+    offerIds: string[]
+): Promise<Record<string, OfferCardProps>> {
     if (offerIds.length === 0) return {};
 
     const [operators, offers] = await Promise.all([
@@ -577,7 +592,9 @@ export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | 
 
     if (offer === undefined) return null;
 
-    const operator = operators.find((item) => item.id === offer.operatorId && item.status === 'active');
+    const operator = operators.find(
+        (item) => item.id === offer.operatorId && item.status === 'active'
+    );
     if (operator === undefined) return null;
 
     return {
@@ -614,7 +631,8 @@ export async function getCmsSitePage(slug: string): Promise<CmsSitePage | null> 
         sections: page.sections
             .filter((section) => section.type !== 'directorySignup')
             .map((section) => {
-                if (section.type !== 'offers' || !Array.isArray(section.content.items)) return section;
+                if (section.type !== 'offers' || !Array.isArray(section.content.items))
+                    return section;
                 const items = section.content.items
                     .map((item): CmsOffersItem | null => {
                         if (item.kind !== 'banner') return item;
@@ -647,7 +665,9 @@ export async function getCmsContentPage(key: CmsContentPageKey): Promise<CmsCont
     };
 }
 
-export async function getCmsLandingPageContent(slug: string): Promise<CmsLandingPageContent | null> {
+export async function getCmsLandingPageContent(
+    slug: string
+): Promise<CmsLandingPageContent | null> {
     const pages = await readJson<CmsLandingPage[]>(LANDING_PAGES_FILE);
     if (pages === null) return null;
 

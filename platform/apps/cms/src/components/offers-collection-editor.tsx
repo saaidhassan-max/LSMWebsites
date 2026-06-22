@@ -162,7 +162,11 @@ export function OffersCollectionEditor({
                             className="flex items-center justify-center gap-1.5 text-[13px] font-medium px-3.5 py-2.5 rounded-lg bg-m3-gold text-m3-on-gold hover:brightness-95 disabled:opacity-40"
                         >
                             <Save size={15} />
-                            {savingOffer ? 'Saving offer…' : offerSaved ? 'Offer saved' : 'Save offer'}
+                            {savingOffer
+                                ? 'Saving offer…'
+                                : offerSaved
+                                  ? 'Offer saved'
+                                  : 'Save offer'}
                         </button>
                         <Link
                             href={editOfferHref(offer.id)}
@@ -231,7 +235,11 @@ export function OffersCollectionEditor({
                                 {field === 'mobileSrc' ? 'Mobile image' : 'Desktop image'}
                             </span>
                             <div className="h-16 rounded-md border border-m3-outline-variant bg-m3-surface-low overflow-hidden flex items-center justify-center">
-                                <img src={item[field]} alt="" className="max-w-full max-h-full object-contain" />
+                                <img
+                                    src={item[field]}
+                                    alt=""
+                                    className="max-w-full max-h-full object-contain"
+                                />
                             </div>
                             <button
                                 type="button"
@@ -279,7 +287,8 @@ export function OffersCollectionEditor({
     return (
         <div className="flex flex-col gap-3">
             <div className="text-[12px] text-m3-on-surface-variant">
-                Select an item to edit it, reorder the feed, or add offer cards, ad banners, and offer banners.
+                Select an item to edit it, reorder the feed, or add offer cards, ad banners, and
+                offer banners.
             </div>
             {items.length > 0 && (
                 <div className="flex flex-col gap-2 rounded-lg border border-m3-outline-variant bg-m3-surface-low p-3">
@@ -307,7 +316,9 @@ export function OffersCollectionEditor({
                     </div>
                     {items.map((item, index) => {
                         const offer =
-                            item.kind === 'offer' ? offers.find((o) => o.id === item.offerId) : undefined;
+                            item.kind === 'offer'
+                                ? offers.find((o) => o.id === item.offerId)
+                                : undefined;
                         return (
                             <div
                                 key={index}
@@ -322,16 +333,21 @@ export function OffersCollectionEditor({
                                 </span>
                                 {item.kind === 'banner' ? (
                                     <>
-                                        <ImagePlus size={16} className="shrink-0 text-m3-on-surface-variant" />
+                                        <ImagePlus
+                                            size={16}
+                                            className="shrink-0 text-m3-on-surface-variant"
+                                        />
                                         <span className="min-w-0 flex-1">
                                             <span className="block text-[12px] font-medium truncate">
                                                 {item.tie === 'offer'
-                                                    ? (offersById.get(item.offerId)?.headline ?? 'Offer removed') +
-                                                      ' banner'
+                                                    ? (offersById.get(item.offerId)?.headline ??
+                                                          'Offer removed') + ' banner'
                                                     : 'Ad banner'}
                                             </span>
                                             <span className="block text-[11px] text-m3-on-surface-variant truncate">
-                                                {item.tie === 'offer' ? 'Offer banner' : 'General advert'}
+                                                {item.tie === 'offer'
+                                                    ? 'Offer banner'
+                                                    : 'General advert'}
                                             </span>
                                         </span>
                                     </>
@@ -342,7 +358,8 @@ export function OffersCollectionEditor({
                                                 'shrink-0 w-2 h-8 rounded-sm ' +
                                                 (offer === undefined
                                                     ? 'bg-m3-surface-highest'
-                                                    : labelColorClass[offer.labelColor] ?? 'bg-m3-surface-highest')
+                                                    : (labelColorClass[offer.labelColor] ??
+                                                      'bg-m3-surface-highest'))
                                             }
                                         />
                                         <span className="min-w-0 flex-1">
@@ -389,7 +406,10 @@ export function OffersCollectionEditor({
                                         >
                                             <Trash2 size={15} />
                                         </button>
-                                        <ChevronRight size={15} className="shrink-0 text-m3-on-surface-variant" />
+                                        <ChevronRight
+                                            size={15}
+                                            className="shrink-0 text-m3-on-surface-variant"
+                                        />
                                     </>
                                 )}
                             </div>
@@ -436,7 +456,9 @@ export function OffersCollectionEditor({
                                 className="h-10 w-20 object-contain rounded border border-m3-outline-variant"
                             />
                             <span className="min-w-0 flex-1">
-                                <span className="block text-[13px] font-medium truncate">{offer.headline}</span>
+                                <span className="block text-[13px] font-medium truncate">
+                                    {offer.headline}
+                                </span>
                                 <span className="block text-[11px] text-m3-on-surface-variant truncate">
                                     {operatorName(offer)}
                                 </span>
@@ -472,7 +494,9 @@ export function OffersCollectionEditor({
                                 }
                             />
                             <span className="min-w-0 flex-1">
-                                <span className="block text-[13px] font-medium truncate">{offer.headline}</span>
+                                <span className="block text-[13px] font-medium truncate">
+                                    {offer.headline}
+                                </span>
                                 <span className="block text-[11px] text-m3-on-surface-variant truncate">
                                     {operatorName(offer)} · {offer.label}
                                 </span>
@@ -496,7 +520,8 @@ export function OffersCollectionEditor({
                 open={pickerTarget !== null}
                 onClose={() => setPickerTarget(null)}
                 onSelect={(path) => {
-                    if (pickerTarget !== null) updateBanner(pickerTarget.index, { [pickerTarget.field]: path });
+                    if (pickerTarget !== null)
+                        updateBanner(pickerTarget.index, { [pickerTarget.field]: path });
                 }}
             />
         </div>
