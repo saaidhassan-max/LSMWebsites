@@ -24,6 +24,16 @@ import {
   updateCampaign,
 } from "@/lib/campaign-store";
 import {
+  createBrandAccount,
+  createCommercialDeal,
+  deleteBrandAccount,
+  deleteCommercialDeal,
+  setBrandAccountStatus,
+  setCommercialDealStatus,
+  updateBrandAccount,
+  updateCommercialDeal,
+} from "@/lib/commercial-store";
+import {
   createLandingPage,
   deleteLandingPage,
   duplicateLandingPage,
@@ -68,6 +78,10 @@ import type {
   ContentPageKey,
   ContentPagePatch,
 } from "@/lib/content-pages.types";
+import type {
+  CmsBrandAccountDetails,
+  CmsCommercialDealDetails,
+} from "@/lib/commercial.types";
 
 export async function createAction(): Promise<void> {
   const newId = await createLandingPage();
@@ -365,5 +379,74 @@ export async function deleteCampaignAction(
   operatorId: string,
 ): Promise<void> {
   await deleteCampaign(id);
+  revalidatePath("/operators/edit/" + operatorId);
+}
+
+export async function createBrandAccountAction(
+  operatorId: string,
+): Promise<string> {
+  const id = await createBrandAccount(operatorId);
+  revalidatePath("/operators/edit/" + operatorId);
+  return id;
+}
+
+export async function saveBrandAccountAction(
+  id: string,
+  operatorId: string,
+  details: CmsBrandAccountDetails,
+): Promise<void> {
+  await updateBrandAccount(id, details);
+  revalidatePath("/operators/edit/" + operatorId);
+}
+
+export async function setBrandAccountStatusAction(
+  id: string,
+  operatorId: string,
+  status: CmsRecordStatus,
+): Promise<void> {
+  await setBrandAccountStatus(id, status);
+  revalidatePath("/operators/edit/" + operatorId);
+}
+
+export async function deleteBrandAccountAction(
+  id: string,
+  operatorId: string,
+): Promise<void> {
+  await deleteBrandAccount(id);
+  revalidatePath("/operators/edit/" + operatorId);
+}
+
+export async function createCommercialDealAction(
+  brandAccountId: string,
+  operatorId: string,
+): Promise<string> {
+  const id = await createCommercialDeal(brandAccountId);
+  revalidatePath("/operators/edit/" + operatorId);
+  return id;
+}
+
+export async function saveCommercialDealAction(
+  id: string,
+  operatorId: string,
+  details: CmsCommercialDealDetails,
+): Promise<void> {
+  await updateCommercialDeal(id, details);
+  revalidatePath("/operators/edit/" + operatorId);
+}
+
+export async function setCommercialDealStatusAction(
+  id: string,
+  operatorId: string,
+  status: CmsRecordStatus,
+): Promise<void> {
+  await setCommercialDealStatus(id, status);
+  revalidatePath("/operators/edit/" + operatorId);
+}
+
+export async function deleteCommercialDealAction(
+  id: string,
+  operatorId: string,
+): Promise<void> {
+  await deleteCommercialDeal(id);
   revalidatePath("/operators/edit/" + operatorId);
 }

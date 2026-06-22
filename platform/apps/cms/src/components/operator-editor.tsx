@@ -48,6 +48,12 @@ import type {
 import { getOfferScheduleStatus } from "@/lib/offer-status";
 import type { OfferScheduleStatus } from "@/lib/offer-status";
 import { OfferStatusChip } from "@/components/offer-status-chip";
+import { CampaignTimeline } from "@/components/campaign-timeline";
+import { CommercialWorkspace } from "@/components/commercial-workspace";
+import type {
+  CmsBrandAccount,
+  CmsCommercialDeal,
+} from "@/lib/commercial.types";
 
 interface OperatorEditorProps {
   operator: CmsOperator;
@@ -56,15 +62,18 @@ interface OperatorEditorProps {
   placements: Record<string, CmsCreativePlacement[]>;
   campaigns: CmsCampaign[];
   landingPages: LandingPage[];
+  brandAccounts: CmsBrandAccount[];
+  commercialDeals: CmsCommercialDeal[];
 }
 
-type WorkspaceTab = "creative" | "campaigns" | "brand";
+type WorkspaceTab = "creative" | "campaigns" | "commercial" | "brand";
 type CreativeFilter = "all" | "offers" | "banners" | "landingPages";
 type StatusFilter = "all" | OfferScheduleStatus;
 
 const workspaceTabs: { id: WorkspaceTab; label: string }[] = [
   { id: "creative", label: "Creative" },
   { id: "campaigns", label: "Campaigns" },
+  { id: "commercial", label: "Commercial" },
   { id: "brand", label: "Brand content" },
 ];
 
@@ -133,6 +142,8 @@ export function OperatorEditor({
   placements,
   campaigns,
   landingPages,
+  brandAccounts,
+  commercialDeals,
 }: OperatorEditorProps): React.ReactElement {
   const router = useRouter();
   const [tab, setTab] = useState<WorkspaceTab>("creative");
@@ -173,9 +184,6 @@ export function OperatorEditor({
     (offer) => getOfferScheduleStatus(offer) === "live",
   ).length;
   const bannerCount = offers.filter((offer) => offer.banner !== null).length;
-  const activeCampaignCount = campaigns.filter(
-    (campaign) => getOfferScheduleStatus(campaign) === "live",
-  ).length;
   const lowerQuery = query.trim().toLowerCase();
   const visibleOffers = offers.filter((offer) => {
     const matchesType = creativeFilter === "all" || creativeFilter === "offers";
@@ -712,13 +720,13 @@ export function OperatorEditor({
 
             {tab === "campaigns" && (
               <section className="flex flex-col gap-4">
-                <div className="rounded-xl border border-m3-outline-variant bg-m3-surface-lowest p-5 flex items-start justify-between gap-4">
-                  <div>
+                <div className="rounded-xl border border-m3-outline-variant bg-m3-surface-lowest p-5 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="min-w-0 flex-1">
                     <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-m3-on-surface-variant">
                       Campaign workspace
                     </div>
                     <h2 className="text-[20px] font-medium mt-1">Campaigns</h2>
-                    <p className="text-[12px] text-m3-on-surface-variant mt-1 max-w-2xl">
+                    <p className="mt-1 w-full text-[12px] text-m3-on-surface-variant">
                       Group offers, their banners and landing pages under one
                       schedule and tracking link. Saving applies the campaign
                       dates to its offers; activate or pause sets the visibility
@@ -730,13 +738,14 @@ export function OperatorEditor({
                     type="button"
                     onClick={createCampaign}
                     disabled={campaignPending}
-                    className="flex items-center gap-1.5 text-[12px] font-medium px-3 py-2 rounded-md bg-m3-gold text-m3-on-gold hover:brightness-95 disabled:opacity-40"
+                    className="flex shrink-0 items-center gap-1.5 text-[12px] font-medium px-3 py-2 rounded-md bg-m3-gold text-m3-on-gold hover:brightness-95 disabled:opacity-40"
                   >
                     <Plus size={14} />
                     New campaign
                   </button>
                 </div>
-                <div className="grid grid-cols-1 gap-5 items-start xl:grid-cols-[minmax(0,1.5fr)_minmax(280px,0.7fr)]">
+                <CampaignTimeline campaigns={campaigns} />
+                <div className="grid grid-cols-1 gap-5 items-start">
                   <div className="flex flex-col gap-4">
                     {campaigns.map((campaign) => {
                       const draft =
@@ -970,47 +979,20 @@ export function OperatorEditor({
                       </div>
                     )}
                   </div>
-                  <aside className="rounded-xl border border-m3-outline-variant bg-m3-surface-lowest p-4 flex flex-col gap-3 sticky top-0">
-                    <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-m3-on-surface-variant">
-                      Commercial agreement
-                    </div>
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-[15px] font-medium">
-                        No active deal
-                      </span>
-                      <span className="rounded-full bg-m3-surface-highest px-2.5 py-1 text-[10px] text-m3-on-surface-variant">
-                        Not configured
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-m3-on-surface-variant">
-                      CPA, CPL and revenue-share terms will appear here when
-                      brand accounts are connected.
-                    </p>
-                    <div className="grid grid-cols-2 gap-2 border-t border-m3-outline-variant pt-3">
-                      <div className="rounded-md bg-m3-surface-low p-3">
-                        <div className="text-[20px] font-medium">
-                          {campaigns.length}
-                        </div>
-                        <div className="text-[10px] text-m3-on-surface-variant">
-                          Campaigns
-                        </div>
-                      </div>
-                      <div className="rounded-md bg-m3-surface-low p-3">
-                        <div className="text-[20px] font-medium text-m3-success">
-                          {activeCampaignCount}
-                        </div>
-                        <div className="text-[10px] text-m3-on-surface-variant">
-                          Running now
-                        </div>
-                      </div>
-                    </div>
-                  </aside>
                 </div>
               </section>
             )}
 
+            {tab === "commercial" && (
+              <CommercialWorkspace
+                operatorId={operator.id}
+                accounts={brandAccounts}
+                deals={commercialDeals}
+              />
+            )}
+
             {tab === "brand" && (
-              <section className="rounded-xl border border-m3-outline-variant bg-m3-surface-lowest p-5 flex flex-col gap-4 max-w-3xl">
+              <section className="w-full rounded-xl border border-m3-outline-variant bg-m3-surface-lowest p-5 flex flex-col gap-4">
                 <div>
                   <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-m3-on-surface-variant">
                     Brand content
@@ -1022,7 +1004,7 @@ export function OperatorEditor({
                     Identity and review copy used across the public site.
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <label className="flex flex-col gap-1.5 text-[12px] font-medium">
                     Name
                     <input

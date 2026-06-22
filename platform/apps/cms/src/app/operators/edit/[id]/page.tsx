@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { OperatorEditor } from "@/components/operator-editor";
 import { getOperator, listOffers } from "@/lib/cms-content-store";
 import { listCampaigns } from "@/lib/campaign-store";
+import { listBrandAccounts, listCommercialDeals } from "@/lib/commercial-store";
 import { listLandingPages } from "@/lib/landing-store";
 import { getHomeConfig } from "@/lib/home-store";
 import { getPublishedSnapshot } from "@/lib/published-store";
@@ -90,16 +91,25 @@ export default async function EditOperatorScreen({
   params: Promise<{ id: string }>;
 }): Promise<React.ReactElement> {
   const { id } = await params;
-  const [operator, offers, home, pages, published, campaigns, landingPages] =
-    await Promise.all([
-      getOperator(id),
-      listOffers(),
-      getHomeConfig(),
-      listSitePages(),
-      getPublishedSnapshot(),
-      listCampaigns(),
-      listLandingPages(),
-    ]);
+  const [
+    operator,
+    offers,
+    home,
+    pages,
+    published,
+    campaigns,
+    landingPages,
+    brandAccounts,
+  ] = await Promise.all([
+    getOperator(id),
+    listOffers(),
+    getHomeConfig(),
+    listSitePages(),
+    getPublishedSnapshot(),
+    listCampaigns(),
+    listLandingPages(),
+    listBrandAccounts(id),
+  ]);
   if (operator === undefined) notFound();
   const operatorOffers = offers
     .filter((offer) => offer.operatorId === id)
@@ -127,6 +137,9 @@ export default async function EditOperatorScreen({
       "live",
     ),
   );
+  const commercialDeals = await listCommercialDeals(
+    brandAccounts.map((account) => account.id),
+  );
   return (
     <OperatorEditor
       operator={operator}
@@ -135,6 +148,8 @@ export default async function EditOperatorScreen({
       placements={placements}
       campaigns={campaigns.filter((campaign) => campaign.operatorId === id)}
       landingPages={landingPages}
+      brandAccounts={brandAccounts}
+      commercialDeals={commercialDeals}
     />
   );
 }
