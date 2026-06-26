@@ -18,6 +18,19 @@ export interface CmsOfferBanner {
     href: string;
 }
 
+export interface CmsCampaign {
+    id: string;
+    operatorId: string;
+    name: string;
+    offerIds: string[];
+    landingPageIds: string[];
+    trackingHref: string;
+    startDate?: string | null;
+    endDate?: string | null;
+    status: CmsRecordStatus;
+    updatedAt: string;
+}
+
 export interface CmsOffer {
     id: string;
     operatorId: string;

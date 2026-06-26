@@ -14,8 +14,8 @@ export function WelcomeBanner({
 }: WelcomeBannerProps): React.ReactElement {
     return (
         <div className="w-full bg-surface overflow-hidden">
-            <div className="md:hidden flex flex-row items-center h-16">
-                <div className="shrink-0 relative h-16" style={{ width: imageLeftWidthMobile }}>
+            <div className="md:hidden flex flex-row items-center min-h-16">
+                <div className="shrink-0 relative self-stretch min-h-16" style={{ width: imageLeftWidthMobile }}>
                     <Image
                         src={imageLeftSrc}
                         alt=""
@@ -24,7 +24,7 @@ export function WelcomeBanner({
                         aria-hidden="true"
                     />
                 </div>
-                <div className="flex-1 flex items-center justify-center py-1">
+                <div className="flex-1 flex items-center justify-center py-2">
                     <p className="font-futura font-[900] text-[24px] leading-7 tracking-[-0.019em] text-center whitespace-pre-line">
                         {textHighlight !== undefined && (
                             <span className="text-tertiary">{textHighlight}</span>
@@ -35,7 +35,7 @@ export function WelcomeBanner({
                         )}
                     </p>
                 </div>
-                <div className="shrink-0 relative w-[92px] h-16">
+                <div className="shrink-0 relative self-stretch w-[92px] min-h-16">
                     <Image
                         src={imageRightSrc}
                         alt=""

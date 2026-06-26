@@ -8,6 +8,7 @@ import type {
     CmsHomeWelcomeContent,
     CmsLandingPage,
     CmsLandingPageContent,
+    CmsCampaign,
     CmsOffer,
     CmsOfferPageData,
     CmsOperator,
@@ -27,6 +28,7 @@ export type CmsHomeRenderItem =
 const CMS_DATA_DIR = path.resolve(process.cwd(), '../cms/.cms-data');
 const OPERATORS_FILE = 'operators';
 const OFFERS_FILE = 'offers';
+const CAMPAIGNS_FILE = 'campaigns';
 const HOME_FILE = 'home-page';
 const LANDING_PAGES_FILE = 'landing-pages';
 const SITE_PAGES_FILE = 'site-pages';
@@ -96,6 +98,7 @@ const PUBLISHED_KEY = 'published-site';
 const SNAPSHOT_FIELD: Record<string, string> = {
     [OPERATORS_FILE]: 'operators',
     [OFFERS_FILE]: 'offers',
+    [CAMPAIGNS_FILE]: 'campaigns',
     [HOME_FILE]: 'home',
     [LANDING_PAGES_FILE]: 'landingPages',
     [SITE_PAGES_FILE]: 'sitePages',
@@ -372,28 +375,41 @@ function normalizeSettings(
     };
 }
 
+function windowLive(
+    start: string | null | undefined,
+    end: string | null | undefined,
+    today: string
+): boolean {
+    if (start !== null && start !== undefined && start > today) return false;
+    if (end !== null && end !== undefined && end < today) return false;
+    return true;
+}
+
 function isOfferLive(
     offer: CmsOffer,
+    campaigns: CmsCampaign[],
     today: string = new Date().toISOString().slice(0, 10)
 ): boolean {
     if (offer.status !== 'active') return false;
-    const start = offer.startDate ?? null;
-    const end = offer.endDate ?? null;
-    if (start !== null && start > today) return false;
-    if (end !== null && end < today) return false;
-    return true;
+    const owning = campaigns.filter((campaign) => campaign.offerIds.includes(offer.id));
+    if (owning.length === 0) return windowLive(offer.startDate, offer.endDate, today);
+    return owning.some(
+        (campaign) =>
+            campaign.status === 'active' && windowLive(campaign.startDate, campaign.endDate, today)
+    );
 }
 
 function resolveBannerImages(
     item: CmsOffersBannerItem,
     offerById: Map<string, CmsOffer>,
-    operatorById: Map<string, CmsOperator>
+    operatorById: Map<string, CmsOperator>,
+    campaigns: CmsCampaign[]
 ): { mobileSrc: string; desktopSrc: string; href: string } | null {
     if (item.tie === 'offer') {
         const offer = offerById.get(item.offerId);
         if (
             offer === undefined ||
-            !isOfferLive(offer) ||
+            !isOfferLive(offer, campaigns) ||
             offer.banner === null ||
             offer.banner === undefined
         ) {
@@ -414,18 +430,20 @@ function resolveBannerImages(
 function resolveBannerRenderItem(
     item: CmsOffersBannerItem,
     offerById: Map<string, CmsOffer>,
-    operatorById: Map<string, CmsOperator>
+    operatorById: Map<string, CmsOperator>,
+    campaigns: CmsCampaign[]
 ): CmsHomeRenderItem | null {
-    const images = resolveBannerImages(item, offerById, operatorById);
+    const images = resolveBannerImages(item, offerById, operatorById, campaigns);
     return images === null ? null : { kind: 'banner', ...images };
 }
 
 function resolveBannerSectionItem(
     item: CmsOffersBannerItem,
     offerById: Map<string, CmsOffer>,
-    operatorById: Map<string, CmsOperator>
+    operatorById: Map<string, CmsOperator>,
+    campaigns: CmsCampaign[]
 ): CmsOffersItem | null {
-    const images = resolveBannerImages(item, offerById, operatorById);
+    const images = resolveBannerImages(item, offerById, operatorById, campaigns);
     return images === null ? null : { kind: 'banner', tie: 'general', ...images };
 }
 
@@ -457,23 +475,25 @@ function toOfferCardProps(offer: CmsOffer, operator: CmsOperator): OfferCardProp
 }
 
 export async function getCmsHomeRenderItems(): Promise<CmsHomeRenderItem[] | null> {
-    const [operators, offers, home] = await Promise.all([
+    const [operators, offers, campaigns, home] = await Promise.all([
         readJson<CmsOperator[]>(OPERATORS_FILE),
         readJson<CmsOffer[]>(OFFERS_FILE),
+        readJson<CmsCampaign[]>(CAMPAIGNS_FILE),
         readJson<CmsHomeConfig>(HOME_FILE)
     ]);
 
     if (operators === null || offers === null || home === null) return null;
 
+    const campaignList = campaigns ?? [];
     const operatorById = new Map(operators.map((operator) => [operator.id, operator]));
     const offerById = new Map(offers.map((offer) => [offer.id, offer]));
     const items = normalizeOffersItems(home)
         .map((item): CmsHomeRenderItem | null => {
             if (item.kind === 'banner') {
-                return resolveBannerRenderItem(item, offerById, operatorById);
+                return resolveBannerRenderItem(item, offerById, operatorById, campaignList);
             }
             const offer = offerById.get(item.offerId);
-            if (offer === undefined || !isOfferLive(offer)) return null;
+            if (offer === undefined || !isOfferLive(offer, campaignList)) return null;
             const operator = operatorById.get(offer.operatorId);
             if (operator === undefined || operator.status !== 'active') return null;
             return { kind: 'offer', props: toOfferCardProps(offer, operator) };
@@ -486,19 +506,23 @@ export async function getCmsHomeRenderItems(): Promise<CmsHomeRenderItem[] | nul
 export async function getCmsOfferCardsByIds(offerIds: string[]): Promise<OfferCardProps[]> {
     if (offerIds.length === 0) return [];
 
-    const [operators, offers] = await Promise.all([
+    const [operators, offers, campaigns] = await Promise.all([
         readJson<CmsOperator[]>(OPERATORS_FILE),
-        readJson<CmsOffer[]>(OFFERS_FILE)
+        readJson<CmsOffer[]>(OFFERS_FILE),
+        readJson<CmsCampaign[]>(CAMPAIGNS_FILE)
     ]);
 
     if (operators === null || offers === null) return [];
 
+    const campaignList = campaigns ?? [];
     const operatorById = new Map(operators.map((operator) => [operator.id, operator]));
     const offerById = new Map(offers.map((offer) => [offer.id, offer]));
 
     return offerIds
         .map((offerId) => offerById.get(offerId))
-        .filter((offer): offer is CmsOffer => offer !== undefined && isOfferLive(offer))
+        .filter(
+            (offer): offer is CmsOffer => offer !== undefined && isOfferLive(offer, campaignList)
+        )
         .map((offer) => {
             const operator = operatorById.get(offer.operatorId);
             if (operator === undefined || operator.status !== 'active') return null;
@@ -512,20 +536,22 @@ export async function getCmsOfferCardMap(
 ): Promise<Record<string, OfferCardProps>> {
     if (offerIds.length === 0) return {};
 
-    const [operators, offers] = await Promise.all([
+    const [operators, offers, campaigns] = await Promise.all([
         readJson<CmsOperator[]>(OPERATORS_FILE),
-        readJson<CmsOffer[]>(OFFERS_FILE)
+        readJson<CmsOffer[]>(OFFERS_FILE),
+        readJson<CmsCampaign[]>(CAMPAIGNS_FILE)
     ]);
 
     if (operators === null || offers === null) return {};
 
+    const campaignList = campaigns ?? [];
     const operatorById = new Map(operators.map((operator) => [operator.id, operator]));
     const offerById = new Map(offers.map((offer) => [offer.id, offer]));
     const map: Record<string, OfferCardProps> = {};
 
     offerIds.forEach((id) => {
         const offer = offerById.get(id);
-        if (offer === undefined || !isOfferLive(offer)) return;
+        if (offer === undefined || !isOfferLive(offer, campaignList)) return;
         const operator = operatorById.get(offer.operatorId);
         if (operator === undefined || operator.status !== 'active') return;
         map[id] = toOfferCardProps(offer, operator);
@@ -547,12 +573,14 @@ export async function getCmsHomeSectionIds(): Promise<CmsHomeSectionId[]> {
 }
 
 export async function getCmsHomeSections(): Promise<CmsSitePageSection[] | null> {
-    const [home, offers, operators] = await Promise.all([
+    const [home, offers, operators, campaigns] = await Promise.all([
         readJson<CmsHomeConfig>(HOME_FILE),
         readJson<CmsOffer[]>(OFFERS_FILE),
-        readJson<CmsOperator[]>(OPERATORS_FILE)
+        readJson<CmsOperator[]>(OPERATORS_FILE),
+        readJson<CmsCampaign[]>(CAMPAIGNS_FILE)
     ]);
     if (home === null) return null;
+    const campaignList = campaigns ?? [];
     const offerById = new Map((offers ?? []).map((offer) => [offer.id, offer]));
     const operatorById = new Map((operators ?? []).map((operator) => [operator.id, operator]));
     return normalizeHomeSections(home).map((section) => {
@@ -560,7 +588,7 @@ export async function getCmsHomeSections(): Promise<CmsSitePageSection[] | null>
         const items = section.content.items
             .map((item): CmsOffersItem | null => {
                 if (item.kind !== 'banner') return item;
-                return resolveBannerSectionItem(item, offerById, operatorById);
+                return resolveBannerSectionItem(item, offerById, operatorById, campaignList);
             })
             .filter((item): item is CmsOffersItem => item !== null);
         return { ...section, content: { ...section.content, items } };
@@ -576,18 +604,20 @@ export async function getCmsSiteSettings(): Promise<CmsSiteSettings> {
 }
 
 export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | null> {
-    const [operators, offers] = await Promise.all([
+    const [operators, offers, campaigns] = await Promise.all([
         readJson<CmsOperator[]>(OPERATORS_FILE),
-        readJson<CmsOffer[]>(OFFERS_FILE)
+        readJson<CmsOffer[]>(OFFERS_FILE),
+        readJson<CmsCampaign[]>(CAMPAIGNS_FILE)
     ]);
 
     if (operators === null || offers === null) return null;
 
+    const campaignList = campaigns ?? [];
     const offer =
-        offers.find((item) => item.id === slug && isOfferLive(item)) ??
+        offers.find((item) => item.id === slug && isOfferLive(item, campaignList)) ??
         offers.find((item) => {
             const operator = operators.find((candidate) => candidate.id === item.operatorId);
-            return operator?.slug === slug && isOfferLive(item);
+            return operator?.slug === slug && isOfferLive(item, campaignList);
         });
 
     if (offer === undefined) return null;
@@ -616,14 +646,16 @@ export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | 
 }
 
 export async function getCmsSitePage(slug: string): Promise<CmsSitePage | null> {
-    const [pages, offers, operators] = await Promise.all([
+    const [pages, offers, operators, campaigns] = await Promise.all([
         readJson<CmsSitePage[]>(SITE_PAGES_FILE),
         readJson<CmsOffer[]>(OFFERS_FILE),
-        readJson<CmsOperator[]>(OPERATORS_FILE)
+        readJson<CmsOperator[]>(OPERATORS_FILE),
+        readJson<CmsCampaign[]>(CAMPAIGNS_FILE)
     ]);
     if (pages === null) return null;
     const page = pages.find((item) => item.slug === slug && item.status === 'published');
     if (page === undefined) return null;
+    const campaignList = campaigns ?? [];
     const offerById = new Map((offers ?? []).map((offer) => [offer.id, offer]));
     const operatorById = new Map((operators ?? []).map((operator) => [operator.id, operator]));
     return {
@@ -636,7 +668,12 @@ export async function getCmsSitePage(slug: string): Promise<CmsSitePage | null> 
                 const items = section.content.items
                     .map((item): CmsOffersItem | null => {
                         if (item.kind !== 'banner') return item;
-                        return resolveBannerSectionItem(item, offerById, operatorById);
+                        return resolveBannerSectionItem(
+                            item,
+                            offerById,
+                            operatorById,
+                            campaignList
+                        );
                     })
                     .filter((item): item is CmsOffersItem => item !== null);
                 return { ...section, content: { ...section.content, items } };

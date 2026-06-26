@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "ssm",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:ssm", "--prefix", "/Users/Saied.Hassan/Desktop/LSM multiagent/platform"],
+      "port": 3001
+    },
+    {
       "name": "sfb",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev:sfb", "--prefix", "/Users/Saied.Hassan/Desktop/LSM multiagent/platform"],

@@ -1,13 +1,14 @@
 import { readDoc, writeDoc } from './cms-storage';
 import { getHomeConfig, normalizeHomeConfig } from './home-store';
 import { listOffers, listOperators } from './cms-content-store';
+import { listCampaigns } from './campaign-store';
 import { listSitePages } from './site-pages-store';
 import { listLandingPages } from './landing-store';
 import { getSiteSettings } from './site-settings-store';
 import { getContentPages } from './content-pages-store';
 import { CONTENT_PAGE_KEYS } from './content-pages.types';
 import type { HomePageConfig } from './home.types';
-import type { CmsOffer, CmsOperator } from './cms-content.types';
+import type { CmsCampaign, CmsOffer, CmsOperator } from './cms-content.types';
 import type { SitePage } from './site-pages.types';
 import type { LandingPage } from './landing-pages.types';
 import type { SiteSettings } from './site-settings.types';
@@ -19,6 +20,7 @@ export interface PublishableSnapshot {
     home: HomePageConfig;
     offers: CmsOffer[];
     operators: CmsOperator[];
+    campaigns: CmsCampaign[];
     sitePages: SitePage[];
     landingPages: LandingPage[];
     settings: SiteSettings;
@@ -40,17 +42,18 @@ function now(): string {
 }
 
 async function buildPublishableSnapshot(): Promise<PublishableSnapshot> {
-    const [home, offers, operators, sitePages, landingPages, settings, contentPages] =
+    const [home, offers, operators, campaigns, sitePages, landingPages, settings, contentPages] =
         await Promise.all([
             getHomeConfig(),
             listOffers(),
             listOperators(),
+            listCampaigns(),
             listSitePages(),
             listLandingPages(),
             getSiteSettings(),
             getContentPages()
         ]);
-    return { home, offers, operators, sitePages, landingPages, settings, contentPages };
+    return { home, offers, operators, campaigns, sitePages, landingPages, settings, contentPages };
 }
 
 async function seedSnapshot(): Promise<PublishedSnapshot> {
@@ -64,6 +67,7 @@ async function normalizeSnapshot(raw: PublishedSnapshot): Promise<PublishedSnaps
         home: normalizeHomeConfig(raw.home ?? { sections: [], updatedAt: publishedAt }),
         offers: raw.offers ?? [],
         operators: raw.operators ?? [],
+        campaigns: raw.campaigns ?? [],
         sitePages: raw.sitePages ?? [],
         landingPages: raw.landingPages ?? [],
         settings: raw.settings ?? (await getSiteSettings()),
@@ -87,6 +91,7 @@ function publishableView(snapshot: PublishableSnapshot): string {
         home: snapshot.home,
         offers: snapshot.offers,
         operators: snapshot.operators,
+        campaigns: snapshot.campaigns,
         sitePages: snapshot.sitePages,
         landingPages: snapshot.landingPages,
         settings: snapshot.settings,
@@ -128,21 +133,28 @@ function collectRecordChanges<T extends { id: string }>(
         if (detailed !== undefined && detailed !== null) {
             changes.push(detailed);
         } else if (hasChanged(draft, published)) {
-            changes.push(singular.charAt(0).toUpperCase() + singular.slice(1) + ' changed: ' + label(draft));
+            changes.push(
+                singular.charAt(0).toUpperCase() + singular.slice(1) + ' changed: ' + label(draft)
+            );
         }
     }
 
     for (const published of publishedItems) {
-        if (!draftById.has(published.id)) changes.push('Removed ' + singular + ': ' + label(published));
+        if (!draftById.has(published.id))
+            changes.push('Removed ' + singular + ': ' + label(published));
     }
 
     return changes;
 }
 
-function collectPublishChanges(draft: PublishableSnapshot, published: PublishableSnapshot): string[] {
+function collectPublishChanges(
+    draft: PublishableSnapshot,
+    published: PublishableSnapshot
+): string[] {
     const changes: string[] = [];
 
-    if (hasChanged(draft.home, published.home)) changes.push('Home page content or offer placement changed');
+    if (hasChanged(draft.home, published.home))
+        changes.push('Home page content or offer placement changed');
     if (hasChanged(draft.settings, published.settings)) changes.push('Site-wide settings changed');
 
     for (const key of CONTENT_PAGE_KEYS) {
@@ -203,8 +215,32 @@ function collectPublishChanges(draft: PublishableSnapshot, published: Publishabl
         )
     );
     changes.push(
-        ...collectRecordChanges('landing page', draft.landingPages, published.landingPages, (page) =>
-            itemName(page.name, page.id)
+        ...collectRecordChanges(
+            'landing page',
+            draft.landingPages,
+            published.landingPages,
+            (page) => itemName(page.name, page.id)
+        )
+    );
+    changes.push(
+        ...collectRecordChanges(
+            'campaign',
+            draft.campaigns,
+            published.campaigns,
+            (campaign) => itemName(campaign.name, campaign.id),
+            (draftCampaign, publishedCampaign) => {
+                if (draftCampaign.status !== publishedCampaign.status) {
+                    return (
+                        'Campaign ' +
+                        (draftCampaign.status === 'hidden' ? 'paused' : 'activated') +
+                        ': ' +
+                        itemName(draftCampaign.name, draftCampaign.id)
+                    );
+                }
+                return hasChanged(draftCampaign, publishedCampaign)
+                    ? 'Campaign changed: ' + itemName(draftCampaign.name, draftCampaign.id)
+                    : null;
+            }
         )
     );
 
@@ -212,7 +248,10 @@ function collectPublishChanges(draft: PublishableSnapshot, published: Publishabl
 }
 
 export async function getPublishStatus(): Promise<PublishStatus> {
-    const [draft, published] = await Promise.all([buildPublishableSnapshot(), getPublishedSnapshot()]);
+    const [draft, published] = await Promise.all([
+        buildPublishableSnapshot(),
+        getPublishedSnapshot()
+    ]);
     const changes = collectPublishChanges(draft, published);
     return {
         hasUnpublishedChanges: publishableView(draft) !== publishableView(published),

@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev:ontario"],
       "port": 3005
+    },
+    {
+      "name": "ssm",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:ssm"],
+      "port": 3001
     }
   ]
 }

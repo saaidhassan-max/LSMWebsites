@@ -45,7 +45,7 @@ import type {
     CmsOperator,
     CmsOperatorDetails
 } from '@/lib/cms-content.types';
-import { getOfferScheduleStatus } from '@/lib/offer-status';
+import { getOfferEffectiveStatus, getOfferScheduleStatus } from '@/lib/offer-status';
 import type { OfferScheduleStatus } from '@/lib/offer-status';
 import { OfferStatusChip } from '@/components/offer-status-chip';
 import { CampaignTimeline } from '@/components/campaign-timeline';
@@ -168,15 +168,14 @@ export function OperatorEditor({
         [campaigns]
     );
     const relevantLandingPages = landingPages.filter((page) => assignedLandingPageIds.has(page.id));
-    const liveOfferCount = offers.filter(
-        (offer) => getOfferScheduleStatus(offer) === 'live'
-    ).length;
+    const offerStatus = (offer: CmsOffer): OfferScheduleStatus =>
+        getOfferEffectiveStatus(offer.id, offer, campaigns);
+    const liveOfferCount = offers.filter((offer) => offerStatus(offer) === 'live').length;
     const bannerCount = offers.filter((offer) => offer.banner !== null).length;
     const lowerQuery = query.trim().toLowerCase();
     const visibleOffers = offers.filter((offer) => {
         const matchesType = creativeFilter === 'all' || creativeFilter === 'offers';
-        const matchesStatus =
-            statusFilter === 'all' || getOfferScheduleStatus(offer) === statusFilter;
+        const matchesStatus = statusFilter === 'all' || offerStatus(offer) === statusFilter;
         const matchesQuery =
             lowerQuery === '' ||
             offer.headline.toLowerCase().includes(lowerQuery) ||
@@ -186,8 +185,7 @@ export function OperatorEditor({
     const visibleBanners = offers.filter((offer) => {
         if (offer.banner === null) return false;
         const matchesType = creativeFilter === 'all' || creativeFilter === 'banners';
-        const matchesStatus =
-            statusFilter === 'all' || getOfferScheduleStatus(offer) === statusFilter;
+        const matchesStatus = statusFilter === 'all' || offerStatus(offer) === statusFilter;
         const matchesQuery = lowerQuery === '' || offer.headline.toLowerCase().includes(lowerQuery);
         return matchesType && matchesStatus && matchesQuery;
     });
@@ -540,9 +538,7 @@ export function OperatorEditor({
                                                                 {offer.headline}
                                                             </span>
                                                             <OfferStatusChip
-                                                                status={getOfferScheduleStatus(
-                                                                    offer
-                                                                )}
+                                                                status={offerStatus(offer)}
                                                             />
                                                         </div>
                                                         <div className="text-[11px] text-m3-on-surface-variant truncate mt-0.5">
@@ -628,7 +624,7 @@ export function OperatorEditor({
                                                             {offer.headline} banner
                                                         </span>
                                                         <OfferStatusChip
-                                                            status={getOfferScheduleStatus(offer)}
+                                                            status={offerStatus(offer)}
                                                         />
                                                     </span>
                                                     <span className="block text-[11px] text-m3-on-surface-variant truncate mt-0.5">
@@ -904,7 +900,7 @@ export function OperatorEditor({
                                                                             />
                                                                         )}
                                                                         <OfferStatusChip
-                                                                            status={getOfferScheduleStatus(
+                                                                            status={offerStatus(
                                                                                 offer
                                                                             )}
                                                                         />
