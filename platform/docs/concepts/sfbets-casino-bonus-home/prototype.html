@@ -1,0 +1,587 @@
+<title>Super Free Bets MI — Casino Bonus Demo</title>
+<style>
+  :root {
+    --ground: #0A0D12;
+    --panel: #121722;
+    --panel-2: #1A2130;
+    --panel-3: #212A3A;
+    --line: #232C3B;
+    --line-2: #2E3A4D;
+    --green: #3DDC84;
+    --green-deep: #1F9E56;
+    --green-ink: #052012;
+    --gold: #FFC24B;
+    --red: #FF6B57;
+    --text: #EEF2F7;
+    --muted: #9AA7B8;
+    --muted-2: #6B7889;
+    --font-display: "Arial Black", "Helvetica Neue", system-ui, sans-serif;
+    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --maxw: 1080px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background:
+      radial-gradient(900px 420px at 92% -10%, rgba(61,220,132,0.07), transparent 60%),
+      var(--ground);
+    color: var(--text); font-family: var(--font-body); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+  h1,h2,h3 { margin: 0; text-wrap: balance; }
+  .num { font-variant-numeric: tabular-nums; }
+  .eyebrow { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.15em; font-size: 10.5px; color: var(--green); font-weight: 800; }
+
+  /* trust bar */
+  .trustbar { position: sticky; top: 0; z-index: 50; background: rgba(10,13,18,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .trustbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 50px; gap: 10px; }
+  .brand { font-family: var(--font-display); font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+  .brand .mk { width: 24px; height: 24px; border-radius: 7px; background: var(--green); color: var(--green-ink); display: grid; place-items: center; font-size: 13px; }
+  .brand b { color: var(--green); }
+  .brand .mi { color: var(--muted); font-weight: 600; font-size: 11px; }
+  .trust-signals { display: flex; gap: 10px; align-items: center; font-size: 11.5px; color: var(--muted); }
+  .trust-signals .sig { display: flex; gap: 5px; align-items: center; white-space: nowrap; }
+  .badge21 { border: 1.5px solid var(--muted); border-radius: 50%; width: 21px; height: 21px; display: grid; place-items: center; font-size: 9px; font-weight: 800; color: var(--text); font-family: var(--font-display); }
+  .trust-signals .sig.hide-sm { display: none; }
+  @media (min-width: 560px){ .trust-signals .sig.hide-sm { display: flex; } .trust-signals { gap: 14px; font-size: 12px; } }
+
+  /* return banner */
+  .return-banner { display: none; background: linear-gradient(90deg, rgba(61,220,132,0.13), rgba(255,194,75,0.10)); border-bottom: 1px solid var(--line); }
+  .return-banner.show { display: block; }
+  .return-banner .wrap { display: flex; gap: 9px; align-items: center; padding: 9px 16px; font-size: 13px; }
+  .return-banner strong { color: var(--gold); }
+
+  /* compact intro */
+  .intro { padding: 22px 0 4px; }
+  .intro h1 { font-family: var(--font-display); text-transform: uppercase; font-weight: 900; font-size: clamp(22px, 6vw, 31px); letter-spacing: -0.01em; line-height: 1.02; }
+  .intro h1 .hl { color: var(--green); }
+  .intro .sub { color: var(--muted); font-size: 13.5px; margin-top: 8px; max-width: 58ch; }
+  .intro .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 12px; }
+  .intro .howlink { display: inline-flex; align-items: center; gap: 5px; color: var(--green); font-size: 13px; font-weight: 700; text-decoration: none; }
+  .intro .howlink:hover { text-decoration: underline; }
+  .intro .comparelink { color: var(--muted); }
+  .intro .comparelink:hover { color: var(--green); }
+
+  /* quick match */
+  .toolbar { position: sticky; top: 50px; z-index: 40; background: rgba(10,13,18,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding: 11px 0; margin-top: 16px; }
+  .toolbar .wrap { display: grid; gap: 8px; }
+  .quick-label { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--muted); font-size: 11.5px; }
+  .quick-label b { color: var(--text); font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.05em; font-size: 11px; }
+  .quick-label span { color: var(--muted-2); white-space: nowrap; }
+  .quick-row { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .quick-row::-webkit-scrollbar { display: none; }
+  .quick { flex: 0 0 140px; height: 70px; border: 1px solid var(--line-2); background: var(--panel); color: var(--text); border-radius: 13px; padding: 9px; cursor: pointer; text-align: left; font-family: var(--font-body); transition: border-color .14s, background .14s; overflow: hidden; }
+  .quick:hover { border-color: var(--green); }
+  .quick.on { background: rgba(61,220,132,0.12); border-color: var(--green); box-shadow: inset 0 0 0 1px rgba(61,220,132,0.34); }
+  .quick .q-main { display: flex; align-items: center; gap: 6px; font-weight: 900; font-size: 12.5px; white-space: nowrap; }
+  .quick .q-icon { width: 21px; height: 21px; border-radius: 7px; background: rgba(61,220,132,0.13); color: var(--green); display: grid; place-items: center; font-size: 11px; flex-shrink: 0; }
+  .quick.on .q-icon { background: var(--green); color: var(--green-ink); }
+  .quick .q-sub { display: block; color: var(--muted); font-size: 10.5px; line-height: 1.25; margin: 6px 0 0 27px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* ---------- offer cards (mobile-first) ---------- */
+  .cards { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 18px 0; }
+  @media (min-width: 720px){ .cards { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 13px; transition: border-color .15s, box-shadow .15s; position: relative; }
+  .card:hover { border-color: var(--line-2); box-shadow: 0 10px 30px rgba(0,0,0,0.34); }
+  .card.best { border-color: var(--green); box-shadow: 0 0 0 1px var(--green), 0 12px 36px rgba(61,220,132,0.12); }
+
+  .c-head { display: flex; align-items: flex-start; gap: 11px; }
+  .c-mono { width: 46px; height: 46px; border-radius: 11px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 900; font-size: 17px; color: #fff; flex-shrink: 0; }
+  .c-id { flex: 1; min-width: 0; }
+  .c-name { font-weight: 800; font-size: 16px; line-height: 1.1; }
+  .c-tag { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+  .c-score { text-align: right; flex-shrink: 0; }
+  .c-score .big { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--gold); line-height: 1; }
+  .c-score .stars { display: inline-flex; gap: 1px; margin-top: 3px; }
+  .c-score .stars svg { width: 12px; height: 12px; }
+  .badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.07em; font-size: 9.5px; font-weight: 800; color: var(--green-ink); background: var(--green); border-radius: 20px; padding: 4px 10px; margin-bottom: -3px; }
+  .badge.new { background: var(--gold); color: #241800; }
+  .claimproof { display: flex; align-items: center; gap: 7px; background: rgba(61,220,132,0.10); border: 1px solid rgba(61,220,132,0.3); border-radius: 10px; padding: 8px 11px; font-size: 12px; color: var(--text); }
+  .claimproof svg { width: 15px; height: 15px; color: var(--green); flex-shrink: 0; }
+  .claimproof b { font-family: var(--font-display); color: var(--green); font-variant-numeric: tabular-nums; }
+  .best-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: -3px; }
+  .best-line .badge { margin-bottom: 0; }
+  .why-pick { border: 1px solid rgba(255,194,75,0.42); background: rgba(255,194,75,0.08); color: var(--gold); border-radius: 999px; padding: 4px 9px; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.07em; font-size: 9.5px; font-weight: 900; cursor: pointer; }
+  .why-pick:hover { background: rgba(255,194,75,0.14); }
+  .best-reason { display: grid; grid-template-columns: 1fr; gap: 2px; background: rgba(255,194,75,0.08); border: 1px solid rgba(255,194,75,0.28); border-radius: 11px; padding: 10px 11px; }
+  .best-reason[hidden] { display: none; }
+  .best-reason .r-title { font-size: 10px; color: var(--gold); font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+  .best-reason .r-copy { font-size: 12px; color: var(--text); line-height: 1.4; }
+  .best-reason .r-copy b { color: var(--green); }
+
+  /* comparison strip — the decision variables */
+  .compare { display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid var(--line); border-radius: 11px; overflow: hidden; }
+  .compare .cell { padding: 9px 8px; text-align: center; border-right: 1px solid var(--line); }
+  .compare .cell:last-child { border-right: none; }
+  .compare .cell .k { font-size: 9.5px; color: var(--muted-2); text-transform: uppercase; letter-spacing: 0.05em; }
+  .compare .cell .v { font-family: var(--font-display); font-weight: 900; font-size: 14px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .compare .cell .v.good { color: var(--green); } .compare .cell .v.warn { color: var(--gold); }
+
+  .c-value { font-family: var(--font-display); text-transform: uppercase; font-weight: 900; font-size: clamp(20px, 5.4vw, 23px); line-height: 1.03; }
+  .c-value .amt { color: var(--green); }
+  .c-value .plus { display: block; font-size: 13px; color: var(--muted); font-family: var(--font-body); font-weight: 700; text-transform: none; letter-spacing: 0; margin-top: 4px; }
+
+  .c-attrs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .attr { font-size: 10.5px; font-weight: 700; color: var(--green); background: rgba(61,220,132,0.11); border: 1px solid rgba(61,220,132,0.28); border-radius: 20px; padding: 3px 9px; }
+  .c-terms { font-size: 11px; color: var(--muted-2); line-height: 1.45; }
+  .c-terms b { color: var(--muted); font-weight: 700; }
+  .terms-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 7px; color: var(--muted); font-size: 10.5px; }
+  .terms-meta span { display: inline-flex; align-items: center; gap: 4px; }
+  .terms-meta svg { width: 12px; height: 12px; color: var(--green); }
+
+  .btn-claim { margin-top: auto; background: var(--green); color: var(--green-ink); border: none; border-radius: 11px; padding: 14px; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 800; font-size: 14px; cursor: pointer; transition: filter .12s, transform .12s; }
+  .btn-claim:hover { filter: brightness(1.06); transform: translateY(-1px); }
+
+  .empty { grid-column: 1/-1; text-align: center; color: var(--muted); padding: 44px 20px; border: 1px dashed var(--line-2); border-radius: 14px; }
+
+  /* comparison utility — available to everyone, visually subtle */
+  .comparison { scroll-margin-top: 114px; background: linear-gradient(180deg, rgba(61,220,132,0.09), rgba(18,23,34,0.96)); border: 1px solid var(--line); border-radius: 18px; padding: 20px; margin: 8px 0 24px; }
+  .comparison-head { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 760px){ .comparison-head { grid-template-columns: 1fr auto; align-items: end; } }
+  .comparison h2 { font-family: var(--font-display); text-transform: uppercase; font-weight: 900; font-size: clamp(18px, 4.7vw, 25px); }
+  .comparison .lead { color: var(--muted); font-size: 13.5px; margin: 7px 0 0; max-width: 58ch; }
+  .comparison .lead b { color: var(--text); }
+  .compare-toggle { background: var(--panel); color: var(--text); border: 1px solid var(--line-2); border-radius: 11px; padding: 13px 16px; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 800; font-size: 12px; cursor: pointer; }
+  .compare-toggle:hover { border-color: var(--green); color: var(--green); }
+  .compare-shell { margin-top: 16px; }
+  .compare-mobile { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .compare-card { border: 1px solid var(--line); border-radius: 14px; background: rgba(10,13,18,0.58); padding: 13px; }
+  .compare-card.best { border-color: rgba(61,220,132,0.72); box-shadow: inset 0 3px 0 var(--green); background: rgba(61,220,132,0.07); }
+  .compare-card-top { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .compare-card-top .compare-rank { text-align: right; }
+  .compare-facts { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid var(--line); border-radius: 11px; overflow: hidden; }
+  .compare-fact { padding: 10px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .compare-fact:nth-child(2n) { border-right: none; }
+  .compare-fact:nth-last-child(-n+2) { border-bottom: none; }
+  .compare-fact .k { font-size: 9.5px; color: var(--muted-2); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+  .compare-card .compare-claim { width: 100%; margin-top: 11px; }
+  .compare-table-wrap { display: none; border: 1px solid var(--line); border-radius: 14px; overflow: auto; background: rgba(10,13,18,0.58); }
+  @media (min-width: 760px){ .compare-mobile { display: none; } .compare-table-wrap { display: block; } }
+  .compare-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 13px; }
+  .compare-table th, .compare-table td { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); padding: 12px 13px; text-align: center; vertical-align: middle; }
+  .compare-table th:last-child, .compare-table td:last-child { border-right: none; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table thead th { background: rgba(18,23,34,0.96); position: sticky; top: 0; z-index: 1; }
+  .compare-table .rowhead { width: 132px; text-align: left; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 800; background: rgba(18,23,34,0.94); position: sticky; left: 0; z-index: 2; }
+  .compare-table thead .rowhead { z-index: 3; }
+  .compare-offer { display: grid; justify-items: center; gap: 7px; }
+  .compare-mono { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 900; color: #fff; font-size: 13px; }
+  .compare-name { font-weight: 900; line-height: 1.15; color: var(--text); }
+  .compare-rank { color: var(--muted-2); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .compare-table .bestcol { background: rgba(61,220,132,0.08); box-shadow: inset 0 3px 0 var(--green); }
+  .compare-v { font-family: var(--font-display); font-weight: 900; font-size: 15px; font-variant-numeric: tabular-nums; }
+  .compare-v.good { color: var(--green); }
+  .compare-v.warn { color: var(--gold); }
+  .compare-bonus { font-weight: 800; line-height: 1.25; }
+  .compare-mini { color: var(--muted); font-size: 12px; line-height: 1.35; margin-top: 3px; }
+  .compare-claim { display: inline-flex; justify-content: center; align-items: center; min-width: 92px; border: none; border-radius: 9px; padding: 10px 12px; color: var(--green-ink); background: var(--green); font-family: var(--font-display); font-size: 11.5px; font-weight: 900; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+  .compare-claim.secondary { color: var(--text); background: transparent; border: 1px solid var(--line-2); }
+  .compare-note { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+  @media (min-width: 680px){ .compare-note { grid-template-columns: repeat(3, 1fr); } }
+  .compare-note span { border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: rgba(10,13,18,0.38); }
+
+  /* how to claim (single scroll-to section) */
+  .howto { scroll-margin-top: 64px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 26px 20px; margin: 22px 0; }
+  .howto h2 { font-family: var(--font-display); text-transform: uppercase; font-weight: 900; font-size: clamp(19px, 5vw, 26px); }
+  .howto .lead { color: var(--muted); font-size: 13.5px; margin: 7px 0 20px; max-width: 52ch; }
+  .steps { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 700px){ .steps { grid-template-columns: repeat(3,1fr); gap: 16px; } }
+  .step { background: var(--ground); border: 1px solid var(--line); border-radius: 13px; padding: 18px; }
+  .step .n { font-family: var(--font-display); font-weight: 900; font-size: 15px; color: var(--green-ink); background: var(--green); width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; }
+  .step h3 { font-family: var(--font-display); text-transform: uppercase; font-size: 15px; margin: 13px 0 6px; }
+  .step p { color: var(--muted); font-size: 13px; margin: 0; }
+
+  /* notify */
+  .notify { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 26px 20px; text-align: center; margin: 22px 0 30px; }
+  .notify h2 { font-family: var(--font-display); text-transform: uppercase; font-weight: 900; font-size: clamp(19px, 5vw, 28px); }
+  .notify p { color: var(--muted); margin: 8px auto 16px; max-width: 44ch; font-size: 13.5px; }
+  .notify form { display: flex; flex-direction: column; gap: 9px; max-width: 420px; margin: 0 auto; }
+  @media (min-width: 480px){ .notify form { flex-direction: row; } }
+  .notify input { flex: 1; background: var(--ground); border: 1px solid var(--line-2); border-radius: 10px; padding: 13px 15px; color: var(--text); font-size: 15px; font-family: var(--font-body); }
+  .notify input:focus { outline: 2px solid var(--green); outline-offset: 1px; border-color: var(--green); }
+  .notify .btn-claim { flex: 0 0 auto; margin-top: 0; padding: 13px 22px; }
+  .notify .ok { color: var(--green); font-weight: 700; margin-top: 12px; display: none; }
+  .notify .ok.show { display: block; }
+  .notify .fine { font-size: 10.5px; color: var(--muted-2); margin-top: 12px; }
+
+  footer { border-top: 1px solid var(--line); padding: 22px 0 70px; color: var(--muted-2); font-size: 11.5px; }
+  footer .wrap { display: flex; flex-direction: column; gap: 8px; }
+  @media (min-width: 620px){ footer .wrap { flex-direction: row; justify-content: space-between; } }
+
+  /* annotation */
+  .anno { display: none; font-size: 11.5px; color: var(--gold); border: 1px dashed rgba(255,194,75,0.5); border-left: 3px solid var(--gold); background: rgba(255,194,75,0.07); border-radius: 6px; padding: 8px 11px; line-height: 1.4; }
+  .anno b { color: var(--green); font-family: var(--font-display); letter-spacing: 0.03em; }
+  body.show-anno .anno { display: block; }
+  .card .anno { margin: -2px 0; }
+  .toolbar-annos { display: none; }
+  body.show-anno .toolbar-annos { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 14px 0 2px; }
+  @media (min-width: 760px){ body.show-anno .toolbar-annos { grid-template-columns: 1fr 1fr; } }
+  .howto .anno { margin-top: 18px; }
+  .anno-toggle { position: fixed; bottom: 16px; right: 16px; z-index: 60; background: var(--gold); color: #241800; border: none; border-radius: 30px; padding: 11px 16px; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.03em; font-weight: 800; font-size: 11.5px; cursor: pointer; box-shadow: 0 10px 26px rgba(255,194,75,0.35); }
+  .anno-toggle:hover { filter: brightness(1.06); }
+
+  @media (prefers-reduced-motion: reduce){ * { transition: none !important; } html { scroll-behavior: auto; } }
+  html { scroll-behavior: smooth; }
+</style>
+
+<header class="trustbar">
+  <div class="wrap">
+    <div class="brand"><span class="mk">$</span> Super <b>Free</b> Bets <span class="mi">MI</span></div>
+    <div class="trust-signals">
+      <span class="sig"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg> MGCB licensed</span>
+      <span class="sig hide-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Offers checked today</span>
+      <span class="sig hide-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Michigan only</span>
+      <span class="sig"><span class="badge21">21+</span></span>
+    </div>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <h1>Claim <span class="hl">casino bonuses</span> — house money & free spins.</h1>
+    <p class="sub">Every casino gives a fresh new-player bonus. Filter by what you want, check our rating, and claim.</p>
+    <div class="actions">
+      <a href="#howto" class="howlink">How claiming works <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
+      <a href="#comparison" class="howlink comparelink">Compare shortlisted offers <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <div class="wrap">
+    <div class="quick-label"><b>What are you looking for?</b><span id="quickResultCount">9 offers</span></div>
+    <div class="quick-row" id="quickMatch">
+      <button class="quick on" data-filter="all" data-sort="rating" aria-label="Best overall">
+        <span class="q-main"><span class="q-icon">★</span> Best overall</span>
+        <span class="q-sub">Top rated first</span>
+      </button>
+      <button class="quick" data-filter="nodeposit" data-sort="rating" aria-label="No deposit">
+        <span class="q-main"><span class="q-icon">$</span> No deposit</span>
+        <span class="q-sub">No payment first</span>
+      </button>
+      <button class="quick" data-filter="freespins" data-sort="rating" aria-label="Free spins">
+        <span class="q-main"><span class="q-icon">↻</span> Free spins</span>
+        <span class="q-sub">Spin-led offers</span>
+      </button>
+      <button class="quick" data-filter="all" data-sort="wager" aria-label="Easiest terms">
+        <span class="q-main"><span class="q-icon">✓</span> Easiest terms</span>
+        <span class="q-sub">Lowest wagering</span>
+      </button>
+      <button class="quick" data-filter="all" data-sort="bonus" aria-label="Biggest bonus">
+        <span class="q-main"><span class="q-icon">↑</span> Biggest bonus</span>
+        <span class="q-sub">Highest value first</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="toolbar-annos">
+      <div class="anno"><b>Quick match replaces filter + sort.</b> Lower-confidence users choose an intent ("No deposit", "Easiest terms") instead of understanding two separate controls. Under the hood it still maps to filter and sort rules.</div>
+      <div class="anno"><b>One decision point.</b> This reduces control clutter and keeps the offers close to the top, but it removes some precision. If users need more control later, expose advanced filters lower on the page.</div>
+    </div>
+    <div class="cards" id="offerCards"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="comparison" id="comparison">
+      <div class="comparison-head">
+        <div>
+          <span class="eyebrow">Need a closer look?</span>
+          <h2>Compare your shortlist</h2>
+          <p class="lead">See the top offers side by side before you claim.</p>
+        </div>
+        <button class="compare-toggle" id="compareToggle" type="button" aria-expanded="false" aria-controls="comparisonShell">Compare offers</button>
+      </div>
+      <div class="compare-shell" id="comparisonShell" hidden>
+        <div class="compare-mobile" id="comparisonMobile" aria-label="Current top casino bonus offers comparison"></div>
+        <div class="compare-table-wrap">
+          <table class="compare-table" aria-label="Current top casino bonus offers comparison">
+            <thead id="comparisonHead"></thead>
+            <tbody id="comparisonBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="anno"><b>Progressive disclosure.</b> A full matrix is useful, but heavy. The main journey still gives one best next action. This compares rating, bonus value, wagering, minimum deposit, expiry, and offer type for the current filtered/sorted shortlist. Change a filter or sort above, then open this to compare that exact set.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Single how-to-claim section -->
+<section>
+  <div class="wrap">
+    <div class="howto" id="howto">
+      <span class="eyebrow">Takes about 2 minutes</span>
+      <h2>How claiming works</h2>
+      <p class="lead">Same three steps for every casino on this page. No deposit needed for no-deposit offers.</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><h3>Pick a casino</h3><p>Choose any offer above — every one is a licensed Michigan operator, so it's safe.</p></div>
+        <div class="step"><div class="n">2</div><h3>Create your account</h3><p>Sign up on the casino's site. Name and email — no payment for no-deposit bonuses.</p></div>
+        <div class="step"><div class="n">3</div><h3>Your bonus lands</h3><p>House money or free spins hit your account. Play, then come back and claim the next casino.</p></div>
+      </div>
+      <div class="anno"><b>One guided explainer.</b> Steps named by what the player wants ("Your bonus lands"), not UI — the biggest converter for first-timers, and it keeps every card clean by living in one place.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="notify">
+      <span class="eyebrow">Never miss a new casino</span>
+      <h2>Get new bonuses first</h2>
+      <p>We add fresh Michigan casino offers most weeks. We'll email you the moment a new one lands.</p>
+      <form id="notifyForm">
+        <input type="email" id="notifyEmail" placeholder="your@email.com" aria-label="Email address" required>
+        <button type="submit" class="btn-claim">Notify me</button>
+      </form>
+      <div class="ok" id="notifyOk">✓ You're on the list — we'll email you the next new casino bonus.</div>
+      <div class="fine">One email when new offers land. Unsubscribe anytime. 21+ · MI only · Gambling problem? Call 1-800-GAMBLER.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Super Free Bets MI · Affiliate site · 21+ · MI only · 1-800-GAMBLER</span>
+    <span>Demo build — casino-bonus UX showcase</span>
+  </div>
+</footer>
+
+<button class="anno-toggle" id="annoToggle">Show UX rationale</button>
+
+<script>
+(function(){
+  "use strict";
+  var LS = { visited: "sfbets_v4_visited" };
+  var ATTR_LABEL = { nodeposit:"No deposit", freespins:"Free spins", nowagering:"No wagering", match:"Deposit match" };
+
+  var OFFERS = [
+    { id:"betmgm", name:"BetMGM", tag:"Casino", mono:"MGM", monobg:"#1a1a1a",
+      value:"$25 <span class='amt'>On the House</span>", plus:"+ 100% match up to $1,000",
+      rating:4.8, attrs:["nodeposit","match"], days:20, best:true, bonusVal:1025,
+      wagerTxt:"1×", wagerNum:1, depTxt:"$10", depNum:10, expTxt:"7 days",
+      terms:"21+. New MI customers only. $25 bonus credits on registration, no deposit required. 100% match up to $1,000 with 1× playthrough. Credits expire in 7 days." },
+    { id:"caesars", name:"Caesars", tag:"Palace Casino", mono:"CP", monobg:"#123b2a",
+      value:"$10 <span class='amt'>On the House</span>", plus:"+ 100% match up to $2,500",
+      rating:4.7, attrs:["nodeposit","match"], days:14, bonusVal:2510,
+      wagerTxt:"5×", wagerNum:5, depTxt:"$10", depNum:10, expTxt:"7 days",
+      terms:"21+. New MI customers only. $10 no-deposit bonus credits on sign-up. 100% match up to $2,500 with 5× wagering on matched funds." },
+    { id:"golden", name:"Golden Nugget", tag:"Casino", mono:"GN", monobg:"#3a2c00",
+      value:"<span class='amt'>500 Free Spins</span>", plus:"Over 10 days · play $5 to unlock",
+      rating:4.6, attrs:["freespins"], days:6, bonusVal:150,
+      wagerTxt:"1×", wagerNum:1, depTxt:"$5", depNum:5, expTxt:"10 days",
+      terms:"21+. New MI customers only. 50 spins/day for 10 days on the featured game at $0.20/spin. Spins expire 24h after issuance." },
+    { id:"hardrock", name:"Hard Rock", tag:"Bet Casino", mono:"HR", monobg:"#1a1a1a",
+      value:"<span class='amt'>500 Bonus Spins</span>", plus:"+ up to $1,000 lossback · deposit $10",
+      rating:4.5, attrs:["freespins","match"], days:11, bonusVal:1000,
+      wagerTxt:"1×", wagerNum:1, depTxt:"$10", depNum:10, expTxt:"14 days",
+      terms:"21+. New MI customers only. 500 spins in 10 daily increments of 50. Up to $1,000 lossback as casino bonus with 1× wagering, valid 14 days." },
+    { id:"draftkings", name:"DraftKings", tag:"Casino", mono:"DK", monobg:"#0f3a1c",
+      value:"$50 <span class='amt'>Casino Credits</span>", plus:"No wagering · no deposit · just sign up",
+      rating:4.5, attrs:["nodeposit","nowagering"], days:8, bonusVal:50,
+      wagerTxt:"None", wagerNum:0, depTxt:"None", depNum:0, expTxt:"7 days",
+      terms:"21+. New MI customers only. $50 in casino credits on registration — no deposit and no wagering requirement. Credits expire 7 days after issuance." },
+    { id:"fanatics", name:"Fanatics", tag:"Casino", mono:"FA", monobg:"#37105a",
+      value:"<span class='amt'>1,000 Bonus Spins</span>", plus:"No wagering on winnings · play $10",
+      rating:4.4, attrs:["freespins","nowagering"], days:2, bonusVal:200,
+      wagerTxt:"None", wagerNum:0, depTxt:"$10", depNum:10, expTxt:"10 days",
+      terms:"21+. New MI customers only. Place $10+ in cumulative wagers within 7 days to receive 100 bonus spins/day for 10 days. Spins expire 11:59pm ET each day." },
+    { id:"betrivers", name:"BetRivers", tag:"Casino", mono:"BR", monobg:"#0e2a54",
+      value:"Up to $500 <span class='amt'>Back</span>", plus:"+ up to 500 bonus spins · deposit $10",
+      rating:4.3, attrs:["match","freespins"], days:16, bonusVal:600,
+      wagerTxt:"10×", wagerNum:10, depTxt:"$10", depNum:10, expTxt:"30 days",
+      terms:"21+. New MI customers only. Up to $500 bonus money on first deposit plus up to 500 bonus spins (10/day). Promo code CASINOBACK. 10× wagering applies." },
+    { id:"fanduel", name:"FanDuel", tag:"Casino", mono:"FD", monobg:"#0b3057",
+      value:"Play $5, get <span class='amt'>$100 in Spins</span>", plus:"24-hour welcome offer",
+      rating:4.2, attrs:["freespins"], days:4, bonusVal:100,
+      wagerTxt:"1×", wagerNum:1, depTxt:"$5", depNum:5, expTxt:"24 hrs",
+      terms:"21+. New MI customers only. Deposit and play $5 within the first 24 hours to receive $100 in bonus spins. Bonus spins subject to expiry." },
+    { id:"bally", name:"Bally", tag:"Casino", mono:"BA", monobg:"#5c0d10",
+      value:"Up to $500 <span class='amt'>Reload Bonus</span>", plus:"On your first deposit",
+      rating:4.1, attrs:["match"], days:19, bonusVal:500,
+      wagerTxt:"1×", wagerNum:1, depTxt:"$10", depNum:10, expTxt:"14 days",
+      terms:"21+. New MI customers only. Up to $500 reload bonus on first deposit with 1× wagering. Time limits apply." }
+  ];
+
+  var CLAIMERS = { betmgm:3204, caesars:2761, golden:2489, hardrock:1970, draftkings:2358, fanatics:1642, betrivers:1315, fanduel:1188, bally:942 };
+
+  var filter="all", sortMode="rating";
+  var cards = document.getElementById("offerCards");
+  var quickResultCount = document.getElementById("quickResultCount");
+  var comparisonMobile = document.getElementById("comparisonMobile");
+  var comparisonHead = document.getElementById("comparisonHead");
+  var comparisonBody = document.getElementById("comparisonBody");
+  var comparisonShell = document.getElementById("comparisonShell");
+  var compareToggle = document.getElementById("compareToggle");
+
+  function star(fill){
+    var id = "g"+Math.random().toString(36).slice(2,7);
+    if (fill==="half") return '<svg viewBox="0 0 24 24"><defs><linearGradient id="'+id+'"><stop offset="50%" stop-color="var(--gold)"/><stop offset="50%" stop-color="#3a4658"/></linearGradient></defs><path fill="url(#'+id+')" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>';
+    return '<svg viewBox="0 0 24 24"><path fill="'+(fill==="full"?"var(--gold)":"#3a4658")+'" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>';
+  }
+  function starsHtml(r){ var h=""; for(var i=1;i<=5;i++){ h+=star(r>=i?"full":(r>=i-0.5?"half":"empty")); } return h; }
+
+  function filtered(){
+    var arr = OFFERS.filter(function(o){ return filter==="all" || o.attrs.indexOf(filter)>=0; });
+    if (sortMode==="rating") arr.sort(function(a,b){ return b.rating-a.rating; });
+    else if (sortMode==="bonus") arr.sort(function(a,b){ return b.bonusVal-a.bonusVal; });
+    else if (sortMode==="wager") arr.sort(function(a,b){ return a.wagerNum-b.wagerNum || b.rating-a.rating; });
+    else arr.sort(function(a,b){ return a.days-b.days; });
+    return arr;
+  }
+  function clean(html){
+    var box = document.createElement("div");
+    box.innerHTML = html;
+    return box.textContent || box.innerText || "";
+  }
+  function compareCell(value, cls){
+    return '<div class="compare-v '+(cls||"")+'">'+value+'</div>';
+  }
+  function comparisonFacts(o){
+    return [
+      { k:"Rating", v:o.rating.toFixed(1), cls:"" },
+      { k:"Wagering", v:o.wagerTxt, cls:o.wagerNum===0?"good":(o.wagerNum>=10?"warn":"") },
+      { k:"Min deposit", v:o.depTxt, cls:o.depNum===0?"good":"" },
+      { k:"Expires", v:o.expTxt, cls:"" }
+    ];
+  }
+  function renderComparison(){
+    if (!comparisonMobile || !comparisonHead || !comparisonBody) return;
+    var list = filtered().slice(0, 4);
+    if (!list.length){
+      comparisonMobile.innerHTML = '<div class="empty">No offers match that filter yet.</div>';
+      comparisonHead.innerHTML = "";
+      comparisonBody.innerHTML = '<tr><td class="rowhead">No offers</td><td>No offers match that filter yet.</td></tr>';
+      return;
+    }
+    comparisonMobile.innerHTML = list.map(function(o, idx){
+      return '<div class="compare-card '+(idx===0?'best':'')+'">'+
+        '<div class="compare-card-top">'+
+          '<div class="compare-mono" style="background:'+o.monobg+'">'+o.mono+'</div>'+
+          '<div><div class="compare-name">'+o.name+'</div><div class="compare-mini">'+clean(o.value)+'</div></div>'+
+          '<div class="compare-rank">'+(idx===0?'Best choice':'#'+(idx+1))+'</div>'+
+        '</div>'+
+        '<div class="compare-facts">'+comparisonFacts(o).map(function(f){
+          return '<div class="compare-fact"><div class="k">'+f.k+'</div>'+compareCell(f.v, f.cls)+'</div>';
+        }).join("")+'</div>'+
+        '<div class="compare-mini">Best for '+o.attrs.map(function(a){ return ATTR_LABEL[a]; }).join(" · ")+'</div>'+
+        '<button type="button" class="compare-claim '+(idx===0?'':'secondary')+'">Claim</button>'+
+      '</div>';
+    }).join("");
+    comparisonHead.innerHTML = '<tr><th class="rowhead">Compare</th>'+list.map(function(o, idx){
+      return '<th class="'+(idx===0?'bestcol':'')+'"><div class="compare-offer">'+
+        '<div class="compare-mono" style="background:'+o.monobg+'">'+o.mono+'</div>'+
+        '<div class="compare-name">'+o.name+'</div>'+
+        '<div class="compare-rank">'+(idx===0?'Best choice':'#'+(idx+1))+'</div>'+
+      '</div></th>';
+    }).join("")+'</tr>';
+    var rows = [
+      { label:"Offer", html:function(o){ return '<div class="compare-bonus">'+clean(o.value)+'</div><div class="compare-mini">'+o.plus+'</div>'; } },
+      { label:"Rating", html:function(o){ return compareCell(o.rating.toFixed(1), ""); } },
+      { label:"Value", html:function(o){ return compareCell("$"+o.bonusVal.toLocaleString(), ""); } },
+      { label:"Wagering", html:function(o){ return compareCell(o.wagerTxt, o.wagerNum===0?"good":(o.wagerNum>=10?"warn":"")); } },
+      { label:"Min deposit", html:function(o){ return compareCell(o.depTxt, o.depNum===0?"good":""); } },
+      { label:"Expires", html:function(o){ return compareCell(o.expTxt, ""); } },
+      { label:"Best for", html:function(o){ return '<div class="compare-mini">'+o.attrs.map(function(a){ return ATTR_LABEL[a]; }).join(" · ")+'</div>'; } },
+      { label:"Action", html:function(o, idx){ return '<button type="button" class="compare-claim '+(idx===0?'':'secondary')+'">Claim</button>'; } }
+    ];
+    comparisonBody.innerHTML = rows.map(function(row){
+      return '<tr><td class="rowhead">'+row.label+'</td>'+list.map(function(o, idx){
+        return '<td class="'+(idx===0?'bestcol':'')+'">'+row.html(o, idx)+'</td>';
+      }).join("")+'</tr>';
+    }).join("");
+  }
+  function counts(){
+    var total = filtered().length;
+    if (quickResultCount) quickResultCount.textContent = total + " offer" + (total===1 ? "" : "s");
+  }
+
+  function render(){
+    var list = filtered(); cards.innerHTML = "";
+    counts();
+    if (!list.length){ cards.innerHTML = '<div class="empty">No offers match that filter yet — try another.</div>'; renderComparison(); return; }
+    list.forEach(function(o, idx){
+      var isBest = idx===0;
+      var isNew = o.days<=3 && !isBest;
+      var el = document.createElement("div");
+      el.className = "card" + (isBest?" best":"");
+      var attrs = o.attrs.map(function(a){ return '<span class="attr">'+ATTR_LABEL[a]+'</span>'; }).join("");
+      var wagerCls = o.wagerNum===0?"good":(o.wagerNum>=10?"warn":"");
+      var depCls = o.depNum===0?"good":"";
+      var A = isBest ? function(t){ return '<div class="anno">'+t+'</div>'; } : function(){ return ''; };
+      el.innerHTML =
+        (isBest?'<div class="best-line"><span class="badge">★ Best choice</span><button class="why-pick" type="button" aria-expanded="false">Why?</button></div>':(isNew?'<span class="badge new">★ New</span>':''))+
+        A('<b>Best choice.</b> The #1 result, always pinned on top — one confident pick that removes choice paralysis (Hick\'s Law). It updates as you filter or sort.')+
+        '<div class="c-head">'+
+          '<div class="c-mono" style="background:'+o.monobg+'">'+o.mono+'</div>'+
+          '<div class="c-id"><div class="c-name">'+o.name+'</div><div class="c-tag">'+o.tag+'</div></div>'+
+          '<div class="c-score"><div class="big num">'+o.rating.toFixed(1)+'</div><div class="stars">'+starsHtml(o.rating)+'</div></div>'+
+        '</div>'+
+        A('<b>Editorial rating.</b> Our own consistent score — an honest trust signal and the axis the Top-rated sort uses.')+
+        '<div class="c-value">'+o.value+'<span class="plus">'+o.plus+'</span></div>'+
+        (isBest?'<div class="best-reason" hidden><div class="r-title">Why this is our pick</div><div class="r-copy">Strong value, <b>'+o.wagerTxt+' wagering</b>, and terms checked today.</div></div>':'')+
+        A('<b>Recommendation reason.</b> The Best Choice badge alone asks users to trust us. This gives a plain-English reason, focused on the decision variables bonus hunters care about.')+
+        (isBest?'<div class="claimproof"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span><b>'+(CLAIMERS[o.id]||0).toLocaleString()+'</b> people claimed this offer this month</span></div>':'')+
+        A('<b>Social proof.</b> Showing how many people already claimed it makes the top pick feel popular and safe — a nudge for undecided players.')+
+        '<div class="compare">'+
+          '<div class="cell"><div class="k">Wagering</div><div class="v '+wagerCls+'">'+o.wagerTxt+'</div></div>'+
+          '<div class="cell"><div class="k">Min deposit</div><div class="v '+depCls+'">'+o.depTxt+'</div></div>'+
+          '<div class="cell"><div class="k">Expires</div><div class="v">'+o.expTxt+'</div></div>'+
+        '</div>'+
+        A('<b>The real decision variables.</b> Wagering, min deposit and expiry are what bonus hunters actually compare — surfaced here, not buried in the T&Cs. They also power the sorts.')+
+        '<div class="c-attrs">'+attrs+'</div>'+
+        '<button class="btn-claim">Claim Now</button>'+
+        '<div class="c-terms"><b>Terms:</b> '+o.terms+
+          '<div class="terms-meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg> Terms checked Jul 15</span><span>Michigan licensed operator</span></div>'+
+        '</div>'+
+        A('<b>Trust without pushing offers down.</b> Freshness lives in the sticky trust bar and quiet terms metadata, not a separate block above the cards. That keeps the offers high while still answering "is this current?"');
+      cards.appendChild(el);
+    });
+    renderComparison();
+    var why = cards.querySelector(".why-pick");
+    var reason = cards.querySelector(".best-reason");
+    if (why && reason){
+      why.addEventListener("click", function(){
+        var open = reason.hasAttribute("hidden");
+        if (open) reason.removeAttribute("hidden");
+        else reason.setAttribute("hidden", "");
+        why.setAttribute("aria-expanded", open ? "true" : "false");
+        why.textContent = open ? "Hide" : "Why?";
+      });
+    }
+  }
+
+  document.getElementById("quickMatch").addEventListener("click", function(e){
+    var b = e.target.closest(".quick"); if(!b) return;
+    filter = b.getAttribute("data-filter");
+    sortMode = b.getAttribute("data-sort");
+    [].forEach.call(this.children, function(c){ c.classList.toggle("on", c===b); });
+    render();
+  });
+  function toggleComparison(){
+    var open = comparisonShell.hasAttribute("hidden");
+    if (open) comparisonShell.removeAttribute("hidden");
+    else comparisonShell.setAttribute("hidden", "");
+    compareToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    compareToggle.textContent = open ? "Hide comparison" : "Compare offers";
+    if (open) renderComparison();
+  }
+  compareToggle.addEventListener("click", function(){
+    toggleComparison();
+  });
+  document.querySelectorAll(".comparelink").forEach(function(link){
+    link.addEventListener("click", function(){
+      if (comparisonShell.hasAttribute("hidden")) toggleComparison();
+    });
+  });
+  document.getElementById("notifyForm").addEventListener("submit", function(e){
+    e.preventDefault(); if(!document.getElementById("notifyEmail").value.trim()) return;
+    document.getElementById("notifyOk").classList.add("show"); document.getElementById("notifyEmail").value="";
+  });
+  var at = document.getElementById("annoToggle");
+  at.addEventListener("click", function(){ var on = document.body.classList.toggle("show-anno"); at.textContent = on?"Hide UX rationale":"Show UX rationale"; });
+
+  counts(); render();
+})();
+</script>

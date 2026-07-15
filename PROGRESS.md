@@ -179,6 +179,14 @@ Ambitious side-project: a custom visual CMS to replace the company's bad CMS. Fu
 
 ---
 
+## Concept Prototypes (not yet in the app)
+
+| Concept | Status | Docs | Notes |
+|---|---|---|---|
+| SFBets casino-bonus home redesign | 🔄 Prototype | `platform/docs/concepts/sfbets-casino-bonus-home/README.md` + `prototype.html` | Mobile-first casino-bonus offers home for SFBets MI (no sports betting), designed for the bonus-hunter user. Self-contained HTML prototype, live at https://sfbets-deploy.vercel.app (Vercel project `sfbets-deploy`, protection disabled, stable public URL). Validated ideas: quick match intent control (experimental replacement for separate filter chips + sort segmented control; maps to the same filter/sort logic), inline freshness/trust proof ("Offers checked today" in the existing trust bar on wider screens + quiet per-card terms checked timestamp; separate top strip rejected because it pushed offers down; avoid repeated Verified badges), editorial ratings + sorts, dynamic Best-choice card with claim-count social proof, comparison boxes (wagering/min deposit/expires), subtle current-shortlist comparison utility (mobile stacked cards, desktop matrix, collapsed by default), always-visible T&Cs below CTA, one shared how-to-claim section, single-field notify. ⚠️ All ratings/claim-counts/terms are PLACEHOLDER data. Full concept, feature rationale, decision log, and production-port guidance in the README. **Codex: read that README before continuing this concept.** Not yet built in `apps/sfbets`.
+
+---
+
 ## Infrastructure Setup
 
 | Item | Status | Notes |
