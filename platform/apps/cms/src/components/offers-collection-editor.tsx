@@ -261,6 +261,14 @@ export function OffersCollectionEditor({
                         className={inputClass}
                     />
                 </label>
+                <AssetPickerModal
+                    open={pickerTarget !== null}
+                    onClose={() => setPickerTarget(null)}
+                    onSelect={(path) => {
+                        if (pickerTarget !== null)
+                            updateBanner(pickerTarget.index, { [pickerTarget.field]: path });
+                    }}
+                />
             </div>
         );
     }
@@ -516,14 +524,6 @@ export function OffersCollectionEditor({
                     </div>
                 ))}
             </div>
-            <AssetPickerModal
-                open={pickerTarget !== null}
-                onClose={() => setPickerTarget(null)}
-                onSelect={(path) => {
-                    if (pickerTarget !== null)
-                        updateBanner(pickerTarget.index, { [pickerTarget.field]: path });
-                }}
-            />
         </div>
     );
 }

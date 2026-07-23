@@ -12,3 +12,8 @@ export interface AssetDeleteResponse {
     ok: boolean;
     usedIn: string[];
 }
+
+export interface AssetUploadResponse {
+    path?: string;
+    error?: string;
+}

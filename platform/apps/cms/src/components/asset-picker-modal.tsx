@@ -12,7 +12,14 @@ import {
     Upload,
     X
 } from 'lucide-react';
-import type { AssetDeleteResponse, AssetListResponse, AssetRecord } from '@/lib/assets.types';
+import type {
+    AssetDeleteResponse,
+    AssetListResponse,
+    AssetRecord,
+    AssetUploadResponse
+} from '@/lib/assets.types';
+
+const UPLOAD_TIMEOUT_MS = 60000;
 
 interface AssetPickerModalProps {
     open: boolean;
@@ -81,13 +88,30 @@ export function AssetPickerModal({
         if (file === undefined) return;
         setUploading(true);
         setNotice('');
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), UPLOAD_TIMEOUT_MS);
         try {
             const body = new FormData();
             body.append('file', file);
-            const res = await fetch('/api/upload', { method: 'POST', body });
-            const data = (await res.json()) as { path?: string };
-            if (data.path !== undefined) choose(data.path);
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body,
+                signal: controller.signal
+            });
+            const data = (await res.json().catch(() => ({}))) as AssetUploadResponse;
+            if (!res.ok || data.path === undefined) {
+                setNotice(data.error ?? 'Upload failed (' + res.status + '). Please try again.');
+                return;
+            }
+            choose(data.path);
+        } catch (error) {
+            setNotice(
+                error instanceof DOMException && error.name === 'AbortError'
+                    ? 'Upload timed out after 60s. Check that the CMS server is still running, then try again.'
+                    : 'Upload failed — could not reach the server. Check that the CMS server is still running, then try again.'
+            );
         } finally {
+            clearTimeout(timeout);
             setUploading(false);
             if (fileInputRef.current !== null) fileInputRef.current.value = '';
         }
@@ -157,6 +181,15 @@ export function AssetPickerModal({
                     <TabButton label="Upload" active={tab === 'upload'} onClick={() => setTab('upload')} />
                 </div>
 
+                {notice !== '' && (
+                    <div
+                        role="alert"
+                        className="mx-5 mt-3 rounded-md bg-m3-error-container px-3 py-2 text-[12px] text-m3-error"
+                    >
+                        {notice}
+                    </div>
+                )}
+
                 {tab === 'choose' ? (
                     <div className="flex min-h-0 flex-1 flex-col">
                         <div className="flex items-center gap-3 px-5 py-3">
@@ -189,12 +222,6 @@ export function AssetPickerModal({
                                 {sortOrder === 'newest' ? 'Newest' : 'Oldest'}
                             </button>
                         </div>
-
-                        {notice !== '' && (
-                            <div className="mx-5 mb-2 rounded-md bg-m3-error-container px-3 py-2 text-[12px] text-m3-error">
-                                {notice}
-                            </div>
-                        )}
 
                         <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-5">
                             {loading ? (
