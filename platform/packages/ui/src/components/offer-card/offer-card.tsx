@@ -51,7 +51,7 @@ export function OfferCard({
                 </Label>
 
                 <div className="grid grid-cols-[144px_1fr] gap-4 p-2 items-center">
-                    <div className="col-start-1 row-start-1 relative flex h-[72px] items-center justify-center">
+                    <div className="col-start-1 row-start-1 relative flex aspect-[224/120] items-center justify-center">
                         {logoImg('object-contain')}
                     </div>
 
@@ -92,7 +92,7 @@ export function OfferCard({
                 </Label>
 
                 <div className="flex items-center px-5 py-6 gap-4">
-                    <div className="relative w-[224px] h-[112px] flex items-center justify-center shrink-0">
+                    <div className="relative w-[224px] h-[120px] flex items-center justify-center shrink-0">
                         {logoImg('object-contain')}
                     </div>
 
