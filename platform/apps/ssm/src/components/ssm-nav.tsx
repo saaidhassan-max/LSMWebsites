@@ -18,7 +18,11 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '📋', label: 'Landing Page V2', href: '/signup-v2' }
 ];
 
-export function SsmNav(): React.ReactElement {
+interface SsmNavProps {
+    showMenu?: boolean;
+}
+
+export function SsmNav({ showMenu = true }: SsmNavProps): React.ReactElement {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const pathname = usePathname();
 
@@ -35,9 +39,12 @@ export function SsmNav(): React.ReactElement {
                 logoSrc="/ssm/LogoSection/SSMLogo.svg"
                 backgroundSrc="/ssm/LogoSection/Lego_Deco2.png"
                 logoHref="/"
+                showMenu={showMenu}
                 onMenuClick={() => setDrawerOpen(true)}
             />
-            <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />
+            {showMenu === true && (
+                <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />
+            )}
         </>
     );
 }
