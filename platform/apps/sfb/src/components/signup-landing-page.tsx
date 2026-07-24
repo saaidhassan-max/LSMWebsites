@@ -41,6 +41,7 @@ export function SignupLandingPage({ content, settings }: SignupLandingPageProps)
     const [forceConsentErrors, setForceConsentErrors] = useState(false);
     const submitButtonRef = useRef<HTMLDivElement>(null);
     const emailFieldRef = useRef<HTMLDivElement>(null);
+    const phoneFieldRef = useRef<HTMLDivElement>(null);
     const guidedToFormRef = useRef(false);
     const [showStickySubmit, setShowStickySubmit] = useState(false);
 
@@ -98,17 +99,30 @@ export function SignupLandingPage({ content, settings }: SignupLandingPageProps)
         if (forceConsentErrors === true && data.isValid === true) setForceConsentErrors(false);
     }
 
-    function guideToFirstField(): void {
-        const input = emailFieldRef.current?.querySelector('input');
+    function shouldGuideFirst(): boolean {
+        const needsInput = email.trim() === '' || phone.trim() === '';
+        return guidedToFormRef.current === false && needsInput === true;
+    }
+
+    function guideToFirstEmptyField(): void {
+        guidedToFormRef.current = true;
+        const target = email.trim() === '' ? emailFieldRef.current : phoneFieldRef.current;
+        const input = target?.querySelector('input');
         input?.focus({ preventScroll: true });
-        emailFieldRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function handleSubmitClick(): void {
+        if (shouldGuideFirst() === true) {
+            guideToFirstEmptyField();
+            return;
+        }
+        handleSubmit();
     }
 
     function handleStickyClick(): void {
-        const needsInput = email.trim() === '' || phone.trim() === '';
-        if (guidedToFormRef.current === false && needsInput === true) {
-            guidedToFormRef.current = true;
-            guideToFirstField();
+        if (shouldGuideFirst() === true) {
+            guideToFirstEmptyField();
             return;
         }
         submitButtonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -170,16 +184,18 @@ export function SignupLandingPage({ content, settings }: SignupLandingPageProps)
                                 onClear={handleEmailClear}
                             />
                         </div>
-                        <TextField
-                            icon={Phone}
-                            label="Phone Number*"
-                            type="tel"
-                            placeholder="Your Phone Number"
-                            value={phone}
-                            error={phoneError}
-                            onChange={handlePhoneChange}
-                            onClear={handlePhoneClear}
-                        />
+                        <div ref={phoneFieldRef}>
+                            <TextField
+                                icon={Phone}
+                                label="Phone Number*"
+                                type="tel"
+                                placeholder="Your Phone Number"
+                                value={phone}
+                                error={phoneError}
+                                onChange={handlePhoneChange}
+                                onClear={handlePhoneClear}
+                            />
+                        </div>
                         <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
                             ** Required Information
                         </p>
@@ -193,7 +209,7 @@ export function SignupLandingPage({ content, settings }: SignupLandingPageProps)
                                 variant="primary"
                                 trailingIcon={<ArrowRight size={24} />}
                                 className="w-full"
-                                onClick={handleSubmit}
+                                onClick={handleSubmitClick}
                             >
                                 {primaryCta}
                             </Button>
