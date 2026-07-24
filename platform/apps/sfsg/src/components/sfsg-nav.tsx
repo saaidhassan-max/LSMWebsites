@@ -19,7 +19,11 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '📋', label: 'Sign Up', href: '/signup' }
 ];
 
-export function SfsgNav(): React.ReactElement {
+interface SfsgNavProps {
+    showMenu?: boolean;
+}
+
+export function SfsgNav({ showMenu = true }: SfsgNavProps): React.ReactElement {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const pathname = usePathname();
 
@@ -38,9 +42,12 @@ export function SfsgNav(): React.ReactElement {
                 logoAlt="Super Free Slot Games"
                 logoHref="/"
                 backgroundSrc="/sfsg/LogoSection/Lego_Deco2.png"
+                showMenu={showMenu}
                 onMenuClick={() => setDrawerOpen(true)}
             />
-            <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />
+            {showMenu === true && (
+                <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />
+            )}
         </>
     );
 }

@@ -21,9 +21,13 @@ const BASE_ITEMS: NavItem[] = [
 
 interface SfbNavProps {
     items?: NavItem[];
+    showMenu?: boolean;
 }
 
-export function SfbNav({ items: passedItems = BASE_ITEMS }: SfbNavProps): React.ReactElement {
+export function SfbNav({
+    items: passedItems = BASE_ITEMS,
+    showMenu = true
+}: SfbNavProps): React.ReactElement {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const pathname = usePathname();
 
@@ -42,9 +46,12 @@ export function SfbNav({ items: passedItems = BASE_ITEMS }: SfbNavProps): React.
                 logoAlt="Super Free Bingo"
                 logoHref="/"
                 backgroundSrc="/sfb/LogoSection/Lego_Deco2.png"
+                showMenu={showMenu}
                 onMenuClick={() => setDrawerOpen(true)}
             />
-            <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />
+            {showMenu === true && (
+                <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />
+            )}
         </>
     );
 }

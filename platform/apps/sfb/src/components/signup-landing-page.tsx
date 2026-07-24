@@ -135,7 +135,7 @@ export function SignupLandingPage({ content, settings }: SignupLandingPageProps)
     return (
         <main className="flex flex-col w-full bg-surface min-h-screen gap-[10px] pb-[80px] md:pb-0">
             <div className="flex flex-col">
-                <SfbNav items={settings.navItems} />
+                <SfbNav items={settings.navItems} showMenu={false} />
                 <USP text={settings.uspText} />
             </div>
 

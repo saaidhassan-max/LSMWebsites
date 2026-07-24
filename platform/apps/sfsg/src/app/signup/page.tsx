@@ -127,7 +127,7 @@ export default function SignupPage(): React.ReactElement {
     return (
         <main className="flex flex-col w-full bg-surface min-h-screen gap-[10px] pb-[80px] md:pb-0">
             <div className="flex flex-col">
-                <SfsgNav />
+                <SfsgNav showMenu={false} />
                 <USP text="OVER 5,000,000 SUBSCRIBERS" />
             </div>
 

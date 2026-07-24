@@ -61,6 +61,7 @@ export function LandingPageView({
                     logoAlt="Super Free Bingo"
                     logoHref="#"
                     backgroundSrc="/sfb/LogoSection/Lego_Deco2.png"
+                    showMenu={false}
                     onMenuClick={noop}
                 />
                 <USP text={settings.uspText} />
