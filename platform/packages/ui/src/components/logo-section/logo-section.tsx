@@ -19,7 +19,11 @@ export function LogoSection({
                 alt={logoAlt}
                 width={84}
                 height={84}
-                className={logoDesktopSrc ? 'w-[44px] h-[44px] md:hidden' : 'w-[45px] h-[45px] md:w-[84px] md:h-[84px]'}
+                className={
+                    logoDesktopSrc
+                        ? 'w-[44px] h-[44px] self-start mt-1 md:hidden'
+                        : 'w-[44px] h-[44px] self-start mt-1 md:w-[84px] md:h-[84px] md:self-auto md:mt-0'
+                }
             />
             {logoDesktopSrc && (
                 <Image
@@ -36,7 +40,7 @@ export function LogoSection({
 
     return (
         <header
-            className="relative bg-surface overflow-hidden h-10 md:h-[72px] w-full"
+            className="relative bg-surface overflow-hidden h-11 md:h-[72px] w-full"
             style={
                 backgroundSrc
                     ? {
