@@ -35,6 +35,8 @@ export default function SignupPage(): React.ReactElement {
     const [phoneError, setPhoneError] = useState('');
     const [forceConsentErrors, setForceConsentErrors] = useState(false);
     const submitButtonRef = useRef<HTMLDivElement>(null);
+    const emailFieldRef = useRef<HTMLDivElement>(null);
+    const guidedToFormRef = useRef(false);
     const [showStickySubmit, setShowStickySubmit] = useState(false);
 
     useEffect(() => {
@@ -91,7 +93,19 @@ export default function SignupPage(): React.ReactElement {
         if (forceConsentErrors === true && data.isValid === true) setForceConsentErrors(false);
     }
 
+    function guideToFirstField(): void {
+        const input = emailFieldRef.current?.querySelector('input');
+        input?.focus({ preventScroll: true });
+        emailFieldRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
     function handleStickyClick(): void {
+        const needsInput = email.trim() === '' || phone.trim() === '';
+        if (guidedToFormRef.current === false && needsInput === true) {
+            guidedToFormRef.current = true;
+            guideToFirstField();
+            return;
+        }
         submitButtonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
         handleSubmit();
     }
@@ -136,16 +150,18 @@ export default function SignupPage(): React.ReactElement {
                         <p className="text-sm font-normal leading-5 md:text-base md:font-bold text-on-surface-light text-center tracking-[0.15px]">
                             {signupInstructionText}
                         </p>
-                        <TextField
-                            icon={Mail}
-                            label="Email Address*"
-                            type="email"
-                            placeholder="Your Email"
-                            value={email}
-                            error={emailError}
-                            onChange={handleEmailChange}
-                            onClear={handleEmailClear}
-                        />
+                        <div ref={emailFieldRef}>
+                            <TextField
+                                icon={Mail}
+                                label="Email Address*"
+                                type="email"
+                                placeholder="Your Email"
+                                value={email}
+                                error={emailError}
+                                onChange={handleEmailChange}
+                                onClear={handleEmailClear}
+                            />
+                        </div>
                         <TextField
                             icon={Phone}
                             label="Phone Number*"
