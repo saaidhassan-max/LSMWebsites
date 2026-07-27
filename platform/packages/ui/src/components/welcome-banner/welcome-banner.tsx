@@ -14,8 +14,8 @@ export function WelcomeBanner({
 }: WelcomeBannerProps): React.ReactElement {
     return (
         <div className="w-full bg-surface overflow-hidden">
-            <div className="md:hidden flex flex-row items-center min-h-16">
-                <div className="shrink-0 relative self-stretch min-h-16" style={{ width: imageLeftWidthMobile }}>
+            <div className="md:hidden relative flex items-center min-h-16">
+                <div className="absolute inset-y-0 left-0" style={{ width: imageLeftWidthMobile }}>
                     <Image
                         src={imageLeftSrc}
                         alt=""
@@ -24,7 +24,16 @@ export function WelcomeBanner({
                         aria-hidden="true"
                     />
                 </div>
-                <div className="flex-1 flex items-center justify-center py-2">
+                <div className="absolute inset-y-0 right-0 w-[92px]">
+                    <Image
+                        src={imageRightSrc}
+                        alt=""
+                        fill
+                        className="object-cover object-right"
+                        aria-hidden="true"
+                    />
+                </div>
+                <div className="relative z-10 w-full flex items-center justify-center px-2 py-1">
                     <p className="font-futura font-[900] text-[24px] leading-7 tracking-[-0.019em] text-center whitespace-pre-line">
                         {textHighlight !== undefined && (
                             <span className="text-tertiary">{textHighlight}</span>
@@ -34,15 +43,6 @@ export function WelcomeBanner({
                             <span className="text-tertiary">{textSuffix}</span>
                         )}
                     </p>
-                </div>
-                <div className="shrink-0 relative self-stretch w-[92px] min-h-16">
-                    <Image
-                        src={imageRightSrc}
-                        alt=""
-                        fill
-                        className="object-cover object-right"
-                        aria-hidden="true"
-                    />
                 </div>
             </div>
 
