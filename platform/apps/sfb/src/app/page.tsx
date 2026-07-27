@@ -136,6 +136,7 @@ function renderSection(
                 imageRightSrc={content.imageRightSrc ?? '/sfb/welcome-images/image-right.png'}
                 imageLeftWidthMobile={content.imageLeftWidthMobile ?? 83}
                 imageLeftWidthDesktop={content.imageLeftWidthDesktop ?? 204}
+                variant="modern"
             />
         );
     }

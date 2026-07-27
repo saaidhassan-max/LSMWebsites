@@ -10,7 +10,8 @@ export function WelcomeBanner({
     imageLeftSrc = '/ssm/welcome/ImageLeft.png',
     imageRightSrc = '/ssm/welcome/ImageRight.png',
     imageLeftWidthMobile = 83,
-    imageLeftWidthDesktop = 204
+    imageLeftWidthDesktop = 204,
+    variant = 'classic'
 }: WelcomeBannerProps): React.ReactElement {
     return (
         <div className="w-full bg-surface overflow-hidden">
@@ -34,7 +35,13 @@ export function WelcomeBanner({
                     />
                 </div>
                 <div className="relative z-10 w-full flex items-center justify-center px-2 py-1">
-                    <p className="font-futura font-[900] text-[24px] leading-7 tracking-[-0.019em] text-center whitespace-pre-line">
+                    <p
+                        className={
+                            variant === 'modern'
+                                ? 'font-futura font-semibold text-[28px] leading-9 tracking-[0] text-center whitespace-pre-line'
+                                : 'font-futura font-[900] text-[24px] leading-7 tracking-[-0.019em] text-center whitespace-pre-line'
+                        }
+                    >
                         {textHighlight !== undefined && (
                             <span className="text-tertiary">{textHighlight}</span>
                         )}

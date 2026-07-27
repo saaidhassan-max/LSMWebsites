@@ -7,4 +7,5 @@ export interface WelcomeBannerProps {
     imageRightSrc?: string;
     imageLeftWidthMobile?: number;
     imageLeftWidthDesktop?: number;
+    variant?: 'classic' | 'modern';
 }

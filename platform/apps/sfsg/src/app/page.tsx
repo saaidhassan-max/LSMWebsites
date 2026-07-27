@@ -23,6 +23,7 @@ export default function HomePage(): React.ReactElement {
                 features={['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']}
                 imageLeftSrc="/sfsg/welcome-images/image-left.png"
                 imageRightSrc="/sfsg/welcome-images/image-right.png"
+                variant="modern"
             />
 
             <TopTCs text='Special terms apply – including age verification. Click "How To Claim" for full details.' />

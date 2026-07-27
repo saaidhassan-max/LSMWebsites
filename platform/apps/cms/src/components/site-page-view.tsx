@@ -118,6 +118,7 @@ export function SitePageView({
                         imageRightSrc={section.content.imageRightSrc}
                         imageLeftWidthMobile={section.content.imageLeftWidthMobile}
                         imageLeftWidthDesktop={section.content.imageLeftWidthDesktop}
+                        variant="modern"
                     />
                 </div>
             );

@@ -19,6 +19,14 @@
 
 @font-face {
     font-family: 'Futura PT';
+    src: url('/fonts/futura/FuturaPTDemi.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Futura PT';
     src: url('/fonts/futura/FuturaPTBold.otf') format('opentype');
     font-weight: 700;
     font-style: normal;
