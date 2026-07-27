@@ -1,6 +1,5 @@
 import type React from 'react';
 import Image from 'next/image';
-import { Check } from 'lucide-react';
 import { Button } from '../button/button';
 import { Label } from '../label/label';
 import type { OfferCardProps } from './offer-card.types';
@@ -8,10 +7,14 @@ import type { OfferCardProps } from './offer-card.types';
 export function OfferCard({
     label = 'HOT DEAL',
     labelColor,
+    showLabel = true,
     logoSrc,
     logoAlt = 'Casino logo',
     offerMain,
-    details = ['No Deposit', 'No Wagering'],
+    details = [
+        { emoji: '💸', text: 'No Deposit' },
+        { emoji: '✅', text: 'No Wagering' }
+    ],
     ctaText = 'PLAY NOW',
     ctaHref,
     ctaVariant = 'primary',
@@ -46,9 +49,11 @@ export function OfferCard({
     return (
         <div className="w-full rounded-lg overflow-hidden bg-white">
             <div className="md:hidden">
-                <Label variant="mobile" color={labelColor} className="w-full">
-                    {label}
-                </Label>
+                {showLabel && (
+                    <Label variant="mobile" color={labelColor} className="w-full">
+                        {label}
+                    </Label>
+                )}
 
                 <div className="grid grid-cols-[144px_1fr] gap-4 p-2 items-center">
                     <div className="col-start-1 row-start-1 relative flex aspect-[224/120] items-center justify-center">
@@ -63,16 +68,18 @@ export function OfferCard({
                         </div>
                         {details.map((detail, i) => (
                             <div key={i} className="flex items-center gap-1">
-                                <Check size={20} className="text-primary-focused shrink-0" />
+                                <span className="w-6 h-6 flex items-center justify-center shrink-0 text-base leading-6">
+                                    {detail.emoji}
+                                </span>
                                 <span className="text-base leading-6 tracking-[0.5px] text-on-surface-dark">
-                                    {detail}
+                                    {detail.text}
                                 </span>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div className="px-2 py-3 flex flex-col gap-1">
+                <div className="px-11 py-3 flex flex-col gap-1">
                     {ctaButton}
                     {secondaryCta}
                 </div>
@@ -87,29 +94,32 @@ export function OfferCard({
             </div>
 
             <div className="hidden md:block">
-                <Label variant="desktop" color={labelColor} className="w-[280px]">
-                    {label}
-                </Label>
+                {showLabel && (
+                    <Label variant="desktop" color={labelColor} className="w-[280px]">
+                        {label}
+                    </Label>
+                )}
 
                 <div className="flex items-center px-5 py-6 gap-4">
                     <div className="relative w-[224px] h-[120px] flex items-center justify-center shrink-0">
                         {logoImg('object-contain')}
                     </div>
 
-                    <div className="flex-1 flex items-center px-3 gap-1">
+                    <div className="flex-1 flex items-center px-3 gap-2">
                         <div className="flex-1">
                             <p className="text-[45px] font-bold leading-[52px] tracking-[0] text-on-surface-dark">
                                 {offerMain}
                             </p>
                         </div>
+                        <div className="w-px self-stretch shrink-0 rounded-full bg-outline-variant" />
                         <div className="flex-1 flex flex-col gap-3">
                             {details.map((detail, i) => (
                                 <div key={i} className="flex items-center gap-1">
-                                    <div className="w-10 h-10 flex items-center justify-center shrink-0">
-                                        <Check size={32} className="text-primary-focused" />
+                                    <div className="w-10 h-10 flex items-center justify-center shrink-0 text-[24px] leading-[32px]">
+                                        {detail.emoji}
                                     </div>
                                     <span className="text-[24px] leading-[32px] tracking-[0] text-on-surface-dark">
-                                        {detail}
+                                        {detail.text}
                                     </span>
                                 </div>
                             ))}

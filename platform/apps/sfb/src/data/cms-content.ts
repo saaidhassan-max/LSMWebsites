@@ -10,6 +10,7 @@ import type {
     CmsLandingPageContent,
     CmsCampaign,
     CmsOffer,
+    CmsOfferDetail,
     CmsOfferPageData,
     CmsOperator,
     CmsOffersBannerItem,
@@ -458,6 +459,13 @@ function normalizeSteps(offer: CmsOffer, operator: CmsOperator): string[] {
     ];
 }
 
+function normalizeOfferDetails(details: unknown): CmsOfferDetail[] {
+    if (!Array.isArray(details)) return [];
+    return details.map((detail) =>
+        typeof detail === 'string' ? { emoji: '✅', text: detail } : (detail as CmsOfferDetail)
+    );
+}
+
 function toOfferCardProps(offer: CmsOffer, operator: CmsOperator): OfferCardProps {
     return {
         label: offer.label,
@@ -465,11 +473,9 @@ function toOfferCardProps(offer: CmsOffer, operator: CmsOperator): OfferCardProp
         logoSrc: normalizeImagePath(operator.logoSrc),
         logoAlt: operator.name,
         offerMain: offer.headline,
-        details: Array.isArray(offer.details) ? offer.details : [],
+        details: normalizeOfferDetails(offer.details),
         ctaText: 'CLICK TO CLAIM',
         ctaHref: offer.ctaHref || '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/' + offer.id,
         termsText: offer.termsText
     };
 }
@@ -633,7 +639,7 @@ export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | 
         logoSrc: normalizeImagePath(operator.logoSrc),
         logoAlt: operator.name,
         offerHeadline: offer.headline,
-        trustBadges: Array.isArray(offer.details) ? offer.details : [],
+        trustBadges: normalizeOfferDetails(offer.details).map((detail) => detail.text),
         howToSteps: normalizeSteps(offer, operator),
         howToTermsText: offer.termsText,
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',

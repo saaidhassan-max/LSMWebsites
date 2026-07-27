@@ -55,7 +55,7 @@ export function HowToClaimView({ offer, operator }: HowToClaimViewProps): React.
                 logoSrc={operator.logoSrc}
                 logoAlt={operator.name}
                 headline={offer.headline}
-                badges={offer.details}
+                badges={offer.details.map((detail) => detail.text)}
             />
 
             <HowToClaimSteps

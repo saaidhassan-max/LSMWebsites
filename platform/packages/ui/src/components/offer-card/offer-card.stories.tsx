@@ -22,7 +22,10 @@ export const Mobile: Story = {
     args: {
         label: 'HOT DEAL',
         offerMain: '$100 Casino Bonus',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         ctaText: 'PLAY NOW',
         ctaHref: '#',
         secondaryCtaText: 'How To Claim',
@@ -52,7 +55,10 @@ export const Desktop: Story = {
     args: {
         label: 'HOT DEAL',
         offerMain: '$100 Casino Bonus',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         ctaText: 'PLAY NOW',
         ctaHref: '#',
         termsText: TERMS,

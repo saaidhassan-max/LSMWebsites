@@ -230,8 +230,6 @@ export function SitePageView({
                                 details={offer.details}
                                 ctaText="CLICK TO CLAIM"
                                 ctaHref={offer.ctaHref || '#'}
-                                secondaryCtaText="How To Claim"
-                                secondaryCtaHref={'/how-to-claim/' + offer.id}
                                 termsText={offer.termsText}
                             />
                         );

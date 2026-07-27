@@ -24,11 +24,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/ssm/brands/888logo.png',
         logoAlt: 'Royal Casino',
         offerMain: '225 SPINS Uden Indbetaling',
-        details: ['Ingen Indbetaling', 'Ingen Satsningskrav'],
+        details: [
+            { emoji: '💸', text: 'Ingen Indbetaling' },
+            { emoji: '✅', text: 'Ingen Satsningskrav' }
+        ],
         ctaText: 'FÅ BONUS',
         ctaHref: '#',
-        secondaryCtaText: 'Læs Mere',
-        secondaryCtaHref: '/how-to-claim/royal-casino',
         termsText: '10x Gennemspilskrav, fx. 2.250 kr. ved gennemspilning. Max 100 kr. pr. indsats. Gyldig 60 dage.'
     },
     {
@@ -36,11 +37,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/ssm/brands/888logo.png',
         logoAlt: 'Mr Green',
         offerMain: '50 SPINS Uden Indbetaling',
-        details: ['Ingen Indbetaling', 'Uden Satsningskrav'],
+        details: [
+            { emoji: '💸', text: 'Ingen Indbetaling' },
+            { emoji: '✅', text: 'Uden Satsningskrav' }
+        ],
         ctaText: 'FÅ BONUS',
         ctaHref: '#',
-        secondaryCtaText: 'Læs Mere',
-        secondaryCtaHref: '/how-to-claim/mr-green',
         termsText: '50 cash spins krediteres automatisk til Legacy of Dead og har en værdi á 1 kr. per spin. Tilgængelige i 60 dage.'
     },
     {
@@ -48,11 +50,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/ssm/brands/888logo.png',
         logoAlt: 'Kapow Casino',
         offerMain: '50 SPINS Til Big Bass Splash Uden Indbetaling',
-        details: ['Ingen Indbetaling', '0,50 kr. per spin'],
+        details: [
+            { emoji: '💸', text: 'Ingen Indbetaling' },
+            { emoji: '🎰', text: '0,50 kr. per spin' }
+        ],
         ctaText: 'FÅ BONUS',
         ctaHref: '#',
-        secondaryCtaText: 'Læs Mere',
-        secondaryCtaHref: '/how-to-claim/kapow-casino',
         termsText: '10x Gennemspilskrav, fx. 250 kr. ved gennemspilning. Max 100 kr. pr. indsats. Gyldig 60 dage.'
     },
     {
@@ -60,11 +63,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/ssm/brands/888logo.png',
         logoAlt: 'PokerStars Casino',
         offerMain: '100% BONUS Op Til: 650 kr.',
-        details: ['100% Match Bonus', 'Min. indbetaling 10 kr.'],
+        details: [
+            { emoji: '🎁', text: '100% Match Bonus' },
+            { emoji: '💳', text: 'Min. indbetaling 10 kr.' }
+        ],
         ctaText: 'FÅ BONUS',
         ctaHref: '#',
-        secondaryCtaText: 'Læs Mere',
-        secondaryCtaHref: '/how-to-claim/pokerstars-casino',
         termsText: 'Gennemspilles 10x (bonus+indbetaling) inden 60 dage.'
     }
 ];

@@ -1,5 +1,6 @@
 import type {
     CmsOffer,
+    CmsOfferDetail,
     CmsOfferDetails,
     CmsOperator,
     CmsOperatorDetails,
@@ -75,7 +76,10 @@ function seedOffers(): CmsOffer[] {
             headline: '50 FREE SPINS',
             label: 'NO DEPOSIT',
             labelColor: 'orange',
-            details: ['No Deposit', 'No Wagering'],
+            details: [
+                { emoji: '💸', text: 'No Deposit' },
+                { emoji: '✅', text: 'No Wagering' }
+            ],
             howToClaimSteps: [
                 'Click "Click To Claim" to visit Betfair Casino.',
                 'Register a new account with your details.',
@@ -96,7 +100,10 @@ function seedOffers(): CmsOffer[] {
             headline: '50 FREE SPINS',
             label: 'NO DEPOSIT',
             labelColor: 'red',
-            details: ['No Deposit', 'No Wagering'],
+            details: [
+                { emoji: '💸', text: 'No Deposit' },
+                { emoji: '✅', text: 'No Wagering' }
+            ],
             howToClaimSteps: [
                 'Click "Click To Claim" to visit Ladbrokes.',
                 'Complete the new-customer registration.',
@@ -117,7 +124,10 @@ function seedOffers(): CmsOffer[] {
             headline: '10 FREE SPINS',
             label: 'NO DEPOSIT',
             labelColor: 'red',
-            details: ['No Deposit', 'No Wagering'],
+            details: [
+                { emoji: '💸', text: 'No Deposit' },
+                { emoji: '✅', text: 'No Wagering' }
+            ],
             howToClaimSteps: [
                 'Click "Click To Claim" to visit Buzz Bingo.',
                 'Register online as a new customer.',
@@ -148,10 +158,17 @@ export async function listOperators(): Promise<CmsOperator[]> {
     return [...operators].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+function normalizeOfferDetails(details: unknown): CmsOfferDetail[] {
+    if (!Array.isArray(details)) return [];
+    return details.map((detail) =>
+        typeof detail === 'string' ? { emoji: '✅', text: detail } : (detail as CmsOfferDetail)
+    );
+}
+
 function normalizeOffer(offer: CmsOffer): CmsOffer {
     return {
         ...offer,
-        details: Array.isArray(offer.details) ? offer.details : [],
+        details: normalizeOfferDetails(offer.details),
         howToClaimSteps: Array.isArray(offer.howToClaimSteps) ? offer.howToClaimSteps : [],
         startDate: offer.startDate ?? null,
         endDate: offer.endDate ?? null,
@@ -207,7 +224,10 @@ export async function createOffer(): Promise<string> {
         headline: 'New offer',
         label: 'NO DEPOSIT',
         labelColor: 'red',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         howToClaimSteps: [],
         termsText: '18+. New customers only. T&Cs apply. BeGambleAware.org.',
         ctaHref: '#',
@@ -235,7 +255,10 @@ export async function createOfferForOperator(operatorId: string): Promise<string
         headline: 'New offer',
         label: 'NO DEPOSIT',
         labelColor: 'red',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         howToClaimSteps: [],
         termsText: '18+. New customers only. T&Cs apply. BeGambleAware.org.',
         ctaHref: '#',
@@ -374,7 +397,9 @@ export async function updateOffer(id: string, details: CmsOfferDetails): Promise
                   headline: details.headline.trim() || offer.headline,
                   label: details.label.trim() || offer.label,
                   labelColor: details.labelColor,
-                  details: details.details.map((line) => line.trim()).filter(Boolean),
+                  details: details.details
+                      .map((detail) => ({ emoji: detail.emoji.trim(), text: detail.text.trim() }))
+                      .filter((detail) => detail.text !== ''),
                   howToClaimSteps: details.howToClaimSteps
                       .map((line) => line.trim())
                       .filter(Boolean),

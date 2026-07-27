@@ -2,7 +2,7 @@
 
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import type { CmsLabelColor, CmsOffer } from '@/lib/cms-content.types';
+import type { CmsLabelColor, CmsOffer, CmsOfferDetail } from '@/lib/cms-content.types';
 
 interface OfferCardFieldsProps {
     offer: CmsOffer;
@@ -20,12 +20,23 @@ function toLines(value: string): string[] {
         .filter(Boolean);
 }
 
+function detailsToLines(details: CmsOfferDetail[]): string {
+    return details.map((detail) => detail.emoji + ' ' + detail.text).join('\n');
+}
+
+function linesToDetails(value: string): CmsOfferDetail[] {
+    return toLines(value).map((line) => {
+        const match = /^(\S+)\s+(.*)$/.exec(line);
+        return match !== null ? { emoji: match[1], text: match[2].trim() } : { emoji: '✅', text: line };
+    });
+}
+
 export function OfferCardFields({ offer, onChange }: OfferCardFieldsProps): React.ReactElement {
-    const [detailsText, setDetailsText] = useState(offer.details.join('\n'));
+    const [detailsText, setDetailsText] = useState(detailsToLines(offer.details));
     const [stepsText, setStepsText] = useState(offer.howToClaimSteps.join('\n'));
 
     useEffect(() => {
-        setDetailsText(offer.details.join('\n'));
+        setDetailsText(detailsToLines(offer.details));
         setStepsText(offer.howToClaimSteps.join('\n'));
     }, [offer.id]);
 
@@ -63,12 +74,14 @@ export function OfferCardFields({ offer, onChange }: OfferCardFieldsProps): Reac
             </div>
             <label className={labelClass}>
                 Detail bullets
-                <span className="text-[11px] font-normal text-m3-on-surface-variant">One per line.</span>
+                <span className="text-[11px] font-normal text-m3-on-surface-variant">
+                    One per line, as an emoji then the text, e.g. &quot;💸 No Deposit&quot;.
+                </span>
                 <textarea
                     value={detailsText}
                     onChange={(e) => {
                         setDetailsText(e.target.value);
-                        onChange({ details: toLines(e.target.value) });
+                        onChange({ details: linesToDetails(e.target.value) });
                     }}
                     rows={4}
                     className={inputClass + ' resize-y leading-5'}

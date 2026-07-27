@@ -26,13 +26,18 @@ export interface CmsOfferBanner {
     href: string;
 }
 
+export interface CmsOfferDetail {
+    emoji: string;
+    text: string;
+}
+
 export interface CmsOffer {
     id: string;
     operatorId: string;
     headline: string;
     label: string;
     labelColor: CmsLabelColor;
-    details: string[];
+    details: CmsOfferDetail[];
     howToClaimSteps: string[];
     termsText: string;
     ctaHref: string;
@@ -48,7 +53,7 @@ export interface CmsOfferDetails {
     headline: string;
     label: string;
     labelColor: CmsLabelColor;
-    details: string[];
+    details: CmsOfferDetail[];
     howToClaimSteps: string[];
     termsText: string;
     ctaHref: string;

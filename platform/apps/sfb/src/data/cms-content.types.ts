@@ -31,13 +31,18 @@ export interface CmsCampaign {
     updatedAt: string;
 }
 
+export interface CmsOfferDetail {
+    emoji: string;
+    text: string;
+}
+
 export interface CmsOffer {
     id: string;
     operatorId: string;
     headline: string;
     label: string;
     labelColor: CmsLabelColor;
-    details: string[];
+    details: CmsOfferDetail[];
     howToClaimSteps?: string[];
     termsText: string;
     ctaHref: string;

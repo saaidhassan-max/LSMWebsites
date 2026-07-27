@@ -25,11 +25,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/sfb/brands/placeholder.png',
         logoAlt: 'Betfair Casino',
         offerMain: '50 FREE SPINS',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/betfair-casino',
         termsText: '18+. New customers only. Free spins valued at £0.10. Winnings paid in cash. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -38,11 +39,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/sfb/brands/placeholder.png',
         logoAlt: 'Ladbrokes',
         offerMain: '50 FREE SPINS',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/ladbrokes',
         termsText: '18+. New Casino players only. 50 Free Spins (£0.10 each, selected games, valid 7 days) awarded upon registration. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -51,11 +53,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/sfb/brands/placeholder.png',
         logoAlt: 'Buzz Bingo',
         offerMain: '10 FREE SPINS',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/buzz-bingo',
         termsText: '18+. New customers only. Register online to receive 10 free spins. No deposit required. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -64,11 +67,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/sfb/brands/placeholder.png',
         logoAlt: 'Gala Bingo',
         offerMain: '100 FREE SPINS',
-        details: ['Spend: £5', '100 Free Spins'],
+        details: [
+            { emoji: '💳', text: 'Spend: £5' },
+            { emoji: '🎰', text: '100 Free Spins' }
+        ],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/gala-bingo',
         termsText: '18+. New customers only. Deposit & spend £5 to get 100 Free Spins on selected games. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -77,11 +81,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/sfb/brands/placeholder.png',
         logoAlt: 'MrQ',
         offerMain: '10 FREE SPINS',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/mrq',
         termsText: '18+. New Customers Only. First 10 spins on Big Bass Q the Splash, no deposit required, no wagering requirements. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -90,11 +95,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/sfb/brands/placeholder.png',
         logoAlt: 'Sun Vegas',
         offerMain: '110 FREE SPINS',
-        details: ['Spend: £10', '110 Free Spins'],
+        details: [
+            { emoji: '💳', text: 'Spend: £10' },
+            { emoji: '🎰', text: '110 Free Spins' }
+        ],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/sun-vegas',
         termsText: '18+. New customers only. Register today and deposit £10 to receive 110 free spins on selected games. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -103,11 +109,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/sfb/brands/placeholder.png',
         logoAlt: 'Sky Vegas',
         offerMain: '70 FREE SPINS',
-        details: ['No Deposit', 'No Wagering'],
+        details: [
+            { emoji: '💸', text: 'No Deposit' },
+            { emoji: '✅', text: 'No Wagering' }
+        ],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/sky-vegas',
         termsText: '18+. New customers only. Opt-in required. 7-day free spin expiry. All free spins loaded on first eligible game. T&Cs apply. BeGambleAware.org.'
     },
     {
@@ -116,11 +123,12 @@ export const offers: OfferCardProps[] = [
         logoSrc: '/sfb/brands/placeholder.png',
         logoAlt: 'Glossy Bingo',
         offerMain: '100 FREE SPINS',
-        details: ['Deposit: £10', '100 Free Spins'],
+        details: [
+            { emoji: '💳', text: 'Deposit: £10' },
+            { emoji: '🎰', text: '100 Free Spins' }
+        ],
         ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/glossy-bingo',
         termsText: '18+. New players only. Min Dep £10. Each free spin value 5p. T&Cs apply. BeGambleAware.org.'
     }
 ];

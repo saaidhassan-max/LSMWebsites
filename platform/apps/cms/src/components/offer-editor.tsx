@@ -12,6 +12,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import type {
     CmsLabelColor,
     CmsOffer,
+    CmsOfferDetail,
     CmsOfferDetails,
     CmsOperator
 } from '@/lib/cms-content.types';
@@ -46,6 +47,23 @@ function formatDate(iso: string): string {
     });
 }
 
+function detailsToLines(details: CmsOfferDetail[]): string {
+    return details.map((detail) => detail.emoji + ' ' + detail.text).join('\n');
+}
+
+function linesToDetails(value: string): CmsOfferDetail[] {
+    return value
+        .split('\n')
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => {
+            const match = /^(\S+)\s+(.*)$/.exec(line);
+            return match !== null
+                ? { emoji: match[1], text: match[2].trim() }
+                : { emoji: '✅', text: line };
+        });
+}
+
 function safeReturnTo(value: string | undefined): string {
     if (value === '/home') return value;
     if (value?.startsWith('/pages/edit/') === true) return value;
@@ -74,7 +92,7 @@ export function OfferEditor({
         endDate: offer.endDate,
         banner: offer.banner
     });
-    const [detailLines, setDetailLines] = useState(offer.details.join('\n'));
+    const [detailLines, setDetailLines] = useState(detailsToLines(offer.details));
     const [stepLines, setStepLines] = useState(offer.howToClaimSteps.join('\n'));
     const [dirty, setDirty] = useState(false);
     const [saved, setSaved] = useState(false);
@@ -120,8 +138,6 @@ export function OfferEditor({
         details: details.details,
         ctaText: 'CLICK TO CLAIM',
         ctaHref: details.ctaHref || '#',
-        secondaryCtaText: 'How To Claim',
-        secondaryCtaHref: '/how-to-claim/' + offer.id,
         termsText: details.termsText
     };
 
@@ -139,13 +155,7 @@ export function OfferEditor({
 
     function updateDetails(value: string): void {
         setDetailLines(value);
-        updateField(
-            'details',
-            value
-                .split('\n')
-                .map((line) => line.trim())
-                .filter(Boolean)
-        );
+        updateField('details', linesToDetails(value));
     }
 
     function updateSteps(value: string): void {
@@ -323,6 +333,10 @@ export function OfferEditor({
                             </div>
                             <label className="flex flex-col gap-1.5 text-[12px] font-medium">
                                 Detail bullets
+                                <span className="text-[11px] font-normal text-m3-on-surface-variant">
+                                    One per line, as an emoji then the text, e.g. &quot;💸 No
+                                    Deposit&quot;.
+                                </span>
                                 <textarea
                                     value={detailLines}
                                     onChange={(e) => updateDetails(e.target.value)}
