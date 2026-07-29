@@ -22,4 +22,5 @@ export interface ConsentFormProps {
     defaultExpanded?: boolean;
     forceShowErrors?: boolean;
     className?: string;
+    variant?: 'default' | 'compact';
 }

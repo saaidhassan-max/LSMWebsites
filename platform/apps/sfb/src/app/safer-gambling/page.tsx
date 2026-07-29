@@ -157,7 +157,7 @@ export default async function SaferGamblingPage(): Promise<React.ReactElement> {
     return (
         <main className="flex flex-col w-full bg-surface">
             <SfbNav items={settings.navItems} />
-            <USP text={settings.howToClaimUspText} />
+            <USP text={settings.howToClaimUspText} variant="bingo" />
 
             <div className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12 flex flex-col gap-8">
                 <div className="py-3">

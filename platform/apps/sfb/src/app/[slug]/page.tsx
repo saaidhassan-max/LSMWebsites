@@ -291,7 +291,7 @@ export default async function CmsSitePageRoute({
     return (
         <main className="flex flex-col w-full bg-surface min-h-screen">
             <SfbNav items={settings.navItems} />
-            <USP text={settings.uspText} />
+            <USP text={settings.uspText} variant="bingo" />
             {page.sections.map((section) => renderSection(section, settings, cardMap))}
             {renderDirectorySignupTemplate(settings)}
             <SfbFooter legalText={settings.footerLegalText} />

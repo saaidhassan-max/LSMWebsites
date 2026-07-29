@@ -1,4 +1,7 @@
+'use client';
+
 import type React from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Menu } from 'lucide-react';
 import type { LogoSectionProps } from './logo-section.types';
@@ -6,12 +9,25 @@ import type { LogoSectionProps } from './logo-section.types';
 export function LogoSection({
     onMenuClick,
     showMenu = true,
+    sticky = false,
     logoSrc = '/ssm/LogoSection/SSMLogo.svg',
     logoDesktopSrc,
     backgroundSrc = '/ssm/LogoSection/Lego_Deco2.png',
     logoAlt = 'Super Spillemaskiner',
     logoHref
 }: LogoSectionProps): React.ReactElement {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        if (sticky === false) return;
+        function onScroll(): void {
+            setScrolled(window.scrollY > 0);
+        }
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return (): void => window.removeEventListener('scroll', onScroll);
+    }, [sticky]);
+
     const logoContent = (
         <>
             <Image
@@ -40,7 +56,11 @@ export function LogoSection({
 
     return (
         <header
-            className="relative bg-surface overflow-hidden h-11 md:h-[72px] w-full"
+            className={
+                (sticky === true ? 'sticky top-0 z-30 ' : 'relative ') +
+                (sticky === true && scrolled === true ? 'border-b border-tertiary ' : '') +
+                'bg-surface overflow-hidden h-11 md:h-[72px] w-full'
+            }
             style={
                 backgroundSrc
                     ? {

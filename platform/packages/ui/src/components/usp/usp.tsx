@@ -9,7 +9,12 @@ export function USP({ text, variant = 'default' }: UspProps): React.ReactElement
                     {text}
                 </span>
             ) : (
-                <span className="font-['Helvetica_Neue'] font-bold text-sm md:text-[24px] leading-5 md:leading-8 tracking-[0.1px] md:tracking-[0] text-on-surface-dark text-center">
+                <span
+                    className={
+                        "font-['Helvetica_Neue'] font-bold text-sm md:text-[24px] leading-5 md:leading-8 tracking-[0.1px] md:tracking-[0] text-center " +
+                        (variant === 'bingo' ? 'text-on-surface-light' : 'text-on-surface-dark')
+                    }
+                >
                     {text}
                 </span>
             )}

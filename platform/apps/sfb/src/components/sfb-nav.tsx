@@ -16,7 +16,9 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
-    { emoji: '📋', label: 'Sign Up', href: '/signup' }
+    { emoji: '📋', label: 'Landing Page V1', href: '/signup' },
+    { emoji: '🧪', label: 'Landing Page V2', href: '/signup-v2' },
+    { emoji: '✨', label: 'Landing Page V3', href: '/signup-v3' }
 ];
 
 interface SfbNavProps {
@@ -47,6 +49,7 @@ export function SfbNav({
                 logoHref="/"
                 backgroundSrc="/sfb/LogoSection/Lego_Deco2.png"
                 showMenu={showMenu}
+                sticky
                 onMenuClick={() => setDrawerOpen(true)}
             />
             {showMenu === true && (

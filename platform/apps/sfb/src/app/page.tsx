@@ -291,7 +291,7 @@ export default async function HomePage(): Promise<React.ReactElement> {
     return (
         <main className="flex flex-col w-full bg-surface">
             <SfbNav items={settings.navItems} />
-            <USP text={settings.uspText} />
+            <USP text={settings.uspText} variant="bingo" />
             {sections.map((section) => renderSection(section, settings, cardMap))}
             {renderDirectorySignupTemplate(settings)}
             <SfbFooter legalText={settings.footerLegalText} />

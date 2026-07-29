@@ -42,11 +42,17 @@ const DEFAULT_CONTACTS: ContactState = {
     social: false
 };
 
+const LEGAL_TEXT_CLASSES: Record<NonNullable<ConsentFormProps['variant']>, string> = {
+    default: 'text-xs leading-4',
+    compact: 'text-[10px] leading-[14px]'
+};
+
 export function ConsentForm({
     onChange,
     defaultExpanded = true,
     forceShowErrors = false,
-    className = ''
+    className = '',
+    variant = 'default'
 }: ConsentFormProps): React.ReactElement {
     const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [hasInteracted, setHasInteracted] = useState(false);
@@ -133,7 +139,7 @@ export function ConsentForm({
                 </div>
             )}
 
-            <p className="text-xs font-normal leading-4 tracking-[0.4px] text-on-surface-light">
+            <p className={`${LEGAL_TEXT_CLASSES[variant]} font-normal tracking-[0.4px] text-on-surface-light`}>
                 {LEGAL_TEXT}
             </p>
 

@@ -9,6 +9,8 @@
     "./components/button/button.types": "./src/components/button/button.types.ts",
     "./components/checkbox/checkbox": "./src/components/checkbox/checkbox.tsx",
     "./components/checkbox/checkbox.types": "./src/components/checkbox/checkbox.types.ts",
+    "./components/confetti-burst/confetti-burst": "./src/components/confetti-burst/confetti-burst.tsx",
+    "./components/confetti-burst/confetti-burst.types": "./src/components/confetti-burst/confetti-burst.types.ts",
     "./components/consent-form/consent-form": "./src/components/consent-form/consent-form.tsx",
     "./components/consent-form/consent-form.types": "./src/components/consent-form/consent-form.types.ts",
     "./components/how-to-claim-steps/how-to-claim-steps": "./src/components/how-to-claim-steps/how-to-claim-steps.tsx",
