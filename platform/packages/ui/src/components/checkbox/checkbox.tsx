@@ -14,7 +14,8 @@ export function Checkbox({
     onChange,
     label,
     id: externalId,
-    className = ''
+    className = '',
+    labelClassName = ''
 }: CheckboxProps): React.ReactElement {
     const generatedId = useId();
     const id = externalId ?? generatedId;
@@ -78,7 +79,14 @@ export function Checkbox({
                 </span>
             </div>
             {label !== undefined && (
-                <span className="text-sm font-normal leading-5 text-on-surface-light">{label}</span>
+                <span
+                    className={cn(
+                        'text-sm font-normal leading-5 text-on-surface-light',
+                        labelClassName
+                    )}
+                >
+                    {label}
+                </span>
             )}
         </label>
     );

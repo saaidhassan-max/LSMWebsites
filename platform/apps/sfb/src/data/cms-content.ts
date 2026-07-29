@@ -58,7 +58,8 @@ const DEFAULT_NAV_ITEMS: CmsSiteSettingsNavItem[] = [
     { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '📋', label: 'Landing Page V1', href: '/signup' },
     { emoji: '🧪', label: 'Landing Page V2', href: '/signup-v2' },
-    { emoji: '✨', label: 'Landing Page V3', href: '/signup-v3' }
+    { emoji: '✨', label: 'Landing Page V3', href: '/signup-v3' },
+    { emoji: '🧩', label: 'Landing Page V4', href: '/signup-v4' }
 ];
 
 const DEFAULT_DIRECTORY_SITES: CmsSiteSettingsDirectoryItem[] = [
@@ -321,14 +322,16 @@ function mergeNavItems(
             (item) =>
                 item.href !== '/signup' &&
                 item.href !== '/signup-v2' &&
-                item.href !== '/signup-v3'
+                item.href !== '/signup-v3' &&
+                item.href !== '/signup-v4'
         ),
         ...pageItems,
         ...DEFAULT_NAV_ITEMS.filter(
             (item) =>
                 item.href === '/signup' ||
                 item.href === '/signup-v2' ||
-                item.href === '/signup-v3'
+                item.href === '/signup-v3' ||
+                item.href === '/signup-v4'
         )
     ].filter((item): item is CmsSiteSettingsNavItem => item !== undefined);
     const ordered: CmsSiteSettingsNavItem[] = [];

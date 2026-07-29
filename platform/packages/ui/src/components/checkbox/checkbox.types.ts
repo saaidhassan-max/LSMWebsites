@@ -7,4 +7,5 @@ export interface CheckboxProps {
     label?: string;
     id?: string;
     className?: string;
+    labelClassName?: string;
 }

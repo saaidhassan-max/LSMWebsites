@@ -8,7 +8,6 @@ import type {
     ConsentFormData,
     ConsentFormProps,
     ConsentOption,
-    ContactKey,
     ContactState,
     InterestKey,
     InterestState
@@ -23,12 +22,6 @@ const INTERESTS = [
     { key: 'retail', label: 'Non-Gambling Retail Offers & Vouchers' }
 ] satisfies ConsentOption<InterestKey>[];
 
-const CONTACTS = [
-    { key: 'email', label: 'Email' },
-    { key: 'sms', label: 'SMS' },
-    { key: 'social', label: 'Social Messaging' }
-] satisfies ConsentOption<ContactKey>[];
-
 const DEFAULT_INTERESTS: InterestState = {
     casino: false,
     bingo: false,
@@ -36,16 +29,24 @@ const DEFAULT_INTERESTS: InterestState = {
     retail: false
 };
 
-const DEFAULT_CONTACTS: ContactState = {
+const EMPTY_CONTACTS: ContactState = {
     email: false,
     sms: false,
     social: false
+};
+
+const SELECTED_CONTACTS: ContactState = {
+    email: true,
+    sms: true,
+    social: true
 };
 
 const LEGAL_TEXT_CLASSES: Record<NonNullable<ConsentFormProps['variant']>, string> = {
     default: 'text-xs leading-4',
     compact: 'text-[10px] leading-[14px]'
 };
+
+const COMPACT_TEXT_CLASSES = 'text-[10px] leading-[14px]';
 
 export function ConsentForm({
     onChange,
@@ -57,28 +58,22 @@ export function ConsentForm({
     const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [hasInteracted, setHasInteracted] = useState(false);
     const [interests, setInterests] = useState<InterestState>(DEFAULT_INTERESTS);
-    const [contacts, setContacts] = useState<ContactState>(DEFAULT_CONTACTS);
 
     const anyInterest = Object.values(interests).some(Boolean);
     const allInterests = Object.values(interests).every(Boolean);
-    const anyContact = Object.values(contacts).some(Boolean);
-    const allContacts = Object.values(contacts).every(Boolean);
 
-    const mainChecked = allInterests && allContacts;
-    const mainIndeterminate = !mainChecked && (anyInterest || anyContact);
+    const mainChecked = allInterests;
+    const mainIndeterminate = !mainChecked && anyInterest;
 
     const shouldShowErrors = hasInteracted || forceShowErrors;
-    const showMainError = shouldShowErrors && !anyInterest && !anyContact;
-    const showInterestError = shouldShowErrors && anyContact && !anyInterest;
-    const showContactError = shouldShowErrors && anyInterest && !anyContact;
+    const showMainError = shouldShowErrors && !anyInterest;
 
-    function notify(newInterests: InterestState, newContacts: ContactState): void {
+    function notify(newInterests: InterestState): void {
         const newAnyInterest = Object.values(newInterests).some(Boolean);
-        const newAnyContact = Object.values(newContacts).some(Boolean);
         onChange?.({
             interests: newInterests,
-            contactMethods: newContacts,
-            isValid: newAnyInterest && newAnyContact
+            contactMethods: newAnyInterest ? SELECTED_CONTACTS : EMPTY_CONTACTS,
+            isValid: newAnyInterest
         });
     }
 
@@ -88,26 +83,15 @@ export function ConsentForm({
         const newInterests = Object.fromEntries(
             INTERESTS.map(({ key }) => [key, selectAll])
         ) as InterestState;
-        const newContacts = Object.fromEntries(
-            CONTACTS.map(({ key }) => [key, selectAll])
-        ) as ContactState;
         setInterests(newInterests);
-        setContacts(newContacts);
-        notify(newInterests, newContacts);
+        notify(newInterests);
     }
 
     function handleInterestChange(key: InterestKey, checked: boolean): void {
         setHasInteracted(true);
         const newInterests = { ...interests, [key]: checked };
         setInterests(newInterests);
-        notify(newInterests, contacts);
-    }
-
-    function handleContactChange(key: ContactKey, checked: boolean): void {
-        setHasInteracted(true);
-        const newContacts = { ...contacts, [key]: checked };
-        setContacts(newContacts);
-        notify(interests, newContacts);
+        notify(newInterests);
     }
 
     return (
@@ -120,6 +104,7 @@ export function ConsentForm({
                     onChange={handleMainChange}
                     label="Keep me informed"
                     className="flex-1 font-bold"
+                    labelClassName={variant === 'compact' ? COMPACT_TEXT_CLASSES : ''}
                 />
                 <button
                     type="button"
@@ -133,7 +118,13 @@ export function ConsentForm({
 
             {showMainError === true && (
                 <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
-                    <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
+                    <p
+                        className={`${
+                            variant === 'compact'
+                                ? COMPACT_TEXT_CLASSES
+                                : 'text-sm leading-[16.8px]'
+                        } font-normal text-surface-container-low`}
+                    >
                         Please accept our terms
                     </p>
                 </div>
@@ -145,50 +136,43 @@ export function ConsentForm({
 
             {isExpanded === true && (
                 <div className="flex flex-col gap-2 mt-1">
-                    <p className="text-sm font-normal leading-5 text-on-surface-light">
+                    <p
+                        className={`${
+                            variant === 'compact' ? COMPACT_TEXT_CLASSES : 'text-sm leading-5'
+                        } font-normal text-on-surface-light`}
+                    >
                         Simply tick the boxes to choose which types of offer you'd like to receive
                         and how:
                     </p>
 
                     <div className="flex flex-col">
-                        <p className="text-sm font-medium leading-5 text-on-surface-light py-1">
+                        <p
+                            className={`${
+                                variant === 'compact' ? COMPACT_TEXT_CLASSES : 'text-sm leading-5'
+                            } font-medium text-on-surface-light py-1`}
+                        >
                             I'm interested in
                         </p>
                         {INTERESTS.map(({ key, label }) => (
                             <Checkbox
                                 key={key}
                                 checked={interests[key]}
-                                error={showInterestError}
+                                error={showMainError}
                                 onChange={(checked) => handleInterestChange(key, checked)}
                                 label={label}
+                                labelClassName={variant === 'compact' ? COMPACT_TEXT_CLASSES : ''}
                             />
                         ))}
-                        {showInterestError === true && (
+                        {showMainError === true && (
                             <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
-                                <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
+                                <p
+                                    className={`${
+                                        variant === 'compact'
+                                            ? COMPACT_TEXT_CLASSES
+                                            : 'text-sm leading-[16.8px]'
+                                    } font-normal text-surface-container-low`}
+                                >
                                     Please select what you're interested in
-                                </p>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="flex flex-col">
-                        <p className="text-sm font-medium leading-5 text-on-surface-light py-1">
-                            Contact me by
-                        </p>
-                        {CONTACTS.map(({ key, label }) => (
-                            <Checkbox
-                                key={key}
-                                checked={contacts[key]}
-                                error={showContactError}
-                                onChange={(checked) => handleContactChange(key, checked)}
-                                label={label}
-                            />
-                        ))}
-                        {showContactError === true && (
-                            <div className="inline-flex items-center bg-error px-1 py-1 ml-10">
-                                <p className="text-sm font-normal leading-[16.8px] text-surface-container-low">
-                                    Please select how you wish to be contacted
                                 </p>
                             </div>
                         )}

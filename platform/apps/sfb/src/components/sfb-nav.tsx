@@ -18,7 +18,8 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
     { emoji: '📋', label: 'Landing Page V1', href: '/signup' },
     { emoji: '🧪', label: 'Landing Page V2', href: '/signup-v2' },
-    { emoji: '✨', label: 'Landing Page V3', href: '/signup-v3' }
+    { emoji: '✨', label: 'Landing Page V3', href: '/signup-v3' },
+    { emoji: '🧩', label: 'Landing Page V4', href: '/signup-v4' }
 ];
 
 interface SfbNavProps {

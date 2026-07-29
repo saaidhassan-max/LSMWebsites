@@ -110,12 +110,31 @@ export function SignupLandingPageV3({
         return guidedToFormRef.current === false && needsInput === true;
     }
 
+    function scrollFieldAboveKeyboard(target: HTMLDivElement | null): void {
+        if (target === null) return;
+        const field = target;
+
+        function scrollToSafePosition(behavior: ScrollBehavior): void {
+            const viewport = window.visualViewport;
+            const viewportTop = viewport?.offsetTop ?? 0;
+            const viewportHeight = viewport?.height ?? window.innerHeight;
+            const safeTop = viewportTop + Math.min(112, Math.max(72, viewportHeight * 0.2));
+            const rect = field.getBoundingClientRect();
+            const nextTop = window.scrollY + rect.top - safeTop;
+            window.scrollTo({ top: Math.max(0, nextTop), behavior });
+        }
+
+        scrollToSafePosition('smooth');
+        window.setTimeout(() => scrollToSafePosition('smooth'), 300);
+        window.setTimeout(() => scrollToSafePosition('auto'), 650);
+    }
+
     function guideToFirstEmptyField(): void {
         guidedToFormRef.current = true;
         const target = email.trim() === '' ? emailFieldRef.current : phoneFieldRef.current;
         const input = target?.querySelector('input');
         input?.focus({ preventScroll: true });
-        target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        scrollFieldAboveKeyboard(target);
     }
 
     function handleSubmitClick(): void {
@@ -161,7 +180,7 @@ export function SignupLandingPageV3({
                         />
                     </div>
 
-                    <div className="relative z-10 flex flex-col gap-4 md:max-w-[564px] md:mx-auto md:w-full md:pt-0 md:pb-6 md:gap-8">
+                    <div className="relative z-10 flex flex-col gap-2 md:max-w-[564px] md:mx-auto md:w-full md:pt-0 md:pb-6 md:gap-4">
                         <div className="flex flex-col items-center">
                             <Image
                                 src={offerImageSrc}
@@ -211,6 +230,12 @@ export function SignupLandingPageV3({
                                     onChange={handleConsentChange}
                                     variant="compact"
                                 />
+                                <p className="text-on-surface-light text-[10px] leading-[14px] font-normal tracking-[0.4px]">
+                                    {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
+                                    <a href="/privacy-policy" className="underline">click here.</a>
+                                    {' For full terms and conditions, '}
+                                    <a href="/terms" className="underline">click here.</a>
+                                </p>
                                 <div ref={submitButtonRef}>
                                     <Button
                                         variant="primary"
