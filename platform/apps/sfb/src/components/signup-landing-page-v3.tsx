@@ -2,6 +2,7 @@
 
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ArrowRight, Mail, Phone } from 'lucide-react';
@@ -232,9 +233,9 @@ export function SignupLandingPageV3({
                                 />
                                 <p className="text-on-surface-light text-[10px] leading-[14px] font-normal tracking-[0.4px]">
                                     {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
-                                    <a href="/privacy-policy" className="underline">click here.</a>
+                                    <Link href="/privacy-policy" className="underline">click here.</Link>
                                     {' For full terms and conditions, '}
-                                    <a href="/terms" className="underline">click here.</a>
+                                    <Link href="/terms" className="underline">click here.</Link>
                                 </p>
                                 <div ref={submitButtonRef}>
                                     <Button
