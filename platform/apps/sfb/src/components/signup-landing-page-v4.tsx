@@ -30,7 +30,11 @@ function validateEmail(value: string): string {
 }
 
 function validatePhone(value: string): string {
-    if (!value.trim()) return 'Phone number is required';
+    const trimmed = value.trim();
+    if (!trimmed) return 'Phone number is required';
+    if (!/^\+?[\d\s()-]+$/.test(trimmed)) return 'Please enter a valid phone number';
+    const digits = trimmed.replace(/\D/g, '');
+    if (digits.length < 10 || digits.length > 15) return 'Please enter a valid phone number';
     return '';
 }
 
@@ -156,7 +160,7 @@ export function SignupLandingPageV4({
     }
 
     const primaryCta = content.primaryCtaText || 'Sign Up & Claim Offer';
-    const secondaryCta = content.secondaryCtaText || 'Take me to the site';
+    const secondaryCta = content.secondaryCtaText || 'Skip to site';
     const offerAltText = [content.heroPrefix, content.heroHeadline, content.heroSubline]
         .filter((part) => part !== '')
         .join(' ');
@@ -166,7 +170,7 @@ export function SignupLandingPageV4({
             <ConfettiBurst anchorRef={phoneFieldRef} fadeBeforeRef={submitButtonRef} />
             <SfbNav items={settings.navItems} showMenu={false} />
             <main className="flex flex-col w-full bg-surface min-h-screen pb-[80px] md:pb-0">
-                <USP text={settings.uspText} variant="bingo" />
+                <USP text="JOIN OVER 100,000 SUBSCRIBERS" variant="bingo" />
 
                 <div className="relative overflow-hidden bg-surface">
                     <div className="absolute inset-0 pointer-events-none select-none">

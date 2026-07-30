@@ -29,7 +29,11 @@ function validateEmail(value: string): string {
 }
 
 function validatePhone(value: string): string {
-    if (!value.trim()) return 'Phone number is required';
+    const trimmed = value.trim();
+    if (!trimmed) return 'Phone number is required';
+    if (!/^\+?[\d\s()-]+$/.test(trimmed)) return 'Please enter a valid phone number';
+    const digits = trimmed.replace(/\D/g, '');
+    if (digits.length < 10 || digits.length > 15) return 'Please enter a valid phone number';
     return '';
 }
 
@@ -160,7 +164,7 @@ export function SignupLandingPageV2({
         <>
             <ConfettiBurst anchorRef={phoneFieldRef} fadeBeforeRef={submitButtonRef} />
             <SfbNav items={settings.navItems} showMenu={false} />
-            <main className="flex flex-col w-full bg-surface min-h-screen gap-[10px] pb-[80px] md:pb-0">
+            <main className="flex flex-col w-full bg-surface min-h-screen pb-[80px] md:pb-0">
                 <USP text="JOIN OVER 100,000 SUBSCRIBERS" variant="bingo" />
 
                 <div className="relative overflow-hidden">
