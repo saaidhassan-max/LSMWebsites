@@ -183,8 +183,8 @@ export function SignupLandingPageV2({
                         />
                     </div>
 
-                    <div className="relative z-10 flex flex-col gap-4 md:max-w-[564px] md:mx-auto md:w-full md:py-6 md:gap-8">
-                        <div className="flex flex-col items-center gap-2 px-4">
+                    <div className="relative z-10 flex flex-col gap-4 pt-6 md:max-w-[564px] md:mx-auto md:w-full md:py-6 md:gap-8">
+                        <div className="flex flex-col items-center gap-1 px-4">
                             <p className="text-[22px] md:text-[32px] font-bold leading-[26.4px] md:leading-10 text-on-surface-light text-center">
                                 {content.heroPrefix}
                             </p>
