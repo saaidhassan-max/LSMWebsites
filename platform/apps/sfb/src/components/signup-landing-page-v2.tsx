@@ -20,7 +20,6 @@ import { SfbNav } from './sfb-nav';
 interface SignupLandingPageV2Props {
     content: CmsLandingPageContent;
     settings: CmsSiteSettings;
-    offerImageSrc: string;
 }
 
 function validateEmail(value: string): string {
@@ -36,8 +35,7 @@ function validatePhone(value: string): string {
 
 export function SignupLandingPageV2({
     content,
-    settings,
-    offerImageSrc
+    settings
 }: SignupLandingPageV2Props): React.ReactElement {
     const router = useRouter();
     const [email, setEmail] = useState('');
@@ -156,17 +154,14 @@ export function SignupLandingPageV2({
     }
 
     const primaryCta = content.primaryCtaText || 'Sign Up & Claim Offer';
-    const secondaryCta = content.secondaryCtaText || 'Take me to the site';
-    const offerAltText = [content.heroPrefix, content.heroHeadline, content.heroSubline]
-        .filter((part) => part !== '')
-        .join(' ');
+    const secondaryCta = content.secondaryCtaText || 'Skip to site';
 
     return (
         <>
             <ConfettiBurst anchorRef={phoneFieldRef} fadeBeforeRef={submitButtonRef} />
             <SfbNav items={settings.navItems} showMenu={false} />
-            <main className="flex flex-col w-full bg-surface min-h-screen pb-[80px] md:pb-0">
-                <USP text={settings.uspText} variant="bingo" />
+            <main className="flex flex-col w-full bg-surface min-h-screen gap-[10px] pb-[80px] md:pb-0">
+                <USP text="JOIN OVER 100,000 SUBSCRIBERS" variant="bingo" />
 
                 <div className="relative overflow-hidden">
                     <div
@@ -177,23 +172,24 @@ export function SignupLandingPageV2({
                             src={content.backgroundImage}
                             alt=""
                             width={1440}
-                            height={768}
+                            height={980}
                             style={{ width: '100%', height: 'auto' }}
                             placeholder="empty"
                             priority
                         />
                     </div>
 
-                    <div className="relative z-10 flex flex-col gap-2 md:max-w-[564px] md:mx-auto md:w-full md:pt-0 md:pb-6 md:gap-4">
-                        <div className="flex flex-col items-center">
-                            <Image
-                                src={offerImageSrc}
-                                alt={offerAltText}
-                                width={1200}
-                                height={830}
-                                className="w-full h-auto"
-                                priority
-                            />
+                    <div className="relative z-10 flex flex-col gap-4 md:max-w-[564px] md:mx-auto md:w-full md:py-6 md:gap-8">
+                        <div className="flex flex-col items-center gap-2 px-4">
+                            <p className="text-[22px] md:text-[32px] font-bold leading-[26.4px] md:leading-10 text-on-surface-light text-center">
+                                {content.heroPrefix}
+                            </p>
+                            <p className="font-futura font-[900] uppercase text-[45px] md:text-[80px] leading-[52px] md:leading-[80px] text-on-surface-light text-center tracking-[-0.019em]">
+                                {content.heroHeadline}
+                            </p>
+                            <p className="text-[22px] md:text-[32px] font-medium md:font-bold leading-7 md:leading-10 text-on-surface-light text-center">
+                                {content.heroSubline}
+                            </p>
                         </div>
 
                         <div className="flex flex-col gap-[10px] pt-1 px-4 pb-4 md:p-8">
