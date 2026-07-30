@@ -13,7 +13,8 @@ import type {
     InterestState
 } from './consent-form.types';
 
-const LEGAL_TEXT = `By accepting our terms and clicking "SIGN ME UP", I confirm that I would like to receive marketing communications about the latest casino, bingo, and sports offers; winners; news; giveaways; competitions and incentives via email, SMS, and social messaging (e.g. WhatsApp) from Little Star Media Ltd and It's A Good Choice Ltd. I also agree to receive exclusive non-gambling retail promotions, such as vouchers and discounts for well-known brands, via email, SMS and social messaging from selected third-party partners.`;
+const buildLegalText = (submitLabel: string): string =>
+    `By accepting our terms and clicking "${submitLabel}", I confirm that I would like to receive marketing communications about the latest casino, bingo, and sports offers; winners; news; giveaways; competitions and incentives via email, SMS, and social messaging (e.g. WhatsApp) from Little Star Media Ltd and It's A Good Choice Ltd. I also agree to receive exclusive non-gambling retail promotions, such as vouchers and discounts for well-known brands, via email, SMS and social messaging from selected third-party partners.`;
 
 const INTERESTS = [
     { key: 'casino', label: 'Casino (inc. Slots)' },
@@ -53,7 +54,8 @@ export function ConsentForm({
     defaultExpanded = true,
     forceShowErrors = false,
     className = '',
-    variant = 'default'
+    variant = 'default',
+    submitLabel = 'SIGN ME UP'
 }: ConsentFormProps): React.ReactElement {
     const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [hasInteracted, setHasInteracted] = useState(false);
@@ -131,7 +133,7 @@ export function ConsentForm({
             )}
 
             <p className={`${LEGAL_TEXT_CLASSES[variant]} font-normal tracking-[0.4px] text-on-surface-light`}>
-                {LEGAL_TEXT}
+                {buildLegalText(submitLabel)}
             </p>
 
             {isExpanded === true && (

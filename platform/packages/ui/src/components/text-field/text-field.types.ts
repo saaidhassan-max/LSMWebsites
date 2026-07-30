@@ -6,4 +6,5 @@ export interface TextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInput
     icon: LucideIcon;
     error?: string;
     onClear?: () => void;
+    valid?: boolean;
 }

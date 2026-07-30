@@ -136,5 +136,8 @@ export const offers: OfferCardProps[] = [
 export const signupInstructionText =
     'Sign up below to get the latest deals delivered straight to your inbox!';
 
+export const imageOfferInstructionText =
+    "You're one step away. Sign up to get the latest free spins & no-deposit offers.";
+
 export const signupLegalDisclaimer =
     'New Customers Only. 18+ Full T&Cs apply. BeGambleAware.org.';

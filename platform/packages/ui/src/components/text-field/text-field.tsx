@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useId } from 'react';
 import { cn } from '../../lib/generic/cn';
-import { X, Info } from 'lucide-react';
+import { X, Info, Check } from 'lucide-react';
 import type { TextFieldProps } from './text-field.types';
 
 export function TextField({
@@ -9,6 +9,7 @@ export function TextField({
     icon: Icon,
     error,
     onClear,
+    valid,
     value,
     className = '',
     ...props
@@ -16,6 +17,7 @@ export function TextField({
     const id = useId();
     const hasValue = value !== undefined && value !== '';
     const hasError = Boolean(error);
+    const isValid = valid === true && hasError === false;
 
     const borderClass = hasError
         ? 'border-error'
@@ -56,7 +58,10 @@ export function TextField({
                 </div>
 
                 {hasError === true && <Info size={24} className="text-error shrink-0" />}
-                {hasError === false && hasValue === true && onClear !== undefined && (
+                {hasError === false && isValid === true && (
+                    <Check size={24} className="text-primary shrink-0" aria-label="Valid" />
+                )}
+                {hasError === false && isValid === false && hasValue === true && onClear !== undefined && (
                     <button
                         type="button"
                         onClick={onClear}

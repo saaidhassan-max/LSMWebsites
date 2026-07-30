@@ -23,4 +23,5 @@ export interface ConsentFormProps {
     forceShowErrors?: boolean;
     className?: string;
     variant?: 'default' | 'compact';
+    submitLabel?: string;
 }

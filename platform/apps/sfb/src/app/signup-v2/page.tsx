@@ -1,6 +1,6 @@
 import type React from 'react';
 import { SignupLandingPageV2 } from '../../components/signup-landing-page-v2';
-import { signupInstructionText, signupLegalDisclaimer } from '../../data/site-content';
+import { imageOfferInstructionText, signupLegalDisclaimer } from '../../data/site-content';
 import { getCmsSiteSettings } from '../../data/cms-content';
 import type { CmsLandingPageContent } from '../../data/cms-content.types';
 
@@ -10,7 +10,7 @@ const DEFAULT_CONTENT: CmsLandingPageContent = {
     heroPrefix: 'Up to',
     heroHeadline: '150 Free Spins',
     heroSubline: 'can be claimed with no deposit',
-    instructionText: signupInstructionText,
+    instructionText: imageOfferInstructionText,
     backgroundImage: '/sfb/LandingPage/v3/landingpage-background.png',
     legalDisclaimer: signupLegalDisclaimer
 };

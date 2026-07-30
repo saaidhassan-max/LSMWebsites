@@ -155,8 +155,8 @@ export function SignupLandingPageV2({
         handleSubmit();
     }
 
-    const primaryCta = content.primaryCtaText || 'Sign Me Up';
-    const secondaryCta = content.secondaryCtaText || 'Skip';
+    const primaryCta = content.primaryCtaText || 'Sign Up & Claim Offer';
+    const secondaryCta = content.secondaryCtaText || 'Take me to the site';
     const offerAltText = [content.heroPrefix, content.heroHeadline, content.heroSubline]
         .filter((part) => part !== '')
         .join(' ');
@@ -203,11 +203,17 @@ export function SignupLandingPageV2({
                             <div ref={emailFieldRef}>
                                 <TextField
                                     icon={Mail}
-                                    label="Email Address*"
+                                    label="Email Address (required)"
                                     type="email"
+                                    inputMode="email"
+                                    autoComplete="email"
+                                    autoCapitalize="none"
+                                    autoCorrect="off"
+                                    spellCheck={false}
                                     placeholder="Your Email"
                                     value={email}
                                     error={emailError}
+                                    valid={validateEmail(email) === ''}
                                     onChange={handleEmailChange}
                                     onClear={handleEmailClear}
                                 />
@@ -215,23 +221,24 @@ export function SignupLandingPageV2({
                             <div ref={phoneFieldRef}>
                                 <TextField
                                     icon={Phone}
-                                    label="Phone Number*"
+                                    label="Phone Number (required)"
                                     type="tel"
+                                    inputMode="tel"
+                                    autoComplete="tel"
                                     placeholder="Your Phone Number"
                                     value={phone}
                                     error={phoneError}
+                                    valid={validatePhone(phone) === ''}
                                     onChange={handlePhoneChange}
                                     onClear={handlePhoneClear}
                                 />
                             </div>
-                            <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                                ** Required Information
-                            </p>
                             <ConsentForm
                                 defaultExpanded={false}
                                 forceShowErrors={forceConsentErrors}
                                 onChange={handleConsentChange}
                                 variant="compact"
+                                submitLabel="SIGN UP & CLAIM OFFER"
                             />
                             <p className="text-on-surface-light text-[10px] leading-[14px] font-normal tracking-[0.4px]">
                                 {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
