@@ -43,6 +43,7 @@ export function SfsgNav({ showMenu = true }: SfsgNavProps): React.ReactElement {
                 logoHref="/"
                 backgroundSrc="/sfsg/LogoSection/Lego_Deco2.png"
                 showMenu={showMenu}
+                sticky
                 onMenuClick={() => setDrawerOpen(true)}
             />
             {showMenu === true && (

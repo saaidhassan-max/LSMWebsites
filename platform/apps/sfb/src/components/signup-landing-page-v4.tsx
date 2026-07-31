@@ -159,7 +159,7 @@ export function SignupLandingPageV4({
         handleSubmit();
     }
 
-    const primaryCta = content.primaryCtaText || 'Sign Up & Claim Offer';
+    const primaryCta = content.primaryCtaText || 'Sign Up & Claim';
     const secondaryCta = content.secondaryCtaText || 'Skip to site';
     const offerAltText = [content.heroPrefix, content.heroHeadline, content.heroSubline]
         .filter((part) => part !== '')
@@ -211,7 +211,7 @@ export function SignupLandingPageV4({
                                     autoCapitalize="none"
                                     autoCorrect="off"
                                     spellCheck={false}
-                                    placeholder="Your Email"
+                                    placeholder="Email"
                                     value={email}
                                     error={emailError}
                                     valid={validateEmail(email) === ''}
@@ -226,7 +226,7 @@ export function SignupLandingPageV4({
                                     type="tel"
                                     inputMode="tel"
                                     autoComplete="tel"
-                                    placeholder="Your Phone Number"
+                                    placeholder="Phone Number"
                                     value={phone}
                                     error={phoneError}
                                     valid={validatePhone(phone) === ''}
@@ -240,7 +240,7 @@ export function SignupLandingPageV4({
                                     forceShowErrors={forceConsentErrors}
                                     onChange={handleConsentChange}
                                     variant="compact"
-                                    submitLabel="SIGN UP & CLAIM OFFER"
+                                    submitLabel="SIGN UP & CLAIM"
                                 />
                                 <p className="text-on-surface-light text-[10px] leading-[14px] font-normal tracking-[0.4px]">
                                     {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
@@ -270,7 +270,7 @@ export function SignupLandingPageV4({
                 <SfbFooter legalText={settings.footerLegalText} />
 
                 {showStickySubmit && (
-                    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-surface border-t border-outline-variant md:hidden">
+                    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pt-3 pb-9 bg-surface border-t border-outline-variant md:hidden">
                         <Button
                             variant="primary"
                             trailingIcon={<ArrowRight size={24} />}

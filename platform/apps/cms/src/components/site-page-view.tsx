@@ -285,7 +285,7 @@ export function SitePageView({
                 backgroundSrc="/sfb/LogoSection/Lego_Deco2.png"
                 onMenuClick={noop}
             />
-            <USP text={settings.uspText} />
+            <USP text={settings.uspText} variant="bingo" />
 
             {sections.length === 0 && (
                 <div className="w-full max-w-[720px] mx-auto p-8 text-center text-on-surface-light">

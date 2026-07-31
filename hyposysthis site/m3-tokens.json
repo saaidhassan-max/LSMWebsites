@@ -1,0 +1,446 @@
+{
+  "$metadata": {
+    "source": "M3 Vibrant Color System",
+    "spec": "https://m3.material.io/styles/color/roles",
+    "pairingRule": "Always place on<Role> content on top of <Role> (onPrimary on primary, onSurface on surface/containers, etc.).",
+    "roleRules": {
+      "primary": "Main brand color. High-emphasis fills: primary buttons, active states, key components, prominent icons.",
+      "onPrimary": "Text/icons placed ON primary. Always meets contrast against primary.",
+      "primaryContainer": "A tonal, less-emphasis standout fill. More emphasis than surface, less than primary (tonal buttons, highlighted cards).",
+      "onPrimaryContainer": "Text/icons ON primaryContainer.",
+      "secondary": "Less prominent accent. Filter chips, secondary actions, supporting UI.",
+      "onSecondary": "Text/icons ON secondary.",
+      "secondaryContainer": "Tonal fill for secondary-emphasis elements.",
+      "onSecondaryContainer": "Text/icons ON secondaryContainer.",
+      "tertiary": "Contrasting accent to balance primary/secondary. Expressive highlights.",
+      "onTertiary": "Text/icons ON tertiary.",
+      "tertiaryContainer": "Tonal fill for tertiary-emphasis elements.",
+      "onTertiaryContainer": "Text/icons ON tertiaryContainer.",
+      "error": "Error states: invalid input, destructive actions, error icons.",
+      "onError": "Text/icons ON error.",
+      "errorContainer": "Tonal fill for lower-emphasis error surfaces (error banners).",
+      "onErrorContainer": "Text/icons ON errorContainer.",
+      "surface": "The default background for screens and components.",
+      "onSurface": "Primary text and icons on any surface. Highest-emphasis body text.",
+      "onSurfaceVariant": "Lower-emphasis text/icons on surface (secondary text, inactive icons).",
+      "surfaceContainerLowest": "Lowest emphasis container. Recedes furthest.",
+      "surfaceContainerLow": "Low-emphasis container.",
+      "surfaceContainer": "Default container tint for cards, sheets, menus.",
+      "surfaceContainerHigh": "Higher-emphasis container. Comes forward.",
+      "surfaceContainerHighest": "Highest-emphasis container. Most prominent surface layer.",
+      "surfaceDim": "Dimmest surface, used in light theme for a dimmed backdrop.",
+      "surfaceBright": "Brightest surface, used in dark theme for a lifted backdrop.",
+      "outline": "Important boundaries: text field borders, dividers needing emphasis.",
+      "outlineVariant": "Decorative/low-emphasis boundaries: subtle dividers, card borders.",
+      "inverseSurface": "Surface that contrasts the current theme — snackbars, tooltips.",
+      "inverseOnSurface": "Text/icons ON inverseSurface.",
+      "inversePrimary": "Primary action color placed on inverseSurface (e.g. snackbar action).",
+      "scrim": "Semi-transparent overlay behind modals/sheets. Use with opacity.",
+      "primaryFixed": "Theme-invariant tonal fill — same value in light & dark. For elements that must not change with theme.",
+      "primaryFixedDim": "A dimmer variant of primaryFixed.",
+      "onPrimaryFixed": "High-emphasis text/icons on primaryFixed / primaryFixedDim.",
+      "onPrimaryFixedVariant": "Lower-emphasis text/icons on primaryFixed / primaryFixedDim."
+    },
+    "extensionRules": {
+      "primaryText / secondaryText / tertiaryText": "EXTENSION. The accent color adjusted to pass WCAG AA as FOREGROUND text/icon on a light/neutral surface. Use for text buttons, outlined-button labels, links, icons — NOT as a fill. Filled buttons keep the true brand color.",
+      "inverseOnSurfaceVariant": "EXTENSION. Lower-emphasis text on inverseSurface (mirrors onSurfaceVariant in the inverse zone).",
+      "inverseSurfaceContainer / inverseOnSurfaceContainer": "EXTENSION. An elevated container (and its text) inside the inverse zone — for persistent dark panels, not just brief snackbars.",
+      "boldSurfaceContainer[Secondary|Tertiary]": "EXTENSION. A muted elevated surface for use ON a *Fixed (T-90) bold background (the \"bold zone\") — build an elevated card on top of a vibrant brand-colored section.",
+      "gradient* / onGradient*": "EXTENSION. Token-derived gradients (tonal, hueShift, bold, vibrant, subtle) each with a matching on-color that passes contrast at the gradient worst point."
+    }
+  },
+  "M3 Light": {
+    "primary": {
+      "value": "#7BFF00",
+      "type": "color"
+    },
+    "onPrimary": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "primaryContainer": {
+      "value": "#9ffa72",
+      "type": "color"
+    },
+    "onPrimaryContainer": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "primaryText": {
+      "value": "#008b00",
+      "type": "color"
+    },
+    "secondary": {
+      "value": "#000000",
+      "type": "color"
+    },
+    "onSecondary": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "secondaryContainer": {
+      "value": "#dedede",
+      "type": "color"
+    },
+    "onSecondaryContainer": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "error": {
+      "value": "#9d0000",
+      "type": "color"
+    },
+    "onError": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "errorContainer": {
+      "value": "#ff9991",
+      "type": "color"
+    },
+    "onErrorContainer": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "surfaceDim": {
+      "value": "#ebebeb",
+      "type": "color"
+    },
+    "surfaceBright": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "surfaceContainerLowest": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "surfaceContainerLow": {
+      "value": "#f5f5f5",
+      "type": "color"
+    },
+    "surfaceContainer": {
+      "value": "#eeeeee",
+      "type": "color"
+    },
+    "surfaceContainerHigh": {
+      "value": "#e8e8e8",
+      "type": "color"
+    },
+    "surfaceContainerHighest": {
+      "value": "#e1e1e1",
+      "type": "color"
+    },
+    "onSurface": {
+      "value": "#020402",
+      "type": "color"
+    },
+    "onSurfaceVariant": {
+      "value": "#283125",
+      "type": "color"
+    },
+    "outline": {
+      "value": "#5d6759",
+      "type": "color"
+    },
+    "outlineVariant": {
+      "value": "#d5d5d5",
+      "type": "color"
+    },
+    "inverseSurface": {
+      "value": "#141712",
+      "type": "color"
+    },
+    "inverseOnSurface": {
+      "value": "#ebf0e9",
+      "type": "color"
+    },
+    "inverseOnSurfaceVariant": {
+      "value": "#b7c2b2",
+      "type": "color"
+    },
+    "inverseSurfaceContainer": {
+      "value": "#2b2f29",
+      "type": "color"
+    },
+    "inverseOnSurfaceContainer": {
+      "value": "#dae0d8",
+      "type": "color"
+    },
+    "inversePrimary": {
+      "value": "#18e700",
+      "type": "color"
+    },
+    "scrim": {
+      "value": "#000000",
+      "type": "color"
+    }
+  },
+  "M3 Dark": {
+    "primary": {
+      "value": "#7bff02",
+      "type": "color"
+    },
+    "onPrimary": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "primaryContainer": {
+      "value": "#003a00",
+      "type": "color"
+    },
+    "onPrimaryContainer": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "primaryText": {
+      "value": "#7bff02",
+      "type": "color"
+    },
+    "secondary": {
+      "value": "#bebebe",
+      "type": "color"
+    },
+    "onSecondary": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "secondaryContainer": {
+      "value": "#2e2e2e",
+      "type": "color"
+    },
+    "onSecondaryContainer": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "error": {
+      "value": "#ff7772",
+      "type": "color"
+    },
+    "onError": {
+      "value": "#000000",
+      "type": "color"
+    },
+    "errorContainer": {
+      "value": "#790000",
+      "type": "color"
+    },
+    "onErrorContainer": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#000100",
+      "type": "color"
+    },
+    "surfaceDim": {
+      "value": "#000100",
+      "type": "color"
+    },
+    "surfaceBright": {
+      "value": "#1d211b",
+      "type": "color"
+    },
+    "surfaceContainerLowest": {
+      "value": "#000000",
+      "type": "color"
+    },
+    "surfaceContainerLow": {
+      "value": "#020402",
+      "type": "color"
+    },
+    "surfaceContainer": {
+      "value": "#040703",
+      "type": "color"
+    },
+    "surfaceContainerHigh": {
+      "value": "#0d110b",
+      "type": "color"
+    },
+    "surfaceContainerHighest": {
+      "value": "#181c16",
+      "type": "color"
+    },
+    "onSurface": {
+      "value": "#dae0d8",
+      "type": "color"
+    },
+    "onSurfaceVariant": {
+      "value": "#b7c2b2",
+      "type": "color"
+    },
+    "outline": {
+      "value": "#7a8476",
+      "type": "color"
+    },
+    "outlineVariant": {
+      "value": "#283125",
+      "type": "color"
+    },
+    "inverseSurface": {
+      "value": "#dae0d8",
+      "type": "color"
+    },
+    "inverseOnSurface": {
+      "value": "#141712",
+      "type": "color"
+    },
+    "inverseOnSurfaceVariant": {
+      "value": "#283125",
+      "type": "color"
+    },
+    "inverseSurfaceContainer": {
+      "value": "#bac0b8",
+      "type": "color"
+    },
+    "inverseOnSurfaceContainer": {
+      "value": "#141712",
+      "type": "color"
+    },
+    "inversePrimary": {
+      "value": "#005f00",
+      "type": "color"
+    },
+    "scrim": {
+      "value": "#000000",
+      "type": "color"
+    }
+  },
+  "M3 Fixed": {
+    "primaryFixed": {
+      "value": "#0cff00",
+      "type": "color"
+    },
+    "primaryFixedDim": {
+      "value": "#18e700",
+      "type": "color"
+    },
+    "onPrimaryFixed": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "onPrimaryFixedVariant": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "secondaryFixed": {
+      "value": "#dedede",
+      "type": "color"
+    },
+    "secondaryFixedDim": {
+      "value": "#bebebe",
+      "type": "color"
+    },
+    "onSecondaryFixed": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "onSecondaryFixedVariant": {
+      "value": "#111111",
+      "type": "color"
+    },
+    "boldSurfaceContainer": {
+      "value": "#99ff54",
+      "type": "color"
+    },
+    "boldSurfaceContainerSecondary": {
+      "value": "#eeeeee",
+      "type": "color"
+    }
+  },
+  "M3 Gradients Light": {
+    "gradientTonal": {
+      "value": "linear-gradient(135deg, #0cff00, #7bff02)",
+      "type": "other"
+    },
+    "gradientHueShift": {
+      "value": "linear-gradient(135deg, #7bff02, #000000)",
+      "type": "other"
+    },
+    "gradientBold": {
+      "value": "linear-gradient(135deg, #0cff00, #dedede)",
+      "type": "other"
+    },
+    "gradientVibrant": {
+      "value": "linear-gradient(135deg, #0cff00, #78deff)",
+      "type": "other"
+    },
+    "gradientSubtle": {
+      "value": "linear-gradient(135deg, #18e700, #0cff00)",
+      "type": "other"
+    },
+    "gradientAngle": {
+      "value": "135deg",
+      "type": "other"
+    },
+    "onGradientTonal": {
+      "value": "#000000",
+      "type": "other"
+    },
+    "onGradientHueShift": {
+      "value": "#ffffff",
+      "type": "other"
+    },
+    "onGradientBold": {
+      "value": "#000000",
+      "type": "other"
+    },
+    "onGradientVibrant": {
+      "value": "#000000",
+      "type": "other"
+    },
+    "onGradientSubtle": {
+      "value": "#000000",
+      "type": "other"
+    }
+  },
+  "M3 Gradients Dark": {
+    "gradientTonal": {
+      "value": "linear-gradient(135deg, #0cff00, #7bff02)",
+      "type": "other"
+    },
+    "gradientHueShift": {
+      "value": "linear-gradient(135deg, #7bff02, #bebebe)",
+      "type": "other"
+    },
+    "gradientBold": {
+      "value": "linear-gradient(135deg, #0cff00, #dedede)",
+      "type": "other"
+    },
+    "gradientVibrant": {
+      "value": "linear-gradient(135deg, #0cff00, #78deff)",
+      "type": "other"
+    },
+    "gradientSubtle": {
+      "value": "linear-gradient(135deg, #18e700, #0cff00)",
+      "type": "other"
+    },
+    "gradientAngle": {
+      "value": "135deg",
+      "type": "other"
+    },
+    "onGradientTonal": {
+      "value": "#000000",
+      "type": "other"
+    },
+    "onGradientHueShift": {
+      "value": "#000000",
+      "type": "other"
+    },
+    "onGradientBold": {
+      "value": "#000000",
+      "type": "other"
+    },
+    "onGradientVibrant": {
+      "value": "#000000",
+      "type": "other"
+    },
+    "onGradientSubtle": {
+      "value": "#000000",
+      "type": "other"
+    }
+  }
+}

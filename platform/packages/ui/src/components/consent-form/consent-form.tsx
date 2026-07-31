@@ -106,7 +106,7 @@ export function ConsentForm({
                     onChange={handleMainChange}
                     label="Keep me informed"
                     className="flex-1 font-bold"
-                    labelClassName={variant === 'compact' ? COMPACT_TEXT_CLASSES : ''}
+                    labelClassName={variant === 'compact' ? 'text-sm !font-medium leading-5' : ''}
                 />
                 <button
                     type="button"

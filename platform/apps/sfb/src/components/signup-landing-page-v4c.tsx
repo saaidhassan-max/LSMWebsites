@@ -17,7 +17,7 @@ import { USP } from '@lsm/ui/components/usp/usp';
 import type { CmsLandingPageContent, CmsSiteSettings } from '../data/cms-content.types';
 import { SfbNav } from './sfb-nav';
 
-interface SignupLandingPageV3Props {
+interface SignupLandingPageV4CProps {
     content: CmsLandingPageContent;
     settings: CmsSiteSettings;
     offerImageSrc: string;
@@ -38,11 +38,11 @@ function validatePhone(value: string): string {
     return '';
 }
 
-export function SignupLandingPageV3({
+export function SignupLandingPageV4C({
     content,
     settings,
     offerImageSrc
-}: SignupLandingPageV3Props): React.ReactElement {
+}: SignupLandingPageV4CProps): React.ReactElement {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -159,7 +159,7 @@ export function SignupLandingPageV3({
         handleSubmit();
     }
 
-    const primaryCta = content.primaryCtaText || 'Sign Up & Claim Offer';
+    const primaryCta = content.primaryCtaText || 'Sign Up & Claim';
     const secondaryCta = content.secondaryCtaText || 'Skip to site';
     const offerAltText = [content.heroPrefix, content.heroHeadline, content.heroSubline]
         .filter((part) => part !== '')
@@ -185,7 +185,7 @@ export function SignupLandingPageV3({
                         />
                     </div>
 
-                    <div className="relative z-10 flex flex-col gap-2 md:max-w-[564px] md:mx-auto md:w-full md:pt-0 md:pb-6 md:gap-4">
+                    <div className="relative z-10 flex flex-col gap-4 md:max-w-[564px] md:mx-auto md:w-full md:pt-0 md:pb-6 md:gap-8">
                         <div className="flex flex-col items-center">
                             <Image
                                 src={offerImageSrc}
@@ -211,7 +211,7 @@ export function SignupLandingPageV3({
                                     autoCapitalize="none"
                                     autoCorrect="off"
                                     spellCheck={false}
-                                    placeholder="Your Email"
+                                    placeholder="example@email.com"
                                     value={email}
                                     error={emailError}
                                     valid={validateEmail(email) === ''}
@@ -226,7 +226,7 @@ export function SignupLandingPageV3({
                                     type="tel"
                                     inputMode="tel"
                                     autoComplete="tel"
-                                    placeholder="Your Phone Number"
+                                    placeholder="07123 456789"
                                     value={phone}
                                     error={phoneError}
                                     valid={validatePhone(phone) === ''}
@@ -240,7 +240,7 @@ export function SignupLandingPageV3({
                                     forceShowErrors={forceConsentErrors}
                                     onChange={handleConsentChange}
                                     variant="compact"
-                                    submitLabel="SIGN UP & CLAIM OFFER"
+                                    submitLabel="SIGN UP & CLAIM"
                                 />
                                 <p className="text-on-surface-light text-[10px] leading-[14px] font-normal tracking-[0.4px]">
                                     {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
@@ -270,7 +270,7 @@ export function SignupLandingPageV3({
                 <SfbFooter legalText={settings.footerLegalText} />
 
                 {showStickySubmit && (
-                    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-surface border-t border-outline-variant md:hidden">
+                    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pt-3 pb-9 bg-surface border-t border-outline-variant md:hidden">
                         <Button
                             variant="primary"
                             trailingIcon={<ArrowRight size={24} />}

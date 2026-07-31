@@ -7,4 +7,6 @@ export interface TextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInput
     error?: string;
     onClear?: () => void;
     valid?: boolean;
+    hideLabel?: boolean;
+    floatingLabel?: boolean;
 }

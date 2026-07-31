@@ -49,7 +49,7 @@ export function HowToClaimView({ offer, operator }: HowToClaimViewProps): React.
                 backgroundSrc="/sfb/LogoSection/Lego_Deco2.png"
                 onMenuClick={noop}
             />
-            <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <USP text="OVER 5,000,000 SUBSCRIBERS" variant="bingo" />
 
             <HtcUsp
                 logoSrc={operator.logoSrc}

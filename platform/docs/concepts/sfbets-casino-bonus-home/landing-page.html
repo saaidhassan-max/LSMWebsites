@@ -1,0 +1,402 @@
+<title>Super Free Bets MI — Claim Your Bonus</title>
+<style>
+  /* ===================== Material 3 vibrant token system (shared with home) ===================== */
+  /* Dark-only landing page — no theme switch by design */
+  :root {
+    --primary: #7bff02; --on-primary: #0f1a00;
+    --primary-container: #123300; --on-primary-container: #dcffcf;
+    --accent-text: #7bff02;
+    --secondary: #bebebe; --on-secondary: #111111;
+    --error: #ff7772; --on-error: #111111; --error-container: #2a0b0a;
+    --bg: #000000; --surface: #0c1207; --surface-2: #121a0c; --surface-3: #18220f;
+    --on-surface: #cae9bd; --on-surface-variant: #aac89e; --muted-2: #7d8f72;
+    --outline: #6e8a62; --outline-variant: #26331d;
+    --gold: #FFC24B; --gold-strong: #FFC24B; --gold-soft: rgba(255,194,75,0.10); --gold-border: rgba(255,194,75,0.32);
+    --shadow-1: 0 1px 2px rgba(0,0,0,0.5);
+    --shadow-2: 0 6px 16px rgba(0,0,0,0.5);
+    --shadow-3: 0 16px 42px rgba(0,0,0,0.62);
+    --r-sm: 10px; --r-md: 14px; --r-lg: 18px; --r-xl: 28px; --r-full: 999px;
+    --font: "Roboto", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --maxw: 620px;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--on-surface); font-family: var(--font); line-height: 1.5; -webkit-font-smoothing: antialiased; letter-spacing: 0.1px; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 18px; }
+  h1,h2,h3 { margin: 0; text-wrap: balance; letter-spacing: -0.2px; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- minimal header ---------- */
+  .lp-header { border-bottom: 1px solid var(--outline-variant); background: var(--surface); }
+  .lp-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 10px; }
+  .brand { font-weight: 800; font-size: 16px; display: flex; align-items: center; gap: 9px; }
+  .brand .mk { width: 32px; height: 32px; border-radius: var(--r-md); background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font-size: 16px; font-weight: 900; }
+  .brand b { color: var(--accent-text); }
+  .brand .mi { color: var(--on-surface-variant); font-weight: 600; font-size: 11px; }
+  .head-right { display: flex; align-items: center; gap: 6px; }
+  .badge21 { border: 1.5px solid var(--outline); border-radius: 50%; width: 26px; height: 26px; display: grid; place-items: center; font-size: 10px; font-weight: 800; color: var(--on-surface); }
+  .icon-btn { width: 40px; height: 40px; border-radius: var(--r-full); border: none; background: transparent; color: var(--on-surface-variant); display: grid; place-items: center; cursor: pointer; transition: background .14s, color .14s; }
+  .icon-btn:hover { background: color-mix(in srgb, var(--on-surface) 8%, transparent); color: var(--on-surface); }
+  .icon-btn svg { width: 20px; height: 20px; }
+
+  /* ---------- VISUAL HERO — offer creative image ---------- */
+  .hero { background: var(--bg); }
+  .offer-img { display: block; width: 100%; height: auto; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 9px; padding: 16px 18px 0; max-width: var(--maxw); margin: 0 auto; }
+  .chip-proof { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-container); color: var(--on-primary-container); border-radius: var(--r-full); padding: 9px 15px; font-size: 13px; font-weight: 700; }
+  .chip-proof b { color: var(--accent-text); font-weight: 900; font-variant-numeric: tabular-nums; }
+  .chip-proof svg { width: 16px; height: 16px; color: var(--accent-text); }
+  /* TopTCs pattern from the design system — the quiet notice bar */
+  .top-tcs { display: flex; width: 100%; align-items: center; justify-content: center; background: var(--surface); padding: 4px 16px; }
+  .top-tcs p { margin: 0; font-size: 11px; line-height: 13px; letter-spacing: 0.4px; color: var(--on-surface); text-align: center; }
+  .top-tcs .cd { font-variant-numeric: tabular-nums; }
+  @media (min-width: 768px){ .top-tcs { padding: 8px 16px; } .top-tcs p { font-size: 12px; line-height: 16px; } }
+
+  /* ---------- form section (open, not a heavy card) ---------- */
+  .form-section { padding: 26px 0 4px; }
+  .form-section h2 { font-weight: 800; font-size: clamp(21px, 5.6vw, 27px); }
+  .form-section .lead { color: var(--on-surface-variant); font-size: 14px; margin: 8px 0 0; }
+  .fields { display: grid; gap: 12px; margin-top: 20px; }
+  .field label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .field .req { color: var(--error); }
+  .input-shell { position: relative; display: flex; align-items: center; }
+  .input-shell > svg { position: absolute; left: 14px; width: 18px; height: 18px; color: var(--on-surface-variant); pointer-events: none; }
+  .field input { width: 100%; background: var(--surface); border: 1px solid var(--outline); border-radius: var(--r-md); padding: 16px 14px 16px 42px; color: var(--on-surface); font-size: 16px; font-family: var(--font); }
+  .field input::placeholder { color: var(--muted-2); }
+  .field input:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+  .field.invalid input { border-color: var(--error); }
+  .field .err { display: none; align-items: center; gap: 6px; background: var(--error-container); color: var(--error); border-radius: 0 0 var(--r-sm) var(--r-sm); padding: 8px 11px; font-size: 12px; font-weight: 600; margin-top: -2px; }
+  .field.invalid .err { display: flex; }
+  .field .err svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .required-note { font-size: 11.5px; color: var(--muted-2); }
+  .required-note .req { color: var(--error); }
+
+  /* ---------- consent ---------- */
+  .consent { border: 1px solid var(--outline-variant); border-radius: var(--r-lg); background: var(--surface-2); padding: 14px; display: grid; gap: 11px; }
+  .consent-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .chk { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+  .chk input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .box { width: 22px; height: 22px; border: 2px solid var(--outline); border-radius: 4px; background: var(--surface); display: grid; place-items: center; flex-shrink: 0; transition: background .12s, border-color .12s; }
+  .box svg { width: 15px; height: 15px; color: var(--on-primary); opacity: 0; grid-area: 1/1; }
+  .chk input:checked + .box { background: var(--primary); border-color: var(--primary); }
+  .chk input:checked + .box svg.tick { opacity: 1; }
+  .chk input:indeterminate + .box { background: var(--primary); border-color: var(--primary); }
+  .chk input:indeterminate + .box svg.dash { opacity: 1; }
+  .chk input:indeterminate + .box svg.tick { opacity: 0; }
+  .chk input:focus-visible + .box { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .chk .lbl { font-size: 14px; font-weight: 700; }
+  .chk.sub .lbl { font-weight: 500; font-size: 13.5px; }
+  .consent-collapse { width: 34px; height: 34px; border: 1px solid var(--outline); border-radius: var(--r-sm); background: transparent; color: var(--on-surface-variant); display: grid; place-items: center; cursor: pointer; flex-shrink: 0; }
+  .consent-collapse svg { width: 16px; height: 16px; transition: transform .18s; }
+  .consent.collapsed .consent-collapse svg { transform: rotate(180deg); }
+  .consent-body { display: grid; gap: 11px; }
+  .consent.collapsed .consent-body { display: none; }
+  .legal { font-size: 12px; line-height: 1.45; color: var(--on-surface-variant); margin: 0; }
+  .pick-line { font-size: 12.5px; color: var(--on-surface-variant); margin: 0; }
+  .group-title { font-size: 13.5px; font-weight: 800; }
+  .group { display: grid; gap: 9px; }
+  .smallprint { font-size: 11.5px; line-height: 1.45; color: var(--muted-2); margin: 0; }
+  .smallprint a { color: var(--accent-text); }
+
+  .cta-block { display: grid; gap: 10px; margin-top: 18px; }
+  .btn-primary { position: relative; overflow: hidden; width: 100%; background: var(--primary); color: var(--on-primary); border: none; border-radius: var(--r-full); padding: 18px; font-family: var(--font); font-weight: 800; font-size: 16.5px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 9px; box-shadow: var(--shadow-1); transition: filter .12s, box-shadow .12s, transform .12s; }
+  .btn-primary:hover { filter: brightness(1.03); box-shadow: var(--shadow-2); transform: translateY(-1px); }
+  .btn-primary svg { width: 18px; height: 18px; }
+  .btn-primary::after { content: ""; position: absolute; top: -20%; bottom: -20%; left: -70%; width: 45%;
+    background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.30) 35%, rgba(255,255,255,0.72) 50%, rgba(255,255,255,0.30) 65%, transparent 100%);
+    transform: skewX(-18deg); pointer-events: none; animation: cta-shine 3.2s cubic-bezier(.4,0,.2,1) infinite; }
+  @keyframes cta-shine { 0% { left: -70%; } 60%, 100% { left: 135%; } }
+  .next-note { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--on-surface-variant); }
+  .next-note svg { width: 15px; height: 15px; color: var(--accent-text); flex-shrink: 0; margin-top: 1px; }
+  .btn-skip { display: block; width: 100%; background: transparent; border: none; color: var(--on-surface-variant); font-family: var(--font); font-size: 14px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; padding: 12px; cursor: pointer; }
+  .btn-skip:hover { color: var(--accent-text); }
+
+  /* success */
+  .success { display: none; text-align: center; padding: 26px 0 8px; }
+  .success.show { display: block; }
+  .form-live.hide { display: none; }
+  .success .tick { width: 66px; height: 66px; border-radius: 50%; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; margin: 0 auto 16px; }
+  .success .tick svg { width: 34px; height: 34px; }
+  .success h2 { font-weight: 800; font-size: 24px; }
+  .success p { color: var(--on-surface-variant); font-size: 14.5px; margin: 10px auto 20px; max-width: 40ch; }
+
+  /* ---------- T&Cs ---------- */
+  .terms-card { background: var(--surface-2); border: 1px solid var(--outline-variant); border-radius: var(--r-lg); padding: 16px; margin-top: 18px; }
+  .terms-card h3 { font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--on-surface-variant); margin-bottom: 8px; }
+  .terms-card p { font-size: 11.5px; line-height: 1.5; color: var(--muted-2); margin: 0 0 8px; }
+  .terms-card p:last-of-type { margin-bottom: 0; }
+  .terms-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; font-size: 10.5px; color: var(--on-surface-variant); }
+  .terms-meta span { display: inline-flex; align-items: center; gap: 5px; }
+  .terms-meta svg { width: 12px; height: 12px; color: var(--accent-text); }
+
+  .trust-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 18px; margin: 18px 0 0; font-size: 11.5px; color: var(--on-surface-variant); }
+  .trust-strip span { display: inline-flex; align-items: center; gap: 6px; }
+  .trust-strip svg { width: 14px; height: 14px; color: var(--accent-text); }
+  footer { border-top: 1px solid var(--outline-variant); margin-top: 22px; padding: 20px 0 100px; color: var(--muted-2); font-size: 11px; text-align: center; }
+
+  /* ---------- sticky CTA (no offer copy — button only) ---------- */
+  .sticky-cta { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(12px); border-top: 1px solid var(--outline-variant); padding: 10px 18px calc(10px + env(safe-area-inset-bottom)); transform: translateY(115%); transition: transform .22s ease; }
+  .sticky-cta.show { transform: translateY(0); }
+  .sticky-cta .inner { max-width: var(--maxw); margin: 0 auto; }
+  @media (min-width: 720px){ .sticky-cta { display: none; } }
+
+  /* ---------- annotations ---------- */
+  .anno { display: none; font-size: 11.5px; color: var(--gold-strong); border: 1px dashed var(--gold-border); border-left: 3px solid var(--gold); background: var(--gold-soft); border-radius: var(--r-sm); padding: 9px 12px; line-height: 1.4; margin-top: 12px; }
+  .anno b { color: var(--accent-text); }
+  body.show-anno .anno { display: block; }
+  .hero .anno { color: #1c2b00; background: rgba(255,255,255,0.72); border-color: rgba(0,0,0,0.28); border-left-color: #000; }
+  .hero .anno b { color: #000; }
+  .anno-toggle { position: fixed; bottom: 82px; right: 16px; z-index: 60; background: var(--gold); color: #241800; border: none; border-radius: var(--r-full); padding: 11px 16px; font-weight: 800; font-size: 11.5px; cursor: pointer; box-shadow: var(--shadow-2); font-family: var(--font); }
+  @media (min-width: 720px){ .anno-toggle { bottom: 16px; } }
+  .anno-toggle:hover { filter: brightness(1.05); }
+
+  @media (prefers-reduced-motion: reduce){ * { transition: none !important; } .btn-primary::after { animation: none; display: none; } }
+</style>
+<header class="lp-header">
+  <div class="wrap">
+    <div class="brand"><span class="mk">$</span> Super <b>Free</b> Bets <span class="mi">MI</span></div>
+    <div class="head-right">
+      <span class="badge21">21+</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- VISUAL OFFER HERO -->
+  <section class="hero">
+    <img class="offer-img" src="offer.jpg" width="1000" height="801" alt="Up to 150 free spins — can be claimed with no deposit" fetchpriority="high">
+
+    <div class="top-tcs">
+      <p>Offer ends in <span class="cd">6 days</span>. New Michigan players only. 21+. T&amp;Cs apply.</p>
+    </div>
+
+    <div class="hero-chips">
+      <span class="chip-proof"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span><b>3,204</b> claimed this month</span></span>
+    </div>
+
+    <div class="wrap">
+      <div class="anno"><b>The creative is the hero.</b> The offer artwork carries the whole message, so no headline, benefit list or operator branding competes with it. Only the two things that actually move people stay alongside it: how many people claimed it, and the deadline.</div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="wrap">
+      <div class="form-live" id="formLive">
+        <h2>Takes 10 seconds</h2>
+        <p class="lead">Sign up below to get the latest deals delivered straight to your inbox!</p>
+
+        <form id="signupForm" novalidate>
+          <div class="fields">
+            <div class="field" id="fEmail">
+              <label for="email">Email Address <span class="req">*</span></label>
+              <div class="input-shell">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Your Email" required>
+              </div>
+              <div class="err"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span id="emailErr">Enter your email address so we can send your bonus.</span></div>
+            </div>
+
+            <div class="field" id="fPhone">
+              <label for="phone">Phone Number <span class="req">*</span></label>
+              <div class="input-shell">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+                <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Your Phone Number" required>
+              </div>
+              <div class="err"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span id="phoneErr">Enter a valid phone number.</span></div>
+            </div>
+
+            <div class="required-note"><span class="req">*</span> Required information</div>
+            <div class="anno"><b>Two fields only.</b> Correct <code>type</code>, <code>inputmode</code> and <code>autocomplete</code> give mobile users the right keyboard and one-tap autofill — one of the biggest real-world mobile conversion gains.</div>
+
+            <div class="consent" id="consent">
+              <div class="consent-head">
+                <label class="chk">
+                  <input type="checkbox" id="consentMain">
+                  <span class="box">
+                    <svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6L9 17l-5-5"/></svg>
+                    <svg class="dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M5 12h14"/></svg>
+                  </span>
+                  <span class="lbl">Keep me informed</span>
+                </label>
+                <button class="consent-collapse" id="consentCollapse" type="button" aria-label="Collapse consent options" aria-expanded="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M18 15l-6-6-6 6"/></svg>
+                </button>
+              </div>
+
+              <div class="consent-body" id="consentBody">
+                <p class="legal">By accepting our terms and clicking "Sign Me Up", I confirm that I would like to receive marketing communications about the latest casino, bingo, and sports offers; winners; news; giveaways; competitions and incentives via email, SMS, and social messaging (e.g. WhatsApp) from Little Star Media Ltd and It's A Good Choice Ltd. I also agree to receive exclusive non-gambling retail promotions, such as vouchers and discounts for well-known brands, via email, SMS and social messaging from selected third-party partners.</p>
+                <p class="pick-line">Simply tick the boxes to choose which types of offer you'd like to receive:</p>
+                <div class="group-title">I'm interested in</div>
+                <div class="group" id="interests">
+                  <label class="chk sub"><input type="checkbox" data-interest value="casino"><span class="box"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6L9 17l-5-5"/></svg></span><span class="lbl">Casino (inc. Slots)</span></label>
+                  <label class="chk sub"><input type="checkbox" data-interest value="bingo"><span class="box"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6L9 17l-5-5"/></svg></span><span class="lbl">Bingo</span></label>
+                  <label class="chk sub"><input type="checkbox" data-interest value="sports"><span class="box"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6L9 17l-5-5"/></svg></span><span class="lbl">Sports Betting</span></label>
+                  <label class="chk sub"><input type="checkbox" data-interest value="retail"><span class="box"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6L9 17l-5-5"/></svg></span><span class="lbl">Non-Gambling Retail Offers &amp; Vouchers</span></label>
+                </div>
+                <p class="smallprint">If you would like to learn more about what we do with your personal data or your privacy rights, please <a href="#">click here</a>. For full terms and conditions, <a href="#">click here</a>.</p>
+              </div>
+            </div>
+            <div class="field" id="fConsent">
+              <div class="err" style="margin-top:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Tick "Keep me informed" to receive your bonus offers.</span></div>
+            </div>
+            <div class="anno"><b>Consent that explains itself.</b> "Keep me informed" is a select-all master: one tap ticks every interest, so the common path is a single action rather than five. It collapses so the legal text never buries the CTA.</div>
+          </div>
+
+          <div class="cta-block">
+            <button class="btn-primary" type="submit">Sign Me Up <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            <div class="next-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg><span>Next: we'll take you to the casino to finish signing up, and your bonus lands in your account.</span></div>
+            <button class="btn-skip" type="button" id="skipBtn">Skip &amp; go straight to the casino</button>
+          </div>
+          <div class="anno"><b>Peak-End + a real escape hatch.</b> "What happens next" removes the biggest pre-click anxiety. Skip is deliberately honest — a trapped user bounces to a competitor, while a skipping user still converts a casino signup for us.</div>
+        </form>
+      </div>
+
+      <div class="success" id="success">
+        <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h2>You're in — last step</h2>
+        <p>Create your casino account with the same email and your bonus will be waiting. We've saved your link.</p>
+        <button class="btn-primary" type="button">Continue to the casino <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="anno"><b>The end is the peak.</b> The flow never dead-ends: submitting produces a clear success state plus the single next action that actually earns the commission.</div>
+      </div>
+
+      <div class="terms-card">
+        <h3>Offer terms &amp; conditions</h3>
+        <p>21+. New Michigan customers only. Up to 150 free spins are issued on registration — no deposit required. The number of spins awarded may vary by qualifying action; "up to 150" is the maximum available.</p>
+        <p>Free spins are valid on selected games only and expire 7 days after issuance. Winnings from free spins are credited as bonus funds with a 1× playthrough requirement and are non-withdrawable until that playthrough is met.</p>
+        <p>Offer available to Michigan residents physically located in MI. One offer per person, household, account, email address, IP address and payment method. Full terms apply at the operator's site. Gambling problem? Call 1-800-GAMBLER.</p>
+        <div class="terms-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg> Terms checked 20 Jul</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg> MGCB licensed operator</span>
+        </div>
+      </div>
+      <div class="anno"><b>T&amp;Cs visible, never hidden.</b> In a regulated market, terms behind a click read as something to hide. Shown in full, below the CTA, so they inform without blocking.</div>
+
+      <div class="trust-strip">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg> MGCB licensed</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Your details stay private</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg> Unsubscribe anytime</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Super Free Bets MI · Affiliate site · 21+ · Michigan only · Gambling problem? Call 1-800-GAMBLER</div>
+</footer>
+
+<div class="sticky-cta" id="stickyCta">
+  <div class="inner">
+    <button class="btn-primary" type="button" id="stickyBtn">Sign Me Up <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </div>
+</div>
+
+<button class="anno-toggle" id="annoToggle">Show UX rationale</button>
+
+<script>
+(function(){
+  "use strict";
+  /* consent: master drives all interests */
+  var consent = document.getElementById("consent");
+  var consentMain = document.getElementById("consentMain");
+  var interests = [].slice.call(document.querySelectorAll("[data-interest]"));
+  var collapseBtn = document.getElementById("consentCollapse");
+
+  function syncMaster(){
+    var on = interests.filter(function(c){ return c.checked; }).length;
+    consentMain.checked = on === interests.length && on > 0;
+    consentMain.indeterminate = on > 0 && on < interests.length;
+  }
+  consentMain.addEventListener("change", function(){
+    var v = consentMain.checked;
+    interests.forEach(function(c){ c.checked = v; });
+    consentMain.indeterminate = false;
+    validateConsent(true);
+  });
+  interests.forEach(function(c){ c.addEventListener("change", function(){ syncMaster(); validateConsent(true); }); });
+  collapseBtn.addEventListener("click", function(){
+    var collapsed = consent.classList.toggle("collapsed");
+    collapseBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    collapseBtn.setAttribute("aria-label", collapsed ? "Expand consent options" : "Collapse consent options");
+  });
+
+  /* validation */
+  var form = document.getElementById("signupForm");
+  var email = document.getElementById("email");
+  var phone = document.getElementById("phone");
+  var fEmail = document.getElementById("fEmail");
+  var fPhone = document.getElementById("fPhone");
+  var fConsent = document.getElementById("fConsent");
+  var emailErr = document.getElementById("emailErr");
+  var phoneErr = document.getElementById("phoneErr");
+  var attempted = false;
+
+  function setInvalid(box, bad){ box.classList.toggle("invalid", bad); }
+  function validateEmail(live){
+    var v = email.value.trim();
+    var bad = !v ? "empty" : (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? "format" : "");
+    if (bad === "empty") emailErr.textContent = "Enter your email address so we can send your bonus.";
+    if (bad === "format") emailErr.textContent = "That email doesn't look right — check for a typo.";
+    if (live || attempted) setInvalid(fEmail, !!bad);
+    return !bad;
+  }
+  function validatePhone(live){
+    var digits = phone.value.replace(/\D/g, "");
+    var bad = !digits ? "empty" : (digits.length < 10 ? "short" : "");
+    if (bad === "empty") phoneErr.textContent = "Enter your phone number to confirm your account.";
+    if (bad === "short") phoneErr.textContent = "Enter a full 10-digit phone number.";
+    if (live || attempted) setInvalid(fPhone, !!bad);
+    return !bad;
+  }
+  function validateConsent(live){
+    var ok = interests.some(function(c){ return c.checked; });
+    if (live || attempted) setInvalid(fConsent, !ok);
+    return ok;
+  }
+  email.addEventListener("blur", function(){ validateEmail(true); });
+  email.addEventListener("input", function(){ if (attempted) validateEmail(true); });
+  phone.addEventListener("blur", function(){ validatePhone(true); });
+  phone.addEventListener("input", function(){ if (attempted) validatePhone(true); });
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    attempted = true;
+    var okE = validateEmail(true), okP = validatePhone(true), okC = validateConsent(true);
+    if (!okE) { email.focus(); return; }
+    if (!okP) { phone.focus(); return; }
+    if (!okC) { consent.scrollIntoView({ behavior:"smooth", block:"center" }); return; }
+    document.getElementById("formLive").classList.add("hide");
+    document.getElementById("success").classList.add("show");
+    document.getElementById("stickyCta").classList.remove("show");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.getElementById("skipBtn").addEventListener("click", function(){
+    alert("Demo: this would send the user straight to the casino with our affiliate link.");
+  });
+  document.getElementById("stickyBtn").addEventListener("click", function(){
+    form.scrollIntoView({ behavior:"smooth", block:"start" });
+    setTimeout(function(){ email.focus(); }, 420);
+  });
+
+  /* sticky CTA: show once the real CTA is out of view */
+  var realCta = form.querySelector(".btn-primary");
+  var sticky = document.getElementById("stickyCta");
+  function updateSticky(){
+    if (document.getElementById("success").classList.contains("show")) { sticky.classList.remove("show"); return; }
+    var box = realCta.getBoundingClientRect();
+    var offscreen = box.top > window.innerHeight || box.bottom < 0;
+    sticky.classList.toggle("show", offscreen);
+  }
+  window.addEventListener("scroll", updateSticky, { passive:true });
+  window.addEventListener("resize", updateSticky);
+
+  var at = document.getElementById("annoToggle");
+  at.addEventListener("click", function(){
+    var on = document.body.classList.toggle("show-anno");
+    at.textContent = on ? "Hide UX rationale" : "Show UX rationale";
+  });
+
+  syncMaster(); updateSticky();
+})();
+</script>

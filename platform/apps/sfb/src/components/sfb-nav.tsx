@@ -16,10 +16,11 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
-    { emoji: '📋', label: 'Landing Page V1', href: '/signup' },
-    { emoji: '🧪', label: 'Landing Page V2', href: '/signup-v2' },
-    { emoji: '✨', label: 'Landing Page V3', href: '/signup-v3' },
-    { emoji: '🧩', label: 'Landing Page V4', href: '/signup-v4' }
+    { emoji: '🧩', label: 'Landing Page V4', href: '/signup-v4' },
+    { emoji: '1️⃣', label: 'V4 · No Title', href: '/signup-v4a' },
+    { emoji: '2️⃣', label: 'V4 · No Ghost Text', href: '/signup-v4b' },
+    { emoji: '3️⃣', label: 'V4 · Example Ghost', href: '/signup-v4c' },
+    { emoji: '🎬', label: 'V4 · Floating Label', href: '/signup-v4d' }
 ];
 
 interface SfbNavProps {

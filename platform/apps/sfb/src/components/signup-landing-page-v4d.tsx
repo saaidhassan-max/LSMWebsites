@@ -1,7 +1,8 @@
 'use client';
 
 import type React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ArrowRight, Mail, Phone } from 'lucide-react';
@@ -9,12 +10,18 @@ import { Button } from '@lsm/ui/components/button/button';
 import { ConfettiBurst } from '@lsm/ui/components/confetti-burst/confetti-burst';
 import { ConsentForm } from '@lsm/ui/components/consent-form/consent-form';
 import type { ConsentFormData } from '@lsm/ui/components/consent-form/consent-form.types';
-import { SfsgFooter } from '@lsm/ui/components/sfsg-footer/sfsg-footer';
+import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { TextField } from '@lsm/ui/components/text-field/text-field';
 import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
 import { USP } from '@lsm/ui/components/usp/usp';
-import { SfsgNav } from '../../components/sfsg-nav';
-import { legalText, signupInstructionText, signupLegalDisclaimer } from '../../data/site-content';
+import type { CmsLandingPageContent, CmsSiteSettings } from '../data/cms-content.types';
+import { SfbNav } from './sfb-nav';
+
+interface SignupLandingPageV4DProps {
+    content: CmsLandingPageContent;
+    settings: CmsSiteSettings;
+    offerImageSrc: string;
+}
 
 function validateEmail(value: string): string {
     if (!value.trim()) return 'Email is required';
@@ -23,11 +30,19 @@ function validateEmail(value: string): string {
 }
 
 function validatePhone(value: string): string {
-    if (!value.trim()) return 'Phone number is required';
+    const trimmed = value.trim();
+    if (!trimmed) return 'Phone number is required';
+    if (!/^\+?[\d\s()-]+$/.test(trimmed)) return 'Please enter a valid phone number';
+    const digits = trimmed.replace(/\D/g, '');
+    if (digits.length < 10 || digits.length > 15) return 'Please enter a valid phone number';
     return '';
 }
 
-export default function SignupPage(): React.ReactElement {
+export function SignupLandingPageV4D({
+    content,
+    settings,
+    offerImageSrc
+}: SignupLandingPageV4DProps): React.ReactElement {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -100,12 +115,31 @@ export default function SignupPage(): React.ReactElement {
         return guidedToFormRef.current === false && needsInput === true;
     }
 
+    function scrollFieldAboveKeyboard(target: HTMLDivElement | null): void {
+        if (target === null) return;
+        const field = target;
+
+        function scrollToSafePosition(behavior: ScrollBehavior): void {
+            const viewport = window.visualViewport;
+            const viewportTop = viewport?.offsetTop ?? 0;
+            const viewportHeight = viewport?.height ?? window.innerHeight;
+            const safeTop = viewportTop + Math.min(112, Math.max(72, viewportHeight * 0.2));
+            const rect = field.getBoundingClientRect();
+            const nextTop = window.scrollY + rect.top - safeTop;
+            window.scrollTo({ top: Math.max(0, nextTop), behavior });
+        }
+
+        scrollToSafePosition('smooth');
+        window.setTimeout(() => scrollToSafePosition('smooth'), 300);
+        window.setTimeout(() => scrollToSafePosition('auto'), 650);
+    }
+
     function guideToFirstEmptyField(): void {
         guidedToFormRef.current = true;
         const target = email.trim() === '' ? emailFieldRef.current : phoneFieldRef.current;
         const input = target?.querySelector('input');
         input?.focus({ preventScroll: true });
-        target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        scrollFieldAboveKeyboard(target);
     }
 
     function handleSubmitClick(): void {
@@ -125,54 +159,62 @@ export default function SignupPage(): React.ReactElement {
         handleSubmit();
     }
 
+    const primaryCta = content.primaryCtaText || 'Sign Up & Claim';
+    const secondaryCta = content.secondaryCtaText || 'Skip to site';
+    const offerAltText = [content.heroPrefix, content.heroHeadline, content.heroSubline]
+        .filter((part) => part !== '')
+        .join(' ');
+
     return (
         <>
             <ConfettiBurst anchorRef={phoneFieldRef} fadeBeforeRef={submitButtonRef} />
-            <SfsgNav showMenu={false} />
-            <main className="flex flex-col w-full bg-surface min-h-screen gap-[10px] pb-[80px] md:pb-0">
-                <USP text="OVER 5,000,000 SUBSCRIBERS" />
+            <SfbNav items={settings.navItems} showMenu={false} />
+            <main className="flex flex-col w-full bg-surface min-h-screen pb-[80px] md:pb-0">
+                <USP text="JOIN OVER 100,000 SUBSCRIBERS" variant="bingo" />
 
-                <div className="relative overflow-hidden">
-                    <div
-                        className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none select-none"
-                        style={{ width: '100%', minWidth: '1440px' }}
-                    >
+                <div className="relative overflow-hidden bg-surface">
+                    <div className="absolute inset-0 pointer-events-none select-none">
                         <Image
-                            src="/sfsg/LandingPage/landingpage-background.png"
+                            src={content.backgroundImage}
                             alt=""
-                            width={1440}
-                            height={768}
-                            style={{ width: '100%', height: 'auto' }}
+                            fill
+                            sizes="100vw"
+                            className="object-cover"
                             placeholder="empty"
                             priority
                         />
                     </div>
 
-                    <div className="relative z-10 flex flex-col gap-4 md:max-w-[564px] md:mx-auto md:w-full md:py-6 md:gap-8">
-                        <div className="flex flex-col items-center gap-2 px-4">
-                            <p className="text-[22px] md:text-[32px] font-bold leading-[26.4px] md:leading-10 text-on-surface-light text-center">
-                                Up to
-                            </p>
-                            <p className="text-[45px] md:text-[80px] font-bold md:font-semibold leading-[52px] md:leading-[96px] text-on-surface-light text-center tracking-[-0.019em]">
-                                500 Free Spins
-                            </p>
-                            <p className="text-[22px] md:text-[32px] font-medium md:font-bold leading-7 md:leading-10 text-on-surface-light text-center">
-                                No Deposit & No Wagering
-                            </p>
+                    <div className="relative z-10 flex flex-col gap-4 md:max-w-[564px] md:mx-auto md:w-full md:pt-0 md:pb-6 md:gap-8">
+                        <div className="flex flex-col items-center">
+                            <Image
+                                src={offerImageSrc}
+                                alt={offerAltText}
+                                width={1200}
+                                height={830}
+                                className="w-full h-auto"
+                                priority
+                            />
                         </div>
 
                         <div className="flex flex-col gap-[10px] pt-1 px-4 pb-4 md:p-8">
                             <p className="text-sm font-normal leading-5 md:text-base md:font-bold text-on-surface-light text-center tracking-[0.15px]">
-                                {signupInstructionText}
+                                {content.instructionText}
                             </p>
                             <div ref={emailFieldRef}>
                                 <TextField
                                     icon={Mail}
-                                    label="Email Address*"
+                                    label="Email Address (required)"
+                                    floatingLabel
                                     type="email"
-                                    placeholder="Your Email"
+                                    inputMode="email"
+                                    autoComplete="email"
+                                    autoCapitalize="none"
+                                    autoCorrect="off"
+                                    spellCheck={false}
                                     value={email}
                                     error={emailError}
+                                    valid={validateEmail(email) === ''}
                                     onChange={handleEmailChange}
                                     onClear={handleEmailClear}
                                 />
@@ -180,49 +222,62 @@ export default function SignupPage(): React.ReactElement {
                             <div ref={phoneFieldRef}>
                                 <TextField
                                     icon={Phone}
-                                    label="Phone Number*"
+                                    label="Phone Number (required)"
+                                    floatingLabel
                                     type="tel"
-                                    placeholder="Your Phone Number"
+                                    inputMode="tel"
+                                    autoComplete="tel"
                                     value={phone}
                                     error={phoneError}
+                                    valid={validatePhone(phone) === ''}
                                     onChange={handlePhoneChange}
                                     onClear={handlePhoneClear}
                                 />
                             </div>
-                            <ConsentForm
-                                defaultExpanded={false}
-                                forceShowErrors={forceConsentErrors}
-                                onChange={handleConsentChange}
-                            />
-                            <div ref={submitButtonRef}>
-                                <Button
-                                    variant="primary"
-                                    trailingIcon={<ArrowRight size={24} />}
-                                    className="w-full cta-shine"
-                                    onClick={handleSubmitClick}
-                                >
-                                    Sign Me Up
+                            <div className="flex flex-col gap-[10px] bg-surface border border-outline-variant rounded-2xl p-4">
+                                <ConsentForm
+                                    defaultExpanded={false}
+                                    forceShowErrors={forceConsentErrors}
+                                    onChange={handleConsentChange}
+                                    variant="compact"
+                                    submitLabel="SIGN UP & CLAIM"
+                                />
+                                <p className="text-on-surface-light text-[10px] leading-[14px] font-normal tracking-[0.4px]">
+                                    {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
+                                    <Link href="/privacy-policy" className="underline">click here.</Link>
+                                    {' For full terms and conditions, '}
+                                    <Link href="/terms" className="underline">click here.</Link>
+                                </p>
+                                <div ref={submitButtonRef}>
+                                    <Button
+                                        variant="primary"
+                                        trailingIcon={<ArrowRight size={24} />}
+                                        className="w-full cta-shine"
+                                        onClick={handleSubmitClick}
+                                    >
+                                        {primaryCta}
+                                    </Button>
+                                </div>
+                                <Button variant="text" color="dark" className="w-full" onClick={() => router.push('/')}>
+                                    {secondaryCta}
                                 </Button>
                             </div>
-                            <Button variant="text" color="dark" className="w-full" onClick={() => router.push('/')}>
-                                Skip
-                            </Button>
                         </div>
                     </div>
                 </div>
 
-                <TopTCs text={signupLegalDisclaimer} />
-                <SfsgFooter legalText={legalText} />
+                <TopTCs text={content.legalDisclaimer} variant="compact" />
+                <SfbFooter legalText={settings.footerLegalText} />
 
                 {showStickySubmit && (
-                    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-surface border-t border-outline-variant md:hidden">
+                    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pt-3 pb-9 bg-surface border-t border-outline-variant md:hidden">
                         <Button
                             variant="primary"
                             trailingIcon={<ArrowRight size={24} />}
                             className="w-full cta-shine"
                             onClick={handleStickyClick}
                         >
-                            Sign Me Up
+                            {primaryCta}
                         </Button>
                     </div>
                 )}

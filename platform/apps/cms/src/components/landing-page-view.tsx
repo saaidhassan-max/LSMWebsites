@@ -64,7 +64,7 @@ export function LandingPageView({
                     showMenu={false}
                     onMenuClick={noop}
                 />
-                <USP text={settings.uspText} />
+                <USP text={settings.uspText} variant="bingo" />
             </div>
 
             <div className="relative overflow-hidden">
