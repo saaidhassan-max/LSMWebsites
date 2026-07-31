@@ -4,14 +4,14 @@ import { landingOfferInstructionText, signupLegalDisclaimer } from '../../data/s
 import { getCmsSiteSettings } from '../../data/cms-content';
 import type { CmsLandingPageContent } from '../../data/cms-content.types';
 
-const OFFER_IMAGE_SRC = '/sfb/LandingPage/v4/sfb_150fs_1200x1200_4 2.png';
+const OFFER_IMAGE_SRC = '/sfb/LandingPage/v5/sfsg_neon_250_1400x1400.png';
 
 const DEFAULT_CONTENT: CmsLandingPageContent = {
     heroPrefix: 'Up to',
-    heroHeadline: '150 Free Spins',
-    heroSubline: 'can be claimed with no deposit',
+    heroHeadline: '250 Free Spins',
+    heroSubline: '& "No Deposit" Offers',
     instructionText: landingOfferInstructionText,
-    backgroundImage: '/sfb/LandingPage/v4/landingpage-background.png',
+    backgroundImage: '/sfb/LandingPage/v5/sfsg_neon_250_1400x1400-1.png',
     legalDisclaimer: signupLegalDisclaimer
 };
 

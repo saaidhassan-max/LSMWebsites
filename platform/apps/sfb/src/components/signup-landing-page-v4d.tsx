@@ -191,7 +191,7 @@ export function SignupLandingPageV4D({
                                 src={offerImageSrc}
                                 alt={offerAltText}
                                 width={1200}
-                                height={830}
+                                height={753}
                                 className="w-full h-auto"
                                 priority
                             />
