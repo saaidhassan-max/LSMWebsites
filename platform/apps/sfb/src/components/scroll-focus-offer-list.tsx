@@ -10,6 +10,7 @@ import type { ScrollFocusOfferListProps } from './scroll-focus-offer-list.types'
 const FOCUS_ANCHOR_RATIO = 0.38;
 const SETTLE_MS = 1100;
 const FOCUS_LOCK_MS = 400;
+const TRANSITION_MS = 900;
 
 const tierFor = (distance: number): ScrollFocusTier =>
     distance === 0 ? 'full' : distance === 1 ? 'medium' : 'compact';
@@ -46,6 +47,7 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
 
             focusRef.current = best;
             lastChangeRef.current = now;
+            settleUntil = Math.max(settleUntil, now + TRANSITION_MS);
             setFocusIndex(best);
         };
 
