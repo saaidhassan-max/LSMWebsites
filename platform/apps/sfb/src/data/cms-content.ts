@@ -53,6 +53,7 @@ function getSupabase(): SupabaseClient {
 
 const DEFAULT_NAV_ITEMS: CmsSiteSettingsNavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
+    { emoji: '🎁', label: 'No Deposit Bingo', href: '/no-deposit-bingo' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
     { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },

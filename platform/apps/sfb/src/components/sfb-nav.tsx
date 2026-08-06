@@ -9,7 +9,7 @@ import type { NavItem } from '@lsm/ui/components/nav-drawer/nav-drawer.types';
 
 const BASE_ITEMS: NavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎁', label: 'No Deposit Bingo', href: '/' },
+    { emoji: '🎁', label: 'No Deposit Bingo', href: '/no-deposit-bingo' },
     { emoji: '🔥', label: 'Free Bingo Bonuses', href: '/' },
     { emoji: '✊', label: 'Exclusive Deals', href: '/' },
     { emoji: '💎', label: 'No Wagering Bingo', href: '/' },
