@@ -143,8 +143,7 @@ export function ConsentForm({
                             variant === 'compact' ? COMPACT_TEXT_CLASSES : 'text-sm leading-5'
                         } font-normal text-on-surface-light`}
                     >
-                        Simply tick the boxes to choose which types of offer you'd like to receive
-                        and how:
+                        Simply tick the boxes to choose which types of offer you'd like to receive:
                     </p>
 
                     <div className="flex flex-col">
