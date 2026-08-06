@@ -54,7 +54,7 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
         window.addEventListener('scroll', kick, { passive: true });
         window.addEventListener('resize', kick, { passive: true });
 
-        return () => {
+        return (): void => {
             window.removeEventListener('scroll', kick);
             window.removeEventListener('resize', kick);
             if (raf !== 0) window.cancelAnimationFrame(raf);

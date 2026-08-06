@@ -33,7 +33,7 @@ export function ScrollFocusOfferCard({
         });
         observer.observe(node);
 
-        return () => observer.disconnect();
+        return (): void => observer.disconnect();
     }, []);
 
     const details = offer.details ?? [];
