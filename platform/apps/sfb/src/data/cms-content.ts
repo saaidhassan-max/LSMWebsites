@@ -53,15 +53,13 @@ function getSupabase(): SupabaseClient {
 
 const DEFAULT_NAV_ITEMS: CmsSiteSettingsNavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎁', label: 'No Deposit Bingo', href: '/no-deposit-bingo' },
+    { emoji: '🎁', label: 'No Deposit · Stepped', href: '/no-deposit-bingo' },
+    { emoji: '〰️', label: 'No Deposit · Morphing', href: '/no-deposit-bingo-flow' },
+    { emoji: '🔽', label: 'No Deposit · Arrows', href: '/no-deposit-bingo-arrows' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
     { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
-    { emoji: '🧩', label: 'Landing Page V4', href: '/signup-v4' },
-    { emoji: '1️⃣', label: 'V4 · No Title', href: '/signup-v4a' },
-    { emoji: '2️⃣', label: 'V4 · No Ghost Text', href: '/signup-v4b' },
-    { emoji: '3️⃣', label: 'V4 · Example Ghost', href: '/signup-v4c' },
-    { emoji: '🎬', label: 'V4 · Floating Label', href: '/signup-v4d' }
+    { emoji: '🎬', label: 'Landing Page', href: '/signup-v4d' }
 ];
 
 const DEFAULT_DIRECTORY_SITES: CmsSiteSettingsDirectoryItem[] = [
@@ -320,23 +318,9 @@ function mergeNavItems(
         )
     );
     const available = [
-        ...DEFAULT_NAV_ITEMS.filter(
-            (item) =>
-                item.href !== '/signup-v4' &&
-                item.href !== '/signup-v4a' &&
-                item.href !== '/signup-v4b' &&
-                item.href !== '/signup-v4c' &&
-                item.href !== '/signup-v4d'
-        ),
+        ...DEFAULT_NAV_ITEMS.filter((item) => item.href !== '/signup-v4d'),
         ...pageItems,
-        ...DEFAULT_NAV_ITEMS.filter(
-            (item) =>
-                item.href === '/signup-v4' ||
-                item.href === '/signup-v4a' ||
-                item.href === '/signup-v4b' ||
-                item.href === '/signup-v4c' ||
-                item.href === '/signup-v4d'
-        )
+        ...DEFAULT_NAV_ITEMS.filter((item) => item.href === '/signup-v4d')
     ].filter((item): item is CmsSiteSettingsNavItem => item !== undefined);
     const ordered: CmsSiteSettingsNavItem[] = [];
 

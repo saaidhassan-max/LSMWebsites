@@ -9,18 +9,16 @@ import type { NavItem } from '@lsm/ui/components/nav-drawer/nav-drawer.types';
 
 const BASE_ITEMS: NavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎁', label: 'No Deposit Bingo', href: '/no-deposit-bingo' },
+    { emoji: '🎁', label: 'No Deposit · Stepped', href: '/no-deposit-bingo' },
+    { emoji: '〰️', label: 'No Deposit · Morphing', href: '/no-deposit-bingo-flow' },
+    { emoji: '🔽', label: 'No Deposit · Arrows', href: '/no-deposit-bingo-arrows' },
     { emoji: '🔥', label: 'Free Bingo Bonuses', href: '/' },
     { emoji: '✊', label: 'Exclusive Deals', href: '/' },
     { emoji: '💎', label: 'No Wagering Bingo', href: '/' },
     { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
-    { emoji: '🧩', label: 'Landing Page V4', href: '/signup-v4' },
-    { emoji: '1️⃣', label: 'V4 · No Title', href: '/signup-v4a' },
-    { emoji: '2️⃣', label: 'V4 · No Ghost Text', href: '/signup-v4b' },
-    { emoji: '3️⃣', label: 'V4 · Example Ghost', href: '/signup-v4c' },
-    { emoji: '🎬', label: 'V4 · Floating Label', href: '/signup-v4d' }
+    { emoji: '🎬', label: 'Landing Page', href: '/signup-v4d' }
 ];
 
 interface SfbNavProps {
