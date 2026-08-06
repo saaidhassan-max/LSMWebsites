@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@lsm/ui/components/button/button';
 import { Label } from '@lsm/ui/components/label/label';
@@ -22,6 +22,12 @@ export function ScrollFocusOfferCard({
 }: ScrollFocusOfferCardProps): React.ReactElement {
     const innerRef = useRef<HTMLDivElement | null>(null);
     const [height, setHeight] = useState<number | null>(null);
+
+    useLayoutEffect((): void => {
+        const node = innerRef.current;
+        if (node === null) return;
+        setHeight(node.scrollHeight);
+    }, [tier, offer]);
 
     useEffect(() => {
         const node = innerRef.current;
@@ -136,9 +142,9 @@ export function ScrollFocusOfferCard({
     return (
         <div
             style={height === null ? undefined : { height }}
-            className="w-full overflow-hidden rounded-lg bg-white transition-[height] duration-[450ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
+            className="flex w-full items-center overflow-hidden rounded-lg bg-white transition-[height] duration-[360ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
         >
-            <div ref={innerRef}>
+            <div ref={innerRef} className="w-full">
                 {offer.showLabel !== false && (
                     <Label variant="mobile" color={offer.labelColor} className={RIBBON_CLASS[tier]}>
                         {offer.label ?? 'HOT DEAL'}
