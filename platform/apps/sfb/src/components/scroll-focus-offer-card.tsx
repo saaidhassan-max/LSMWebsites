@@ -136,7 +136,7 @@ export function ScrollFocusOfferCard({
     return (
         <div
             style={height === null ? undefined : { height }}
-            className="w-full overflow-hidden rounded-lg bg-white transition-[height] duration-300 ease-out motion-reduce:transition-none"
+            className="w-full overflow-hidden rounded-lg bg-white transition-[height] duration-[450ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
         >
             <div ref={innerRef}>
                 {offer.showLabel !== false && (

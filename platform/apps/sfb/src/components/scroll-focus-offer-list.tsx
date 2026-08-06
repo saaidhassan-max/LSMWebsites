@@ -8,7 +8,8 @@ import type { ScrollFocusTier } from './scroll-focus-offer-card.types';
 import type { ScrollFocusOfferListProps } from './scroll-focus-offer-list.types';
 
 const FOCUS_ANCHOR_RATIO = 0.38;
-const SETTLE_MS = 420;
+const SETTLE_MS = 1100;
+const FOCUS_LOCK_MS = 400;
 
 const tierFor = (distance: number): ScrollFocusTier =>
     distance === 0 ? 'full' : distance === 1 ? 'medium' : 'compact';
@@ -16,6 +17,8 @@ const tierFor = (distance: number): ScrollFocusTier =>
 export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): React.ReactElement {
     const [focusIndex, setFocusIndex] = useState(0);
     const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+    const focusRef = useRef(0);
+    const lastChangeRef = useRef(0);
 
     useEffect(() => {
         let raf = 0;
@@ -37,7 +40,13 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
                 }
             });
 
-            setFocusIndex((current) => Math.max(current - 1, Math.min(current + 1, best)));
+            const now = performance.now();
+            if (best === focusRef.current) return;
+            if (now - lastChangeRef.current < FOCUS_LOCK_MS) return;
+
+            focusRef.current = best;
+            lastChangeRef.current = now;
+            setFocusIndex(best);
         };
 
         const loop = (): void => {
