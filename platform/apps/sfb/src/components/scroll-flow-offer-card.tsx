@@ -1,11 +1,13 @@
 'use client';
 
 import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@lsm/ui/components/button/button';
 import type { ScrollFlowOfferCardProps } from './scroll-flow-offer-card.types';
 
 const SHORT_TERMS_TEXT = 'Terms and Conditions apply';
+const TERMS_MAX_HEIGHT = 140;
 const LABEL_COLOR_CLASS = {
     blue: 'bg-secondary',
     red: 'bg-accent-red',
@@ -22,13 +24,30 @@ export function ScrollFlowOfferCard({
     offer,
     progress
 }: ScrollFlowOfferCardProps): React.ReactElement {
+    const innerRef = useRef<HTMLDivElement | null>(null);
+    const [height, setHeight] = useState<number | null>(null);
+
+    useEffect(() => {
+        const node = innerRef.current;
+        if (node === null) return;
+
+        const observer = new ResizeObserver((entries) => {
+            const entry = entries[0];
+            if (entry === undefined) return;
+            const next = entry.contentRect.height;
+            setHeight((current) => (current !== null && Math.abs(current - next) < 0.5 ? current : next));
+        });
+        observer.observe(node);
+
+        return (): void => observer.disconnect();
+    }, []);
+
     const p = clamp(progress, 0, 1);
     const details = offer.details ?? [];
     const detailLine = details.map((detail) => detail.text).join(' & ');
     const expandedDetailsOpacity = clamp((p - 0.46) / 0.34, 0, 1);
     const compactDetailsOpacity = 1 - clamp((p - 0.16) / 0.28, 0, 1);
     const termsOpacity = clamp((p - 0.62) / 0.28, 0, 1);
-    const height = lerp(98, 286, p);
     const logoWidth = lerp(64, 120, p);
     const logoHeight = lerp(36, 68, p);
     const headlineSize = lerp(15, 26, p);
@@ -55,9 +74,10 @@ export function ScrollFlowOfferCard({
 
     return (
         <div
-            style={{ height }}
+            style={height === null ? undefined : { height }}
             className="w-full overflow-hidden rounded-lg bg-white transition-[height] duration-75 ease-linear"
         >
+            <div ref={innerRef} className="w-full">
             {offer.showLabel !== false && (
                 <div
                     style={{ height: ribbonHeight, fontSize: ribbonTextSize }}
@@ -102,10 +122,10 @@ export function ScrollFlowOfferCard({
                     </div>
 
                     <p
-                        className="truncate text-[11px] leading-[14px] text-on-surface-dark"
+                        className="truncate overflow-hidden text-[11px] leading-[14px] text-on-surface-dark"
                         style={{
                             opacity: compactDetailsOpacity,
-                            height: compactDetailsOpacity > 0 ? 16 : 0
+                            height: lerp(0, 16, compactDetailsOpacity)
                         }}
                     >
                         {detailLine}
@@ -144,10 +164,14 @@ export function ScrollFlowOfferCard({
                 </a>
             </div>
 
-            <div className="px-2 pb-2" style={{ opacity: termsOpacity }}>
+            <div
+                className="overflow-hidden px-2 pb-2"
+                style={{ maxHeight: lerp(24, TERMS_MAX_HEIGHT, termsOpacity) }}
+            >
                 <p className="text-[10px] leading-[13px] tracking-[0.4px] text-on-surface-dark">
                     {p > 0.7 ? offer.termsText ?? SHORT_TERMS_TEXT : SHORT_TERMS_TEXT}
                 </p>
+            </div>
             </div>
         </div>
     );
