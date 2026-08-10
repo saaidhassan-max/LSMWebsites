@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { ScrollFocusOfferCard } from './scroll-focus-offer-card';
 import type { ScrollFocusDirection, ScrollFocusTier } from './scroll-focus-offer-card.types';
@@ -10,8 +10,7 @@ import type { ScrollFocusOfferListProps } from './scroll-focus-offer-list.types'
 const FOCUS_ANCHOR_RATIO = 0.38;
 const FOCUS_SWITCH_MARGIN = 56;
 const DIRECTION_SWITCH_MARGIN = 12;
-const LAYOUT_TRANSITION_MS = 360;
-const SCROLL_IDLE_MS = 70;
+const SETTLE_TAIL_MS = 520;
 
 const tierFor = (
     index: number,
@@ -34,48 +33,6 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
     const lastScrollYRef = useRef(0);
     const directionRef = useRef<ScrollFocusDirection>('down');
     const pendingDirectionRef = useRef<ScrollFocusDirection>('down');
-    const previousTopsRef = useRef<number[] | null>(null);
-    const layoutAnimationFrameRef = useRef(0);
-    const scrollIdleTimerRef = useRef(0);
-
-    const captureTops = (): void => {
-        previousTopsRef.current = itemRefs.current.map((node) =>
-            node === null ? Number.NaN : node.getBoundingClientRect().top
-        );
-    };
-
-    useLayoutEffect((): void => {
-        const previousTops = previousTopsRef.current;
-        if (previousTops === null) return;
-        previousTopsRef.current = null;
-
-        if (layoutAnimationFrameRef.current !== 0) {
-            window.cancelAnimationFrame(layoutAnimationFrameRef.current);
-            layoutAnimationFrameRef.current = 0;
-        }
-
-        itemRefs.current.forEach((node, index) => {
-            if (node === null) return;
-            const previousTop = previousTops[index];
-            if (!Number.isFinite(previousTop)) return;
-            const nextTop = node.getBoundingClientRect().top;
-            const delta = previousTop - nextTop;
-            if (Math.abs(delta) < 1) return;
-
-            node.style.transition = 'none';
-            node.style.transform = `translateY(${delta}px)`;
-            node.style.willChange = 'transform';
-        });
-
-        layoutAnimationFrameRef.current = window.requestAnimationFrame((): void => {
-            itemRefs.current.forEach((node) => {
-                if (node === null) return;
-                node.style.transition = `transform ${LAYOUT_TRANSITION_MS}ms cubic-bezier(0.4,0,0.2,1)`;
-                node.style.transform = 'translateY(0)';
-            });
-            layoutAnimationFrameRef.current = 0;
-        });
-    }, [focusIndex, scrollDirection]);
 
     useEffect(() => {
         const settleFocus = (): void => {
@@ -101,8 +58,6 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
             const shouldChangeDirection = pendingDirectionRef.current !== directionRef.current;
             if (!shouldChangeFocus && !shouldChangeDirection) return;
 
-            captureTops();
-
             if (shouldChangeDirection) {
                 directionRef.current = pendingDirectionRef.current;
                 setScrollDirection(pendingDirectionRef.current);
@@ -114,6 +69,14 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
             }
         };
 
+        let raf = 0;
+        let settleUntil = 0;
+
+        const loop = (): void => {
+            settleFocus();
+            raf = performance.now() < settleUntil ? window.requestAnimationFrame(loop) : 0;
+        };
+
         const kick = (): void => {
             const nextScrollY = window.scrollY;
             const scrollDelta = nextScrollY - lastScrollYRef.current;
@@ -123,14 +86,8 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
                 pendingDirectionRef.current = scrollDelta < 0 ? 'up' : 'down';
             }
 
-            if (scrollIdleTimerRef.current !== 0) {
-                window.clearTimeout(scrollIdleTimerRef.current);
-            }
-
-            scrollIdleTimerRef.current = window.setTimeout((): void => {
-                scrollIdleTimerRef.current = 0;
-                settleFocus();
-            }, SCROLL_IDLE_MS);
+            settleUntil = performance.now() + SETTLE_TAIL_MS;
+            if (raf === 0) raf = window.requestAnimationFrame(loop);
         };
 
         lastScrollYRef.current = window.scrollY;
@@ -140,12 +97,7 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
         return (): void => {
             window.removeEventListener('scroll', kick);
             window.removeEventListener('resize', kick);
-            if (scrollIdleTimerRef.current !== 0) {
-                window.clearTimeout(scrollIdleTimerRef.current);
-            }
-            if (layoutAnimationFrameRef.current !== 0) {
-                window.cancelAnimationFrame(layoutAnimationFrameRef.current);
-            }
+            if (raf !== 0) window.cancelAnimationFrame(raf);
         };
     }, []);
 
