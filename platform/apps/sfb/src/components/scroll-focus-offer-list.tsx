@@ -10,7 +10,8 @@ import type { ScrollFocusOfferListProps } from './scroll-focus-offer-list.types'
 const FOCUS_ANCHOR_RATIO = 0.38;
 const FOCUS_SWITCH_MARGIN = 56;
 const DIRECTION_SWITCH_MARGIN = 12;
-const SETTLE_TAIL_MS = 520;
+const SETTLE_TAIL_MS = 700;
+const TRANSITION_LOCK_MS = 280;
 
 const tierFor = (
     index: number,
@@ -33,9 +34,13 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
     const lastScrollYRef = useRef(0);
     const directionRef = useRef<ScrollFocusDirection>('down');
     const pendingDirectionRef = useRef<ScrollFocusDirection>('down');
+    const lockUntilRef = useRef(0);
 
     useEffect(() => {
         const settleFocus = (): void => {
+            const now = performance.now();
+            if (now < lockUntilRef.current) return;
+
             const anchor = window.innerHeight * FOCUS_ANCHOR_RATIO;
             let best = 0;
             let bestDistance = Number.POSITIVE_INFINITY;
@@ -67,6 +72,8 @@ export function ScrollFocusOfferList({ offers }: ScrollFocusOfferListProps): Rea
                 focusRef.current = best;
                 setFocusIndex(best);
             }
+
+            lockUntilRef.current = now + TRANSITION_LOCK_MS;
         };
 
         let raf = 0;
