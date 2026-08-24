@@ -136,7 +136,7 @@ export function OfferEditor({
         logoAlt: selectedOperator?.name ?? 'Operator logo',
         offerMain: details.headline,
         details: details.details,
-        ctaText: 'CLICK TO CLAIM',
+        ctaText: 'Click To Claim',
         ctaHref: details.ctaHref || '#',
         termsText: details.termsText
     };

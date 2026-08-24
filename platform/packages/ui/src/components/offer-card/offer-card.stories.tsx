@@ -26,7 +26,7 @@ export const Mobile: Story = {
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'PLAY NOW',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         secondaryCtaText: 'How To Claim',
         secondaryCtaHref: '#',
@@ -59,7 +59,7 @@ export const Desktop: Story = {
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'PLAY NOW',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         termsText: TERMS,
         logoSrc: '/ssm/brands/888logo.png',

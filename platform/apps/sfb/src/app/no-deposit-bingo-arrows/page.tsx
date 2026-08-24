@@ -21,7 +21,7 @@ export default async function NoDepositBingoArrowsPage(): Promise<React.ReactEle
 
     return (
         <main className="flex w-full flex-col bg-surface">
-            <SfbNav items={settings.navItems} />
+            <SfbNav />
             <USP text={settings.uspText} variant="bingo" />
 
             <WelcomeBanner

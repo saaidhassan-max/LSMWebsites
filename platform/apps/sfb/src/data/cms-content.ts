@@ -53,12 +53,14 @@ function getSupabase(): SupabaseClient {
 
 const DEFAULT_NAV_ITEMS: CmsSiteSettingsNavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎁', label: 'No Deposit · Stepped', href: '/no-deposit-bingo' },
-    { emoji: '〰️', label: 'No Deposit · Morphing', href: '/no-deposit-bingo-flow' },
-    { emoji: '🔽', label: 'No Deposit · Arrows', href: '/no-deposit-bingo-arrows' },
+    { emoji: '🔥', label: 'Exclusive Offers', href: '/category/exclusive-offers' },
+    { emoji: '🎁', label: 'No Deposit Offers', href: '/category/no-deposit-offers' },
+    { emoji: '🚀', label: 'Deposit Offers', href: '/category/deposit-offers' },
+    { emoji: '🖐️', label: 'For A Fiver', href: '/category/for-a-fiver' },
+    { emoji: '✅', label: 'Keep What You Win', href: '/category/keep-what-you-win' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
-    { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
+    { emoji: '🦺', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '🎬', label: 'Landing Page', href: '/signup-v4d' }
 ];
 
@@ -359,7 +361,7 @@ function normalizeSettings(
         uspText:
             typeof settings.uspText === 'string' && settings.uspText.trim() !== ''
                 ? settings.uspText
-                : 'OVER 150,000 OFFERS CLAIMED',
+                : 'SAME BRILLIANT BONUSES, BRAND NEW LOOK. 😍',
         howToClaimUspText:
             typeof settings.howToClaimUspText === 'string' &&
             settings.howToClaimUspText.trim() !== ''
@@ -473,11 +475,12 @@ function toOfferCardProps(offer: CmsOffer, operator: CmsOperator): OfferCardProp
     return {
         label: offer.label,
         labelColor: offer.labelColor,
+        showLabel: offer.label.trim() !== '',
         logoSrc: normalizeImagePath(operator.logoSrc),
         logoAlt: operator.name,
         offerMain: offer.headline,
         details: normalizeOfferDetails(offer.details),
-        ctaText: 'CLICK TO CLAIM',
+        ctaText: 'Click To Claim',
         ctaHref: offer.ctaHref || '#',
         termsText: offer.termsText
     };
@@ -647,7 +650,7 @@ export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | 
         howToTermsText: offer.termsText,
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: operator.name + ' offer',
-        ctaText: 'CLICK TO CLAIM',
+        ctaText: 'Click To Claim',
         ctaHref: offer.ctaHref || '#',
         reviewIntro: operator.reviewIntro,
         reviewBody: operator.reviewBody

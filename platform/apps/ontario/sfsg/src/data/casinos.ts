@@ -37,7 +37,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Betfair Casino T&Cs apply. Click for more details.\n\n18+. New customers only. Free spins valued at £0.10. Winnings paid in cash. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfsg/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Betfair Casino offer',
-        ctaText: 'CLICK TO CLAIM →',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         reviewIntro:
             'Betfair Casino is one of the most trusted names in online gaming. This site offers a premium slots experience with an exclusive no deposit free spins offer for new players.',

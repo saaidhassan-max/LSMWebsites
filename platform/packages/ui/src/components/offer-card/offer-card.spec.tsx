@@ -15,6 +15,6 @@ describe('OfferCard', () => {
         );
 
         expect(screen.getAllByText('$100 Casino Bonus')[0]).toBeInTheDocument();
-        expect(screen.getAllByRole('link', { name: /PLAY NOW/ })[0]).toBeInTheDocument();
+        expect(screen.getAllByRole('link', { name: /Play ➜/ })[0]).toBeInTheDocument();
     });
 });

@@ -103,7 +103,7 @@ export function ScrollFocusOfferCard({
                     <div className="px-6 pb-2">
                         {cta(
                             'w-full min-w-0! px-4! py-2.5! text-[15px]!',
-                            offer.ctaText ?? 'PLAY NOW'
+                            offer.ctaText ?? 'Play ➜'
                         )}
                     </div>
                 </>
@@ -133,7 +133,7 @@ export function ScrollFocusOfferCard({
                     </div>
                 </div>
                 <div className="px-11 pb-2">
-                    {cta('w-full min-w-0!', offer.ctaText ?? 'PLAY NOW')}
+                    {cta('w-full min-w-0!', offer.ctaText ?? 'Play ➜')}
                 </div>
             </>
         );

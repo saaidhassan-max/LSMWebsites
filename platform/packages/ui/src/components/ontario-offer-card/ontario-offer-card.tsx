@@ -1,6 +1,6 @@
 import type React from 'react';
 import Image from 'next/image';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Button } from '../button/button';
 import { GoodChoiceLabel } from '../good-choice-label/good-choice-label';
 import type { OntarioOfferCardProps } from './ontario-offer-card.types';
@@ -38,12 +38,8 @@ export function OntarioOfferCard({
             rel="noopener noreferrer"
             className="block w-full"
         >
-            <Button
-                variant="primary"
-                trailingIcon={<ArrowRight size={24} />}
-                className="w-full"
-            >
-                PLAY NOW
+            <Button variant="primary" className="w-full">
+                Play ➜
             </Button>
         </a>
     );

@@ -9,15 +9,14 @@ import type { NavItem } from '@lsm/ui/components/nav-drawer/nav-drawer.types';
 
 const BASE_ITEMS: NavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎁', label: 'No Deposit · Stepped', href: '/no-deposit-bingo' },
-    { emoji: '〰️', label: 'No Deposit · Morphing', href: '/no-deposit-bingo-flow' },
-    { emoji: '🔽', label: 'No Deposit · Arrows', href: '/no-deposit-bingo-arrows' },
-    { emoji: '🔥', label: 'Free Bingo Bonuses', href: '/' },
-    { emoji: '✊', label: 'Exclusive Deals', href: '/' },
-    { emoji: '💎', label: 'No Wagering Bingo', href: '/' },
-    { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
+    { emoji: '🔥', label: 'Exclusive Offers', href: '/category/exclusive-offers' },
+    { emoji: '🎁', label: 'No Deposit Offers', href: '/category/no-deposit-offers' },
+    { emoji: '🚀', label: 'Deposit Offers', href: '/category/deposit-offers' },
+    { emoji: '🖐️', label: 'For A Fiver', href: '/category/for-a-fiver' },
+    { emoji: '✅', label: 'Keep What You Win', href: '/category/keep-what-you-win' },
     { emoji: '👋', label: 'About Us', href: '/about' },
     { emoji: '✉️', label: 'Contact Us', href: '/contact' },
+    { emoji: '🦺', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '🎬', label: 'Landing Page', href: '/signup-v4d' }
 ];
 

@@ -23,6 +23,10 @@ const meta: Meta<typeof Button> = {
             control: 'select',
             options: ['primary', 'secondary', 'tertiary', 'text']
         },
+        size: {
+            control: 'select',
+            options: ['big', 'small']
+        },
         disabled: { control: 'boolean' }
     }
 };
@@ -69,6 +73,50 @@ export const Disabled: Story = {
         trailingIcon: <ArrowIcon />,
         disabled: true
     }
+};
+
+export const Small: Story = {
+    args: {
+        variant: 'primary',
+        size: 'small',
+        children: 'PLAY NOW',
+        trailingIcon: <ArrowIcon />
+    }
+};
+
+export const AllSizes: Story = {
+    render: (): React.ReactElement => (
+        <div className="flex flex-col gap-4 p-6">
+            <div className="flex flex-wrap gap-4 items-center">
+                <Button variant="primary" trailingIcon={<ArrowIcon />}>
+                    PLAY NOW
+                </Button>
+                <Button variant="secondary" trailingIcon={<ArrowIcon />}>
+                    PLAY NOW
+                </Button>
+                <Button variant="tertiary" trailingIcon={<ArrowIcon />}>
+                    PLAY NOW
+                </Button>
+                <Button variant="text" trailingIcon={<ArrowIcon />}>
+                    PLAY NOW
+                </Button>
+            </div>
+            <div className="flex flex-wrap gap-4 items-center">
+                <Button variant="primary" size="small" trailingIcon={<ArrowIcon />}>
+                    PLAY NOW
+                </Button>
+                <Button variant="secondary" size="small" trailingIcon={<ArrowIcon />}>
+                    PLAY NOW
+                </Button>
+                <Button variant="tertiary" size="small" trailingIcon={<ArrowIcon />}>
+                    PLAY NOW
+                </Button>
+                <Button variant="text" size="small" trailingIcon={<ArrowIcon />}>
+                    PLAY NOW
+                </Button>
+            </div>
+        </div>
+    )
 };
 
 export const AllVariants: Story = {

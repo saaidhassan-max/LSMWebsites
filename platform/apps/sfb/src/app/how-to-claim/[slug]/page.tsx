@@ -34,7 +34,7 @@ export default async function HowToClaimPage({
 
     return (
         <main className="flex flex-col w-full bg-surface">
-            <SfbNav items={settings.navItems} />
+            <SfbNav />
             <USP text={settings.howToClaimUspText} variant="bingo" />
             <HtcUsp
                 logoSrc={page.logoSrc}

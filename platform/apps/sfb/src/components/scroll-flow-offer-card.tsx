@@ -58,7 +58,7 @@ export function ScrollFlowOfferCard({
     const bodyPaddingY = lerp(8, 12, p);
     const ctaInset = lerp(8, 44, p);
     const ctaHeight = lerp(32, 48, p);
-    const ctaText = p < 0.34 ? 'CLAIM' : offer.ctaText ?? 'PLAY NOW';
+    const ctaText = p < 0.34 ? 'CLAIM' : offer.ctaText ?? 'Play ➜';
 
     const logo =
         offer.logoSrc !== undefined ? (

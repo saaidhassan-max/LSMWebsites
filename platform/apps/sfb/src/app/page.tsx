@@ -39,10 +39,10 @@ function defaultSections(): CmsSitePageSection[] {
                 text: ' BINGO DEALS 2026',
                 textSuffix: '',
                 features: ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure'],
-                imageLeftSrc: '/sfb/welcome-images/image-left.png',
-                imageRightSrc: '/sfb/welcome-images/image-right.png',
-                imageLeftWidthMobile: 83,
-                imageLeftWidthDesktop: 204
+                imageLeftSrc: '/sfb/welcome-images/left_sfb_welcome.png',
+                imageRightSrc: '/sfb/welcome-images/right_sfb_welcome.png',
+                imageLeftWidthMobile: 93,
+                imageLeftWidthDesktop: 266
             }
         },
         {
@@ -122,21 +122,19 @@ function renderSection(
     const content = section.content;
 
     if (section.type === 'welcome') {
-        const suffix = content.textSuffix ?? '';
         return (
             <WelcomeBanner
                 key={section.id}
-                textHighlight={content.textHighlight ?? 'TOP'}
-                text={content.text ?? ' BINGO DEALS 2026'}
-                textSuffix={suffix === '' ? undefined : suffix}
+                uspText={settings.uspText}
+                textPrefix="TOP"
+                textHighlight=" DEALS"
+                text=" AWAIT YOU..."
                 features={
                     content.features ?? ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']
                 }
-                imageLeftSrc={content.imageLeftSrc ?? '/sfb/welcome-images/image-left.png'}
-                imageRightSrc={content.imageRightSrc ?? '/sfb/welcome-images/image-right.png'}
-                imageLeftWidthMobile={content.imageLeftWidthMobile ?? 83}
-                imageLeftWidthDesktop={content.imageLeftWidthDesktop ?? 204}
-                variant="modern"
+                imageLeftSrc="/sfb/welcome-images/left_sfb_welcome.png"
+                imageRightSrc="/sfb/welcome-images/right_sfb_welcome.png"
+                variant="merged"
             />
         );
     }
@@ -290,8 +288,10 @@ export default async function HomePage(): Promise<React.ReactElement> {
 
     return (
         <main className="flex flex-col w-full bg-surface">
-            <SfbNav items={settings.navItems} />
-            <USP text={settings.uspText} variant="bingo" />
+            <SfbNav />
+            {!sections.some((section) => section.type === 'welcome') && (
+                <USP text={settings.uspText} variant="bingo" />
+            )}
             {sections.map((section) => renderSection(section, settings, cardMap))}
             {renderDirectorySignupTemplate(settings)}
             <SfbFooter legalText={settings.footerLegalText} />

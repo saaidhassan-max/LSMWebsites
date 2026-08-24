@@ -29,7 +29,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'CLAIM NOW ➜',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText: '18+. New customers only. Free bet credited upon registration. T&Cs apply. BeGambleAware.org.'
@@ -44,7 +44,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'CLAIM NOW ➜',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText: '18+. New customers only. Free bet credited on first qualifying bet. T&Cs apply. BeGambleAware.org.'
@@ -59,7 +59,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'CLAIM NOW ➜',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText: '18+. New customers only. Free bet valid 7 days. T&Cs apply. BeGambleAware.org.'
@@ -74,7 +74,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Bet: £10' },
             { emoji: '🎁', text: '£40 Free Bets' }
         ],
-        ctaText: 'CLAIM NOW ➜',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText: '18+. New customers only. Place £10 qualifying bet to receive £40 in free bets. T&Cs apply. BeGambleAware.org.'
@@ -89,7 +89,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'CLAIM NOW ➜',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText: '18+. New customers only. Free bet credited after first qualifying bet. T&Cs apply. BeGambleAware.org.'
@@ -104,7 +104,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'CLAIM NOW ➜',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText: '18+. New customers only. Free bets on selected markets. T&Cs apply. BeGambleAware.org.'
@@ -119,7 +119,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Deposit: £10' },
             { emoji: '🎁', text: '£50 Free Bet' }
         ],
-        ctaText: 'CLAIM NOW ➜',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText: '18+. New customers only. Min deposit £10. Free bet credited on qualifying bet. T&Cs apply. BeGambleAware.org.'
@@ -134,7 +134,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'CLAIM NOW ➜',
+        ctaText: 'Play ➜',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText: '18+. New customers only. Free bet valid for 7 days. T&Cs apply. BeGambleAware.org.'

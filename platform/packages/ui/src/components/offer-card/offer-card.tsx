@@ -1,8 +1,14 @@
 import type React from 'react';
 import Image from 'next/image';
+import { cn } from '../../lib/generic/cn';
 import { Button } from '../button/button';
+import type { ButtonSize } from '../button/button.types';
 import { Label } from '../label/label';
+import { OfferCardTerms } from '../offer-card-terms/offer-card-terms';
 import type { OfferCardProps } from './offer-card.types';
+
+const buttonWidthClass = (size: ButtonSize): string =>
+    size === 'small' ? 'w-full min-w-0! px-3!' : 'w-full';
 
 export function OfferCard({
     label = 'HOT DEAL',
@@ -15,7 +21,7 @@ export function OfferCard({
         { emoji: '💸', text: 'No Deposit' },
         { emoji: '✅', text: 'No Wagering' }
     ],
-    ctaText = 'PLAY NOW',
+    ctaText = 'Play ➜',
     ctaHref,
     ctaVariant = 'primary',
     secondaryCtaText,
@@ -29,18 +35,25 @@ export function OfferCard({
             <div className="w-full h-full bg-disabled-container rounded" />
         );
 
-    const ctaButton = (
+    const detailLine = details.map((detail) => detail.text).join(' & ');
+
+    const ctaButton = (size: ButtonSize): React.ReactElement => (
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" className="block">
-            <Button variant={ctaVariant} className="w-full">
+            <Button variant={ctaVariant} size={size} className={buttonWidthClass(size)}>
                 {ctaText}
             </Button>
         </a>
     );
 
-    const secondaryCta =
+    const secondaryCta = (size: ButtonSize): React.ReactElement | null =>
         secondaryCtaText !== undefined && secondaryCtaHref !== undefined ? (
             <a href={secondaryCtaHref} target="_blank" rel="noopener noreferrer" className="block">
-                <Button variant="text" color="light" className="w-full underline">
+                <Button
+                    variant="text"
+                    color="light"
+                    size={size}
+                    className={cn(buttonWidthClass(size), 'underline')}
+                >
                     {secondaryCtaText}
                 </Button>
             </a>
@@ -50,47 +63,36 @@ export function OfferCard({
         <div className="w-full rounded-lg overflow-hidden bg-white">
             <div className="md:hidden">
                 {showLabel && (
-                    <Label variant="mobile" color={labelColor} className="w-full">
+                    <Label variant="mobile" color={labelColor} className="w-full h-6">
                         {label}
                     </Label>
                 )}
 
-                <div className="grid grid-cols-[144px_1fr] gap-4 p-2 items-center">
-                    <div className="col-start-1 row-start-1 relative flex aspect-[224/120] items-center justify-center">
-                        {logoImg('object-contain')}
+                <div className="grid grid-cols-[1fr_1.5fr] gap-4 px-3 pb-3">
+                    <div className="flex h-full items-center justify-center">
+                        <div className="relative h-[75px] w-full">{logoImg('object-contain')}</div>
                     </div>
 
-                    <div className="col-start-2 row-start-1 flex flex-col gap-1">
-                        <div className="py-2 border-b border-outline-variant">
-                            <p className="text-[28px] font-bold leading-[36px] tracking-[0] text-on-surface-dark">
-                                {offerMain}
-                            </p>
-                        </div>
-                        {details.map((detail, i) => (
-                            <div key={i} className="flex items-center gap-1">
-                                <span className="w-6 h-6 flex items-center justify-center shrink-0 text-base leading-6">
-                                    {detail.emoji}
-                                </span>
-                                <span className="text-base leading-6 tracking-[0.5px] text-on-surface-dark">
-                                    {detail.text}
-                                </span>
+                    <div className="flex flex-col gap-3">
+                        <div className="flex flex-col">
+                            <div className="py-2 border-b border-outline-variant">
+                                <p className="text-xl font-bold leading-7 tracking-[0] text-on-surface-dark">
+                                    {offerMain}
+                                </p>
                             </div>
-                        ))}
+                            <div className="py-1">
+                                <p className="text-sm font-bold leading-5 tracking-[0.1px] text-on-surface-dark">
+                                    {detailLine}
+                                </p>
+                            </div>
+                        </div>
+
+                        {ctaButton('small')}
+                        {secondaryCta('small')}
                     </div>
                 </div>
 
-                <div className="px-11 py-3 flex flex-col gap-1">
-                    {ctaButton}
-                    {secondaryCta}
-                </div>
-
-                {termsText !== undefined && (
-                    <div className="p-2">
-                        <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-dark">
-                            {termsText}
-                        </p>
-                    </div>
-                )}
+                {termsText !== undefined && <OfferCardTerms text={termsText} />}
             </div>
 
             <div className="hidden md:block">
@@ -127,8 +129,8 @@ export function OfferCard({
                     </div>
 
                     <div className="w-64 shrink-0 flex flex-col gap-2">
-                        {ctaButton}
-                        {secondaryCta}
+                        {ctaButton('big')}
+                        {secondaryCta('big')}
                     </div>
                 </div>
 

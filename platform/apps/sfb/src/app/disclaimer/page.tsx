@@ -32,7 +32,7 @@ export default async function DisclaimerPage(): Promise<React.ReactElement> {
 
     return (
         <main className="flex w-full flex-col bg-surface">
-            <SfbNav items={settings.navItems} />
+            <SfbNav />
             <USP text={settings.uspText} variant="bingo" />
 
             <section className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12">

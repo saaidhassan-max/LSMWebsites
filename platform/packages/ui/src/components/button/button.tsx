@@ -1,6 +1,6 @@
 import type React from 'react';
 import { cn } from '../../lib/generic/cn';
-import type { ButtonColor, ButtonProps, ButtonVariant } from './button.types';
+import type { ButtonColor, ButtonProps, ButtonSize, ButtonVariant } from './button.types';
 
 const solidVariantClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
     primary: [
@@ -47,9 +47,12 @@ const paddingClasses: Record<ButtonVariant, string> = {
     text: 'px-6 py-2'
 };
 
+const smallPaddingClass = 'px-6 py-1';
+
 export function Button({
     variant = 'primary',
     color = 'light',
+    size = 'big',
     leadingIcon,
     trailingIcon,
     children,
@@ -60,6 +63,8 @@ export function Button({
     const variantClass = variant === 'text'
         ? textVariantClasses[color]
         : solidVariantClasses[variant];
+
+    const paddingClass = size === 'small' ? smallPaddingClass : paddingClasses[variant];
 
     return (
         <button
@@ -72,7 +77,7 @@ export function Button({
                 'text-base font-bold tracking-[0.15px]',
                 'transition-colors duration-150',
                 'disabled:cursor-not-allowed',
-                paddingClasses[variant],
+                paddingClass,
                 variantClass,
                 className
             )}

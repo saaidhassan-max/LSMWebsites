@@ -228,7 +228,7 @@ export function SitePageView({
                                 logoAlt={operator?.name ?? 'Operator logo'}
                                 offerMain={offer.headline}
                                 details={offer.details}
-                                ctaText="CLICK TO CLAIM"
+                                ctaText="Click To Claim"
                                 ctaHref={offer.ctaHref || '#'}
                                 termsText={offer.termsText}
                             />
