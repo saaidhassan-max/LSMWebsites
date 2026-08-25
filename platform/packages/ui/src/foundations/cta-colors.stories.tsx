@@ -42,7 +42,7 @@ const Row = ({ surface }: { surface: 'light' | 'dark' }): React.ReactElement => 
 const Steps = (): React.ReactElement => (
     <div className="bg-surface p-6">
         <p className="mb-4 text-sm font-bold text-on-surface-light">
-            Rest / hover 8% / pressed 12% — the same mix, shown without needing to interact
+            Rest / hover 10% / pressed 20% — the same mix, shown without needing to interact
         </p>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
             {ctaColors.map((color) => (
@@ -53,8 +53,8 @@ const Steps = (): React.ReactElement => (
                     <div className="flex overflow-hidden rounded-lg">
                         {[
                             { label: 'Rest', mix: '100%' },
-                            { label: 'Hover', mix: '92%' },
-                            { label: 'Press', mix: '88%' }
+                            { label: 'Hover', mix: '90%' },
+                            { label: 'Press', mix: '80%' }
                         ].map((step) => (
                             <div
                                 key={step.label}

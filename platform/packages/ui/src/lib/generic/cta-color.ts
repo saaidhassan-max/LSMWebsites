@@ -48,8 +48,8 @@ const ctaDarkTextColors: CtaColor[] = ['amber', 'emerald', 'cyan', 'chartreuse']
 
 export const ctaStateClasses =
     'bg-[var(--cta)] ' +
-    'hover:bg-[color-mix(in_srgb,var(--cta)_92%,var(--cta-state))] ' +
-    'active:bg-[color-mix(in_srgb,var(--cta)_88%,var(--cta-state))] ' +
+    'hover:bg-[color-mix(in_srgb,var(--cta)_90%,var(--cta-state))] ' +
+    'active:bg-[color-mix(in_srgb,var(--cta)_80%,var(--cta-state))] ' +
     'focus-visible:outline-2 focus-visible:outline-offset-2 ' +
     'focus-visible:outline-[var(--cta)] focus:outline-none';
 
