@@ -46,7 +46,8 @@ export function SfbNav({
                 logoDesktopSrc="/sfb/logo-desktop.svg"
                 logoAlt="Super Free Bingo"
                 logoHref="/"
-                backgroundSrc="/sfb/LogoSection/Lego_Deco2.png"
+                backgroundSrc="/sfb/LogoSection/new_logodeco_bingo_mob.png"
+                backgroundDesktopSrc="/sfb/LogoSection/new_logodeco_bingo_desktop.png"
                 showMenu={showMenu}
                 sticky
                 onMenuClick={() => setDrawerOpen(true)}

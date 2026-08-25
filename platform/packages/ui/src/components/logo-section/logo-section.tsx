@@ -13,6 +13,7 @@ export function LogoSection({
     logoSrc = '/ssm/LogoSection/SSMLogo.svg',
     logoDesktopSrc,
     backgroundSrc = '/ssm/LogoSection/Lego_Deco2.png',
+    backgroundDesktopSrc,
     logoAlt = 'Super Spillemaskiner',
     logoHref
 }: LogoSectionProps): React.ReactElement {
@@ -61,17 +62,24 @@ export function LogoSection({
                 (sticky === true && scrolled === true ? 'border-b border-tertiary ' : '') +
                 'bg-surface overflow-hidden h-11 md:h-[72px] w-full'
             }
-            style={
-                backgroundSrc
-                    ? {
-                          backgroundImage: `url(${backgroundSrc})`,
-                          backgroundSize: 'auto 100%',
-                          backgroundPosition: 'center center',
-                          backgroundRepeat: 'no-repeat'
-                      }
-                    : undefined
-            }
         >
+            {backgroundSrc !== undefined && (
+                <div
+                    aria-hidden="true"
+                    className={
+                        'pointer-events-none absolute inset-0 bg-center bg-no-repeat bg-[length:auto_100%] ' +
+                        (backgroundDesktopSrc === undefined ? '' : 'md:hidden')
+                    }
+                    style={{ backgroundImage: `url(${backgroundSrc})` }}
+                />
+            )}
+            {backgroundDesktopSrc !== undefined && (
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 hidden md:block bg-center bg-no-repeat bg-[length:auto_100%]"
+                    style={{ backgroundImage: `url(${backgroundDesktopSrc})` }}
+                />
+            )}
             <div
                 className={
                     'w-full max-w-[1440px] mx-auto h-full flex items-center md:px-16 ' +
