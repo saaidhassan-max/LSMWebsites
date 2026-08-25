@@ -36,7 +36,7 @@ function noop(): void {
 }
 
 export function HowToClaimView({ offer, operator }: HowToClaimViewProps): React.ReactElement {
-    const ctaText = 'Click To Claim';
+    const ctaText = 'CLICK TO CLAIM';
     const ctaHref = offer.ctaHref || '#';
 
     return (

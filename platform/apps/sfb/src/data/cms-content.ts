@@ -458,7 +458,7 @@ function normalizeSteps(offer: CmsOffer, operator: CmsOperator): string[] {
         return offer.howToClaimSteps;
     }
     return [
-        'Click "Click To Claim" to visit ' + operator.name + '.',
+        'Click "CLICK TO CLAIM" to visit ' + operator.name + '.',
         'Register a new account with your details.',
         'Follow the offer instructions shown on the operator site.'
     ];
@@ -480,7 +480,7 @@ function toOfferCardProps(offer: CmsOffer, operator: CmsOperator): OfferCardProp
         logoAlt: operator.name,
         offerMain: offer.headline,
         details: normalizeOfferDetails(offer.details),
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: offer.ctaHref || '#',
         termsText: offer.termsText
     };
@@ -654,7 +654,7 @@ export async function getCmsOfferPage(slug: string): Promise<CmsOfferPageData | 
         howToTermsText: offer.termsText,
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: operator.name + ' offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: offer.ctaHref || '#',
         reviewIntro: operator.reviewIntro,
         reviewBody: operator.reviewBody

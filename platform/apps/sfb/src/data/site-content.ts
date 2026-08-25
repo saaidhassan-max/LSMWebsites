@@ -29,7 +29,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         termsText: '18+. New customers only. Free spins valued at £0.10. Winnings paid in cash. T&Cs apply. BeGambleAware.org.'
     },
@@ -43,7 +43,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         termsText: '18+. New Casino players only. 50 Free Spins (£0.10 each, selected games, valid 7 days) awarded upon registration. T&Cs apply. BeGambleAware.org.'
     },
@@ -57,7 +57,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         termsText: '18+. New customers only. Register online to receive 10 free spins. No deposit required. T&Cs apply. BeGambleAware.org.'
     },
@@ -71,7 +71,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Spend: £5' },
             { emoji: '🎰', text: '100 Free Spins' }
         ],
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         termsText: '18+. New customers only. Deposit & spend £5 to get 100 Free Spins on selected games. T&Cs apply. BeGambleAware.org.'
     },
@@ -85,7 +85,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         termsText: '18+. New Customers Only. First 10 spins on Big Bass Q the Splash, no deposit required, no wagering requirements. T&Cs apply. BeGambleAware.org.'
     },
@@ -99,7 +99,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Spend: £10' },
             { emoji: '🎰', text: '110 Free Spins' }
         ],
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         termsText: '18+. New customers only. Register today and deposit £10 to receive 110 free spins on selected games. T&Cs apply. BeGambleAware.org.'
     },
@@ -113,7 +113,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         termsText: '18+. New customers only. Opt-in required. 7-day free spin expiry. All free spins loaded on first eligible game. T&Cs apply. BeGambleAware.org.'
     },
@@ -127,7 +127,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Deposit: £10' },
             { emoji: '🎰', text: '100 Free Spins' }
         ],
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         termsText: '18+. New players only. Min Dep £10. Each free spin value 5p. T&Cs apply. BeGambleAware.org.'
     }

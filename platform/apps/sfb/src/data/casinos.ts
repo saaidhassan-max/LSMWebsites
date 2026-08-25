@@ -37,7 +37,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Betfair Casino T&Cs apply. Click for more details.\n\n18+. New customers only. Free spins valued at £0.10. Winnings paid in cash. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Betfair Casino offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         reviewIntro:
             'Betfair Casino is one of the most trusted names in online gaming. Backed by the Betfair brand, this site offers a premium experience with an exclusive no deposit free spins offer for new players.',
@@ -78,7 +78,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Ladbrokes T&Cs apply. Click for more details.\n\n18+. New Casino players only. 50 Free Spins (£0.10 each, selected games, valid 7 days) awarded upon registration. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Ladbrokes offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         reviewIntro:
             'Ladbrokes is one of the most recognisable names in UK gambling. With decades of history on the high street and a world-class online casino, Ladbrokes is a natural choice for new players.',
@@ -119,7 +119,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Buzz Bingo T&Cs apply. Click for more details.\n\n18+. New customers only. Register online to receive 10 free spins. No deposit required. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Buzz Bingo offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         reviewIntro:
             'Buzz Bingo is the UK\'s leading bingo brand, combining a huge online presence with real-world Buzz Bingo clubs across the country. New players can claim 10 free spins with no deposit required.',
@@ -160,7 +160,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Gala Bingo T&Cs apply. Click for more details.\n\n18+. New customers only. Deposit & spend £5 to get 100 Free Spins on selected games. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Gala Bingo offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         reviewIntro:
             'Gala Bingo is one of the UK\'s biggest and best-loved bingo brands. With a colourful site, generous welcome offer, and a huge range of bingo rooms and slots, Gala Bingo has something for everyone.',
@@ -201,7 +201,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'MrQ T&Cs apply. Click for more details.\n\n18+. New Customers Only. First 10 spins on Big Bass Q the Splash, no deposit required, no wagering requirements. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: 'MrQ offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         reviewIntro:
             'MrQ is a fresh, fair, and fully transparent UK casino and bingo site. With no wagering requirements on any bonus, MrQ makes it simple: what you win, you keep.',
@@ -242,7 +242,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Sun Vegas T&Cs apply. Click for more details.\n\n18+. New customers only. Register today and deposit £10 to receive 110 free spins on selected games. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Sun Vegas offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         reviewIntro:
             'Sun Vegas is News UK\'s premium online casino, offering 110 free spins to new players who deposit £10. With a slick interface and hundreds of top-quality games, Sun Vegas is a strong choice for UK players.',
@@ -283,7 +283,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Sky Vegas T&Cs apply. Click for more details.\n\n18+. New customers only. Opt-in required. 7-day free spin expiry. All free spins loaded on first eligible game. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Sky Vegas offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         reviewIntro:
             'Sky Vegas is one of the UK\'s most popular online casinos, trusted by millions of players. New customers can claim 70 free spins with no deposit and no wagering requirements.',
@@ -324,7 +324,7 @@ const CASINOS: Record<string, CasinoPageData> = {
             'Glossy Bingo T&Cs apply. Click for more details.\n\n18+. New players only. Min Dep £10. Each free spin value 5p. T&Cs apply. BeGambleAware.org.',
         howToImageSrc: '/sfb/howtoclaim/landingpageimage.png',
         howToImageAlt: 'Glossy Bingo offer',
-        ctaText: 'Click To Claim',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         reviewIntro:
             'Glossy Bingo is a stylish, modern bingo site with an exclusive 100 free spins offer available only through Super Free Bingo. Deposit just £10 and start spinning immediately.',

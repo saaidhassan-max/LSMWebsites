@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { USP } from '../usp/usp';
 import type { WelcomeBannerProps } from './welcome-banner.types';
 
-const HEADLINE_SHADOW = '[text-shadow:0_4px_6px_rgba(55,55,55,0.4)]';
+const HEADLINE_SHADOW = '[text-shadow:0_4px_6px_rgba(55,55,55,0.8)]';
 
 export function WelcomeBanner({
     text,
