@@ -61,7 +61,6 @@ export function LogoSection({
         <header
             className={
                 (sticky === true ? 'sticky top-0 z-30 ' : 'relative ') +
-                (sticky === true && scrolled === true ? 'border-b border-tertiary ' : '') +
                 'bg-surface overflow-hidden h-11 md:h-[72px] w-full'
             }
         >
@@ -76,6 +75,12 @@ export function LogoSection({
                         backgroundImage: `url(${backgroundSrc})`,
                         backgroundSize: `auto ${backgroundZoom * 100}%`
                     }}
+                />
+            )}
+            {sticky === true && scrolled === true && (
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-px bg-tertiary"
                 />
             )}
             {backgroundDesktopSrc !== undefined && (
