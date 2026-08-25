@@ -21,8 +21,10 @@ export function USP({
             ) : (
                 <span
                     className={cn(
-                        "font-['Helvetica_Neue'] font-bold text-sm md:text-[24px] leading-5 md:leading-8 tracking-[0.1px] md:tracking-[0] text-center",
-                        variant === 'bingo' ? 'text-on-surface-light' : 'text-on-surface-dark',
+                        'text-sm md:text-[24px] leading-5 md:leading-8 text-center',
+                        variant === 'bingo'
+                            ? "font-['HelveticaNeue-CondensedBold','Helvetica_Neue_Condensed','Helvetica_Neue'] [font-stretch:condensed] font-bold tracking-[-0.019em] text-on-surface-light"
+                            : "font-['Helvetica_Neue'] font-bold tracking-[0.1px] md:tracking-[0] text-on-surface-dark",
                         textClassName
                     )}
                 >

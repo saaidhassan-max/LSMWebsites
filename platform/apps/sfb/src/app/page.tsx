@@ -8,6 +8,7 @@ import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
 import { USP } from '@lsm/ui/components/usp/usp';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
+import { ctaColors } from '@lsm/ui/lib/generic/cta-color';
 import { SfbNav } from '../components/sfb-nav';
 import { offers } from '../data/site-content';
 import { getCmsHomeSections, getCmsOfferCardMap, getCmsSiteSettings } from '../data/cms-content';
@@ -18,8 +19,17 @@ import type {
     CmsSiteSettings
 } from '../data/cms-content.types';
 import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.types';
+import type { CtaColor } from '@lsm/ui/lib/generic/cta-color';
 
 export const dynamic = 'force-dynamic';
+
+function ctaColorFor(seed: string): CtaColor {
+    const hash = Array.from(seed).reduce(
+        (total, character) => ((total << 5) - total + character.charCodeAt(0)) | 0,
+        2166136261
+    );
+    return ctaColors[Math.abs(hash) % ctaColors.length];
+}
 
 function offersItemsOf(content: CmsSitePageSectionContent): CmsOffersItem[] {
     if (Array.isArray(content.items)) return content.items;
@@ -256,11 +266,17 @@ function renderSection(
                         const staticIndex = Number(item.offerId.replace('static_', ''));
                         const fallback = offers[staticIndex];
                         return fallback === undefined ? null : (
-                            <OfferCard key={index} {...fallback} />
+                            <OfferCard
+                                key={index}
+                                {...fallback}
+                                ctaColor={ctaColorFor(item.offerId)}
+                            />
                         );
                     }
                     if (card === undefined) return null;
-                    return <OfferCard key={index} {...card} />;
+                    return (
+                        <OfferCard key={index} {...card} ctaColor={ctaColorFor(item.offerId)} />
+                    );
                 })}
             </div>
         );

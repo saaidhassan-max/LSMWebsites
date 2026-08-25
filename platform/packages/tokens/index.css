@@ -1,3 +1,18 @@
+:root {
+  --color-cta-rose:        #FF0078;
+  --color-cta-orange:      #F76100;
+  --color-cta-amber:       #FF9400;
+  --color-cta-azure:       #0096FF;
+  --color-cta-emerald:     #00D184;
+  --color-cta-cyan:        #00C6FB;
+  --color-cta-chartreuse:  #94C700;
+  --color-cta-magenta:     #FF00FF;
+  --color-cta-violet:      #BB00FF;
+  --color-cta-indigo:      #7D00FF;
+  --color-cta-blue:        #0038FF;
+  --color-cta-green:       #276A00;
+}
+
 
 [data-theme="ontario"] {
   --color-primary:                  #000000;

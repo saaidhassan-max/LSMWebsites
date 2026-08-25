@@ -1,5 +1,6 @@
 import type React from 'react';
 import { cn } from '../../lib/generic/cn';
+import { ctaSurfaceClass, ctaTextClass } from '../../lib/generic/cta-color';
 import type { ButtonColor, ButtonProps, ButtonSize, ButtonVariant } from './button.types';
 
 const solidVariantClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
@@ -53,6 +54,7 @@ export function Button({
     variant = 'primary',
     color = 'light',
     size = 'big',
+    ctaColor,
     leadingIcon,
     trailingIcon,
     children,
@@ -66,6 +68,11 @@ export function Button({
 
     const paddingClass = size === 'small' ? smallPaddingClass : paddingClasses[variant];
 
+    const colorClass =
+        ctaColor === undefined
+            ? variantClass
+            : cn(ctaSurfaceClass(ctaColor), ctaTextClass(ctaColor), 'focus:outline-none');
+
     return (
         <button
             type="button"
@@ -78,7 +85,7 @@ export function Button({
                 'transition-colors duration-150',
                 'disabled:cursor-not-allowed',
                 paddingClass,
-                variantClass,
+                colorClass,
                 className
             )}
             {...props}

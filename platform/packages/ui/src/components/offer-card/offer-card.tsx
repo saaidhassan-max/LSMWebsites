@@ -24,6 +24,7 @@ export function OfferCard({
     ctaText = 'Play ➜',
     ctaHref,
     ctaVariant = 'primary',
+    ctaColor,
     secondaryCtaText,
     secondaryCtaHref,
     termsText
@@ -39,7 +40,12 @@ export function OfferCard({
 
     const ctaButton = (size: ButtonSize): React.ReactElement => (
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" className="block">
-            <Button variant={ctaVariant} size={size} className={buttonWidthClass(size)}>
+            <Button
+                variant={ctaVariant}
+                ctaColor={ctaColor}
+                size={size}
+                className={buttonWidthClass(size)}
+            >
                 {ctaText}
             </Button>
         </a>
@@ -63,7 +69,12 @@ export function OfferCard({
         <div className="w-full rounded-lg overflow-hidden bg-white">
             <div className="md:hidden">
                 {showLabel && (
-                    <Label variant="mobile" color={labelColor} className="w-full h-6">
+                    <Label
+                        variant="mobile"
+                        color={labelColor}
+                        ctaColor={ctaColor}
+                        className="w-full h-6"
+                    >
                         {label}
                     </Label>
                 )}
@@ -97,7 +108,12 @@ export function OfferCard({
 
             <div className="hidden md:block">
                 {showLabel && (
-                    <Label variant="desktop" color={labelColor} className="w-[280px]">
+                    <Label
+                        variant="desktop"
+                        color={labelColor}
+                        ctaColor={ctaColor}
+                        className="w-[280px]"
+                    >
                         {label}
                     </Label>
                 )}

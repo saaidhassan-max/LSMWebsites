@@ -77,6 +77,19 @@
     --color-accent-red: var(--color-accent-red);
     --color-accent-orange: var(--color-accent-orange);
 
+    --color-cta-rose: var(--color-cta-rose);
+    --color-cta-orange: var(--color-cta-orange);
+    --color-cta-amber: var(--color-cta-amber);
+    --color-cta-azure: var(--color-cta-azure);
+    --color-cta-emerald: var(--color-cta-emerald);
+    --color-cta-cyan: var(--color-cta-cyan);
+    --color-cta-chartreuse: var(--color-cta-chartreuse);
+    --color-cta-magenta: var(--color-cta-magenta);
+    --color-cta-violet: var(--color-cta-violet);
+    --color-cta-indigo: var(--color-cta-indigo);
+    --color-cta-blue: var(--color-cta-blue);
+    --color-cta-green: var(--color-cta-green);
+
     --color-disabled-content: var(--color-disabled-content);
     --color-disabled-container: var(--color-disabled-container);
 }
