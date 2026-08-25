@@ -69,6 +69,10 @@
     --color-accent-red: var(--color-accent-red);
     --color-accent-orange: var(--color-accent-orange);
 
+    --color-primary-state: var(--color-primary-state);
+    --color-secondary-state: var(--color-secondary-state);
+    --color-tertiary-state: var(--color-tertiary-state);
+
     --color-cta-rose: var(--color-cta-rose);
     --color-cta-orange: var(--color-cta-orange);
     --color-cta-amber: var(--color-cta-amber);

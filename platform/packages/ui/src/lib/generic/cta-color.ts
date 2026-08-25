@@ -65,6 +65,11 @@ export const ctaStyle = (color: CtaColor): CtaStyle => ({
         : 'var(--color-on-surface-dark)'
 });
 
+export const brandStyle = (variant: 'primary' | 'secondary' | 'tertiary'): CtaStyle => ({
+    '--cta': `var(--color-${variant})`,
+    '--cta-state': `var(--color-${variant}-state)`
+});
+
 export const ctaTextClass = (color: CtaColor): string =>
     ctaDarkTextColors.includes(color) ? 'text-on-surface-dark' : 'text-on-surface-light';
 

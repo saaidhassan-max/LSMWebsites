@@ -82,6 +82,26 @@ export const Steps_: Story = {
     render: (): React.ReactElement => <Steps />
 };
 
+export const BrandButtons: Story = {
+    name: 'Brand variants',
+    render: (): React.ReactElement => (
+        <div className="bg-surface p-6">
+            <p className="mb-4 text-sm font-bold text-on-surface-light">
+                Primary, secondary and tertiary now use the same state layer — switch theme in the
+                toolbar to check every brand
+            </p>
+            <div className="flex flex-wrap gap-4">
+                <Button variant="primary">Click To Claim</Button>
+                <Button variant="secondary">Click To Claim</Button>
+                <Button variant="tertiary">Click To Claim</Button>
+                <Button variant="primary" disabled>
+                    Disabled
+                </Button>
+            </div>
+        </div>
+    )
+};
+
 export const StateLayers: Story = {
     render: (): React.ReactElement => (
         <div className="flex flex-col">

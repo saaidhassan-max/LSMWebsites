@@ -51,6 +51,9 @@
 
   --color-disabled-content:         #A3A3A3;
   --color-disabled-container:       #E5E5E5;
+  --color-primary-state:            var(--color-on-surface-light);
+  --color-secondary-state:          var(--color-on-surface-dark);
+  --color-tertiary-state:           var(--color-on-surface-dark);
 }
 
 [data-theme="ssm"] {
@@ -90,6 +93,9 @@
 
   --color-disabled-content:         #A3A3A3;
   --color-disabled-container:       #E5E5E5;
+  --color-primary-state:            var(--color-on-surface-light);
+  --color-secondary-state:          var(--color-on-surface-dark);
+  --color-tertiary-state:           var(--color-on-surface-light);
 }
 
 [data-theme="slots"] {
@@ -129,6 +135,9 @@
 
   --color-disabled-content:         #A3A3A3;
   --color-disabled-container:       #E5E5E5;
+  --color-primary-state:            var(--color-on-surface-light);
+  --color-secondary-state:          var(--color-on-surface-dark);
+  --color-tertiary-state:           var(--color-on-surface-light);
 }
 
 [data-theme="bingo"] {
@@ -168,6 +177,9 @@
 
   --color-disabled-content:         #A3A3A3;
   --color-disabled-container:       #E5E5E5;
+  --color-primary-state:            var(--color-on-surface-light);
+  --color-secondary-state:          var(--color-on-surface-dark);
+  --color-tertiary-state:           var(--color-on-surface-light);
 }
 
 [data-theme="bets"] {
@@ -207,6 +219,9 @@
 
   --color-disabled-content:         #A3A3A3;
   --color-disabled-container:       #E5E5E5;
+  --color-primary-state:            var(--color-on-surface-light);
+  --color-secondary-state:          var(--color-on-surface-dark);
+  --color-tertiary-state:           var(--color-on-surface-light);
 }
 
 [data-theme="sports"] {
@@ -238,4 +253,7 @@
   --color-accent-orange:            #FF9000;
   --color-disabled-content:         #A3A3A3;
   --color-disabled-container:       #E5E5E5;
+  --color-primary-state:            var(--color-on-surface-light);
+  --color-secondary-state:          var(--color-on-surface-dark);
+  --color-tertiary-state:           var(--color-on-surface-dark);
 }

@@ -1,30 +1,15 @@
 import type React from 'react';
 import { cn } from '../../lib/generic/cn';
-import { ctaStateClasses, ctaStyle, ctaTextClass } from '../../lib/generic/cta-color';
+import { brandStyle, ctaStateClasses, ctaStyle, ctaTextClass } from '../../lib/generic/cta-color';
 import type { ButtonColor, ButtonProps, ButtonSize, ButtonVariant } from './button.types';
 
-const solidVariantClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
-    primary: [
-        'bg-primary text-on-primary',
-        'hover:bg-primary-hover',
-        'focus:bg-primary-focused focus:outline-none',
-        'disabled:bg-disabled-container disabled:text-disabled-content'
-    ].join(' '),
-
-    secondary: [
-        'bg-secondary text-on-surface-light',
-        'hover:bg-secondary-hover',
-        'focus:bg-secondary-focused focus:outline-none',
-        'disabled:bg-disabled-container disabled:text-disabled-content'
-    ].join(' '),
-
-    tertiary: [
-        'bg-tertiary text-on-primary',
-        'hover:bg-tertiary-hover',
-        'focus:bg-tertiary-focused focus:outline-none',
-        'disabled:bg-disabled-container disabled:text-disabled-content'
-    ].join(' ')
+const solidTextClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
+    primary: 'text-on-primary',
+    secondary: 'text-on-surface-light',
+    tertiary: 'text-on-primary'
 };
+
+const disabledClasses = 'disabled:bg-disabled-container disabled:text-disabled-content';
 
 const textVariantClasses: Record<ButtonColor, string> = {
     light: [
@@ -62,22 +47,30 @@ export function Button({
     className = '',
     ...props
 }: ButtonProps): React.ReactElement {
-    const variantClass = variant === 'text'
-        ? textVariantClasses[color]
-        : solidVariantClasses[variant];
+    const variantClass =
+        variant === 'text'
+            ? textVariantClasses[color]
+            : cn(ctaStateClasses, solidTextClasses[variant], disabledClasses);
 
     const paddingClass = size === 'small' ? smallPaddingClass : paddingClasses[variant];
 
     const colorClass =
         ctaColor === undefined
             ? variantClass
-            : cn(ctaStateClasses, ctaTextClass(ctaColor), 'disabled:bg-disabled-container disabled:text-disabled-content');
+            : cn(ctaStateClasses, ctaTextClass(ctaColor), disabledClasses);
+
+    const stateVars =
+        ctaColor !== undefined
+            ? ctaStyle(ctaColor)
+            : variant === 'text'
+              ? undefined
+              : brandStyle(variant);
 
     return (
         <button
             type="button"
             disabled={disabled}
-            style={ctaColor === undefined ? undefined : ctaStyle(ctaColor)}
+            style={stateVars}
             className={cn(
                 'inline-flex items-center justify-center gap-2',
                 'min-w-[198px]',
