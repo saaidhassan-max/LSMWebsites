@@ -84,6 +84,15 @@
         "cd '/Users/Saied.Hassan/Desktop/LSM multiagent/platform/apps/sfb' && SUPABASE_URL= SUPABASE_ANON_KEY= npx next dev -p 3012"
       ],
       "port": 3012
+    },
+    {
+      "name": "storybook",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "cd '/Users/Saied.Hassan/Desktop/LSM multiagent/platform' && npm run storybook -- --port 6006 --no-open"
+      ],
+      "port": 6006
     }
   ]
 }
