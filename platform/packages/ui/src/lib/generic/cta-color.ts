@@ -1,3 +1,5 @@
+import type React from 'react';
+
 export type CtaColor =
     | 'rose'
     | 'orange'
@@ -43,6 +45,25 @@ const ctaSurfaceClasses: Record<CtaColor, string> = {
 };
 
 const ctaDarkTextColors: CtaColor[] = ['amber', 'emerald', 'cyan', 'chartreuse'];
+
+export const ctaStateClasses =
+    'bg-[var(--cta)] ' +
+    'hover:bg-[color-mix(in_srgb,var(--cta)_92%,var(--cta-state))] ' +
+    'active:bg-[color-mix(in_srgb,var(--cta)_88%,var(--cta-state))] ' +
+    'focus-visible:outline-2 focus-visible:outline-offset-2 ' +
+    'focus-visible:outline-[var(--cta)] focus:outline-none';
+
+export interface CtaStyle extends React.CSSProperties {
+    '--cta': string;
+    '--cta-state': string;
+}
+
+export const ctaStyle = (color: CtaColor): CtaStyle => ({
+    '--cta': `var(--color-cta-${color})`,
+    '--cta-state': ctaDarkTextColors.includes(color)
+        ? 'var(--color-on-surface-light)'
+        : 'var(--color-on-surface-dark)'
+});
 
 export const ctaTextClass = (color: CtaColor): string =>
     ctaDarkTextColors.includes(color) ? 'text-on-surface-dark' : 'text-on-surface-light';

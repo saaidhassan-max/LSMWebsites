@@ -1,6 +1,6 @@
 import type React from 'react';
 import { cn } from '../../lib/generic/cn';
-import { ctaSurfaceClass, ctaTextClass } from '../../lib/generic/cta-color';
+import { ctaStateClasses, ctaStyle, ctaTextClass } from '../../lib/generic/cta-color';
 import type { ButtonColor, ButtonProps, ButtonSize, ButtonVariant } from './button.types';
 
 const solidVariantClasses: Record<Exclude<ButtonVariant, 'text'>, string> = {
@@ -71,12 +71,13 @@ export function Button({
     const colorClass =
         ctaColor === undefined
             ? variantClass
-            : cn(ctaSurfaceClass(ctaColor), ctaTextClass(ctaColor), 'focus:outline-none');
+            : cn(ctaStateClasses, ctaTextClass(ctaColor), 'disabled:bg-disabled-container disabled:text-disabled-content');
 
     return (
         <button
             type="button"
             disabled={disabled}
+            style={ctaColor === undefined ? undefined : ctaStyle(ctaColor)}
             className={cn(
                 'inline-flex items-center justify-center gap-2',
                 'min-w-[198px]',
