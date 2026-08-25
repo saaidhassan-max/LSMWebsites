@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
-import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { SfbNav } from '../../../components/sfb-nav';
@@ -53,8 +52,6 @@ export default async function CategoryRoute({ params }: CategoryPageParams): Pro
                 imageRightSrc="/sfb/welcome-images/right_sfb_welcome.png"
                 variant="merged"
             />
-
-            <TopTCs text='Special terms apply – including age verification. Click "How To Claim" for full details.' />
 
             <div className="flex w-full max-w-[1440px] mx-auto flex-col gap-[10px] px-4 py-4 md:px-16 md:py-8">
                 {page.offers.map((offer, index) => (
