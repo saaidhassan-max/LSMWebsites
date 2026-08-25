@@ -48,6 +48,7 @@ export function SfbNav({
                 logoHref="/"
                 backgroundSrc="/sfb/LogoSection/new_logodeco_bingo_mob.png"
                 backgroundDesktopSrc="/sfb/LogoSection/new_logodeco_bingo_desktop.png"
+                backgroundZoom={1.5}
                 showMenu={showMenu}
                 sticky
                 onMenuClick={() => setDrawerOpen(true)}
