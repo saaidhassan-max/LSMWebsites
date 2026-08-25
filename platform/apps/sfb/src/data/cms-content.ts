@@ -607,6 +607,10 @@ export async function getCmsHomeSections(): Promise<CmsSitePageSection[] | null>
     });
 }
 
+export function getStaticSiteSettings(): CmsSiteSettings {
+    return normalizeSettings(null, null);
+}
+
 export async function getCmsSiteSettings(): Promise<CmsSiteSettings> {
     const [settings, pages] = await Promise.all([
         readJson<CmsSiteSettings>(SITE_SETTINGS_FILE),

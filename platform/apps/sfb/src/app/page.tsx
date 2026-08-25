@@ -1,24 +1,15 @@
 import type React from 'react';
-import Image from 'next/image';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
-import { OperatorBanner } from '@lsm/ui/components/operator-banner/operator-banner';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { TopTCs } from '@lsm/ui/components/top-tcs/top-tcs';
-import { USP } from '@lsm/ui/components/usp/usp';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { ctaColors } from '@lsm/ui/lib/generic/cta-color';
 import { SfbNav } from '../components/sfb-nav';
-import { offers } from '../data/site-content';
-import { getCmsHomeSections, getCmsOfferCardMap, getCmsSiteSettings } from '../data/cms-content';
-import type {
-    CmsOffersItem,
-    CmsSitePageSection,
-    CmsSitePageSectionContent,
-    CmsSiteSettings
-} from '../data/cms-content.types';
-import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.types';
+import { getStaticSiteSettings } from '../data/cms-content';
+import { homeOffers } from '../data/home-offers';
+import type { CmsSiteSettings } from '../data/cms-content.types';
 import type { CtaColor } from '@lsm/ui/lib/generic/cta-color';
 
 export const dynamic = 'force-dynamic';
@@ -29,47 +20,6 @@ function ctaColorFor(seed: string): CtaColor {
         2166136261
     );
     return ctaColors[Math.abs(hash) % ctaColors.length];
-}
-
-function offersItemsOf(content: CmsSitePageSectionContent): CmsOffersItem[] {
-    if (Array.isArray(content.items)) return content.items;
-    if (Array.isArray(content.offerIds)) {
-        return content.offerIds.map((offerId) => ({ kind: 'offer', offerId }));
-    }
-    return [];
-}
-
-function defaultSections(): CmsSitePageSection[] {
-    return [
-        {
-            id: 'default_welcome',
-            type: 'welcome',
-            content: {
-                textHighlight: 'TOP',
-                text: ' BINGO DEALS 2026',
-                textSuffix: '',
-                features: ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure'],
-                imageLeftSrc: '/sfb/welcome-images/left_sfb_welcome.png',
-                imageRightSrc: '/sfb/welcome-images/right_sfb_welcome.png',
-                imageLeftWidthMobile: 93,
-                imageLeftWidthDesktop: 266
-            }
-        },
-        {
-            id: 'default_terms',
-            type: 'terms',
-            content: {
-                text: 'Special terms apply – including age verification. Click "How To Claim" for full details.'
-            }
-        },
-        {
-            id: 'default_offers',
-            type: 'offers',
-            content: {
-                items: offers.map((_, index) => ({ kind: 'offer', offerId: 'static_' + index }))
-            }
-        }
-    ];
 }
 
 function renderSignup(heading: string | undefined, desktop = false): React.ReactElement {
@@ -124,192 +74,38 @@ function renderDirectorySignupTemplate(settings: CmsSiteSettings): React.ReactEl
     );
 }
 
-function renderSection(
-    section: CmsSitePageSection,
-    settings: CmsSiteSettings,
-    cardMap: Record<string, OfferCardProps>
-): React.ReactElement {
-    const content = section.content;
-
-    if (section.type === 'welcome') {
-        return (
-            <WelcomeBanner
-                key={section.id}
-                uspText={settings.uspText}
-                textPrefix="TOP"
-                textHighlight=" DEALS"
-                text=" AWAIT YOU..."
-                features={
-                    content.features ?? ['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']
-                }
-                imageLeftSrc="/sfb/welcome-images/left_sfb_welcome.png"
-                imageRightSrc="/sfb/welcome-images/right_sfb_welcome.png"
-                variant="merged"
-            />
-        );
-    }
-    if (section.type === 'terms') {
-        return (
-            <TopTCs
-                key={section.id}
-                text={
-                    content.text ??
-                    'Special terms apply – including age verification. Click "How To Claim" for full details.'
-                }
-            />
-        );
-    }
-    if (section.type === 'richText') {
-        return (
-            <div
-                key={section.id}
-                className="w-full max-w-[960px] mx-auto px-4 py-6 flex flex-col gap-3"
-            >
-                <h2 className="text-[24px] md:text-[32px] font-bold text-on-surface-light">
-                    {content.heading ?? ''}
-                </h2>
-                <p className="text-[14px] md:text-base text-on-surface-light whitespace-pre-wrap leading-6">
-                    {content.body ?? ''}
-                </p>
-            </div>
-        );
-    }
-    if (section.type === 'signup')
-        return <div key={section.id}>{renderSignup(content.heading)}</div>;
-    if (section.type === 'directorySignup') {
-        return (
-            <div key={section.id} className="w-full">
-                <div className="md:hidden flex flex-col">
-                    <WebsiteDirectory
-                        title={content.directoryTitle ?? settings.directoryTitle}
-                        sites={settings.directorySites}
-                        splitAtDot
-                    />
-                    {renderSignup(content.signupHeading)}
-                </div>
-                <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
-                    <div className="flex-1">
-                        <WebsiteDirectory
-                            title={content.directoryTitle ?? settings.directoryTitle}
-                            sites={settings.directorySites}
-                            splitAtDot
-                        />
-                    </div>
-                    {renderSignup(content.signupHeading, true)}
-                </div>
-            </div>
-        );
-    }
-    if (section.type === 'image') {
-        const src = content.src ?? '';
-        if (src === '') return <div key={section.id} />;
-        const alt = content.alt ?? '';
-        const href = content.href ?? '';
-        const mobileWidth = content.mobileWidth ?? 320;
-        const mobileHeight = content.mobileHeight ?? 160;
-        const desktopWidth = content.desktopWidth ?? 600;
-        const desktopHeight = content.desktopHeight ?? 200;
-        const picture = (
-            <>
-                <Image
-                    src={src}
-                    alt={alt}
-                    width={mobileWidth}
-                    height={mobileHeight}
-                    className="md:hidden object-contain"
-                    style={{ width: mobileWidth, height: mobileHeight, maxWidth: '100%' }}
-                />
-                <Image
-                    src={src}
-                    alt={alt}
-                    width={desktopWidth}
-                    height={desktopHeight}
-                    className="hidden md:block object-contain"
-                    style={{ width: desktopWidth, height: desktopHeight, maxWidth: '100%' }}
-                />
-            </>
-        );
-        return (
-            <div key={section.id} className="w-full flex justify-center px-4 py-4">
-                {href === '' ? (
-                    picture
-                ) : (
-                    <a href={href} target="_blank" rel="noopener noreferrer sponsored">
-                        {picture}
-                    </a>
-                )}
-            </div>
-        );
-    }
-    if (section.type === 'offers') {
-        const items = offersItemsOf(content);
-        return (
-            <div
-                key={section.id}
-                className="w-full max-w-[1440px] mx-auto p-4 md:px-16 md:py-4 flex flex-col gap-2"
-            >
-                {items.map((item, index) => {
-                    if (item.kind === 'banner') {
-                        if (item.tie === 'offer') return null;
-                        return (
-                            <OperatorBanner
-                                key={index}
-                                mobileSrc={item.mobileSrc}
-                                desktopSrc={item.desktopSrc}
-                                alt="Promotional banner"
-                                href={item.href === '' ? undefined : item.href}
-                            />
-                        );
-                    }
-                    const card = cardMap[item.offerId];
-                    if (card === undefined && item.offerId.startsWith('static_')) {
-                        const staticIndex = Number(item.offerId.replace('static_', ''));
-                        const fallback = offers[staticIndex];
-                        return fallback === undefined ? null : (
-                            <OfferCard
-                                key={index}
-                                {...fallback}
-                                ctaColor={ctaColorFor(item.offerId)}
-                            />
-                        );
-                    }
-                    if (card === undefined) return null;
-                    return (
-                        <OfferCard key={index} {...card} ctaColor={ctaColorFor(item.offerId)} />
-                    );
-                })}
-            </div>
-        );
-    }
-    return (
-        <WebsiteDirectory
-            key={section.id}
-            title={content.title ?? settings.directoryTitle}
-            sites={settings.directorySites}
-            splitAtDot
-        />
-    );
-}
-
-export default async function HomePage(): Promise<React.ReactElement> {
-    const [cmsSections, settings] = await Promise.all([getCmsHomeSections(), getCmsSiteSettings()]);
-    const sections = cmsSections ?? defaultSections();
-    const offerIds = sections
-        .filter((section) => section.type === 'offers')
-        .flatMap((section) => offersItemsOf(section.content))
-        .filter((item): item is { kind: 'offer'; offerId: string } => item.kind === 'offer')
-        .map((item) => item.offerId)
-        .filter((offerId) => !offerId.startsWith('static_'));
-    const cardMap = await getCmsOfferCardMap(offerIds);
+export default function HomePage(): React.ReactElement {
+    const settings = getStaticSiteSettings();
 
     return (
         <main className="flex flex-col w-full bg-surface">
             <SfbNav />
-            {!sections.some((section) => section.type === 'welcome') && (
-                <USP text={settings.uspText} variant="bingo" />
-            )}
-            {sections.map((section) => renderSection(section, settings, cardMap))}
+
+            <WelcomeBanner
+                uspText={settings.uspText}
+                textPrefix="TOP"
+                textHighlight=" DEALS"
+                text=" AWAIT YOU..."
+                features={['⭐ Super Offers', '✅ Super Simple', '🛡️ Super Secure']}
+                imageLeftSrc="/sfb/welcome-images/left_sfb_welcome.png"
+                imageRightSrc="/sfb/welcome-images/right_sfb_welcome.png"
+                variant="merged"
+            />
+
+            <TopTCs text='Special terms apply – including age verification. Click "How To Claim" for full details.' />
+
+            <div className="flex w-full max-w-[1440px] mx-auto flex-col gap-[10px] px-4 py-4 md:px-16 md:py-8">
+                {homeOffers.map((offer, index) => (
+                    <OfferCard
+                        key={index}
+                        {...offer}
+                        ctaColor={ctaColorFor(offer.logoAlt + offer.offerMain + index)}
+                    />
+                ))}
+            </div>
+
             {renderDirectorySignupTemplate(settings)}
+
             <SfbFooter legalText={settings.footerLegalText} />
         </main>
     );
