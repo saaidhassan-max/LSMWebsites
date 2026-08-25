@@ -79,7 +79,7 @@ export function OfferCard({
                     </Label>
                 )}
 
-                <div className="grid grid-cols-[1fr_1.5fr] gap-4 px-3 pb-3">
+                <div className="grid grid-cols-[1fr_1.5fr] gap-4 px-3 pb-2">
                     <div className="flex h-full items-center justify-center">
                         <div className="relative h-[75px] w-full">{logoImg('object-contain')}</div>
                     </div>
