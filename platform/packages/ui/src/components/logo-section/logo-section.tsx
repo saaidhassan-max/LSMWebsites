@@ -15,6 +15,7 @@ export function LogoSection({
     backgroundSrc = '/ssm/LogoSection/Lego_Deco2.png',
     backgroundDesktopSrc,
     backgroundZoom = 1,
+    backgroundDesktopZoom = 1,
     logoAlt = 'Super Spillemaskiner',
     logoHref
 }: LogoSectionProps): React.ReactElement {
@@ -50,7 +51,7 @@ export function LogoSection({
                     width={0}
                     height={0}
                     sizes="100vw"
-                    className="hidden md:block h-full w-auto"
+                    className="hidden md:block md:h-[84px] w-auto max-w-none shrink-0"
                 />
             )}
         </>
@@ -83,7 +84,7 @@ export function LogoSection({
                     className="pointer-events-none absolute inset-0 hidden md:block bg-center bg-no-repeat"
                     style={{
                         backgroundImage: `url(${backgroundDesktopSrc})`,
-                        backgroundSize: `auto ${backgroundZoom * 100}%`
+                        backgroundSize: `auto ${backgroundDesktopZoom * 100}%`
                     }}
                 />
             )}

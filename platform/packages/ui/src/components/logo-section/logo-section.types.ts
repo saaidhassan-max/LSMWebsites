@@ -7,6 +7,7 @@ export interface LogoSectionProps {
     backgroundSrc?: string;
     backgroundDesktopSrc?: string;
     backgroundZoom?: number;
+    backgroundDesktopZoom?: number;
     logoAlt?: string;
     logoHref?: string;
 }
