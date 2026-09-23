@@ -8,6 +8,7 @@ import { USP } from '@lsm/ui/components/usp/usp';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { SfsgNav } from '../components/sfsg-nav';
+import { ctaColorForLogo } from '../data/operator-cta-colors';
 import { directorySites, offers } from '../data/site-content';
 
 export default function HomePage(): React.ReactElement {
@@ -31,7 +32,7 @@ export default function HomePage(): React.ReactElement {
             <div className="w-full max-w-[1440px] mx-auto">
                 <div className="flex flex-col gap-2 p-4 md:px-16 md:py-4">
                     {offers.slice(0, 2).map((offer, index) => (
-                        <OfferCard key={index} {...offer} />
+                        <OfferCard key={index} {...offer} ctaColor={ctaColorForLogo(offer.logoSrc)} />
                     ))}
                     <OperatorBanner
                         mobileSrc="/sfsg/banners/operator-banner-mobile.jpg"
@@ -40,13 +41,13 @@ export default function HomePage(): React.ReactElement {
                         href="https://example.com"
                     />
                     {offers.slice(2, 4).map((offer, index) => (
-                        <OfferCard key={index} {...offer} />
+                        <OfferCard key={index} {...offer} ctaColor={ctaColorForLogo(offer.logoSrc)} />
                     ))}
                     <div className="md:hidden">
                         <SignupForm variant="sfb-sfsg" brandName="Super Free Slot Games" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
                     </div>
                     {offers.slice(4).map((offer, index) => (
-                        <OfferCard key={index} {...offer} />
+                        <OfferCard key={index} {...offer} ctaColor={ctaColorForLogo(offer.logoSrc)} />
                     ))}
                 </div>
             </div>
