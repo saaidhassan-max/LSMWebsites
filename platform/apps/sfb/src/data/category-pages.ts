@@ -54,7 +54,7 @@ export const categoryPages: CategoryPage[] = [
             {
                 label: 'FOR A FIVER',
                 labelColor: 'blue',
-                logoSrc: '/sfb/brands/placeholder.png',
+                logoSrc: '/sfb/brands/meccabingo.png',
                 logoAlt: 'Mecca Bingo',
                 offerMain: '£20 Bingo Bonus',
                 details: [
@@ -78,7 +78,7 @@ export const categoryPages: CategoryPage[] = [
                 ctaText: 'CLICK TO CLAIM',
                 ctaHref: '#',
                 termsText:
-                    '18+. New customers only. Register today to receive 10 Free Spins (accept within 48 hours & wager winnings 10x within 3 days), deposit & spend £10+ on Casino to receive 200 Free Spins on selected games (accept within 48 hours & wager winnings 10x within 3 days). Debit cards only. Offer Ends 31.07.26. T&Cs Apply. GamCare.org.uk. GambleAware.org.'
+                    '18+. New customers only. Register today to receive 10 Free Spins (accept within 48 hours & wager winnings 10x within 3 days), deposit & spend £10+ on Slots to receive 200 Free Spins on selected games (accept within 48 hours & wager winnings 10x within 3 days). Debit cards only. Offer Ends 31.01.27. GamCare.org.uk. GambleAware.org.'
             },
             {
                 label: 'EXCLUSIVE',
@@ -100,7 +100,7 @@ export const categoryPages: CategoryPage[] = [
                 labelColor: 'blue',
                 logoSrc: '/sfb/brands/betfred.png',
                 logoAlt: 'Betfred Games',
-                offerMain: '50 Free Spins',
+                offerMain: '200 Free Spins',
                 details: [
                     { emoji: '✅', text: 'Spend: £10' },
                     { emoji: '✅', text: 'No Wagering' }
@@ -329,7 +329,7 @@ export const categoryPages: CategoryPage[] = [
                 ctaText: 'CLICK TO CLAIM',
                 ctaHref: '#',
                 termsText:
-                    '18+. New customers only. Register today to receive 10 Free Spins (accept within 48 hours & wager winnings 10x within 3 days), deposit & spend £10+ on Casino to receive 200 Free Spins on selected games (accept within 48 hours & wager winnings 10x within 3 days). Debit cards only. Offer Ends 31.07.26. T&Cs Apply. GamCare.org.uk. GambleAware.org.'
+                    '18+. New customers only. Register today to receive 10 Free Spins (accept within 48 hours & wager winnings 10x within 3 days), deposit & spend £10+ on Slots to receive 200 Free Spins on selected games (accept within 48 hours & wager winnings 10x within 3 days). Debit cards only. Offer Ends 31.01.27. GamCare.org.uk. GambleAware.org.'
             },
             {
                 label: 'KEEP WHAT YOU WIN',
@@ -473,7 +473,7 @@ export const categoryPages: CategoryPage[] = [
                 labelColor: 'blue',
                 logoSrc: '/sfb/brands/betfred.png',
                 logoAlt: 'Betfred Games',
-                offerMain: '50 Free Spins',
+                offerMain: '200 Free Spins',
                 details: [
                     { emoji: '✅', text: 'Spend: £10' },
                     { emoji: '✅', text: 'No Wagering' }
@@ -552,8 +552,8 @@ export const categoryPages: CategoryPage[] = [
             {
                 label: 'KEEP WHAT YOU WIN',
                 labelColor: 'blue',
-                logoSrc: '/sfb/brands/befaircasino.png',
-                logoAlt: 'Betfair Casino',
+                logoSrc: '/sfb/brands/gala.png',
+                logoAlt: 'Gala Bingo',
                 offerMain: '50 Free Spins',
                 details: [
                     { emoji: '✅', text: 'Spend: £10' },
@@ -639,7 +639,7 @@ export const categoryPages: CategoryPage[] = [
             {
                 label: 'FOR A FIVER',
                 labelColor: 'blue',
-                logoSrc: '/sfb/brands/placeholder.png',
+                logoSrc: '/sfb/brands/meccabingo.png',
                 logoAlt: 'Mecca Bingo',
                 offerMain: '£20 Bingo Bonus',
                 details: [
@@ -649,6 +649,21 @@ export const categoryPages: CategoryPage[] = [
                 ctaHref: '#',
                 termsText:
                     '18+. New players. Dep (exc. Paypal & Paysafe) & spend £5 on select bingo rooms for bonus. 5x wagering. PromoT&Cs apply. GambleAware.org.'
+            },
+            {
+                label: 'KEEP WHAT YOU WIN',
+                labelColor: 'blue',
+                logoSrc: '/sfb/brands/boylecasino.png',
+                logoAlt: 'BoyleSports',
+                offerMain: 'Up to 100 Free Spins',
+                details: [
+                    { emoji: '✅', text: '+ Weekly Tournaments' },
+                    { emoji: '✅', text: 'Spend: £20+' }
+                ],
+                ctaText: 'CLICK TO CLAIM',
+                ctaHref: '#',
+                termsText:
+                    '18+. Opt in. Acc. games, & payment restrictions apply. 100 Free Spins (FS): Exp. 01.12.26. New UK/ROI gaming players. Same day min. stake req. (€/£ 20/50/100 to get 20/50/100 FS) by 23:59. FS Values £/€0.10. FS valid 72h. Lucky Rush: 06/03/26 - 17/01/27. Min. stake €0.10. Prize paid in GBP/EUR. Win-to-bet ratio points awarded per spin. Points lost if player leaves. Min. 1 point to qualify. Opt into each leaderboard separately. 1 real-money spin to enter. T&Cs Apply. GambleAware.org.'
             }
         ]
     },
@@ -690,7 +705,7 @@ export const categoryPages: CategoryPage[] = [
             {
                 label: 'FOR A FIVER',
                 labelColor: 'blue',
-                logoSrc: '/sfb/brands/placeholder.png',
+                logoSrc: '/sfb/brands/meccabingo.png',
                 logoAlt: 'Mecca Bingo',
                 offerMain: '£20 Bingo Bonus',
                 details: [
@@ -789,7 +804,7 @@ export const categoryPages: CategoryPage[] = [
                 labelColor: 'blue',
                 logoSrc: '/sfb/brands/betfred.png',
                 logoAlt: 'Betfred Games',
-                offerMain: '50 Free Spins',
+                offerMain: '200 Free Spins',
                 details: [
                     { emoji: '✅', text: 'Spend: £10' },
                     { emoji: '✅', text: 'No Wagering' }
@@ -812,7 +827,7 @@ export const categoryPages: CategoryPage[] = [
                 ctaText: 'CLICK TO CLAIM',
                 ctaHref: '#',
                 termsText:
-                    '18+. New customers only. Register today to receive 10 Free Spins (accept within 48 hours & wager winnings 10x within 3 days), deposit & spend £10+ on Casino to receive 200 Free Spins on selected games (accept within 48 hours & wager winnings 10x within 3 days). Debit cards only. Offer Ends 31.07.26. T&Cs Apply. GamCare.org.uk. GambleAware.org.'
+                    '18+. New customers only. Register today to receive 10 Free Spins (accept within 48 hours & wager winnings 10x within 3 days), deposit & spend £10+ on Slots to receive 200 Free Spins on selected games (accept within 48 hours & wager winnings 10x within 3 days). Debit cards only. Offer Ends 31.01.27. GamCare.org.uk. GambleAware.org.'
             },
             {
                 label: 'KEEP WHAT YOU WIN',
