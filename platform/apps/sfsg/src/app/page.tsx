@@ -30,23 +30,24 @@ export default function HomePage(): React.ReactElement {
 
             <div className="w-full max-w-[1440px] mx-auto">
                 <div className="flex flex-col gap-2 p-4 md:px-16 md:py-4">
-                    <OfferCard {...offers[0]} />
-                    <OfferCard {...offers[1]} />
+                    {offers.slice(0, 2).map((offer, index) => (
+                        <OfferCard key={index} {...offer} />
+                    ))}
                     <OperatorBanner
                         mobileSrc="/sfsg/banners/operator-banner-mobile.jpg"
                         desktopSrc="/sfsg/banners/operator-banner-desktop.jpg"
                         alt="Operator promotion"
                         href="https://example.com"
                     />
-                    <OfferCard {...offers[2]} />
-                    <OfferCard {...offers[3]} />
+                    {offers.slice(2, 4).map((offer, index) => (
+                        <OfferCard key={index} {...offer} />
+                    ))}
                     <div className="md:hidden">
                         <SignupForm variant="sfb-sfsg" brandName="Super Free Slot Games" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
                     </div>
-                    <OfferCard {...offers[4]} />
-                    <OfferCard {...offers[5]} />
-                    <OfferCard {...offers[6]} />
-                    <OfferCard {...offers[7]} />
+                    {offers.slice(4).map((offer, index) => (
+                        <OfferCard key={index} {...offer} />
+                    ))}
                 </div>
             </div>
 
