@@ -4,22 +4,13 @@ import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SfbFooter } from '@lsm/ui/components/sfb-footer/sfb-footer';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
-import { ctaColors } from '@lsm/ui/lib/generic/cta-color';
 import { SfbNav } from '../components/sfb-nav';
 import { getStaticSiteSettings } from '../data/cms-content';
 import { homeOffers } from '../data/home-offers';
+import { ctaColorForLogo } from '../data/operator-cta-colors';
 import type { CmsSiteSettings } from '../data/cms-content.types';
-import type { CtaColor } from '@lsm/ui/lib/generic/cta-color';
 
 export const dynamic = 'force-dynamic';
-
-function ctaColorFor(seed: string): CtaColor {
-    const hash = Array.from(seed).reduce(
-        (total, character) => ((total << 5) - total + character.charCodeAt(0)) | 0,
-        2166136261
-    );
-    return ctaColors[Math.abs(hash) % ctaColors.length];
-}
 
 function renderSignup(heading: string | undefined, desktop = false): React.ReactElement {
     return (
@@ -93,11 +84,7 @@ export default function HomePage(): React.ReactElement {
 
             <div className="flex w-full max-w-[1440px] mx-auto flex-col gap-[10px] px-4 py-4 md:px-16 md:py-8">
                 {homeOffers.map((offer, index) => (
-                    <OfferCard
-                        key={index}
-                        {...offer}
-                        ctaColor={ctaColorFor(offer.logoAlt + offer.offerMain + index)}
-                    />
+                    <OfferCard key={index} {...offer} ctaColor={ctaColorForLogo(offer.logoSrc)} />
                 ))}
             </div>
 

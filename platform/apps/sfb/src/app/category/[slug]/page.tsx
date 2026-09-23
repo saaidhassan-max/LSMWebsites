@@ -8,6 +8,7 @@ import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner'
 import { SfbNav } from '../../../components/sfb-nav';
 import { categoryPages } from '../../../data/category-pages';
 import { getCmsSiteSettings } from '../../../data/cms-content';
+import { ctaColorForLogo } from '../../../data/operator-cta-colors';
 
 interface CategoryPageParams {
     params: Promise<{ slug: string }>;
@@ -55,7 +56,7 @@ export default async function CategoryRoute({ params }: CategoryPageParams): Pro
 
             <div className="flex w-full max-w-[1440px] mx-auto flex-col gap-[10px] px-4 py-4 md:px-16 md:py-8">
                 {page.offers.map((offer, index) => (
-                    <OfferCard key={index} {...offer} />
+                    <OfferCard key={index} {...offer} ctaColor={ctaColorForLogo(offer.logoSrc)} />
                 ))}
             </div>
 
