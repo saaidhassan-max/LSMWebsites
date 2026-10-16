@@ -5,7 +5,10 @@ import { Button } from '../button/button';
 import type { ButtonSize } from '../button/button.types';
 import { Label } from '../label/label';
 import { OfferCardTerms } from '../offer-card-terms/offer-card-terms';
-import type { OfferCardProps } from './offer-card.types';
+import type { OfferCardDetail, OfferCardProps } from './offer-card.types';
+
+const detailLabel = (detail: OfferCardDetail): string =>
+    [detail.emoji, detail.text].filter((part) => part !== '').join(' ');
 
 const buttonWidthClass = (size: ButtonSize): string =>
     size === 'small' ? 'w-full min-w-0! px-3!' : 'w-full';
@@ -36,7 +39,7 @@ export function OfferCard({
             <div className="w-full h-full bg-disabled-container rounded" />
         );
 
-    const detailLine = details.map((detail) => detail.text).join(' & ');
+    const detailLine = details.map(detailLabel).join(' & ');
 
     const ctaButton = (size: ButtonSize): React.ReactElement => (
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" className="block">
@@ -132,14 +135,9 @@ export function OfferCard({
                         <div className="w-px self-stretch shrink-0 rounded-full bg-outline-variant" />
                         <div className="flex-1 flex flex-col gap-3">
                             {details.map((detail, i) => (
-                                <div key={i} className="flex items-center gap-1">
-                                    <div className="w-10 h-10 flex items-center justify-center shrink-0 text-[24px] leading-[32px]">
-                                        {detail.emoji}
-                                    </div>
-                                    <span className="text-[24px] leading-[32px] tracking-[0] text-on-surface-dark">
-                                        {detail.text}
-                                    </span>
-                                </div>
+                                <p key={i} className="text-[24px] leading-[32px] tracking-[0] text-on-surface-dark">
+                                    {detailLabel(detail)}
+                                </p>
                             ))}
                         </div>
                     </div>
