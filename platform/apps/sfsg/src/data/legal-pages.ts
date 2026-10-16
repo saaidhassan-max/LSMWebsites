@@ -173,353 +173,166 @@ export const privacyPolicyPage: LegalPage = {
             ]
         },
         {
-            kind: 'table',
-            rows: [
-                [
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Type of Data' }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Purpose of Data' }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Lawful Basis' }
-                            ]
-                        }
-                    ]
-                ],
-                [
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Identity Data including: name, user name or similar, indentifier, title, gender'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'To identify you as a user so that we can provide services to you and communicate with you in connection with your registration at the Super Free Slot Games website.'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Consent' }
-                            ]
-                        }
-                    ]
-                ],
-                [
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Contact Data including: Email Address, Mobile Phone Number'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'We email gambling offers and newsletters to users who have consented to receive these. Users will normally receive emails up to 5 times per week, but on occasion this could be up to 6 times per week.'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Users may receive gambling offers and site information by SMS if they have consented to receive these. Users will normally receive SMS up to 5 times per week, but on occasion this could be up to 6 times per week.'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'We will use contact information to update you about changes to our policies and terms and conditions.'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'We also share your personal data with Facebook who help us show you relevant content and find similar users who might be interested in our services.'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Consent' }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Necessary to comply with a legal obligation' }
-                            ]
-                        }
-                    ]
-                ],
-                [
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'IP Address' }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Used as a factor to determine robot behaviour and detect malicious or suspicious software.'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Necessary for our legitimate interests which is to ensure our website is not used by machine learning tools or other non-human actors.'
-                                }
-                            ]
-                        }
-                    ]
-                ],
-                [
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Geographic Location' }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Used to determine fraudulent robot behaviour [and to detect whether you are eligible to use our website].'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Necessary for our legitimate interests which is to ensure our website is not used by machine learning tools or other non-human actors.'
-                                }
-                            ]
-                        }
-                    ]
-                ],
-                [
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Technical Data including: Device Screen size Device Type Browser Information Preferred Language'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Hotjar', bold: true }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'We use Hotjar in order to better understand our users\' needs and to optimise this service and experience (e.g. how much time they spend on which pages, which links they choose to click, what users do and don\'t like, etc.). This enables us to build and maintain our service with user feedback. Hotjar uses cookies and other technologies to collect data on our users\' behaviour and their devices (in particular, device IP address (captured and stored only in anonymised form), device screen size, device type (unique device identifiers), browser information, geographic location (country only), and preferred language on our website).'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Hotjar stores this information in a pseudonymised user profile. We will not (nor will Hotjar) use this information to identify individual users or to match it with further data on an individual user. For further details, please see Hotjar\'s privacy policy by clicking on this link: '
-                                },
-                                {
-                                    text: 'https://www.hotjar.com/privacy',
-                                    href: 'https://www.hotjar.com/privacy'
-                                },
-                                { text: '.' }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Opt-out: You can opt-out to the creation of a user profile, Hotjar\'s storing of data about your usage of our site and Hotjar\'s use of tracking cookies on other websites by following this opt-out: '
-                                },
-                                {
-                                    text: 'https://www.hotjar.com/legal/compliance/opt-out',
-                                    href: 'https://www.hotjar.com/legal/compliance/opt-out'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Cookies and Analytics', bold: true },
-                                {
-                                    text: ' We use Google Analytics on this website. Therefore, third-party vendors, including Google, may show our ads on sites across the internet. The Google Analytics features that have been implemented are used for Display Advertising (including Google Display Network Impression Reporting, the DoubleClick Campaign Manager integration, or Google Analytics Demographics and Interest Reporting).'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'We (and third-party vendors including Google) use first-party cookies (such as the Google Analytics cookie) and third-party cookies (such as the DoubleClick cookie) together to inform, optimise, and serve ads based on past customer visits to our website. We also use these cookies to report how our ad impressions and other ad services, and interactions with these, relate to visits to our site.'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'We use Google Analytics Demographics and Interest Reporting in order to target users who have a higher probability of being interested in our products. We also may use third party audience data (such as age, gender, and interests) to help guide our website offering to better meet consumer needs, and ultimately improve the user experience.'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Opt-out: Using the Ads Settings, you can opt-out of Google Analytics for Display Advertising and customise Google Display Network ads. Read more here: '
-                                },
-                                {
-                                    text: 'https://tools.google.com/dlpage/gaoptout',
-                                    href: 'https://tools.google.com/dlpage/gaoptout'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'How we use cookies: ', bold: true },
-                                {
-                                    text: 'A cookie helps us, for example, to analyse web traffic or lets us know when you visit a particular site. This enables us to enhance your user experience when visiting Super Free Slot Games by placing cookies on your computer.'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Cookies allow web applications to respond to you as an individual. The web application can tailor its operations to your needs, likes and dislikes by gathering and remembering information about your preferences.'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'We use traffic log cookies to identify which pages are being used. This helps us analyse data about webpage traffic and improve our website in order to tailor it to customer needs. We only use this information for statistical analysis purposes and then the data is removed from the system.'
-                                }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'To find out more or to change how cookies interact with your computer, click on the \'manage cookies\' link at the bottom of our website.'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Consent' }
-                            ]
-                        },
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Necessary for our legitimate interest for the provision of administration and IT services and to study how users use our products.'
-                                }
-                            ]
-                        }
-                    ]
-                ],
-                [
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                { text: 'Analytics' }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'We use analytics data to improve our website, products/services, marketing, and user experience.'
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            kind: 'paragraph',
-                            segments: [
-                                {
-                                    text: 'Necessary for our legitimate interests (to study how users use our products, to develop them, to grow our business, and to inform our marketing strategy)'
-                                }
-                            ]
-                        }
-                    ]
-                ]
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Identity Data including: name, user name or similar, indentifier, title, gender'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Purpose: To identify you as a user so that we can provide services to you and communicate with you in connection with your registration at the Super Free Slot Games website.'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                { text: 'Lawful Basis: Consent' }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                { text: 'Contact Data including: Email Address, Mobile Phone Number' }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Purpose: We email gambling offers and newsletters to users who have consented to receive these. Users will normally receive emails up to 5 times per week, but on occasion this could be up to 6 times per week.\nUsers may receive gambling offers and site information by SMS if they have consented to receive these. Users will normally receive SMS up to 5 times per week, but on occasion this could be up to 6 times per week.\nWe will use contact information to update you about changes to our policies and terms and conditions.\nWe also share your personal data with Facebook who help us show you relevant content and find similar users who might be interested in our services.'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                { text: 'Lawful Basis: Consent. Necessary to comply with a legal obligation.' }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                { text: 'IP Address' }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Purpose: Used as a factor to determine robot behaviour and detect malicious or suspicious software.'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Lawful Basis: Necessary for our legitimate interests which is to ensure our website is not used by machine learning tools or other non-human actors'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                { text: 'Geographic Location' }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Purpose: Used to determine fraudulent robot behaviour [and to detect whether you are eligible to use our website].'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Lawful Basis: Necessary for our legitimate interests which is to ensure our website is not used by machine learning tools or other non-human actors'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Technical Data including: Device Screen size Device Type Browser Information Preferred Language'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Purpose - Hotjar: We use Hotjar in order to better understand our users\' needs and to optimise this service and experience (e.g. how much time they spend on which pages, which links they choose to click, what users do and don\'t like, etc.). This enables us to build and maintain our service with user feedback. Hotjar uses cookies and other technologies to collect data on our users\' behaviour and their devices (in particular, device IP address (captured and stored only in anonymised form), device screen size, device type (unique device identifiers), browser information, geographic location (country only), and preferred language on our website).\nHotjar stores this information in a pseudonymised user profile. We will not (nor will Hotjar) use this information to identify individual users or to match it with further data on an individual user. For further details, please see Hotjar\'s privacy policy by clicking on this link: '
+                },
+                {
+                    text: 'https://www.hotjar.com/privacy',
+                    href: 'https://www.hotjar.com/privacy'
+                },
+                {
+                    text: '.\nOpt-out: You can opt-out to the creation of a user profile, Hotjar\'s storing of data about your usage of our site and Hotjar\'s use of tracking cookies on other websites by following this opt-out: '
+                },
+                {
+                    text: 'https://www.hotjar.com/legal/compliance/opt-out',
+                    href: 'https://www.hotjar.com/legal/compliance/opt-out'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Purpose - Cookies and Analytics: We use Google Analytics on this website. Therefore, third-party vendors, including Google, may show our ads on sites across the internet. The Google Analytics features that have been implemented are used for Display Advertising (including Google Display Network Impression Reporting, the DoubleClick Campaign Manager integration, or Google Analytics Demographics and Interest Reporting).\nWe (and third-party vendors including Google) use first-party cookies (such as the Google Analytics cookie) and third-party cookies (such as the DoubleClick cookie) together to inform, optimise, and serve ads based on past customer visits to our website. We also use these cookies to report how our ad impressions and other ad services, and interactions with these, relate to visits to our site.\nWe use Google Analytics Demographics and Interest Reporting in order to target users who have a higher probability of being interested in our products. We also may use third party audience data (such as age, gender, and interests) to help guide our website offering to better meet consumer needs, and ultimately improve the user experience.\nOpt-out: Using the Ads Settings, you can opt-out of Google Analytics for Display Advertising and customise Google Display Network ads. Read more here: '
+                },
+                {
+                    text: 'https://tools.google.com/dlpage/gaoptout',
+                    href: 'https://tools.google.com/dlpage/gaoptout'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Purpose - How we use cookies: A cookie helps us, for example, to analyse web traffic or lets us know when you visit a particular site. This enables us to enhance your user experience when visiting Super Free Slot Games by placing cookies on your computer.\nCookies allow web applications to respond to you as an individual. The web application can tailor its operations to your needs, likes and dislikes by gathering and remembering information about your preferences.\nWe use traffic log cookies to identify which pages are being used. This helps us analyse data about webpage traffic and improve our website in order to tailor it to customer needs. We only use this information for statistical analysis purposes and then the data is removed from the system.\nTo find out more or to change how cookies interact with your computer, click on the \'manage cookies\' link at the bottom of our website.'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Lawful Basis: Consent. Necessary for our legitimate interest for the provision of administration and IT services and to study how users use our products.'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                { text: 'Analytics' }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Purpose: We use analytics data to improve our website, products/services, marketing, and user experience.'
+                }
+            ]
+        },
+        {
+            kind: 'paragraph',
+            segments: [
+                {
+                    text: 'Lawful Basis: Necessary for our legitimate interests (to study how users use our products, to develop them, to grow our business, and to inform our marketing strategy)'
+                }
             ]
         },
         {
@@ -1418,11 +1231,21 @@ export const aboutPage: LegalPage = {
             kind: 'list',
             ordered: false,
             items: [
-                [{ text: 'Licensed Brands' }],
-                [{ text: 'Vendor Approved' }],
-                [{ text: 'Exclusive Offers' }],
-                [{ text: 'Mobile Friendly' }],
-                [{ text: 'Industry Experts' }]
+                [
+                    { text: 'Licensed Brands' }
+                ],
+                [
+                    { text: 'Vendor Approved' }
+                ],
+                [
+                    { text: 'Exclusive Offers' }
+                ],
+                [
+                    { text: 'Mobile Friendly' }
+                ],
+                [
+                    { text: 'Industry Experts' }
+                ]
             ]
         }
     ]
