@@ -55,9 +55,11 @@ export function SignupForm({
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
 
-    const resolvedHeadline = headlineText ?? (variant != null
-        ? 'Receive free Good.Choice updates straight to your inbox!'
-        : 'Receive free casino offers straight to your inbox');
+    const resolvedHeadline = headlineText ?? (variant === 'sfb-sfsg'
+        ? `Receive free ${brandName} updates straight to your inbox!`
+        : variant != null
+            ? 'Receive free Good.Choice updates straight to your inbox!'
+            : 'Receive free casino offers straight to your inbox');
 
     const resolvedRequiredNote = requiredFieldLabel ?? (variant === 'ontario'
         ? '**Indicates required field'

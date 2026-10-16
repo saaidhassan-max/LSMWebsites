@@ -240,7 +240,7 @@ export function SignupLandingPageV4D({
                                     forceShowErrors={forceConsentErrors}
                                     onChange={handleConsentChange}
                                     variant="compact"
-                                    submitLabel="SIGN UP & CLAIM"
+                                    submitLabel={primaryCta}
                                 />
                                 <p className="text-on-surface-light text-[10px] leading-[14px] font-normal tracking-[0.4px]">
                                     {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
