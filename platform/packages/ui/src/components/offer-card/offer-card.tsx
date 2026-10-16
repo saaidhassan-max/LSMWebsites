@@ -5,10 +5,7 @@ import { Button } from '../button/button';
 import type { ButtonSize } from '../button/button.types';
 import { Label } from '../label/label';
 import { OfferCardTerms } from '../offer-card-terms/offer-card-terms';
-import type { OfferCardDetail, OfferCardProps } from './offer-card.types';
-
-const detailLabel = (detail: OfferCardDetail): string =>
-    [detail.emoji, detail.text].filter((part) => part !== '').join(' ');
+import type { OfferCardProps } from './offer-card.types';
 
 const buttonWidthClass = (size: ButtonSize): string =>
     size === 'small' ? 'w-full min-w-0! px-3!' : 'w-full';
@@ -39,7 +36,7 @@ export function OfferCard({
             <div className="w-full h-full bg-disabled-container rounded" />
         );
 
-    const detailLine = details.map(detailLabel).join(' & ');
+    const detailLine = details.map((detail) => detail.text).join(' & ');
 
     const ctaButton = (size: ButtonSize): React.ReactElement => (
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" className="block">
@@ -136,7 +133,7 @@ export function OfferCard({
                         <div className="flex-1 flex flex-col gap-3">
                             {details.map((detail, i) => (
                                 <p key={i} className="text-[24px] leading-[32px] tracking-[0] text-on-surface-dark">
-                                    {detailLabel(detail)}
+                                    {detail.text}
                                 </p>
                             ))}
                         </div>
