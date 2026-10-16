@@ -62,7 +62,11 @@
     "./components/welcome-banner/welcome-banner": "./src/components/welcome-banner/welcome-banner.tsx",
     "./components/welcome-banner/welcome-banner.types": "./src/components/welcome-banner/welcome-banner.types.ts",
     "./globals.css": "./src/globals.css",
-    "./lib/generic/cta-color": "./src/lib/generic/cta-color.ts"
+    "./lib/generic/cta-color": "./src/lib/generic/cta-color.ts",
+    "./components/legal-content/legal-content": "./src/components/legal-content/legal-content.tsx",
+    "./components/legal-content/legal-content.types": "./src/components/legal-content/legal-content.types.ts",
+    "./components/legal-text/legal-text": "./src/components/legal-text/legal-text.tsx",
+    "./components/legal-text/legal-text.types": "./src/components/legal-text/legal-text.types.ts"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",
