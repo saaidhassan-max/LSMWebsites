@@ -1,3 +1,5 @@
+import type { UspVariant } from '../usp/usp.types';
+
 export type WelcomeBannerVariant = 'classic' | 'modern' | 'merged';
 
 export interface WelcomeBannerProps {
@@ -12,4 +14,5 @@ export interface WelcomeBannerProps {
     imageLeftWidthMobile?: number;
     imageLeftWidthDesktop?: number;
     variant?: WelcomeBannerVariant;
+    uspVariant?: UspVariant;
 }

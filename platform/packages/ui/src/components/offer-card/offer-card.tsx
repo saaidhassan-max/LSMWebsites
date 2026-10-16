@@ -150,13 +150,7 @@ export function OfferCard({
                     </div>
                 </div>
 
-                {termsText !== undefined && (
-                    <div className="p-2 border border-outline-variant">
-                        <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-dark">
-                            {termsText}
-                        </p>
-                    </div>
-                )}
+                {termsText !== undefined && <OfferCardTerms text={termsText} size="desktop" />}
             </div>
         </div>
     );

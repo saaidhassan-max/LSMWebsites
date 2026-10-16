@@ -26,3 +26,17 @@ export const Default: Story = {
         )
     ]
 };
+
+export const Desktop: Story = {
+    args: {
+        size: 'desktop',
+        text: Default.args?.text
+    },
+    decorators: [
+        (Story): React.ReactElement => (
+            <div className="max-w-[1100px] bg-white">
+                <Story />
+            </div>
+        )
+    ]
+};

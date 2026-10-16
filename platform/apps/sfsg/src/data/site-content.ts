@@ -29,7 +29,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -45,7 +45,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -60,7 +60,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💸', text: 'No Deposit' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -76,7 +76,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: '+ Spend £10' },
             { emoji: '🎰', text: 'Get 200 Free Spins' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -92,7 +92,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -108,7 +108,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Spend: £5' },
             { emoji: '💳', text: '+ £10 Casino Bonus' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -124,7 +124,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -140,7 +140,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '✅', text: 'No Wagering' },
             { emoji: '✅', text: '+ Weekly Tournaments!' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -156,7 +156,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'No Deposit' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -171,7 +171,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💸', text: 'NO DEPOSIT' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -187,7 +187,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💸', text: 'NO DEPOSIT' },
             { emoji: '🎰', text: '+100 Free Spins' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -202,7 +202,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💸', text: 'No Deposit' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -217,7 +217,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Deposit: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -233,7 +233,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Spend: £10' },
             { emoji: '🎰', text: 'Code: SPINS' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -248,7 +248,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £5' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -263,7 +263,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -278,7 +278,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Deposit: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -293,7 +293,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Deposit: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -308,7 +308,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -323,7 +323,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Deposit: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -338,7 +338,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -353,7 +353,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '✅', text: 'NO WAGERING' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -368,7 +368,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -384,7 +384,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Spend: £20' },
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -399,7 +399,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -414,7 +414,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Deposit: £20' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -429,7 +429,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -445,7 +445,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '🎰', text: '+ 50 FREE SPINS' },
             { emoji: '💳', text: 'Deposit: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -460,7 +460,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '✅', text: 'No Wagering' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -475,7 +475,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -491,7 +491,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: '+ Spend £10' },
             { emoji: '🎰', text: 'Get 200 Free Spins' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -507,7 +507,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Deposit: £5' },
             { emoji: '🎰', text: '+ 50 FREE SPINS' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -522,7 +522,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Deposit: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -537,7 +537,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Spend: £20' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -553,7 +553,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: 'Spend: £10' },
             { emoji: '💳', text: 'Play: £10' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -568,7 +568,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Deposit: £25' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -584,7 +584,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '✅', text: '+ 500 Loyalty Points' },
             { emoji: '💳', text: 'Deposit: £20' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -599,7 +599,7 @@ export const offers: OfferCardProps[] = [
         details: [
             { emoji: '💳', text: 'Deposit: £20' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -615,7 +615,7 @@ export const offers: OfferCardProps[] = [
             { emoji: '💳', text: '+100% Deposit Match' },
             { emoji: '💳', text: 'On Your First Deposit' }
         ],
-        ctaText: 'Play ➜',
+        ctaText: 'CLICK TO CLAIM',
         ctaHref: '#',
         ctaVariant: 'tertiary',
         termsText:
@@ -623,8 +623,8 @@ export const offers: OfferCardProps[] = [
     }
 ];
 
-export const signupInstructionText =
-    'Sign up below to get the latest slot deals delivered straight to your inbox!';
+export const landingOfferInstructionText =
+    "You're one step away from the latest free spins & no-deposit offers! Sign up below for our FREE updates!";
 
 export const signupLegalDisclaimer =
     'New Customers Only. 18+ Full T&Cs apply. BeGambleAware.org.';

@@ -1,5 +1,7 @@
+export type UspVariant = 'default' | 'ssm' | 'bingo' | 'slots';
+
 export interface UspProps {
     text: string;
-    variant?: 'default' | 'ssm' | 'bingo';
+    variant?: UspVariant;
     textClassName?: string;
 }

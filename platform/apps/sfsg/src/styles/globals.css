@@ -2,6 +2,14 @@
 @source "../../../../packages/ui/src";
 
 @font-face {
+    font-family: 'Helvetica Neue Condensed';
+    src: url('/fonts/helvetica/HelveticaNeue-BoldCond.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'Futura PT';
     src: url('/fonts/futura/FuturaPTBook.otf') format('opentype');
     font-weight: 400;

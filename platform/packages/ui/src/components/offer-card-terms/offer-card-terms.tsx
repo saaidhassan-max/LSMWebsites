@@ -3,15 +3,37 @@
 import type React from 'react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { cn } from '../../lib/generic/cn';
-import type { OfferCardTermsProps } from './offer-card-terms.types';
+import type {
+    OfferCardTermsProps,
+    OfferCardTermsSize,
+    OfferCardTermsStyle
+} from './offer-card-terms.types';
 
-const TERMS_TEXT_CLASSES = 'text-[8px] leading-[9.6px] tracking-[0.4px] text-on-surface-dark';
 const TOGGLE_CLASSES = 'font-bold underline';
-const VISIBLE_LINES = 2;
 const ELLIPSIS = '… ';
 const MORE_LABEL = 'See More';
 
-export function OfferCardTerms({ text }: OfferCardTermsProps): React.ReactElement {
+const STYLES: Record<OfferCardTermsSize, OfferCardTermsStyle> = {
+    mobile: {
+        wrapper: 'border-t border-outline-variant px-3 py-1',
+        measureInset: 'inset-x-3',
+        text: 'text-[8px] leading-[9.6px] tracking-[0.4px] text-on-surface-dark',
+        clamp: 'line-clamp-2',
+        visibleLines: 2,
+        seeLess: 'text-[10px] leading-[14px]'
+    },
+    desktop: {
+        wrapper: 'border border-outline-variant p-2',
+        measureInset: 'inset-x-2',
+        text: 'text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-dark',
+        clamp: 'line-clamp-1',
+        visibleLines: 1,
+        seeLess: 'text-[11px] leading-[13px]'
+    }
+};
+
+export function OfferCardTerms({ text, size = 'mobile' }: OfferCardTermsProps): React.ReactElement {
+    const style = STYLES[size];
     const measureRef = useRef<HTMLParagraphElement | null>(null);
     const [expanded, setExpanded] = useState(false);
     const [visibleText, setVisibleText] = useState<string | null>(null);
@@ -21,7 +43,7 @@ export function OfferCardTerms({ text }: OfferCardTermsProps): React.ReactElemen
         if (node === null || node.clientWidth === 0) return;
 
         const lineHeight = parseFloat(getComputedStyle(node).lineHeight);
-        const maxHeight = lineHeight * VISIBLE_LINES + 1;
+        const maxHeight = lineHeight * style.visibleLines + 1;
 
         const label = document.createElement('span');
         label.className = TOGGLE_CLASSES;
@@ -51,7 +73,7 @@ export function OfferCardTerms({ text }: OfferCardTermsProps): React.ReactElemen
         }
 
         setVisibleText(text.slice(0, low).trimEnd());
-    }, [text]);
+    }, [text, style.visibleLines]);
 
     useLayoutEffect((): void => {
         if (!expanded) measure();
@@ -72,17 +94,18 @@ export function OfferCardTerms({ text }: OfferCardTermsProps): React.ReactElemen
     const truncated = visibleText !== null;
 
     return (
-        <div className="relative flex flex-col gap-1 border-t border-outline-variant px-3 py-1">
+        <div className={cn('relative flex flex-col gap-1', style.wrapper)}>
             <p
                 ref={measureRef}
                 aria-hidden="true"
                 className={cn(
-                    TERMS_TEXT_CLASSES,
-                    'pointer-events-none invisible absolute inset-x-3 top-0'
+                    style.text,
+                    style.measureInset,
+                    'pointer-events-none invisible absolute top-0'
                 )}
             />
 
-            <p className={cn(TERMS_TEXT_CLASSES, expanded ? '' : 'line-clamp-2')}>
+            <p className={cn(style.text, expanded ? '' : style.clamp)}>
                 {expanded || !truncated ? text : visibleText}
                 {!expanded && truncated && (
                     <>
@@ -102,7 +125,10 @@ export function OfferCardTerms({ text }: OfferCardTermsProps): React.ReactElemen
                 <button
                     type="button"
                     onClick={(): void => setExpanded(false)}
-                    className="w-full text-right text-[10px] font-bold leading-[14px] tracking-[0.4px] text-on-surface-dark"
+                    className={cn(
+                        'w-full text-right font-bold tracking-[0.4px] text-on-surface-dark',
+                        style.seeLess
+                    )}
                 >
                     See Less
                 </button>

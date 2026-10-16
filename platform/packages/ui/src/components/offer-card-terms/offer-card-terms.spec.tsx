@@ -15,4 +15,10 @@ describe('OfferCardTerms', () => {
 
         expect(screen.queryByRole('button', { name: 'See More' })).not.toBeInTheDocument();
     });
+
+    it('renders the desktop size', () => {
+        render(<OfferCardTerms text="18+. Full terms apply." size="desktop" />);
+
+        expect(screen.getByText('18+. Full terms apply.')).toHaveClass('text-[11px]');
+    });
 });

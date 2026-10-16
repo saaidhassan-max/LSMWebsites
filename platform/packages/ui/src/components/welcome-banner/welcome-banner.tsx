@@ -16,7 +16,8 @@ export function WelcomeBanner({
     imageRightSrc = '/ssm/welcome/ImageRight.png',
     imageLeftWidthMobile = 83,
     imageLeftWidthDesktop = 204,
-    variant = 'classic'
+    variant = 'classic',
+    uspVariant = 'bingo'
 }: WelcomeBannerProps): React.ReactElement {
     const headline = (className: string): React.ReactElement => (
         <p className={className}>
@@ -44,7 +45,7 @@ export function WelcomeBanner({
             <div className="w-full bg-surface">
                 <div className="md:hidden relative overflow-hidden">
                     {uspText !== undefined && (
-                        <USP text={uspText} variant="bingo" textClassName="relative z-10" />
+                        <USP text={uspText} variant={uspVariant} textClassName="relative z-10" />
                     )}
 
                     <div className="absolute inset-y-0 left-0 w-[93px]">
@@ -64,7 +65,7 @@ export function WelcomeBanner({
 
                 <div className="hidden md:block relative overflow-hidden">
                     {uspText !== undefined && (
-                        <USP text={uspText} variant="bingo" textClassName="relative z-10" />
+                        <USP text={uspText} variant={uspVariant} textClassName="relative z-10" />
                     )}
 
                     <div className="absolute inset-y-0 left-0 w-[266px]">

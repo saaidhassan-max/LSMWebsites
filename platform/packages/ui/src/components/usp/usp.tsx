@@ -22,9 +22,10 @@ export function USP({
                 <span
                     className={cn(
                         'text-sm md:text-[24px] leading-5 md:leading-8 text-center',
-                        variant === 'bingo'
-                            ? "font-['Helvetica_Neue_Condensed','HelveticaNeue-CondensedBold','Helvetica_Neue'] font-bold tracking-[-0.019em] text-on-surface-light"
-                            : "font-['Helvetica_Neue'] font-bold tracking-[0.1px] md:tracking-[0] text-on-surface-dark",
+                        variant === 'bingo' || variant === 'slots'
+                            ? "font-['Helvetica_Neue_Condensed','HelveticaNeue-CondensedBold','Helvetica_Neue'] font-bold tracking-[-0.019em]"
+                            : "font-['Helvetica_Neue'] font-bold tracking-[0.1px] md:tracking-[0]",
+                        variant === 'bingo' ? 'text-on-surface-light' : 'text-on-surface-dark',
                         textClassName
                     )}
                 >
