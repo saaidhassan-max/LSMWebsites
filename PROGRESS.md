@@ -245,6 +245,7 @@ Updated 2026-07-20 later: offer cards now support optional `valuePrefix` copy re
 
 | Date | Decision | Reason |
 |---|---|---|
+| 2026-10-16 | SFB + SFSG page addresses now match the live sites: `/terms-and-conditions`, `/about-us`, `/contact-us` (route folders renamed). The old `/terms`, `/about`, `/contact` permanently redirect (308) via `redirects()` in each app's `next.config.ts`. Nav, SfbFooter/SfsgFooter, sign-up form terms links, landing pages and the CMS app's SFB defaults all point at the new addresses. Ontario/SFBets footers unchanged. |
 | 2026-04-30 | Single-layer color tokens (no semantic layer yet) | Agreed with dev team — upgrade in future version |
 | 2026-04-30 | Vercel for both Storybook and live site previews | Simpler than adding Chromatic; can add visual regression later |
 | 2026-05-26 | Spacing tokens not needed | Tailwind 4 built-in scale (1 unit = 4px) covers all project spacing. No custom tokens required. Storybook Foundations page added to document the scale. |

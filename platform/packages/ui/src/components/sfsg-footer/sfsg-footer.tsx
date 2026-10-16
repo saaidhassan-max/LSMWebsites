@@ -4,9 +4,9 @@ import type { FooterNavLink, ResponsibleGamblingLogo, SfsgFooterProps } from './
 
 const DEFAULT_NAV_LINKS: FooterNavLink[] = [
     { label: 'Privacy Policy', href: '/privacy-policy' },
-    { label: 'Terms and Conditions', href: '/terms' },
-    { label: 'About Us', href: '/about' },
-    { label: 'Contact Us', href: '/contact' }
+    { label: 'Terms and Conditions', href: '/terms-and-conditions' },
+    { label: 'About Us', href: '/about-us' },
+    { label: 'Contact Us', href: '/contact-us' }
 ];
 
 const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [

@@ -58,8 +58,8 @@ const DEFAULT_NAV_ITEMS: CmsSiteSettingsNavItem[] = [
     { emoji: '🚀', label: 'Deposit Offers', href: '/category/deposit-offers' },
     { emoji: '🖐️', label: 'For A Fiver', href: '/category/for-a-fiver' },
     { emoji: '✅', label: 'Keep What You Win', href: '/category/keep-what-you-win' },
-    { emoji: '👋', label: 'About Us', href: '/about' },
-    { emoji: '✉️', label: 'Contact Us', href: '/contact' },
+    { emoji: '👋', label: 'About Us', href: '/about-us' },
+    { emoji: '✉️', label: 'Contact Us', href: '/contact-us' },
     { emoji: '🦺', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '🎬', label: 'Landing Page', href: '/signup-v4d' }
 ];

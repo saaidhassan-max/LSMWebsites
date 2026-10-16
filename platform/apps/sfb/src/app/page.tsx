@@ -33,7 +33,7 @@ function renderSignup(heading: string | undefined, desktop = false): React.React
                 variant="sfb-sfsg"
                 brandName="Super Free Bingo"
                 privacyPolicyUrl="/privacy-policy"
-                termsUrl="/terms"
+                termsUrl="/terms-and-conditions"
             />
         </div>
     );

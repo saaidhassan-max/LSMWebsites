@@ -52,7 +52,7 @@ function renderDirectorySignupTemplate(settings: CmsSiteSettings): React.ReactEl
                         variant="sfb-sfsg"
                         brandName="Super Free Bingo"
                         privacyPolicyUrl="/privacy-policy"
-                        termsUrl="/terms"
+                        termsUrl="/terms-and-conditions"
                     />
                 </div>
             </div>
@@ -69,7 +69,7 @@ function renderDirectorySignupTemplate(settings: CmsSiteSettings): React.ReactEl
                         variant="sfb-sfsg"
                         brandName="Super Free Bingo"
                         privacyPolicyUrl="/privacy-policy"
-                        termsUrl="/terms"
+                        termsUrl="/terms-and-conditions"
                     />
                 </div>
             </div>
@@ -141,7 +141,7 @@ function renderSection(
                     variant="sfb-sfsg"
                     brandName="Super Free Bingo"
                     privacyPolicyUrl="/privacy-policy"
-                    termsUrl="/terms"
+                    termsUrl="/terms-and-conditions"
                 />
             </div>
         );
@@ -165,7 +165,7 @@ function renderSection(
                             variant="sfb-sfsg"
                             brandName="Super Free Bingo"
                             privacyPolicyUrl="/privacy-policy"
-                            termsUrl="/terms"
+                            termsUrl="/terms-and-conditions"
                         />
                     </div>
                 </div>
@@ -187,7 +187,7 @@ function renderSection(
                             variant="sfb-sfsg"
                             brandName="Super Free Bingo"
                             privacyPolicyUrl="/privacy-policy"
-                            termsUrl="/terms"
+                            termsUrl="/terms-and-conditions"
                         />
                     </div>
                 </div>

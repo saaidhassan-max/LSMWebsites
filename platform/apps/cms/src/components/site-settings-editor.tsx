@@ -41,8 +41,8 @@ function directoryFromText(value: string): SiteSettings['directorySites'] {
 function fixedNavigationOptions(): NavigationOption[] {
     return [
         { emoji: '🏠', label: 'Home', href: '/' },
-        { emoji: '👋', label: 'About Us', href: '/about' },
-        { emoji: '✉️', label: 'Contact Us', href: '/contact' },
+        { emoji: '👋', label: 'About Us', href: '/about-us' },
+        { emoji: '✉️', label: 'Contact Us', href: '/contact-us' },
         { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
         { emoji: '📋', label: 'Landing page demo', href: '/signup' }
     ];

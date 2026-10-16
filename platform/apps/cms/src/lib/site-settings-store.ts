@@ -5,8 +5,8 @@ const SETTINGS_KEY = 'site-settings';
 
 const DEFAULT_NAV_ITEMS: SiteSettingsNavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '👋', label: 'About Us', href: '/about' },
-    { emoji: '✉️', label: 'Contact Us', href: '/contact' },
+    { emoji: '👋', label: 'About Us', href: '/about-us' },
+    { emoji: '✉️', label: 'Contact Us', href: '/contact-us' },
     { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
     { emoji: '📋', label: 'Sign Up', href: '/signup' }
 ];

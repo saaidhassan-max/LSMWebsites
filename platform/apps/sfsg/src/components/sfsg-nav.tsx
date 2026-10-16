@@ -14,8 +14,8 @@ const BASE_ITEMS: NavItem[] = [
     { emoji: '✊', label: 'Exclusive Deals', href: '/' },
     { emoji: '💎', label: 'No Wagering Slots', href: '/' },
     { emoji: '🛡️', label: 'Safer Gambling', href: '/safer-gambling' },
-    { emoji: '👋', label: 'About Us', href: '/about' },
-    { emoji: '✉️', label: 'Contact Us', href: '/contact' },
+    { emoji: '👋', label: 'About Us', href: '/about-us' },
+    { emoji: '✉️', label: 'Contact Us', href: '/contact-us' },
     { emoji: '📋', label: 'Sign Up', href: '/signup' }
 ];
 

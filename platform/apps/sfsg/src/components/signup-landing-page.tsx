@@ -240,7 +240,7 @@ export function SignupLandingPage({
                                     {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
                                     <Link href="/privacy-policy" className="underline">click here.</Link>
                                     {' For full terms and conditions, '}
-                                    <Link href="/terms" className="underline">click here.</Link>
+                                    <Link href="/terms-and-conditions" className="underline">click here.</Link>
                                 </p>
                                 <div ref={submitButtonRef}>
                                     <Button

@@ -131,7 +131,7 @@ export default async function HowToClaimPage({
                             />
                         </div>
                         <div className="flex-1">
-                            <SignupForm variant="sfb-sfsg" brandName="Super Free Bingo" privacyPolicyUrl="/privacy-policy" termsUrl="/terms" />
+                            <SignupForm variant="sfb-sfsg" brandName="Super Free Bingo" privacyPolicyUrl="/privacy-policy" termsUrl="/terms-and-conditions" />
                         </div>
                     </div>
                 </div>

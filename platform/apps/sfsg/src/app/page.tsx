@@ -15,7 +15,7 @@ const signupForm = (): React.ReactElement => (
         variant="sfb-sfsg"
         brandName="Super Free Slot Games"
         privacyPolicyUrl="/privacy-policy"
-        termsUrl="/terms"
+        termsUrl="/terms-and-conditions"
     />
 );
 

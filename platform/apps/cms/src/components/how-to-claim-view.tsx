@@ -108,7 +108,7 @@ export function HowToClaimView({ offer, operator }: HowToClaimViewProps): React.
                                 variant="sfb-sfsg"
                                 brandName="Super Free Bingo"
                                 privacyPolicyUrl="/privacy-policy"
-                                termsUrl="/terms"
+                                termsUrl="/terms-and-conditions"
                             />
                         </div>
                     </div>
