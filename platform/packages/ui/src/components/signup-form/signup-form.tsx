@@ -21,6 +21,15 @@ function validatePhone(value: string): string {
     return '';
 }
 
+function validatePhoneFormat(value: string): string {
+    const trimmed = value.trim();
+    if (trimmed === '') return 'Phone number is required';
+    if (!/^\+?[\d\s()-]+$/.test(trimmed)) return 'Please enter a valid phone number';
+    const digits = trimmed.replace(/\D/g, '');
+    if (digits.length < 10 || digits.length > 15) return 'Please enter a valid phone number';
+    return '';
+}
+
 export function SignupForm({
     variant,
     brandName = 'Good.Choice',
@@ -34,6 +43,8 @@ export function SignupForm({
     consentBodyText
 }: SignupFormProps): React.ReactElement {
     const consentId = useId();
+    const isLandingStyle = variant === 'sfb-sfsg';
+    const checkPhone = isLandingStyle ? validatePhoneFormat : validatePhone;
 
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -57,7 +68,7 @@ export function SignupForm({
     function handleSubmit(e: React.FormEvent): void {
         e.preventDefault();
         const eErr = validateEmail(email);
-        const pErr = validatePhone(phone);
+        const pErr = checkPhone(phone);
 
         setEmailError(eErr);
         setPhoneError(pErr);
@@ -93,7 +104,7 @@ export function SignupForm({
 
     function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>): void {
         setPhone(e.target.value);
-        if (phoneError !== '') setPhoneError(validatePhone(e.target.value));
+        if (phoneError !== '') setPhoneError(checkPhone(e.target.value));
     }
 
     function handlePhoneClear(): void {
@@ -151,9 +162,6 @@ export function SignupForm({
         if (variant === 'sfb-sfsg') {
             return (
                 <div className="flex flex-col gap-3">
-                    <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                        {resolvedRequiredNote}
-                    </p>
                     <ConsentForm
                         defaultExpanded={false}
                         forceShowErrors={forceConsentErrors}
@@ -269,26 +277,62 @@ export function SignupForm({
 
             <form onSubmit={handleSubmit} className="bg-outline p-3 flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
-                    <TextField
-                        icon={Mail}
-                        label="Email Address*"
-                        type="email"
-                        placeholder="Your Email"
-                        value={email}
-                        error={emailError}
-                        onChange={handleEmailChange}
-                        onClear={handleEmailClear}
-                    />
-                    <TextField
-                        icon={Phone}
-                        label="Phone Number*"
-                        type="tel"
-                        placeholder="Your Phone Number"
-                        value={phone}
-                        error={phoneError}
-                        onChange={handlePhoneChange}
-                        onClear={handlePhoneClear}
-                    />
+                    {isLandingStyle ? (
+                        <>
+                            <TextField
+                                icon={Mail}
+                                label="Email Address (required)"
+                                floatingLabel
+                                type="email"
+                                inputMode="email"
+                                autoComplete="email"
+                                autoCapitalize="none"
+                                autoCorrect="off"
+                                spellCheck={false}
+                                value={email}
+                                error={emailError}
+                                valid={validateEmail(email) === ''}
+                                onChange={handleEmailChange}
+                                onClear={handleEmailClear}
+                            />
+                            <TextField
+                                icon={Phone}
+                                label="Phone Number (required)"
+                                floatingLabel
+                                type="tel"
+                                inputMode="tel"
+                                autoComplete="tel"
+                                value={phone}
+                                error={phoneError}
+                                valid={validatePhoneFormat(phone) === ''}
+                                onChange={handlePhoneChange}
+                                onClear={handlePhoneClear}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <TextField
+                                icon={Mail}
+                                label="Email Address*"
+                                type="email"
+                                placeholder="Your Email"
+                                value={email}
+                                error={emailError}
+                                onChange={handleEmailChange}
+                                onClear={handleEmailClear}
+                            />
+                            <TextField
+                                icon={Phone}
+                                label="Phone Number*"
+                                type="tel"
+                                placeholder="Your Phone Number"
+                                value={phone}
+                                error={phoneError}
+                                onChange={handlePhoneChange}
+                                onClear={handlePhoneClear}
+                            />
+                        </>
+                    )}
                     {renderConsentSection()}
                 </div>
 
