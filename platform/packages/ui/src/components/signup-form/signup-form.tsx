@@ -2,7 +2,7 @@
 
 import type React from 'react';
 import { useState, useId } from 'react';
-import { Mail, Phone, ArrowRight } from 'lucide-react';
+import { Mail, Phone, ArrowRight, User } from 'lucide-react';
 import { Button } from '../button/button';
 import { Checkbox } from '../checkbox/checkbox';
 import { TextField } from '../text-field/text-field';
@@ -13,6 +13,11 @@ import type { SignupFormProps } from './signup-form.types';
 function validateEmail(value: string): string {
     if (value.trim() === '') return 'Email is required';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email';
+    return '';
+}
+
+function validateName(value: string): string {
+    if (value.trim() === '') return 'Name is required';
     return '';
 }
 
@@ -46,6 +51,8 @@ export function SignupForm({
     const isLandingStyle = variant === 'sfb-sfsg';
     const checkPhone = isLandingStyle ? validatePhoneFormat : validatePhone;
 
+    const [name, setName] = useState('');
+    const [nameError, setNameError] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [consent, setConsent] = useState(false);
@@ -71,17 +78,19 @@ export function SignupForm({
         e.preventDefault();
         const eErr = validateEmail(email);
         const pErr = checkPhone(phone);
+        const nErr = isLandingStyle ? validateName(name) : '';
 
         setEmailError(eErr);
         setPhoneError(pErr);
+        setNameError(nErr);
 
         if (variant === 'sfb-sfsg') {
             if (consentFormData === null || !consentFormData.isValid) {
                 setForceConsentErrors(true);
                 return;
             }
-            if (eErr === '' && pErr === '') {
-                onSubmit?.({ email, phone, consent: true });
+            if (eErr === '' && pErr === '' && nErr === '') {
+                onSubmit?.({ name: name.trim(), email, phone, consent: true });
             }
             return;
         }
@@ -92,6 +101,16 @@ export function SignupForm({
         if (eErr === '' && pErr === '' && cErr === '') {
             onSubmit?.({ email, phone, consent });
         }
+    }
+
+    function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        setName(e.target.value);
+        if (nameError !== '') setNameError(validateName(e.target.value));
+    }
+
+    function handleNameClear(): void {
+        setName('');
+        if (nameError !== '') setNameError('Name is required');
     }
 
     function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -281,6 +300,18 @@ export function SignupForm({
                 <div className="flex flex-col gap-3">
                     {isLandingStyle ? (
                         <>
+                            <TextField
+                                icon={User}
+                                label="Name (required)"
+                                floatingLabel
+                                type="text"
+                                autoComplete="name"
+                                value={name}
+                                error={nameError}
+                                valid={validateName(name) === ''}
+                                onChange={handleNameChange}
+                                onClear={handleNameClear}
+                            />
                             <TextField
                                 icon={Mail}
                                 label="Email Address (required)"

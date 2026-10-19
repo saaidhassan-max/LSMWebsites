@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowRight, Mail, Phone } from 'lucide-react';
+import { ArrowRight, Mail, Phone, User } from 'lucide-react';
 import { Button } from '@lsm/ui/components/button/button';
 import { ConfettiBurst } from '@lsm/ui/components/confetti-burst/confetti-burst';
 import { ConsentForm } from '@lsm/ui/components/consent-form/consent-form';
@@ -21,6 +21,11 @@ interface SignupLandingPageV4DProps {
     content: CmsLandingPageContent;
     settings: CmsSiteSettings;
     offerImageSrc: string;
+}
+
+function validateName(value: string): string {
+    if (!value.trim()) return 'Name is required';
+    return '';
 }
 
 function validateEmail(value: string): string {
@@ -44,13 +49,16 @@ export function SignupLandingPageV4D({
     offerImageSrc
 }: SignupLandingPageV4DProps): React.ReactElement {
     const router = useRouter();
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [consentData, setConsentData] = useState<ConsentFormData | null>(null);
+    const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [forceConsentErrors, setForceConsentErrors] = useState(false);
     const submitButtonRef = useRef<HTMLDivElement>(null);
+    const nameFieldRef = useRef<HTMLDivElement>(null);
     const emailFieldRef = useRef<HTMLDivElement>(null);
     const phoneFieldRef = useRef<HTMLDivElement>(null);
     const guidedToFormRef = useRef(false);
@@ -72,17 +80,29 @@ export function SignupLandingPageV4D({
     }, []);
 
     function handleSubmit(): void {
+        const nErr = validateName(name);
         const eErr = validateEmail(email);
         const pErr = validatePhone(phone);
         const consentValid = consentData?.isValid ?? false;
 
+        setNameError(nErr);
         setEmailError(eErr);
         setPhoneError(pErr);
         if (consentValid === false) setForceConsentErrors(true);
 
-        if (eErr === '' && pErr === '' && consentValid === true) {
+        if (nErr === '' && eErr === '' && pErr === '' && consentValid === true) {
             router.push('/');
         }
+    }
+
+    function handleNameChange(e: React.ChangeEvent<HTMLInputElement>): void {
+        setName(e.target.value);
+        if (nameError !== '') setNameError(validateName(e.target.value));
+    }
+
+    function handleNameClear(): void {
+        setName('');
+        if (nameError !== '') setNameError('Name is required');
     }
 
     function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -111,7 +131,7 @@ export function SignupLandingPageV4D({
     }
 
     function shouldGuideFirst(): boolean {
-        const needsInput = email.trim() === '' || phone.trim() === '';
+        const needsInput = name.trim() === '' || email.trim() === '' || phone.trim() === '';
         return guidedToFormRef.current === false && needsInput === true;
     }
 
@@ -136,7 +156,12 @@ export function SignupLandingPageV4D({
 
     function guideToFirstEmptyField(): void {
         guidedToFormRef.current = true;
-        const target = email.trim() === '' ? emailFieldRef.current : phoneFieldRef.current;
+        const target =
+            name.trim() === ''
+                ? nameFieldRef.current
+                : email.trim() === ''
+                  ? emailFieldRef.current
+                  : phoneFieldRef.current;
         const input = target?.querySelector('input');
         input?.focus({ preventScroll: true });
         scrollFieldAboveKeyboard(target);
@@ -201,6 +226,20 @@ export function SignupLandingPageV4D({
                             <p className="text-sm font-normal leading-5 md:text-base md:font-bold text-on-surface-light text-center tracking-[0.15px]">
                                 {content.instructionText}
                             </p>
+                            <div ref={nameFieldRef}>
+                                <TextField
+                                    icon={User}
+                                    label="Name (required)"
+                                    floatingLabel
+                                    type="text"
+                                    autoComplete="name"
+                                    value={name}
+                                    error={nameError}
+                                    valid={validateName(name) === ''}
+                                    onChange={handleNameChange}
+                                    onClear={handleNameClear}
+                                />
+                            </div>
                             <div ref={emailFieldRef}>
                                 <TextField
                                     icon={Mail}

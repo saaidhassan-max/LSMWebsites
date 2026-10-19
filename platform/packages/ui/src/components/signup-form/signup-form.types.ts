@@ -1,6 +1,7 @@
 export type SignupFormVariant = 'ontario' | 'sfb-sfsg' | 'sfbets';
 
 export interface SignupFormData {
+    name?: string;
     email: string;
     phone: string;
     consent: boolean;
