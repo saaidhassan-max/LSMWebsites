@@ -29,7 +29,7 @@ export default function HomePage(): React.ReactElement {
             <SfsgNav />
 
             <WelcomeBanner
-                uspText="OVER 150,000 OFFERS CLAIMED"
+                uspText="SAME DEALS, NEW DIGS. WELCOME BACK. 🏠"
                 uspVariant="slots"
                 textHighlight="TOP"
                 text=" SLOT DEALS 2026"

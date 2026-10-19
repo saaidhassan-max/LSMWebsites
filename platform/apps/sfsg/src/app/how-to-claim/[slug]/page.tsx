@@ -29,7 +29,7 @@ export default async function HowToClaimPage({
     return (
         <main className="flex flex-col w-full bg-surface">
             <SfsgNav />
-            <USP text="OVER 150,000 OFFERS CLAIMED" variant="slots" />
+            <USP text="SAME DEALS, NEW DIGS. WELCOME BACK. 🏠" variant="slots" />
             <HtcUsp
                 logoSrc={casino.logoSrc}
                 logoAlt={casino.logoAlt}

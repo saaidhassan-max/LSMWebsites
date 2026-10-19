@@ -35,7 +35,7 @@ export default function SaferGamblingPage(): React.ReactElement {
     return (
         <main className="flex flex-col w-full bg-surface">
             <SfsgNav />
-            <USP text="OVER 150,000 OFFERS CLAIMED" variant="slots" />
+            <USP text="SAME DEALS, NEW DIGS. WELCOME BACK. 🏠" variant="slots" />
 
             <div className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12 flex flex-col gap-8">
                 <div className="py-3">
