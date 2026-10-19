@@ -51,6 +51,7 @@
 
 @theme inline {
     --font-futura: 'Futura PT', sans-serif;
+    --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --color-primary: var(--color-primary);
     --color-primary-hover: var(--color-primary-hover);
     --color-primary-focused: var(--color-primary-focused);
