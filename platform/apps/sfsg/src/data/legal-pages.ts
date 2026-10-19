@@ -1268,13 +1268,7 @@ export const disclaimerPage: LegalPage = {
         {
             kind: 'paragraph',
             segments: [
-                { text: 'Kind regards,' }
-            ]
-        },
-        {
-            kind: 'paragraph',
-            segments: [
-                { text: 'Super Free Slot Games Management', bold: true }
+                { text: 'Kind regards,\nSuper Free Slot Games Management' }
             ]
         }
     ]

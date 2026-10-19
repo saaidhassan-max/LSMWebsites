@@ -6,6 +6,7 @@ const DEFAULT_NAV_LINKS: FooterNavLink[] = [
     { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Terms and Conditions', href: '/terms-and-conditions' },
     { label: 'About Us', href: '/about-us' },
+    { label: 'Disclaimer', href: '/disclaimer' },
     { label: 'Contact Us', href: '/contact-us' }
 ];
 
