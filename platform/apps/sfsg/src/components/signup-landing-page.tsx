@@ -164,7 +164,7 @@ export function SignupLandingPage({
             <ConfettiBurst anchorRef={phoneFieldRef} fadeBeforeRef={submitButtonRef} />
             <SfsgNav showMenu={false} />
             <main className="flex flex-col w-full bg-surface min-h-screen pb-[80px] md:pb-0">
-                <USP text="JOIN OVER 100,000 SUBSCRIBERS" variant="slots" />
+                <USP text="JOIN OVER 160,000 SUBSCRIBERS" variant="slots" />
 
                 <div className="relative overflow-hidden bg-surface">
                     <div className="absolute inset-0 pointer-events-none select-none">
