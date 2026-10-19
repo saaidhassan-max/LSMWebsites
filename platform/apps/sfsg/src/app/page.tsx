@@ -2,13 +2,10 @@ import type React from 'react';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SfsgFooter } from '@lsm/ui/components/sfsg-footer/sfsg-footer';
-import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { SfsgNav } from '../components/sfsg-nav';
 import { ctaColorForLogo } from '../data/operator-cta-colors';
-import { directorySites, offers } from '../data/site-content';
-
-const DIRECTORY_TITLE = 'SFSG Slots Directory';
+import { offers } from '../data/site-content';
 
 const signupForm = (): React.ReactElement => (
     <SignupForm
@@ -17,10 +14,6 @@ const signupForm = (): React.ReactElement => (
         privacyPolicyUrl="/privacy-policy"
         termsUrl="/terms-and-conditions"
     />
-);
-
-const directory = (): React.ReactElement => (
-    <WebsiteDirectory title={DIRECTORY_TITLE} sites={directorySites} splitAtDot />
 );
 
 export default function HomePage(): React.ReactElement {
@@ -47,14 +40,13 @@ export default function HomePage(): React.ReactElement {
 
             <div className="w-full">
                 <div className="md:hidden flex flex-col">
-                    {directory()}
                     <div className="w-full max-w-[720px] mx-auto p-4 flex flex-col gap-4">
                         {signupForm()}
                     </div>
                 </div>
                 <div className="hidden md:flex w-full max-w-[1440px] mx-auto px-16 py-4 gap-8">
-                    <div className="flex-1">{directory()}</div>
                     <div className="flex-1 flex flex-col gap-4">{signupForm()}</div>
+                    <div className="flex-1" />
                 </div>
             </div>
 
