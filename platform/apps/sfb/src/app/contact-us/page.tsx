@@ -4,7 +4,7 @@ import { USP } from '@lsm/ui/components/usp/usp';
 import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { SfbNav } from '../../components/sfb-nav';
 import { getCmsSiteSettings } from '../../data/cms-content';
-import { ContactForm } from './contact-form';
+import { ContactForm } from '@lsm/ui/components/contact-form/contact-form';
 
 export default async function ContactPage(): Promise<React.ReactElement> {
     const settings = await getCmsSiteSettings();

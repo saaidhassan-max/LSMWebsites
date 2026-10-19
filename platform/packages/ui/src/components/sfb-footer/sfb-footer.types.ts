@@ -8,6 +8,7 @@ export interface ResponsibleGamblingLogo {
     alt: string;
     width: number;
     height: number;
+    href?: string;
     description: string;
 }
 

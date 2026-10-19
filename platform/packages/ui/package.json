@@ -66,7 +66,9 @@
     "./components/legal-content/legal-content": "./src/components/legal-content/legal-content.tsx",
     "./components/legal-content/legal-content.types": "./src/components/legal-content/legal-content.types.ts",
     "./components/legal-text/legal-text": "./src/components/legal-text/legal-text.tsx",
-    "./components/legal-text/legal-text.types": "./src/components/legal-text/legal-text.types.ts"
+    "./components/legal-text/legal-text.types": "./src/components/legal-text/legal-text.types.ts",
+    "./components/contact-form/contact-form": "./src/components/contact-form/contact-form.tsx",
+    "./components/contact-form/contact-form.types": "./src/components/contact-form/contact-form.types.ts"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",

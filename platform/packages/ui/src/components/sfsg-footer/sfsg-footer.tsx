@@ -16,6 +16,7 @@ const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
         alt: 'Keep It Fun',
         width: 176,
         height: 39,
+        href: '/safer-gambling',
         description:
             'We want your online gaming experience to be an enjoyable one, and that means enabling you to stay in control of your play. For more information, help, and advice, you can visit our Safer Gambling page via our main menu at any time.'
     },
@@ -32,6 +33,7 @@ const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
         alt: 'GamCare',
         width: 176,
         height: 50,
+        href: 'https://www.gamcare.org.uk/',
         description:
             'GamCare is the leading national provider of information, advice, support and free treatment for anyone affected by problem gambling. You can contact them confidentially via Netline or on Freephone: 0808 8020 133'
     },
@@ -40,6 +42,7 @@ const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
         alt: 'GAMSTOP',
         width: 70,
         height: 52,
+        href: 'https://www.gamstop.co.uk/',
         description:
             'GAMSTOP is a free service that lets you put controls in place to help restrict your online gambling activities. Sign up to be prevented from using gambling websites and apps run by companies licensed in Great Britain, for a period of your choosing.'
     },
@@ -48,6 +51,7 @@ const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
         alt: 'GambleAware',
         width: 176,
         height: 23,
+        href: 'https://www.begambleaware.org/',
         description:
             'GambleAware is an independent charity, and a commissioning and grant-making body. They fund research, education and treatment services to help to reduce gambling-related harms in Great Britain.'
     },
@@ -56,10 +60,35 @@ const RESPONSIBLE_GAMBLING_LOGOS: ResponsibleGamblingLogo[] = [
         alt: 'Gambling Therapy',
         width: 137,
         height: 52,
+        href: 'https://www.gamblingtherapy.org/',
         description:
             'Gambling Therapy are a global online support service, offering advice in multiple languages for people who have been adversely affected by gambling.'
     }
 ];
+
+const isExternal = (href: string): boolean => /^https?:/.test(href);
+
+function logoImage(logo: ResponsibleGamblingLogo): React.ReactElement {
+    const image = (
+        <Image
+            src={logo.src}
+            alt={logo.alt}
+            width={logo.width}
+            height={logo.height}
+            className="object-contain"
+        />
+    );
+    if (logo.href === undefined) return image;
+    return (
+        <a
+            href={logo.href}
+            target={isExternal(logo.href) ? '_blank' : undefined}
+            rel={isExternal(logo.href) ? 'noopener noreferrer' : undefined}
+        >
+            {image}
+        </a>
+    );
+}
 
 const DEFAULT_LEGAL_TEXT =
     "Super Free Slot Games is a well established, independent slots comparison site, operated by Little Star Media. To read more about Super Free Slot Games, please click here to go to 'About Us' section. Little Star Media Ltd, Exchange House, 450 Midsummer Boulevard, Milton Keynes, MK9 2EA, United Kingdom\n©2026 Super Free Slot Games All rights reserved. Unauthorised duplication is a violation of applicable laws.";
@@ -98,13 +127,7 @@ export function SfsgFooter({
                     {RESPONSIBLE_GAMBLING_LOGOS.map((logo) => (
                         <div key={logo.alt} className="flex flex-col items-center gap-2">
                             <div className="flex h-16 items-center justify-center px-8 py-1.5">
-                                <Image
-                                    src={logo.src}
-                                    alt={logo.alt}
-                                    width={logo.width}
-                                    height={logo.height}
-                                    className="object-contain"
-                                />
+                                {logoImage(logo)}
                             </div>
                             <p className="text-[12px] leading-4 tracking-[0.4px] text-on-surface-light text-center">
                                 {logo.description}
