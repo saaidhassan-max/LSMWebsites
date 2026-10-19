@@ -1226,27 +1226,6 @@ export const aboutPage: LegalPage = {
                     text: 'We also provide handy site reviews and easy step-by-step guides to help you claim your slots bonus quickly and easily. Take us for a spin!'
                 }
             ]
-        },
-        {
-            kind: 'list',
-            ordered: false,
-            items: [
-                [
-                    { text: 'Licensed Brands' }
-                ],
-                [
-                    { text: 'Vendor Approved' }
-                ],
-                [
-                    { text: 'Exclusive Offers' }
-                ],
-                [
-                    { text: 'Mobile Friendly' }
-                ],
-                [
-                    { text: 'Industry Experts' }
-                ]
-            ]
         }
     ]
 };
