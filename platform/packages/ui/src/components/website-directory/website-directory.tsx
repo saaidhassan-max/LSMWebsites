@@ -12,7 +12,7 @@ export function WebsiteDirectory({ title, sites, splitAtDot = false }: WebsiteDi
 
     return (
         <div className="flex flex-col gap-4 py-4 px-2">
-            <h2 className="text-2xl font-bold leading-8">{titleNode}</h2>
+            <h2 className="text-2xl font-bold leading-8 text-on-surface-light">{titleNode}</h2>
             <div className="flex flex-wrap gap-y-[10px]">
                 {sites.map((site, i) =>
                     site.href ? (
