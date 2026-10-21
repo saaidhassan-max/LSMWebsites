@@ -9,11 +9,9 @@ import type { NavItem } from '@lsm/ui/components/nav-drawer/nav-drawer.types';
 
 const BASE_ITEMS: NavItem[] = [
     { emoji: '🏠', label: 'Home', href: '/' },
-    { emoji: '🎁', label: 'Free Casino Money', href: '/' },
-    { emoji: '🔥', label: 'Deposit Offers', href: '/' },
-    { emoji: '👋', label: 'About Us', href: '/about' },
-    { emoji: '✉️', label: 'Contact Us', href: '/contact' },
-    { emoji: '📋', label: 'Landing Page', href: '/signup' }
+    { emoji: '👋', label: 'About Us', href: '/about-us' },
+    { emoji: '✉️', label: 'Contact Us', href: '/contact-us' },
+    { emoji: '📋', label: 'Sign Up', href: '/signup' }
 ];
 
 export function SfbetsNav(): React.ReactElement {
@@ -32,9 +30,10 @@ export function SfbetsNav(): React.ReactElement {
             <LogoSection
                 logoSrc="/sfbets/logo-mobile.svg"
                 logoDesktopSrc="/sfbets/logo-desktop.svg"
-                logoAlt="Super Free Bets"
+                logoAlt="Super Free Bets NJ"
                 logoHref="/"
                 backgroundSrc="/sfbets/LogoSection/Lego_Deco2.png"
+                sticky
                 onMenuClick={() => setDrawerOpen(true)}
             />
             <NavDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} items={items} />

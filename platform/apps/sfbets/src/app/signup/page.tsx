@@ -172,14 +172,14 @@ export default function SignupPage(): React.ReactElement {
                                     onChange={handleConsentChange}
                                 />
                                 <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-light self-center">
-                                    I consent to receiving emails from Super Free Bets MI, its affiliates and other websites owned or operated by its parent company.
+                                    I consent to receiving emails from Super Free Bets NJ, its affiliates and other websites owned or operated by its parent company.
                                 </p>
                             </div>
                             <p className="text-[11px] leading-[13px] tracking-[0.4px] text-on-surface-light">
-                                Emails from Super Free Bets MI and its related entities will include gambling offers for casino and sports as well as promotional content related to eCommerce offerings. Email frequency may vary. To see our Privacy Policy,{' '}
+                                Emails from Super Free Bets NJ and its related entities will include gambling offers for casino and sports as well as promotional content related to eCommerce offerings. Email frequency may vary. To see our Privacy Policy,{' '}
                                 <Link href="/privacy-policy" className="underline">click here</Link>
                                 . For full terms and conditions,{' '}
-                                <Link href="/terms" className="underline">click here</Link>
+                                <Link href="/terms-and-conditions" className="underline">click here</Link>
                                 .
                             </p>
                         </div>
@@ -202,7 +202,7 @@ export default function SignupPage(): React.ReactElement {
             </div>
 
             <TopTCs text={signupLegalDisclaimer} />
-            <SfbetsFooter legalText={legalText} state="mi" />
+            <SfbetsFooter legalText={legalText} state="nj" />
 
             {showStickySubmit && (
                 <div className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3 bg-surface border-t border-outline-variant md:hidden">
