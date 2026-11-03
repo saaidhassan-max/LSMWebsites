@@ -17,5 +17,6 @@ export interface SignupFormProps {
     requiredFieldLabel?: string;
     ageConfirmText?: string;
     consentLabel?: string;
+    consentHeadline?: string;
     consentBodyText?: string;
 }

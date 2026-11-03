@@ -4,7 +4,7 @@ import { LegalPageLayout } from '../../components/legal-page-layout';
 import { privacyPolicyPage } from '../../data/legal-pages';
 
 export const metadata: Metadata = {
-    title: 'Privacy Policy | Super Free Bets NJ',
+    title: 'Privacy Policy | Super Free Bets MI',
     description: 'Privacy Policy for Super Free Bets — how we collect, use, and protect your personal data.'
 };
 

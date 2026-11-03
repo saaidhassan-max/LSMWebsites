@@ -24,6 +24,6 @@ export const LegalPageLayout = ({ page }: LegalPageLayoutProps): React.ReactElem
             </div>
         </section>
 
-        <SfbetsFooter legalText={legalText} state="nj" />
+        <SfbetsFooter legalText={legalText} state="mi" />
     </main>
 );

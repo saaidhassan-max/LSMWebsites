@@ -310,7 +310,7 @@ export default function SaferGamblingPage(): React.ReactElement {
                 </div>
             </div>
 
-            <SfbetsFooter legalText={legalText} state="nj" />
+            <SfbetsFooter legalText={legalText} state="mi" />
         </main>
     );
 }

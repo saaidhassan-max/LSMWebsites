@@ -4,8 +4,8 @@ import { LegalPageLayout } from '../../components/legal-page-layout';
 import { aboutPage } from '../../data/legal-pages';
 
 export const metadata: Metadata = {
-    title: 'About Us | Super Free Bets NJ',
-    description: 'Learn more about Super Free Bets — the best online casino offers for New Jersey players.'
+    title: 'About Us | Super Free Bets MI',
+    description: 'Learn more about Super Free Bets — the best online casino offers for Michigan players.'
 };
 
 export default function AboutPage(): React.ReactElement {

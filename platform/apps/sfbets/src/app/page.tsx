@@ -6,13 +6,14 @@ import { SfbetsFooter } from '@lsm/ui/components/sfbets-footer/sfbets-footer';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { SfbetsNav } from '../components/sfbets-nav';
 import { casinoGuideBlocks } from '../data/casino-guide';
-import { ctaColorForLogo } from '../data/operator-cta-colors';
+import { ctaColorForBrand } from '../data/operator-cta-colors';
 import { legalText, offers } from '../data/site-content';
 
 const signupForm = (): React.ReactElement => (
     <SignupForm
         variant="sfbets"
-        brandName="Super Free Bets NJ"
+        consentHeadline="Yes, send me the best Michigan casino offers"
+        brandName="Super Free Bets MI"
         privacyPolicyUrl="/privacy-policy"
         termsUrl="/terms-and-conditions"
     />
@@ -36,7 +37,7 @@ export default function HomePage(): React.ReactElement {
 
             <div className="flex w-full max-w-[1440px] mx-auto flex-col gap-[10px] px-4 py-4 md:px-16 md:py-8">
                 {offers.map((offer, index) => (
-                    <OfferCard key={index} {...offer} ctaColor={ctaColorForLogo(offer.logoSrc)} />
+                    <OfferCard key={index} {...offer} ctaColor={ctaColorForBrand(offer.logoAlt)} />
                 ))}
             </div>
 
@@ -58,7 +59,7 @@ export default function HomePage(): React.ReactElement {
                 </div>
             </section>
 
-            <SfbetsFooter legalText={legalText} state="nj" />
+            <SfbetsFooter legalText={legalText} state="mi" />
         </main>
     );
 }

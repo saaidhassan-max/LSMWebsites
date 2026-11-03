@@ -61,7 +61,7 @@ export default async function HowToClaimPage({
                         </Button>
                     </a>
 
-                    <WebsiteDirectory title="Super Free Bets NJ Directory" splitAtDot sites={directorySites} />
+                    <WebsiteDirectory title="Super Free Bets MI Directory" splitAtDot sites={directorySites} />
                 </div>
                 <div className="hidden md:flex flex-col gap-6 max-w-[1440px] mx-auto">
                     <div className="flex flex-col gap-6 px-16">
@@ -114,12 +114,13 @@ export default async function HowToClaimPage({
                     </div>
                     <div className="flex px-16 py-8">
                         <div className="flex-1">
-                            <WebsiteDirectory title="Super Free Bets NJ Directory" splitAtDot sites={directorySites} />
+                            <WebsiteDirectory title="Super Free Bets MI Directory" splitAtDot sites={directorySites} />
                         </div>
                         <div className="flex-1">
                             <SignupForm
                                 variant="sfbets"
-                                brandName="Super Free Bets NJ"
+                                consentHeadline="Yes, send me the best Michigan casino offers"
+                                brandName="Super Free Bets MI"
                                 privacyPolicyUrl="/privacy-policy"
                                 termsUrl="/terms-and-conditions"
                             />
@@ -127,7 +128,7 @@ export default async function HowToClaimPage({
                     </div>
                 </div>
             </div>
-            <SfbetsFooter legalText={legalText} state="nj" />
+            <SfbetsFooter legalText={legalText} state="mi" />
         </main>
     );
 }

@@ -19,4 +19,17 @@ describe('SignupForm', () => {
 
         expect(screen.getByText('Name is required')).toBeInTheDocument();
     });
+
+    it('asks for first name and email only on the Bets form', () => {
+        render(<SignupForm variant="sfbets" />);
+
+        expect(screen.getByLabelText('First Name (required)')).toBeInTheDocument();
+        expect(screen.getByLabelText('Email Address (required)')).toBeInTheDocument();
+        expect(screen.queryByLabelText(/Phone Number/)).not.toBeInTheDocument();
+        expect(screen.queryByText(/Required Information/i)).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /sign me up/i }));
+
+        expect(screen.getByText('Name is required')).toBeInTheDocument();
+        expect(screen.getByText(/box above, you confirm that you are of legal gambling age in your state/)).toBeInTheDocument();
+    });
 });

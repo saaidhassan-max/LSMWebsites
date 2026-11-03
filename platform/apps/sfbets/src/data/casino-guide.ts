@@ -17,10 +17,6 @@ export const casinoGuideBlocks: LegalBlock[] = [
     },
     {
         kind: 'paragraph',
-        segments: [{ text: 'Currently, there are plenty of online casinos in New Jersey.' }]
-    },
-    {
-        kind: 'paragraph',
         segments: [
             {
                 text: 'After the first online gaming site appeared back in 1994, countless others sprang up. Then, thanks to the Unlawful Internet Gambling Enforcement Act of 2006, accepting money for betting and wagering online became illegal. Consequently, gambling websites across the country were forced to shut down operations.'
@@ -38,7 +34,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
     {
         kind: 'paragraph',
         segments: [
-            { text: 'Since then, only a handful of other states have legalized online gaming.' }
+            { text: 'Since then, only a handful of other states have legalized online gaming. Michigan being one!' }
         ]
     },
     { kind: 'heading', level: 2, segments: [{ text: 'Games Online Casinos Offer' }] },
@@ -46,7 +42,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'You can choose from a wide range of games at New Jersey online casinos, including many favorites from the brick-and-mortar casinos in Atlantic City.'
+                text: 'You can choose from a wide range of games at Michigan online casinos, including many favorites from the brick-and-mortar casinos in The Great Lakes State.'
             }
         ]
     },
@@ -60,21 +56,13 @@ export const casinoGuideBlocks: LegalBlock[] = [
     },
     {
         kind: 'paragraph',
-        segments: [{ text: 'As you can see, New Jersey has an online game for everyone!' }]
+        segments: [{ text: 'As you can see, Michigan has an online game for everyone!' }]
     },
     {
         kind: 'paragraph',
         segments: [
             {
-                text: 'All New Jersey online casinos offer loyalty programs. And a select few – including Caesars, Harrah’s, Mohegan Sun, and the Tropicana allow you to earn land-based rewards while playing online. You can redeem these awards at affiliated properties throughout the country.'
-            }
-        ]
-    },
-    {
-        kind: 'paragraph',
-        segments: [
-            {
-                text: 'Best of all, every casino you’ll see here is legal and licensed to operate in New Jersey. That means you get to play at the casinos you know and love, knowing your financial and personal info is safe and secure.'
+                text: 'Best of all, every casino you’ll see here is legal and licensed to operate in Michigan. That means you get to play at the casinos you know and love, knowing your financial and personal info is safe and secure.'
             }
         ]
     },
@@ -103,7 +91,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'Or, you can choose to download a mobile app – available for both Android and iOS devices – for the New Jersey casino where you want to play. That way, you can get some fun and games in when you’re out and about, using your smartphone or tablet.'
+                text: 'Or, you can choose to download a mobile app – available for both Android and iOS devices – for the Michigan casino where you want to play. That way, you can get some fun and games in when you’re out and about, using your smartphone or tablet.'
             }
         ]
     },
@@ -111,7 +99,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'Remember, if you travel outside of New Jersey, you won’t be able to play. Online casinos use sophisticated geolocation software to verify that players are within state lines. This feature is built into Android and iOS casino apps but playing on a laptop or desktop may require installation of a small geolocation internet browser extension.'
+                text: 'Remember, if you travel outside of Michigan, you won’t be able to play. Online casinos use sophisticated geolocation software to verify that players are within state lines. This feature is built into Android and iOS casino apps but playing on a laptop or desktop may require installation of a small geolocation internet browser extension.'
             }
         ]
     },
@@ -119,7 +107,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'These and other features are designed to ensure your safety and security. We are committed to helping you have the best experience with New Jersey online betting. That’s why we only hook you up with our favorite casino brands, all of which are legal and licensed.'
+                text: 'These and other features are designed to ensure your safety and security. We are committed to helping you have the best experience with Michigan online betting. That’s why we only hook you up with our favorite casino brands, all of which are legal and licensed.'
             }
         ]
     },
@@ -128,7 +116,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'When you play with our New Jersey online casino partners, you will enjoy countless options for depositing money into your account and withdrawing your winnings. They offer fast payouts while keeping your personal and financial information secure.'
+                text: 'When you play with our Michigan online casino partners, you will enjoy countless options for depositing money into your account and withdrawing your winnings. They offer fast payouts while keeping your personal and financial information secure.'
             }
         ]
     },
@@ -188,14 +176,6 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'Cash at 7-Eleven: Download the PayNearMe mobile app and add your casino account, then take the cash you want to deposit to any New Jersey 7-Eleven store.'
-            }
-        ]
-    },
-    {
-        kind: 'paragraph',
-        segments: [
-            {
                 text: 'When you want to withdraw your winnings, you can do so via the following methods:',
                 bold: true
             }
@@ -246,7 +226,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'New Jersey online casinos provide bonuses for new players – that’s one of the biggest benefits of playing online instead of heading to Atlantic City. Well, that and being able to play in your pajamas from your location of choice!'
+                text: 'Michigan online casinos provide bonuses for new players – that’s one of the biggest benefits of playing online instead of heading to land-based casinos. Well, that and being able to play in your pajamas from your location of choice!'
             }
         ]
     },
@@ -254,7 +234,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'Casino bonuses come in many different forms. To claim one, you’ll need to be of legal gambling age, which is 21 in the state of New Jersey. Depending upon where and how frequently you play, you may receive one or more of the following perks.'
+                text: 'Casino bonuses come in many different forms. To claim one, you’ll need to be of legal gambling age, which is 21 in the state of Michigan. Depending upon where and how frequently you play, you may receive one or more of the following perks.'
             }
         ]
     },
@@ -281,7 +261,7 @@ export const casinoGuideBlocks: LegalBlock[] = [
         kind: 'paragraph',
         segments: [
             {
-                text: 'New players at some online casinos can get both free spins and a cash bonus by creating and account and depositing the specified amount.'
+                text: 'New players at some online casinos can get both free spins and a cash bonus by creating an account and depositing the specified amount.'
             }
         ]
     },

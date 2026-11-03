@@ -43,12 +43,18 @@ export function SignupForm({
     termsUrl = '#',
     onSubmit,
     requiredFieldLabel,
-    ageConfirmText = 'By checking the box below, you confirm that you are of legal gambling age in your province and have not self-excluded from any gambling operator.',
+    ageConfirmText,
     consentLabel,
+    consentHeadline,
     consentBodyText
 }: SignupFormProps): React.ReactElement {
     const consentId = useId();
+    const ageRegion = variant === 'sfbets' ? 'state' : 'province';
+    const boxPosition = variant === 'sfbets' ? 'above' : 'below';
+    const resolvedAgeConfirmText = ageConfirmText
+        ?? `By checking the box ${boxPosition}, you confirm that you are of legal gambling age in your ${ageRegion} and have not self-excluded from any gambling operator.`;
     const isLandingStyle = variant === 'sfb-sfsg';
+    const isNameEmailStyle = variant === 'sfbets';
     const checkPhone = isLandingStyle ? validatePhoneFormat : validatePhone;
 
     const [name, setName] = useState('');
@@ -64,9 +70,11 @@ export function SignupForm({
 
     const resolvedHeadline = headlineText ?? (variant === 'sfb-sfsg'
         ? `Receive free ${brandName} updates straight to your inbox!`
-        : variant != null
-            ? 'Receive free Good.Choice updates straight to your inbox!'
-            : 'Receive free casino offers straight to your inbox');
+        : variant === 'sfbets'
+            ? 'Sign up to receive free casino offers straight to your inbox'
+            : variant != null
+                ? 'Receive free Good.Choice updates straight to your inbox!'
+                : 'Receive free casino offers straight to your inbox');
 
     const resolvedRequiredNote = requiredFieldLabel ?? (variant === 'ontario'
         ? '**Indicates required field'
@@ -97,6 +105,16 @@ export function SignupForm({
 
         const cErr = !consent ? 'Please accept our terms to continue' : '';
         setConsentError(cErr);
+
+        if (isNameEmailStyle) {
+            const firstNameErr = validateName(name);
+            setNameError(firstNameErr);
+            setPhoneError('');
+            if (eErr === '' && firstNameErr === '' && cErr === '') {
+                onSubmit?.({ name: name.trim(), email, phone: '', consent });
+            }
+            return;
+        }
 
         if (eErr === '' && pErr === '' && cErr === '') {
             onSubmit?.({ email, phone, consent });
@@ -146,7 +164,7 @@ export function SignupForm({
                         {resolvedRequiredNote}
                     </p>
                     <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                        {ageConfirmText}
+                        {resolvedAgeConfirmText}
                     </p>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-start gap-1">
@@ -201,28 +219,28 @@ export function SignupForm({
         if (variant === 'sfbets') {
             return (
                 <div className="flex flex-col gap-2">
-                    <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                        {resolvedRequiredNote}
-                    </p>
-                    <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                        {'If you would like to learn more about what we do with your personal data or your privacy rights, please '}
-                        <a href={privacyPolicyUrl} className="underline">click here.</a>
-                        {' For full terms and conditions, '}
-                        <a href={termsUrl} className="underline">click here.</a>
-                    </p>
                     <div className="flex flex-col gap-1">
                         <div className="flex items-start gap-1">
-                            <Checkbox
-                                id={consentId}
-                                checked={consent}
-                                error={consentError !== ''}
-                                onChange={handleConsentChange}
-                            />
-                            <label
-                                htmlFor={consentId}
-                                className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px] cursor-pointer self-center"
-                            >
-                                {consentLabel ?? `I consent to receiving emails from ${brandName}, its affiliates and other websites owned or operated by its parent company.`}
+                            <span className="-mt-2.5">
+                                <Checkbox
+                                    id={consentId}
+                                    checked={consent}
+                                    error={consentError !== ''}
+                                    onChange={handleConsentChange}
+                                />
+                            </span>
+                            <label htmlFor={consentId} className="flex flex-col gap-1 cursor-pointer">
+                                {consentHeadline !== undefined && (
+                                    <span className="text-on-surface-light text-sm font-bold leading-5">
+                                        {consentHeadline}
+                                    </span>
+                                )}
+                                <span className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
+                                    {consentLabel ?? `I consent to receiving emails from ${brandName}, its affiliates and other websites owned or operated by its parent company.`}
+                                </span>
+                                <span className="text-on-surface-light/70 text-[11px] leading-[13px] font-bold tracking-[0.4px]">
+                                    Unsubscribe anytime · No spam
+                                </span>
                             </label>
                         </div>
                         {consentError !== '' && (
@@ -233,10 +251,16 @@ export function SignupForm({
                             </div>
                         )}
                     </div>
-                    <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                        {consentBodyText ?? `Emails from ${brandName} and its related entities will include gambling offers for casino and sports as well as promotional content related to eCommerce offerings. Email frequency may vary.`}{' '}
-                        <a href={privacyPolicyUrl} className="underline">To see our Privacy Policy, click here.</a>{' '}
-                        <a href={termsUrl} className="underline">For full terms and conditions, click here.</a>
+                    <p className="text-on-surface-light/70 text-[11px] leading-[13px] tracking-[0.4px]">
+                        {resolvedAgeConfirmText}
+                    </p>
+                    <p className="text-on-surface-light/70 text-[11px] leading-[13px] tracking-[0.4px]">
+                        {consentBodyText ?? `Emails from ${brandName} and its related entities will include gambling offers for casino and sports as well as promotional content related to eCommerce offerings. Email frequency may vary.`}
+                        {' To see our Privacy Policy, '}
+                        <a href={privacyPolicyUrl} className="underline">click here</a>
+                        {'. For full terms and conditions, '}
+                        <a href={termsUrl} className="underline">click here</a>
+                        {'.'}
                     </p>
                 </div>
             );
@@ -248,7 +272,7 @@ export function SignupForm({
                     {resolvedRequiredNote}
                 </p>
                 <p className="text-on-surface-light text-[11px] leading-[13px] tracking-[0.4px]">
-                    {ageConfirmText}
+                    {resolvedAgeConfirmText}
                 </p>
                 <div className="flex flex-col gap-1">
                     <div className="flex items-start gap-1">
@@ -340,6 +364,37 @@ export function SignupForm({
                                 valid={validatePhoneFormat(phone) === ''}
                                 onChange={handlePhoneChange}
                                 onClear={handlePhoneClear}
+                            />
+                        </>
+                    ) : isNameEmailStyle ? (
+                        <>
+                            <TextField
+                                icon={User}
+                                label="First Name (required)"
+                                floatingLabel
+                                type="text"
+                                autoComplete="given-name"
+                                value={name}
+                                error={nameError}
+                                valid={validateName(name) === ''}
+                                onChange={handleNameChange}
+                                onClear={handleNameClear}
+                            />
+                            <TextField
+                                icon={Mail}
+                                label="Email Address (required)"
+                                floatingLabel
+                                type="email"
+                                inputMode="email"
+                                autoComplete="email"
+                                autoCapitalize="none"
+                                autoCorrect="off"
+                                spellCheck={false}
+                                value={email}
+                                error={emailError}
+                                valid={validateEmail(email) === ''}
+                                onChange={handleEmailChange}
+                                onClear={handleEmailClear}
                             />
                         </>
                     ) : (

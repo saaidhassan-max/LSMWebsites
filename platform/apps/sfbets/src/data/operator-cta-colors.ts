@@ -1,8 +1,13 @@
 import type { CtaColor } from '@lsm/ui/lib/generic/cta-color';
 
-const ctaColorByLogo: Record<string, CtaColor> = {
-    '/sfbets/brands/betmgm.png': 'amber'
+const ctaColorByBrand: Record<string, CtaColor> = {
+    BetMGM: 'amber',
+    'Fanatics Casino': 'rose',
+    BetRivers: 'blue',
+    'Hard Rock Bet': 'violet',
+    'Golden Nugget': 'amber',
+    'FanDuel Casino': 'azure'
 };
 
-export const ctaColorForLogo = (logoSrc: string | undefined): CtaColor | undefined =>
-    logoSrc === undefined ? undefined : ctaColorByLogo[logoSrc];
+export const ctaColorForBrand = (brand: string | undefined): CtaColor | undefined =>
+    brand === undefined ? undefined : ctaColorByBrand[brand];

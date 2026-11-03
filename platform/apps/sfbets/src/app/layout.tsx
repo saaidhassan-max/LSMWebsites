@@ -5,8 +5,8 @@ import '@/styles/globals.css';
 import { AgeModal } from '@lsm/ui/components/age-modal/age-modal';
 
 export const metadata: Metadata = {
-    title: 'Super Free Bets NJ',
-    description: 'The best New Jersey online casino offers, bonuses and free spins.'
+    title: 'Super Free Bets MI',
+    description: 'The best Michigan online casino offers, bonuses and free spins.'
 };
 
 export default function RootLayout({

@@ -8,7 +8,7 @@ import { SfbetsNav } from '../../components/sfbets-nav';
 import { directorySites, legalText } from '../../data/site-content';
 
 export const metadata: Metadata = {
-    title: 'Contact Us | Super Free Bets NJ',
+    title: 'Contact Us | Super Free Bets MI',
     description: 'Get in touch with the Super Free Bets team.'
 };
 
@@ -34,10 +34,10 @@ export default function ContactPage(): React.ReactElement {
             </div>
 
             <div className="w-full max-w-[1440px] mx-auto px-4 py-4 md:px-16 md:py-8">
-                <WebsiteDirectory title="Super Free Bets NJ Directory" sites={directorySites} />
+                <WebsiteDirectory title="Super Free Bets MI Directory" sites={directorySites} />
             </div>
 
-            <SfbetsFooter legalText={legalText} state="nj" />
+            <SfbetsFooter legalText={legalText} state="mi" />
         </main>
     );
 }

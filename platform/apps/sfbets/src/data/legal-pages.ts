@@ -331,26 +331,26 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '1. You have given consent to the processing of your personal data for one or more specific purposes;'
+                    text: '1. you have given consent to the processing of your personal data for one or more specific purposes;'
                 }
             ]
         },
         {
             kind: 'paragraph',
             segments: [
-                { text: '2. Where we need to perform the contract we have entered into with you;' }
+                { text: '2. where we need to perform the contract we have entered into with you;' }
             ]
         },
-        { kind: 'paragraph', segments: [{ text: '3. For compliance with a legal obligation;' }] },
+        { kind: 'paragraph', segments: [{ text: '3. for compliance with a legal obligation;' }] },
         {
             kind: 'paragraph',
-            segments: [{ text: '4. To protect your interests (or someone else’s interests); or' }]
+            segments: [{ text: '4. to protect your interests (or someone else’s interests); or' }]
         },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '5. For our legitimate interests (or those of a third party), except where such interests are overridden by your fundamental rights and freedoms.'
+                    text: '5. for our legitimate interests (or those of a third party), except where such interests are overridden by your fundamental rights and freedoms.'
                 }
             ]
         },
@@ -380,15 +380,15 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '1. Service providers (including marketing and digital analytics) including, but not limited to, Hotjar, Reportdash, Mozenda, Microsoft, Google Analytics, Acoustic L.P, AWS, Voodoo, Twilio, Cake, Digital Ocean; Reactful Inc.; Bulk SMS Limited; Accelerize Inc. and Facebook;'
+                    text: '1. service providers (including marketing and digital analytics) including, but not limited to, Hotjar, Reportdash, Mozenda, Microsoft, Google Analytics, Acoustic L.P, Voodoo, AWS, Twilio, Cake, Digital Ocean; Reactful Inc.; Bulk SMS Limited; Accelerize Inc. and Facebook;'
                 }
             ]
         },
-        { kind: 'paragraph', segments: [{ text: '2. Advertising networks;' }] },
-        { kind: 'paragraph', segments: [{ text: '3. Search information providers;' }] },
-        { kind: 'paragraph', segments: [{ text: '4. Banks and payment providers;' }] },
-        { kind: 'paragraph', segments: [{ text: '5. Professional advisors; and' }] },
-        { kind: 'paragraph', segments: [{ text: '6. Law enforcement agencies.' }] },
+        { kind: 'paragraph', segments: [{ text: '2. advertising networks;' }] },
+        { kind: 'paragraph', segments: [{ text: '3. search information providers;' }] },
+        { kind: 'paragraph', segments: [{ text: '4. banks and payment providers;' }] },
+        { kind: 'paragraph', segments: [{ text: '5. professional advisors; and' }] },
+        { kind: 'paragraph', segments: [{ text: '6. law enforcement agencies.' }] },
         {
             kind: 'paragraph',
             segments: [
@@ -656,7 +656,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: 'Text STOP to +12018905948 to stop receiving our SMS messages. You will no longer receive text messages from Super Free Bets.'
+                    text: 'Text STOP to +12312611337 to stop receiving our SMS messages. You will no longer receive text messages from Super Free Bets.'
                 }
             ]
         },
@@ -673,20 +673,7 @@ export const privacyPolicyPage: LegalPage = {
         {
             kind: 'heading',
             level: 3,
-            segments: [{ text: '15. Opting Out - Push Notifications', bold: true }]
-        },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'You can opt out of receiving push notifications via your internet browser notification settings. Please refer to your individual internet browser’s settings for full details.'
-                }
-            ]
-        },
-        {
-            kind: 'heading',
-            level: 3,
-            segments: [{ text: '16. Restriction of Personal Data Processing', bold: true }]
+            segments: [{ text: '15. Restriction of Personal Data Processing', bold: true }]
         },
         {
             kind: 'paragraph',
@@ -707,7 +694,7 @@ export const privacyPolicyPage: LegalPage = {
         {
             kind: 'heading',
             level: 3,
-            segments: [{ text: '17. Objections to Personal Data Processing', bold: true }]
+            segments: [{ text: '16. Objections to Personal Data Processing', bold: true }]
         },
         {
             kind: 'paragraph',
@@ -720,7 +707,7 @@ export const privacyPolicyPage: LegalPage = {
         {
             kind: 'heading',
             level: 3,
-            segments: [{ text: '18. California Resident User Privacy Rights', bold: true }]
+            segments: [{ text: '17. California Resident User Privacy Rights', bold: true }]
         },
         { kind: 'paragraph', segments: [{ text: 'SHINE THE LIGHT LAW', bold: true }] },
         {
@@ -784,7 +771,7 @@ export const privacyPolicyPage: LegalPage = {
             level: 3,
             segments: [
                 {
-                    text: '18.1 Identity Data including: name, user name or similar identifier, title, gender',
+                    text: '17.1 Identity Data including: name, user name or similar identifier, title, gender',
                     bold: true
                 }
             ]
@@ -793,7 +780,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.1.1 To identify you as a user so that we can provide services to you and communicate with you in connection with your registration at the Super Free Bets website.'
+                    text: '17.1.1 To identify you as a user so that we can provide services to you and communicate with you in connection with your registration at the Super Free Bets website.'
                 }
             ]
         },
@@ -802,7 +789,7 @@ export const privacyPolicyPage: LegalPage = {
             level: 3,
             segments: [
                 {
-                    text: '18.2 Contact Data including: Email Address Mobile Phone Number',
+                    text: '17.2 Contact Data including: Email Address Mobile Phone Number',
                     bold: true
                 }
             ]
@@ -811,7 +798,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.2.1 We email gambling offers and newsletters to users who have consented to receive these.'
+                    text: '17.2.1 We email gambling offers and newsletters to users who have consented to receive these.'
                 }
             ]
         },
@@ -819,7 +806,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.2.2 Users will normally receive emails up to 3 times per week, but on occasion this could be up to 4 times per week.'
+                    text: '17.2.2 Users will normally receive emails up to 3 times per week, but on occasion this could be up to 4 times per week.'
                 }
             ]
         },
@@ -827,7 +814,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.2.3 Users may receive gambling offers and site information by SMS if they have consented to receive these. Users should expect to receive up to 4 SMS messages per week.'
+                    text: '17.2.3 Users may receive gambling offers and site information by SMS if they have consented to receive these. Users should expect to receive up to 4 SMS messages per week.'
                 }
             ]
         },
@@ -835,7 +822,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.2.4 We will use contact information to update you about changes to our policies and terms and conditions.'
+                    text: '17.2.4 We will use contact information to update you about changes to our policies and terms and conditions.'
                 }
             ]
         },
@@ -843,25 +830,25 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.2.5 We also share your personal data with Facebook who help us show you relevant content and find similar users who might be interested in our services.'
+                    text: '17.2.5 We also share your personal data with Facebook who help us show you relevant content and find similar users who might be interested in our services.'
                 }
             ]
         },
-        { kind: 'heading', level: 3, segments: [{ text: '18.3 IP Address', bold: true }] },
+        { kind: 'heading', level: 3, segments: [{ text: '17.3 IP Address', bold: true }] },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.3.1 Used as a factor to determine robot behavior and detect malicious or suspicious software.'
+                    text: '17.3.1 Used as a factor to determine robot behavior and detect malicious or suspicious software.'
                 }
             ]
         },
-        { kind: 'heading', level: 3, segments: [{ text: '18.4 Geographic Location', bold: true }] },
+        { kind: 'heading', level: 3, segments: [{ text: '17.4 Geographic Location', bold: true }] },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.4.1 Used to determine fraudulent robot behavior and to detect whether you are eligible to use our website.'
+                    text: '17.4.1 Used to determine fraudulent robot behavior and to detect whether you are eligible to use our website.'
                 }
             ]
         },
@@ -870,17 +857,17 @@ export const privacyPolicyPage: LegalPage = {
             level: 3,
             segments: [
                 {
-                    text: '18.5 Technical Data including: Device Screen size, Device Type Browser Information, Preferred Language',
+                    text: '17.5 Technical Data including: Device Screen size, Device Type Browser Information, Preferred Language',
                     bold: true
                 }
             ]
         },
-        { kind: 'paragraph', segments: [{ text: '18.5.1 ' }, { text: 'Hotjar', bold: true }] },
+        { kind: 'paragraph', segments: [{ text: '17.5.1 ' }, { text: 'Hotjar', bold: true }] },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.1.1 We use Hotjar in order to better understand our users’ needs and to optimize this service and experience (e.g. how much time they spend on which pages, which links they choose to click, what users do and don’t like, etc.). This enables us to build and maintain our service with user feedback. Hotjar uses cookies and other technologies to collect data on our users’ behavior and their devices (in particular, device IP address (captured and stored only in anonymized form), device screen size, device type (unique device identifiers), browser information, geographic location (country only), and preferred language on our website).'
+                    text: '17.5.1.1 We use Hotjar in order to better understand our users’ needs and to optimize this service and experience (e.g. how much time they spend on which pages, which links they choose to click, what users do and don’t like, etc.). This enables us to build and maintain our service with user feedback. Hotjar uses cookies and other technologies to collect data on our users’ behavior and their devices (in particular, device IP address (captured and stored only in anonymized form), device screen size, device type (unique device identifiers), browser information, geographic location (country only), and preferred language on our website).'
                 }
             ]
         },
@@ -888,18 +875,18 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.1.2 Hotjar stores this information in a pseudonymized user profile. We will not (nor will Hotjar) use this information to identify individual users or to match it with further data on an individual user. For further details, please see Hotjar’s privacy policy by clicking on this link: '
+                    text: '17.5.1.2 Hotjar stores this information in a pseudonymized user profile. We will not (nor will Hotjar) use this information to identify individual users or to match it with further data on an individual user. For further details, please see Hotjar’s privacy policy by clicking on this link: '
                 },
                 { text: 'https://www.hotjar.com/privacy', href: 'https://www.hotjar.com/privacy' },
                 { text: '.' }
             ]
         },
-        { kind: 'paragraph', segments: [{ text: '18.5.2 Opt-Out:' }] },
+        { kind: 'paragraph', segments: [{ text: '17.5.2 Opt-Out:' }] },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.2.1 You can opt-out to the creation of a user profile, Hotjar’s storing of data about your usage of our site and Hotjar’s use of tracking cookies on other websites by following this opt-out: '
+                    text: '17.5.2.1 You can opt-out to the creation of a user profile, Hotjar’s storing of data about your usage of our site and Hotjar’s use of tracking cookies on other websites by following this opt-out: '
                 },
                 {
                     text: 'https://www.hotjar.com/legal/compliance/opt-out',
@@ -909,13 +896,13 @@ export const privacyPolicyPage: LegalPage = {
         },
         {
             kind: 'paragraph',
-            segments: [{ text: '18.5.3 ' }, { text: 'Cookies and Analytics', bold: true }]
+            segments: [{ text: '17.5.3 ' }, { text: 'Cookies and Analytics', bold: true }]
         },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.3.1 We use Google Analytics on this website. Therefore, third-party vendors, including Google, may show our ads on sites across the internet. The Google Analytics features that have been implemented are used for Display Advertising (including Google Display Network Impression Reporting, the DoubleClick Campaign Manager integration, or Google Analytics Demographics and Interest Reporting).'
+                    text: '17.5.3.1 We use Google Analytics on this website. Therefore, third-party vendors, including Google, may show our ads on sites across the internet. The Google Analytics features that have been implemented are used for Display Advertising (including Google Display Network Impression Reporting, the DoubleClick Campaign Manager integration, or Google Analytics Demographics and Interest Reporting).'
                 }
             ]
         },
@@ -923,7 +910,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.3.2 We (and third-party vendors including Google) use first-party cookies (such as the Google Analytics cookie) and third-party cookies (such as the DoubleClick cookie) together to inform, optimize, and serve ads based on past customer visits to our website. We also use these cookies to report how our ad impressions and other ad services, and interactions with these, relate to visits to our site.'
+                    text: '17.5.3.2 We (and third-party vendors including Google) use first-party cookies (such as the Google Analytics cookie) and third-party cookies (such as the DoubleClick cookie) together to inform, optimize, and serve ads based on past customer visits to our website. We also use these cookies to report how our ad impressions and other ad services, and interactions with these, relate to visits to our site.'
                 }
             ]
         },
@@ -931,7 +918,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.3.3 We use Google Analytics Demographics and Interest Reporting in order to target users who have a higher probability of being interested in our products. We also may use third party audience data (such as age, gender, and interests) to help guide our website offering to better meet consumer needs, and ultimately improve the user experience.'
+                    text: '17.5.3.3 We use Google Analytics Demographics and Interest Reporting in order to target users who have a higher probability of being interested in our products. We also may use third party audience data (such as age, gender, and interests) to help guide our website offering to better meet consumer needs, and ultimately improve the user experience.'
                 }
             ]
         },
@@ -939,7 +926,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.3.4 Opt-out: Using the Ads Settings, you can opt-out of Google Analytics for Display Advertising and customize Google Display Network ads. Read more here: '
+                    text: '17.5.3.4 Opt-out: Using the Ads Settings, you can opt-out of Google Analytics for Display Advertising and customize Google Display Network ads. Read more here: '
                 },
                 {
                     text: 'https://tools.google.com/dlpage/gaoptout',
@@ -949,13 +936,13 @@ export const privacyPolicyPage: LegalPage = {
         },
         {
             kind: 'paragraph',
-            segments: [{ text: '18.5.4 ' }, { text: 'How we use cookies:', bold: true }]
+            segments: [{ text: '17.5.4 ' }, { text: 'How we use cookies:', bold: true }]
         },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.4.1 A cookie helps us, for example, to analyse web traffic or lets us know when you visit a particular site. This enables us to enhance your user experience when visiting Super Free Bets by placing cookies on your computer.'
+                    text: '17.5.4.1 A cookie helps us, for example, to analyse web traffic or lets us know when you visit a particular site. This enables us to enhance your user experience when visiting Super Free Bets by placing cookies on your computer.'
                 }
             ]
         },
@@ -963,7 +950,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.4.2 Cookies allow web applications to respond to you as an individual. The web application can tailor its operations to your needs, likes and dislikes by gathering and remembering information about your preferences.'
+                    text: '17.5.4.2 Cookies allow web applications to respond to you as an individual. The web application can tailor its operations to your needs, likes and dislikes by gathering and remembering information about your preferences.'
                 }
             ]
         },
@@ -971,7 +958,7 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.4.3 We use traffic log cookies to identify which pages are being used. This helps us analyse data about webpage traffic and improve our website in order to tailor it to customer needs. We only use this information for statistical analysis purposes and then the data is removed from the system.'
+                    text: '17.5.4.3 We use traffic log cookies to identify which pages are being used. This helps us analyse data about webpage traffic and improve our website in order to tailor it to customer needs. We only use this information for statistical analysis purposes and then the data is removed from the system.'
                 }
             ]
         },
@@ -979,194 +966,22 @@ export const privacyPolicyPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.5.4.4 To find out more or to change how cookies interact with your computer, click '
+                    text: '17.5.4.4 To find out more or to change how cookies interact with your computer, click '
                 },
                 { text: 'here', href: 'http://www.superfreebingo.com/privacy-and-cookies/' },
                 { text: '.' }
             ]
         },
-        { kind: 'heading', level: 3, segments: [{ text: '18.6 Analytics Data', bold: true }] },
+        { kind: 'heading', level: 3, segments: [{ text: '17.6 Analytics Data', bold: true }] },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: '18.6.1 We use analytics data to improve our website, products/services, marketing, and user experience.'
+                    text: '17.6.1 We use analytics data to improve our website, products/services, marketing, and user experience.'
                 }
             ]
         },
-        { kind: 'paragraph', segments: [{ text: 'California resident’s rights.', bold: true }] },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'This section describes your CCPA rights and explains how to exercise those rights. The CCPA provides California residents with specific rights regarding their personal data. These rights are not absolute and are subject to certain exceptions. For instance, we cannot disclose or permit access to specific pieces of personal data if the disclosure or access would present a certain level of risk to the security of the personal data, your account with us or the security of the business’s systems of networks. Equally, we cannot respond to your request or provide you with personal data if we cannot verify your identity or authority to make the request and confirm the personal data relates to you. A record concerning the requests may be maintained pursuant to our legal obligations.'
-                }
-            ]
-        },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'Further, we may charge a reasonable fee or refuse to act on a request if such request is excessive, repetitive or manifestly unfounded.'
-                }
-            ]
-        },
-        {
-            kind: 'paragraph',
-            segments: [
-                { text: 'Disclosure and Access to specific Information Request', bold: true }
-            ]
-        },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'You have the right to request that we disclose certain information to you about our collection and use of your personal data over the past 12 months. Where we verify your request we must provide the following:'
-                }
-            ]
-        },
-        {
-            kind: 'list',
-            ordered: false,
-            items: [
-                [{ text: 'The categories of personal data we collected about you.' }],
-                [
-                    {
-                        text: 'The categories of sources for the personal data we collected about you.'
-                    }
-                ],
-                [{ text: 'Our business or commercial purpose for collecting that personal data.' }],
-                [
-                    {
-                        text: 'The categories of third parties with whom we share that personal data.'
-                    }
-                ],
-                [
-                    {
-                        text: 'The specific pieces of personal data we collected about you (also called a data portability request).'
-                    }
-                ]
-            ]
-        },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'Please note that we are only required to fulfill Disclosure and Access requests from a consumer twice per every 12-month period. You can submit such a request by sending an e-mail to '
-                },
-                { text: 'dpo@littlestarmedia.com', href: 'mailto:dpo@littlestarmedia.com' },
-                {
-                    text: ' with "Request for California Privacy Information" in the subject line and in the body of your message or calling Customer Service at (844) 737-7615.'
-                }
-            ]
-        },
-        { kind: 'paragraph', segments: [{ text: 'Deletion Request', bold: true }] },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'You have the right to request that we delete the personal data we have collected or maintained in connection with our website, subject to certain exceptions as provided for under California Laws. Once we receive and confirm your verifiable request, we will take reasonable measures to delete (and direct our service providers to delete) your personal data from our records, unless an exception applies.'
-                }
-            ]
-        },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'We may deny your deletion request if retaining your personal data is necessary for us or our service providers to:'
-                }
-            ]
-        },
-        {
-            kind: 'list',
-            ordered: false,
-            items: [
-                [
-                    {
-                        text: 'Complete the transaction for which we collected the personal data, provide a good or service that you requested, take actions reasonably anticipated within the context of our ongoing business relationship with you, fulfill the terms of a written warranty or product recall conducted in accordance with federal law, or otherwise perform our contract with you.'
-                    }
-                ],
-                [
-                    {
-                        text: 'Detect security incidents, protect against malicious, deceptive, fraudulent, or illegal activity, or prosecute those responsible for such activities.'
-                    }
-                ],
-                [
-                    {
-                        text: 'Debug products to identify and repair errors that impair existing intended functionality.'
-                    }
-                ],
-                [
-                    {
-                        text: 'Exercise free speech, ensure the right of another consumer to exercise their free speech rights, or exercise another right provided for by law.'
-                    }
-                ],
-                [
-                    {
-                        text: 'Comply with the California Electronic Communications Privacy Act (Cal. Penal Code § 1546 et. seq.).'
-                    }
-                ],
-                [
-                    {
-                        text: "Engage in public or peer-reviewed scientific, historical, or statistical research in the public interest that adheres to all other applicable ethics and privacy laws, when the information's deletion may likely render impossible or seriously impair the research's achievement, if you previously provided informed consent."
-                    }
-                ],
-                [
-                    {
-                        text: 'Enable solely internal uses that are reasonably aligned with consumer expectations based on your relationship with us.'
-                    }
-                ],
-                [{ text: 'Comply with a legal obligation.' }],
-                [
-                    {
-                        text: 'Make other internal and lawful uses of that information that are compatible with the context in which you provided it.'
-                    }
-                ]
-            ]
-        },
-        { kind: 'paragraph', segments: [{ text: 'Right to opt out', bold: true }] },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'Under California Laws, California consumers have the right to opt-out of having their personal data sold. For purposes of California Laws, the definition of “sale” includes sharing of personal data with a third party in exchange for anything of value (money or otherwise). '
-                },
-                { text: 'We do NOT sell your information to any third parties.', bold: true }
-            ]
-        },
-        { kind: 'paragraph', segments: [{ text: 'Right to Non-Discrimination', bold: true }] },
-        {
-            kind: 'paragraph',
-            segments: [
-                {
-                    text: 'California consumers have the right not to be discriminated against for exercising their rights, unless permitted by the CCPA. We may not:'
-                }
-            ]
-        },
-        {
-            kind: 'list',
-            ordered: false,
-            items: [
-                [{ text: 'Deny the goods or services.' }],
-                [
-                    {
-                        text: 'Charge different prices for goods or services, whether through denying benefits or imposing penalties.'
-                    }
-                ],
-                [
-                    {
-                        text: 'Provide a different level or quality of goods or services to consumer.'
-                    }
-                ],
-                [
-                    {
-                        text: 'Suggest that you may receive a different price or rate for goods or services or a different level or quality of goods or services.'
-                    }
-                ],
-                [{ text: 'Threaten the consumer with any of the above.' }]
-            ]
-        },
-        { kind: 'heading', level: 3, segments: [{ text: '19. Children', bold: true }] },
+        { kind: 'heading', level: 3, segments: [{ text: '18. Children', bold: true }] },
         {
             kind: 'paragraph',
             segments: [
@@ -1186,7 +1001,7 @@ export const termsPage: LegalPage = {
         {
             kind: 'heading',
             level: 2,
-            segments: [{ text: 'Terms & Conditions - Superfreebets.com', bold: true }]
+            segments: [{ text: 'Terms & Conditions - Superfreebetsmi.com', bold: true }]
         },
         {
             kind: 'paragraph',
@@ -1195,8 +1010,8 @@ export const termsPage: LegalPage = {
                     text: 'Attention: By using this website, you agree and affirm that you have read and accept these terms and conditions. If you do not accept these terms and conditions, you are not authorized to use this website. These terms and conditions govern your use of this website, and any content that little star media ltd (“we”) make available through the website (“materials”), and any services may provide through the website (“services”). The website, materials and services are referred to in these terms and conditions collectively as the “website.” By using the website you further agree with our disclaimer, copyright notice and privacy policy: '
                 },
                 {
-                    text: 'https://superfreebets.com/privacy-policy',
-                    href: 'https://superfreebets.com/privacy-policy'
+                    text: 'https://superfreebetsmi.com/privacy-policy',
+                    href: 'https://superfreebetsmi.com/privacy-policy'
                 },
                 { text: '.' }
             ]
@@ -1205,7 +1020,7 @@ export const termsPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: 'This website is not for use by those under the age of 21 years and/or those living outside the United States. If you are over 21 and live in New Jersey, you are welcome to use our website.'
+                    text: 'This website is not for use by those under the age of 21 years and/or those living outside the United States. If you are over 21 and live in Michigan, you are welcome to use our website.'
                 }
             ]
         },
@@ -1254,7 +1069,7 @@ export const termsPage: LegalPage = {
                 ],
                 [
                     {
-                        text: 'Text STOP to +12018905948 to stop receiving our SMS messages. You will no longer receive text messages from Super Free Bets.'
+                        text: 'Text STOP to +12312611337 to stop receiving our SMS messages. You will no longer receive text messages from Super Free Bets.'
                     }
                 ],
                 [
@@ -1278,12 +1093,12 @@ export const termsPage: LegalPage = {
             items: [
                 [
                     {
-                        text: 'STOP: At any time, you can text STOP to +12018905948. This will prevent you from receiving any future texts from Super Free Bets.'
+                        text: 'STOP: At any time, you can text STOP to +12312611337. This will prevent you from receiving any future texts from Super Free Bets.'
                     }
                 ],
                 [
                     {
-                        text: 'HELP: At any time, you can text HELP to +12018905948. You will recieve an SMS with a link to our contact form.'
+                        text: 'HELP: At any time, you can text HELP to +12312611337.'
                     }
                 ]
             ]
@@ -1584,7 +1399,7 @@ export const aboutPage: LegalPage = {
                 { text: 'At ' },
                 { text: 'Super Free Bets', bold: true },
                 {
-                    text: ', our goal is to provide New Jersey players with a superior online casino gaming experience.'
+                    text: ', our goal is to provide Michigan players with a superior online casino gaming experience.'
                 }
             ]
         },
@@ -1605,13 +1420,13 @@ export const aboutPage: LegalPage = {
         {
             kind: 'heading',
             level: 2,
-            segments: [{ text: 'Secure, Safe New Jersey Online Casino Gaming' }]
+            segments: [{ text: 'Secure, Safe Michigan Online Casino Gaming' }]
         },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: 'You will always be in safe hands when you play with our partners. All the casinos we work with are legal and licensed to operate online in New Jersey. We only connect you with the licensed casino brands that we know and love, to eliminate any risk for you.These are just a few of the advantages of choosing us for your New Jersey online casino experiences:'
+                    text: 'You will always be in safe hands when you play with our partners. All the casinos we work with are legal and licensed to operate online in Michigan. We only connect you with the licensed casino brands that we know and love, to eliminate any risk for you. These are just a few of the advantages of choosing us for your Michigan online casino experiences:'
                 }
             ]
         },
@@ -1637,14 +1452,14 @@ export const aboutPage: LegalPage = {
             kind: 'heading',
             level: 2,
             segments: [
-                { text: 'Accurate, Up-to-Date Information for Online Casinos in New Jersey' }
+                { text: 'Accurate, Up-to-Date Information for Online Casinos in Michigan' }
             ]
         },
         {
             kind: 'paragraph',
             segments: [
                 {
-                    text: 'For everyone who wants to learn more about internet gambling in the Garden State, the various types of bonus offers available or other details about online casino gaming, we have accurate, up-to-date information right here on our site.'
+                    text: 'For everyone who wants to learn more about internet gambling in the Great Lakes State, the various types of bonus offers available or other details about online casino gaming, we have accurate, up-to-date information right here on our site.'
                 }
             ]
         },
@@ -1652,7 +1467,7 @@ export const aboutPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: 'We have step-by-step bonus claim guides, unbiased New Jersey casino reviews, the latest internet gambling industry news and descriptions of the hottest games – all that, plus the best free cash and deposit match offers currently available.'
+                    text: 'We have step-by-step bonus claim guides, unbiased Michigan casino reviews, the latest internet gambling industry news and descriptions of the hottest games – all that, plus the best free cash and deposit match offers currently available.'
                 }
             ]
         },
@@ -1661,7 +1476,7 @@ export const aboutPage: LegalPage = {
             kind: 'paragraph',
             segments: [
                 {
-                    text: 'Super Free Bets is here to meet your needs, and we hope to become your one and only source for everything related to New Jersey online casino gaming. Feeling lucky? Check out our bonus offers and get started playing today!'
+                    text: 'Super Free Bets is here to meet your needs, and we hope to become your one and only source for everything related to Michigan online casino gaming. Feeling lucky? Check out our bonus offers and get started playing today!'
                 }
             ]
         }
