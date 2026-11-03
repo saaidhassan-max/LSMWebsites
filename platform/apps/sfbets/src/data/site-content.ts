@@ -1,14 +1,4 @@
 import type { OfferCardProps } from '@lsm/ui/components/offer-card/offer-card.types';
-import type { DirectoryItem } from '@lsm/ui/components/website-directory/website-directory.types';
-
-export const directorySites: DirectoryItem[] = [
-    { name: 'BetMGM' },
-    { name: 'Fanatics Casino' },
-    { name: 'BetRivers' },
-    { name: 'Hard Rock Bet' },
-    { name: 'Golden Nugget' },
-    { name: 'FanDuel Casino' }
-];
 
 export const legalText =
     'Bet with your head, not over it. If you or someone you know has a gambling problem and needs help, call 1-800-GAMBLER (IL/KY/MD/NJ/MI/PA/WV), 1-800-NEXT-STEP (AZ), 1-800-522-4700 (CO), 1-800-9-WITH-IT (IN), 1-800-BETS OFF (IA), 1-800-522-4700 (KS/WY), 1-877-770-STOP (LA), 1-800-327-5050 (MA), 1-888-777-9696 (MS) 1-877-8-HOPENY (NY), 1-800-589-9966 (OH), 1-800-889-9789 (TN) or 1-888-532-3500 (VA), or visit National Council on Problem Gambling.\n\n©2026 Super Free Bets MI All rights reserved. Unauthorized duplication is a violation of applicable laws.';

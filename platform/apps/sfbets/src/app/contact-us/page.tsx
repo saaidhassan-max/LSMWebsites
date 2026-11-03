@@ -3,9 +3,8 @@ import type { Metadata } from 'next';
 import { ContactForm } from '@lsm/ui/components/contact-form/contact-form';
 import { SfbetsFooter } from '@lsm/ui/components/sfbets-footer/sfbets-footer';
 import { USP } from '@lsm/ui/components/usp/usp';
-import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { SfbetsNav } from '../../components/sfbets-nav';
-import { directorySites, legalText } from '../../data/site-content';
+import { legalText } from '../../data/site-content';
 
 export const metadata: Metadata = {
     title: 'Contact Us | Super Free Bets MI',
@@ -31,10 +30,6 @@ export default function ContactPage(): React.ReactElement {
                 </div>
 
                 <ContactForm />
-            </div>
-
-            <div className="w-full max-w-[1440px] mx-auto px-4 py-4 md:px-16 md:py-8">
-                <WebsiteDirectory title="Super Free Bets MI Directory" sites={directorySites} />
             </div>
 
             <SfbetsFooter legalText={legalText} state="mi" />

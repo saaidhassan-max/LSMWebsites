@@ -3,12 +3,11 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { SfbetsFooter } from '@lsm/ui/components/sfbets-footer/sfbets-footer';
-import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { SfbetsNav } from '../../../components/sfbets-nav';
 import { categoryPages } from '../../../data/category-pages';
 import { ctaColorForBrand } from '../../../data/operator-cta-colors';
-import { directorySites, legalText } from '../../../data/site-content';
+import { legalText } from '../../../data/site-content';
 
 interface CategoryPageParams {
     params: Promise<{ slug: string }>;
@@ -58,8 +57,6 @@ export default async function CategoryRoute({ params }: CategoryPageParams): Pro
                     <OfferCard key={index} {...offer} ctaColor={ctaColorForBrand(offer.logoAlt)} />
                 ))}
             </div>
-
-            <WebsiteDirectory title="Super Free Bets MI Directory" sites={directorySites} splitAtDot />
 
             <SfbetsFooter legalText={legalText} state="mi" />
         </main>

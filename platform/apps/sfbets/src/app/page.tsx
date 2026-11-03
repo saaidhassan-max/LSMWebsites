@@ -1,11 +1,9 @@
 import type React from 'react';
-import { LegalContent } from '@lsm/ui/components/legal-content/legal-content';
 import { OfferCard } from '@lsm/ui/components/offer-card/offer-card';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SfbetsFooter } from '@lsm/ui/components/sfbets-footer/sfbets-footer';
 import { WelcomeBanner } from '@lsm/ui/components/welcome-banner/welcome-banner';
 import { SfbetsNav } from '../components/sfbets-nav';
-import { casinoGuideBlocks } from '../data/casino-guide';
 import { ctaColorForBrand } from '../data/operator-cta-colors';
 import { legalText, offers } from '../data/site-content';
 
@@ -52,12 +50,6 @@ export default function HomePage(): React.ReactElement {
                     <div className="flex-1" />
                 </div>
             </div>
-
-            <section className="w-full max-w-[1440px] mx-auto px-4 py-8 md:px-16 md:py-12">
-                <div className="px-4">
-                    <LegalContent blocks={casinoGuideBlocks} />
-                </div>
-            </section>
 
             <SfbetsFooter legalText={legalText} state="mi" />
         </main>

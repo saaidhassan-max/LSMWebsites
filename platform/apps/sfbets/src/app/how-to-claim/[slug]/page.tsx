@@ -6,10 +6,9 @@ import { HtcUsp } from '@lsm/ui/components/htc-usp/htc-usp';
 import { SignupForm } from '@lsm/ui/components/signup-form/signup-form';
 import { SfbetsFooter } from '@lsm/ui/components/sfbets-footer/sfbets-footer';
 import { USP } from '@lsm/ui/components/usp/usp';
-import { WebsiteDirectory } from '@lsm/ui/components/website-directory/website-directory';
 import { SfbetsNav } from '../../../components/sfbets-nav';
 import { getCasino } from '../../../data/casinos';
-import { directorySites, legalText } from '../../../data/site-content';
+import { legalText } from '../../../data/site-content';
 
 export default async function HowToClaimPage({
     params
@@ -60,8 +59,6 @@ export default async function HowToClaimPage({
                             {casino.ctaText}
                         </Button>
                     </a>
-
-                    <WebsiteDirectory title="Super Free Bets MI Directory" splitAtDot sites={directorySites} />
                 </div>
                 <div className="hidden md:flex flex-col gap-6 max-w-[1440px] mx-auto">
                     <div className="flex flex-col gap-6 px-16">
@@ -114,9 +111,6 @@ export default async function HowToClaimPage({
                     </div>
                     <div className="flex px-16 py-8">
                         <div className="flex-1">
-                            <WebsiteDirectory title="Super Free Bets MI Directory" splitAtDot sites={directorySites} />
-                        </div>
-                        <div className="flex-1">
                             <SignupForm
                                 variant="sfbets"
                                 consentHeadline="Yes, send me the best Michigan casino offers"
@@ -125,6 +119,7 @@ export default async function HowToClaimPage({
                                 termsUrl="/terms-and-conditions"
                             />
                         </div>
+                        <div className="flex-1" />
                     </div>
                 </div>
             </div>
