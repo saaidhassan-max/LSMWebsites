@@ -229,7 +229,7 @@ export function SignupLandingPageV4D({
                             <div ref={nameFieldRef}>
                                 <TextField
                                     icon={User}
-                                    label="Name (required)"
+                                    label="Name (Required)"
                                     floatingLabel
                                     type="text"
                                     autoComplete="name"
@@ -243,7 +243,7 @@ export function SignupLandingPageV4D({
                             <div ref={emailFieldRef}>
                                 <TextField
                                     icon={Mail}
-                                    label="Email Address (required)"
+                                    label="Email Address (Required)"
                                     floatingLabel
                                     type="email"
                                     inputMode="email"
@@ -261,7 +261,7 @@ export function SignupLandingPageV4D({
                             <div ref={phoneFieldRef}>
                                 <TextField
                                     icon={Phone}
-                                    label="Phone Number (required)"
+                                    label="Phone Number (Required)"
                                     floatingLabel
                                     type="tel"
                                     inputMode="tel"

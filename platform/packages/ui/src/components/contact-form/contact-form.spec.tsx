@@ -20,7 +20,7 @@ describe('ContactForm', () => {
     it('rejects an invalid email', () => {
         render(<ContactForm />);
 
-        fireEvent.change(screen.getByLabelText('Email Address (required)'), {
+        fireEvent.change(screen.getByLabelText('Email Address (Required)'), {
             target: { value: 'not-an-email' }
         });
         fireEvent.click(screen.getByRole('button', { name: 'Send' }));
@@ -32,11 +32,11 @@ describe('ContactForm', () => {
         const onSubmit = vi.fn();
         render(<ContactForm onSubmit={onSubmit} />);
 
-        fireEvent.change(screen.getByLabelText('Name (required)'), { target: { value: 'Sam' } });
-        fireEvent.change(screen.getByLabelText('Email Address (required)'), {
+        fireEvent.change(screen.getByLabelText('Name (Required)'), { target: { value: 'Sam' } });
+        fireEvent.change(screen.getByLabelText('Email Address (Required)'), {
             target: { value: 'sam@example.com' }
         });
-        fireEvent.change(screen.getByLabelText('Message (required)'), {
+        fireEvent.change(screen.getByLabelText('Message (Required)'), {
             target: { value: 'Hello' }
         });
         fireEvent.click(screen.getByRole('button', { name: 'Send' }));

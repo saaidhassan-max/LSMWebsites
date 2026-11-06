@@ -223,7 +223,7 @@ export function SignupLandingPage({
                             <div ref={nameFieldRef}>
                                 <TextField
                                     icon={User}
-                                    label="Name (required)"
+                                    label="Name (Required)"
                                     floatingLabel
                                     type="text"
                                     autoComplete="name"
@@ -237,7 +237,7 @@ export function SignupLandingPage({
                             <div ref={emailFieldRef}>
                                 <TextField
                                     icon={Mail}
-                                    label="Email Address (required)"
+                                    label="Email Address (Required)"
                                     floatingLabel
                                     type="email"
                                     inputMode="email"
@@ -255,7 +255,7 @@ export function SignupLandingPage({
                             <div ref={phoneFieldRef}>
                                 <TextField
                                     icon={Phone}
-                                    label="Phone Number (required)"
+                                    label="Phone Number (Required)"
                                     floatingLabel
                                     type="tel"
                                     inputMode="tel"

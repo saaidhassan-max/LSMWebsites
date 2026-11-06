@@ -326,7 +326,7 @@ export function SignupForm({
                         <>
                             <TextField
                                 icon={User}
-                                label="Name (required)"
+                                label="Name (Required)"
                                 floatingLabel
                                 type="text"
                                 autoComplete="name"
@@ -338,7 +338,7 @@ export function SignupForm({
                             />
                             <TextField
                                 icon={Mail}
-                                label="Email Address (required)"
+                                label="Email Address (Required)"
                                 floatingLabel
                                 type="email"
                                 inputMode="email"
@@ -354,7 +354,7 @@ export function SignupForm({
                             />
                             <TextField
                                 icon={Phone}
-                                label="Phone Number (required)"
+                                label="Phone Number (Required)"
                                 floatingLabel
                                 type="tel"
                                 inputMode="tel"
@@ -370,7 +370,7 @@ export function SignupForm({
                         <>
                             <TextField
                                 icon={User}
-                                label="First Name (required)"
+                                label="First Name (Required)"
                                 floatingLabel
                                 type="text"
                                 autoComplete="given-name"
@@ -382,7 +382,7 @@ export function SignupForm({
                             />
                             <TextField
                                 icon={Mail}
-                                label="Email Address (required)"
+                                label="Email Address (Required)"
                                 floatingLabel
                                 type="email"
                                 inputMode="email"

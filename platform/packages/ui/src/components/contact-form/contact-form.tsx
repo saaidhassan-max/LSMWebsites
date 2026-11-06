@@ -58,7 +58,7 @@ export function ContactForm({ onSubmit }: ContactFormProps): React.ReactElement 
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
             <TextField
                 icon={User}
-                label="Name (required)"
+                label="Name (Required)"
                 floatingLabel
                 type="text"
                 autoComplete="name"
@@ -76,7 +76,7 @@ export function ContactForm({ onSubmit }: ContactFormProps): React.ReactElement 
             />
             <TextField
                 icon={Mail}
-                label="Email Address (required)"
+                label="Email Address (Required)"
                 floatingLabel
                 type="email"
                 inputMode="email"
@@ -116,7 +116,7 @@ export function ContactForm({ onSubmit }: ContactFormProps): React.ReactElement 
                                 : 'top-4 text-base leading-6 tracking-[0.5px] text-on-surface-dark/40'
                         )}
                     >
-                        Message (required)
+                        Message (Required)
                     </label>
                     <textarea
                         id={messageId}
